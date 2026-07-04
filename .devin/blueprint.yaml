@@ -1,0 +1,18 @@
+initialize:
+  - name: Install Python 3.11
+    uses: github.com/actions/setup-python@v5
+    with:
+      python-version: "3.11"
+
+  - name: Install pip dependencies
+    run: pip install -r requirements.txt 2>/dev/null || pip install qdrant-client mlx-embedding pandas numpy python-dotenv mysql-connector-python
+
+maintenance:
+  - name: Install dependencies
+    run: pip install -r requirements.txt 2>/dev/null || pip install qdrant-client mlx-embedding pandas numpy python-dotenv mysql-connector-python
+
+knowledge:
+  - name: lint
+    contents: python -m py_compile *.py 2>/dev/null || true
+  - name: test
+    contents: python -c "import qdrant_client; print('qdrant OK')" 2>/dev/null || echo "no tests"
