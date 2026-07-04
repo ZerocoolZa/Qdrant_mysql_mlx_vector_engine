@@ -1,0 +1,95 @@
+{
+  "schema": {
+    "interface": {
+      "input_dim": 40,
+      "output_dim": 10,
+      "input_format": "float32[1][40]",
+      "output_format": "float32[1][10]",
+      "normalization": "minmax_0_1",
+      "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+      "total_params": 23050
+    },
+    "compatibility": "all models must share the same interface contract",
+    "operations": [
+      "route",
+      "ensemble",
+      "version",
+      "prune"
+    ]
+  },
+  "models": {
+    "vscode": {
+      "domain": "vscode",
+      "description": "VSCode-style IDE layout",
+      "versions": {
+        "1": {
+          "version": 1,
+          "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/vscode_v1.weights.bin",
+          "deposited": 1782608999.829279,
+          "active": true
+        }
+      }
+    },
+    "browser": {
+      "domain": "browser",
+      "description": "Browser-style layout",
+      "versions": {
+        "1": {
+          "version": 1,
+          "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/browser_v1.weights.bin",
+          "deposited": 1782608999.830549,
+          "active": true
+        }
+      }
+    },
+    "dashboard": {
+      "domain": "dashboard",
+      "description": "Analytics dashboard layout",
+      "versions": {
+        "1": {
+          "version": 1,
+          "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/dashboard_v1.weights.bin",
+          "deposited": 1782608999.8315,
+          "active": true
+        }
+      }
+    },
+    "mobile": {
+      "domain": "mobile",
+      "description": "Mobile app layout",
+      "versions": {
+        "1": {
+          "version": 1,
+          "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/mobile_v1.weights.bin",
+          "deposited": 1782608999.832427,
+          "active": true
+        }
+      }
+    },
+    "tablet": {
+      "domain": "tablet",
+      "description": "Tablet layout",
+      "versions": {
+        "1": {
+          "version": 1,
+          "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/tablet_v1.weights.bin",
+          "deposited": 1782608999.833638,
+          "active": true
+        }
+      }
+    }
+  },
+  "routes": {
+    "vscode": {
+      "name": "vscode",
+      "version": "1"
+    }
+  },
+  "next_version": {
+    "vscode": 2,
+    "browser": 2,
+    "dashboard": 2,
+    "mobile": 2,
+    "tablet": 2
+  }
+}

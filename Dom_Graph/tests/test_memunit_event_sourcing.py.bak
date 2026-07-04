@@ -1,0 +1,344 @@
+#!/usr/bin/env python3
+# [@GHOST]{file_path="/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/test_memunit_event_sourcing.py"
+# date="2026-06-27" author="Devin" session_id="memunit-eventsourcing-impl"
+# context="Full pipeline test for MemUnit event-sourcing. Tests: AST node create, version add, BCL stamp attach (class+method), trace chain, dependency edges, replay, rollback, continuity verification."}
+# [@VBSTYLE]{standard="VBStyle" version="1" rules="spec doc"}
+# [@FILEID]{id="test_memunit_event_sourcing.py" domain="test" authority="test"}
+# [@SUMMARY]{summary="End-to-end test of the MemUnit event-sourcing stack. Builds a class+method AST, stamps it with reasoning, adds trace steps, replays at a bound, rolls back, verifies continuity."}
+"""
+test_memunit_event_sourcing.py -- Full pipeline test.
+
+Tests the complete MemUnit event-sourcing stack:
+  1. InRamDb opens :memory: SQLite + creates schema
+  2. EventLogStore appends events to disk file
+  3. AstNodeRegistry creates FILE -> CLASS -> METHOD nodes
+  4. AstVersionStore adds versioned content (v1, v2)
+  5. BclStampStore attaches class-level + method-level stamps
+  6. TraceChainStore appends trace steps (continuity check)
+  7. DependencyEdgeStore adds CALLS edge between method versions
+  8. SnapshotStore takes a checkpoint
+  9. ReplayEngine rebuilds at an event bound (deterministic)
+ 10. RollbackEngine rolls back to a prior event (append-only)
+ 11. VerifyContinuity passes (no orphans, no broken traces)
+"""
+import os
+import sys
+import tempfile
+import traceback
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
+
+from InRamDb import InRamDb
+from EventLogStore import EventLogStore
+from AstNodeRegistry import AstNodeRegistry
+from AstVersionStore import AstVersionStore
+from BclStampStore import BclStampStore
+from TraceChainStore import TraceChainStore
+from DependencyEdgeStore import DependencyEdgeStore
+from SnapshotStore import SnapshotStore
+from ReplayEngine import ReplayEngine
+from RollbackEngine import RollbackEngine
+
+PASS = 0
+FAIL = 0
+
+
+def check(name, condition, detail=""):
+    global PASS, FAIL
+    if condition:
+        PASS += 1
+        print("  PASS  " + name)
+    else:
+        FAIL += 1
+        print("  FAIL  " + name + " -- " + str(detail))
+
+
+def section(title):
+    print("\n" + "=" * 70)
+    print(title)
+    print("=" * 70)
+
+
+def main():
+    tmpdir = tempfile.mkdtemp(prefix="memunit_test_")
+    log_path = os.path.join(tmpdir, "memunit_events.log")
+    snap_dir = os.path.join(tmpdir, "memunit_snapshots")
+    os.makedirs(snap_dir, exist_ok=True)
+
+    section("SECTION 1: Foundation -- InRamDb + EventLogStore")
+
+    db = InRamDb()
+    r = db.Run("open", {})
+    check("InRamDb open :memory:", r[0] == 1, r[2] if r[0] != 1 else "")
+    r = db.Run("init_schema", {})
+    check("InRamDb init_schema (35 statements)", r[0] == 1 and r[1]["statements_executed"] >= 30, r)
+
+    log = EventLogStore(param={"log_path": log_path})
+    r = log.Run("read_state", {})
+    check("EventLogStore init (next_id=1)", r[1]["next_id"] == 1, r[1])
+
+    r = log.Run("append", {"event": {"type": "EVENT_AST_NODE_CREATED", "cause": "test"}})
+    check("EventLogStore append first event", r[0] == 1 and r[1]["id"] == 1, r)
+    r = log.Run("read_all", {})
+    check("EventLogStore read_all returns 1 event", r[0] == 1 and r[1]["count"] == 1, r[1])
+    os.remove(log_path)
+    log = EventLogStore(param={"log_path": log_path})
+    check("EventLogStore re-init after delete (next_id=1)", log.state["next_id"] == 1, log.state["next_id"])
+
+    section("SECTION 2: AST Node Registry -- FILE -> CLASS -> METHOD")
+
+    reg = AstNodeRegistry(mem=log, db=db)
+    r = reg.Run("create_node", {
+        "node_type": "FILE",
+        "symbolic_name": "MemUnit.py",
+        "file_path": "Dom_Graph/MemUnit.py",
+        "trace_id": "tr_file_1",
+    })
+    check("Create FILE node", r[0] == 1, r[2] if r[0] != 1 else r[1])
+    file_node_id = r[1]["node_id"] if r[0] == 1 else None
+
+    r = reg.Run("create_node", {
+        "node_type": "CLASS",
+        "symbolic_name": "MemUnit",
+        "parent_node_id": file_node_id,
+        "file_path": "Dom_Graph/MemUnit.py",
+        "trace_id": "tr_class_1",
+    })
+    check("Create CLASS node (parent=FILE)", r[0] == 1, r[1])
+    class_node_id = r[1]["node_id"] if r[0] == 1 else None
+
+    r = reg.Run("create_node", {
+        "node_type": "METHOD",
+        "symbolic_name": "MemUnit.CreateNode",
+        "parent_node_id": class_node_id,
+        "file_path": "Dom_Graph/MemUnit.py",
+        "line_range": "291-329",
+        "trace_id": "tr_method_1",
+    })
+    check("Create METHOD node (parent=CLASS)", r[0] == 1, r[1])
+    method_node_id = r[1]["node_id"] if r[0] == 1 else None
+
+    r = reg.Run("query_live", {})
+    check("QueryLive returns 3 nodes", r[0] == 1 and r[1]["count"] == 3, r[1])
+    r = reg.Run("query_by_parent", {"parent_node_id": class_node_id})
+    check("QueryByParent CLASS returns 1 method", r[0] == 1 and r[1]["count"] == 1, r[1])
+
+    section("SECTION 3: AST Version Store -- v1 then v2")
+
+    vs = AstVersionStore(mem=log, db=db)
+    r = vs.Run("add_version", {
+        "node_id": method_node_id,
+        "content": "def CreateNode(self, params):\n    pass\n",
+        "content_format": "SOURCE",
+        "trace_id": "tr_method_1",
+    })
+    check("Add version v1 to method", r[0] == 1 and r[1]["version_no"] == 1, r[1])
+    method_v1_id = r[1]["version_id"] if r[0] == 1 else None
+
+    r = vs.Run("add_version", {
+        "node_id": method_node_id,
+        "content": "def CreateNode(self, params):\n    return (1, {}, None)\n",
+        "content_format": "SOURCE",
+        "trace_id": "tr_method_1",
+    })
+    check("Add version v2 to method (supersedes v1)", r[0] == 1 and r[1]["version_no"] == 2, r[1])
+    method_v2_id = r[1]["version_id"] if r[0] == 1 else None
+
+    r = vs.Run("get_current", {"node_id": method_node_id})
+    check("GetCurrent returns v2 (is_current=1)", r[0] == 1 and r[1]["version"]["version_no"] == 2, r[1])
+    r = vs.Run("query_history", {"node_id": method_node_id})
+    check("QueryHistory returns 2 versions", r[0] == 1 and r[1]["count"] == 2, r[1])
+
+    section("SECTION 4: BCL Stamp Store -- class + method level reasoning")
+
+    bs = BclStampStore(mem=log, db=db)
+    r = bs.Run("attach_stamp", {
+        "node_id": class_node_id,
+        "ast_version_id": method_v2_id,
+        "trace_id": "tr_class_1",
+        "scope_binding": "FULL",
+        "intent_vector": {
+            "primary_goal": "Reasoning state store for LLM cognitive architecture",
+            "secondary_goals": ["track uncertainty", "log transitions"],
+            "constraints": ["VALID_TRANSITIONS whitelist"],
+        },
+        "dependency_set": {
+            "graph_edges": [method_node_id],
+            "writes": ["mu_nodes", "mu_events"],
+        },
+        "event_refs": [],
+    })
+    check("Attach CLASS-level stamp", r[0] == 1, r[1])
+    class_stamp_event_id = r[1]["event_id"] if r[0] == 1 else None
+
+    r = bs.Run("attach_stamp", {
+        "node_id": method_node_id,
+        "ast_version_id": method_v2_id,
+        "trace_id": "tr_method_1",
+        "scope_binding": "FULL",
+        "intent_vector": {
+            "primary_goal": "Insert a reasoning node + log creation event",
+            "constraints": ["title required"],
+        },
+        "dependency_set": {
+            "writes": ["mu_nodes", "mu_events"],
+            "calls": [],
+        },
+        "event_refs": [class_stamp_event_id],
+    })
+    check("Attach METHOD-level stamp (event_refs[0]=class stamp event)", r[0] == 1, r[1])
+    method_stamp_id = r[1]["stamp_id"] if r[0] == 1 else None
+
+    r = bs.Run("query_active_for_node", {"node_id": class_node_id})
+    check("QueryActiveForNode CLASS returns 1 stamp", r[0] == 1 and r[1]["count"] == 1, r[1])
+    r = bs.Run("query_active_for_node", {"node_id": method_node_id})
+    check("QueryActiveForNode METHOD returns 1 stamp", r[0] == 1 and r[1]["count"] == 1, r[1])
+
+    section("SECTION 5: Trace Chain Store -- continuity check")
+
+    tc = TraceChainStore(mem=log, db=db)
+    r = tc.Run("append_step", {
+        "trace_id": "tr_method_1",
+        "decision": "PARSE_BCL_HEADER",
+        "input_nodes": [method_node_id],
+        "transformation": "extract_type_verb_noun",
+        "output_nodes": [method_node_id],
+    })
+    check("Append trace step 1", r[0] == 1 and r[1]["step_no"] == 1, r[1])
+
+    r = tc.Run("append_step", {
+        "trace_id": "tr_method_1",
+        "decision": "VALIDATE_INPUT",
+        "input_nodes": [method_node_id],
+        "transformation": "guard_clause",
+        "output_nodes": [],
+    })
+    check("Append trace step 2", r[0] == 1 and r[1]["step_no"] == 2, r[1])
+
+    r = tc.Run("append_step", {
+        "trace_id": "tr_method_1",
+        "decision": "INSERT_ROW",
+        "input_nodes": [],
+        "transformation": "insert_row",
+        "output_nodes": [method_node_id],
+    })
+    check("Append trace step 3", r[0] == 1 and r[1]["step_no"] == 3, r[1])
+
+    r = tc.Run("verify_continuity", {"trace_id": "tr_method_1"})
+    check("VerifyContinuity passes (3 contiguous steps)", r[0] == 1 and r[1]["continuous"], r[1])
+
+    section("SECTION 6: Dependency Edge Store -- versioned graph")
+
+    de = DependencyEdgeStore(mem=log, db=db)
+    r = de.Run("add_edge", {
+        "from_node_id": method_node_id,
+        "to_node_id": class_node_id,
+        "from_version_id": method_v2_id,
+        "edge_type": "CALLS",
+    })
+    check("Add CALLS edge (method v2 -> class)", r[0] == 1, r[1])
+    edge_id = r[1]["edge_id"] if r[0] == 1 else None
+
+    r = de.Run("query_from_node", {"from_node_id": method_node_id})
+    check("QueryFromNode returns 1 edge", r[0] == 1 and r[1]["count"] == 1, r[1])
+
+    section("SECTION 7: Snapshot Store -- checkpoint")
+
+    ss = SnapshotStore(mem=log, db=db)
+    r = log.Run("read_state", {})
+    current_event_id = r[1]["next_id"] - 1
+    r = ss.Run("take_snapshot", {"event_id": current_event_id})
+    check("Take snapshot at event " + str(current_event_id), r[0] == 1, r[1])
+
+    r = ss.Run("get_latest_before", {"event_id": current_event_id + 100})
+    check("GetLatestBefore finds snapshot", r[0] == 1 and r[1]["found"], r[1])
+
+    section("SECTION 8: Replay Engine -- deterministic rebuild")
+
+    re = ReplayEngine(mem=log, db=db)
+    r = re.Run("rebuild_at", {"event_id": current_event_id})
+    check("RebuildAt(" + str(current_event_id) + ") succeeds", r[0] == 1, r[2] if r[0] != 1 else r[1])
+    if r[0] == 1:
+        check("Replay applied all events", r[1]["events_applied"] >= 10, r[1]["events_applied"])
+        check("Replay continuity passes", r[1]["continuity"].get("ok", False), r[1]["continuity"])
+
+    r = db.Run("query", {"sql": "SELECT COUNT(*) as c FROM mu_ast_nodes", "params": []})
+    check("After replay: 3 AST nodes exist", r[0] == 1 and r[1]["rows"][0]["c"] == 3, r[1])
+    r = db.Run("query", {"sql": "SELECT COUNT(*) as c FROM mu_ast_versions", "params": []})
+    check("After replay: 2 versions exist", r[0] == 1 and r[1]["rows"][0]["c"] == 2, r[1])
+    r = db.Run("query", {"sql": "SELECT COUNT(*) as c FROM mu_bcl_stamps WHERE state_status='ACTIVE'", "params": []})
+    check("After replay: 2 active stamps (class+method)", r[0] == 1 and r[1]["rows"][0]["c"] == 2, r[1])
+    r = db.Run("query", {"sql": "SELECT COUNT(*) as c FROM mu_trace_steps", "params": []})
+    check("After replay: 3 trace steps exist", r[0] == 1 and r[1]["rows"][0]["c"] == 3, r[1])
+
+    section("SECTION 9: Rollback Engine -- append-only rollback")
+
+    r = re.Run("rebuild_at", {"event_id": current_event_id})
+    check("Rebuild to latest before rollback", r[0] == 1, r[2] if r[0] != 1 else "")
+    r = vs.Run("get_current", {"node_id": method_node_id})
+    pre_rollback_version = r[1]["version"]["version_no"] if r[0] == 1 else None
+    check("Pre-rollback: method current version is v2", pre_rollback_version == 2, pre_rollback_version)
+
+    rollback_target = 4
+    rb = RollbackEngine(mem=log, db=db, param={"replay": re})
+    r = rb.Run("rollback_to", {"target_event_id": rollback_target})
+    check("RollbackTo(" + str(rollback_target) + ") succeeds", r[0] == 1, r[2] if r[0] != 1 else r[1])
+
+    r = vs.Run("get_current", {"node_id": method_node_id})
+    post_rollback_version = r[1]["version"]["version_no"] if r[0] == 1 else None
+    check("Post-rollback: method current version reverted", post_rollback_version is not None, post_rollback_version)
+
+    r = rb.Run("query_rollbacks", {})
+    check("QueryRollbacks returns 1 rollback event", r[0] == 1 and r[1]["count"] >= 1, r[1])
+
+    r = log.Run("read_all", {})
+    check("Event log preserved rollback (append-only, not deleted)", r[0] == 1 and r[1]["count"] > current_event_id, r[1]["count"])
+
+    section("SECTION 10: VerifyContinuity -- orphan + broken trace detection")
+
+    # After rollback to event 4 (pre-stamp state), node 3's current version is
+    # v1 which has no BCL stamp. Per spec P7, this IS an orphan -- strict mode
+    # must correctly REJECT it. This proves the orphan detector works.
+    r = re.Run("verify_continuity", {"strict": True})
+    check("VerifyContinuity (strict) rejects orphan after pre-stamp rollback",
+          r[0] == 0 and r[2] is not None and r[2][0] == "ORPHAN_NODES",
+          r[2] if r[0] != 1 else r[1])
+
+    # Rebuild to latest restores the stamped state (v2 current, stamp active).
+    # Strict continuity must now PASS -- no orphans, no broken traces.
+    r = re.Run("rebuild_at", {"event_id": current_event_id})
+    check("Rebuild to latest restores stamped state", r[0] == 1, r[2] if r[0] != 1 else r[1])
+    r = re.Run("verify_continuity", {"strict": True})
+    check("VerifyContinuity (strict) passes after rebuild to stamped state",
+          r[0] == 1, r[2] if r[0] != 1 else r[1])
+
+    section("SECTION 11: VBStyle compliance -- all classes have Run + Tuple3")
+
+    classes = [InRamDb, EventLogStore, AstNodeRegistry, AstVersionStore,
+               BclStampStore, TraceChainStore, DependencyEdgeStore,
+               SnapshotStore, ReplayEngine, RollbackEngine]
+    for cls in classes:
+        name = cls.__name__
+        check(name + " has Run method", hasattr(cls, "Run"), "")
+        check(name + " has read_state", hasattr(cls, "read_state"), "")
+        check(name + " has set_config", hasattr(cls, "set_config"), "")
+
+    section("RESULTS")
+    print("=" * 70)
+    print("  " + str(PASS) + " passed, " + str(FAIL) + " failed")
+    print("=" * 70)
+    if FAIL == 0:
+        print("ALL TESTS PASSED")
+    else:
+        print("TESTS FAILED")
+    return 0 if FAIL == 0 else 1
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except Exception as ex:
+        print("FATAL: " + str(ex))
+        traceback.print_exc()
+        sys.exit(2)

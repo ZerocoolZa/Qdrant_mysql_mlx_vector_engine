@@ -1,0 +1,27 @@
+id	class_name	description
+88	build_gui_domain_db	From ChatGPT export: build_gui_domain_db.py
+13	CognitiveBrain	Fixed: DatabaseBrain answers first, then LLM. Explicit memory conditioning in prompt.
+12	DatabaseBrain	Database-native AI brain — knows schema, rules, tokens. Answers before acting.
+48	dom_gui	VBStyle domain: dom_gui
+52	dom_ingest_gui	VBStyle domain: dom_ingest_gui
+15	GraphBrain	Experience memory: entities, concepts, relationships, clustering, conversation graph
+98	Gui_ai_engine	From ChatGPT export: Gui_ai_engine.md
+221	Gui_Assembly_Engine_Architecture	ChatGPT export: Gui_Assembly_Engine_Architecture.svg
+223	Gui_Assembly_Engine_Book	ChatGPT export: Gui_Assembly_Engine_Book.svg
+100	GUI_E_S_engine	From ChatGPT export: GUI_E_S_engine.py
+97	GUI_PACKET_SPEC	From ChatGPT export: GUI_PACKET_SPEC.md
+96	gui_svg_exporter	From ChatGPT export: gui_svg_exporter.py
+99	Gui_U_C_framework	From ChatGPT export: Gui_U_C_framework.py
+303	GuiBus	VBStyle core class: GuiBus — linked to real implementation: dom_messaging (id=57)
+302	GuiDB	VBStyle core class: GuiDB — linked to real implementation: dom_qt (id=64)
+103	GuiSvgExporter	From ChatGPT export: GuiSvgExporter.py
+80	InstructionsViewer	PyQt6 GUI for viewing vb_shared instructions table
+14	LearningBrain	Self-learning brain: seeks, learns, finds, remembers via database
+111	Lib_GuiDbWriter	From ChatGPT export: Lib_GuiDbWriter.py
+113	Lib_GuiDecisionEngine	From ChatGPT export: Lib_GuiDecisionEngine.py
+114	Lib_GuiDomainRegistry	From ChatGPT export: Lib_GuiDomainRegistry.py
+109	Lib_GuiLayoutLaw	From ChatGPT export: Lib_GuiLayoutLaw.py
+112	Lib_PyQt6Scanner	From ChatGPT export: Lib_PyQt6Scanner.py
+110	Lib_PyQtAppScanner	From ChatGPT export: Lib_PyQtAppScanner.py
+108	test_gui_u_c_framework	From ChatGPT export: test_gui_u_c_framework.py
+317	the_Class_Setup_gui	VBStyle core class: the_Class_Setup_gui — linked to real implementation: dom_qt (id=64)

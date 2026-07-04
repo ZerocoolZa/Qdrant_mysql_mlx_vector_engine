@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+"""Comprehensive test of domain_loader.py - launch unified domain from DB."""
+import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent
+sys.path.insert(0, str(BASE_DIR))
+
+from domain_loader import DomainLoader
+
+def test_domain_loader():
+    loader = DomainLoader()
+    
+    print("=" * 60)
+    print("TEST 1: List all classes")
+    print("=" * 60)
+    result = loader.Run("list_classes")
+    assert result[0] == 1, f"Failed: {result[2]}"
+    print(f"✓ Found {len(result[1])} classes")
+    
+    print("\n" + "=" * 60)
+    print("TEST 2: List all Config constants")
+    print("=" * 60)
+    result = loader.Run("list_constants")
+    assert result[0] == 1, f"Failed: {result[2]}"
+    print(f"✓ Found {len(result[1])} constants")
+    
+    print("\n" + "=" * 60)
+    print("TEST 3: Get specific Config constant (BASE_DIR)")
+    print("=" * 60)
+    result = loader.Run("get_config", {"name": "BASE_DIR"})
+    assert result[0] == 1, f"Failed: {result[2]}"
+    print(f"✓ BASE_DIR = {result[1]}")
+    
+    print("\n" + "=" * 60)
+    print("TEST 4: Get graph constants")
+    print("=" * 60)
+    for const in ["GRAPH_CATEGORIES", "GRAPH_CLASSES", "GRAPH_EDGES"]:
+        result = loader.Run("get_config", {"name": const})
+        assert result[0] == 1, f"Failed {const}: {result[2]}"
+        value = result[1]
+        if isinstance(value, dict):
+            print(f"✓ {const}: {len(value)} items")
+        elif isinstance(value, list):
+            print(f"✓ {const}: {len(value)} items")
+        else:
+            print(f"✓ {const}: {type(value)}")
+    
+    print("\n" + "=" * 60)
+    print("TEST 5: Get class definition from DB")
+    print("=" * 60)
+    result = loader.Run("get_class", {"class_name": "Config"})
+    assert result[0] == 1, f"Failed: {result[2]}"
+    print(f"✓ Config class found in {result[1]['file']} at line {result[1]['lineno']}")
+    
+    print("\n" + "=" * 60)
+    print("TEST 6: Instantiate Config class")
+    print("=" * 60)
+    result = loader.Run("instantiate", {"class_name": "Config"})
+    assert result[0] == 1, f"Failed: {result[2]}"
+    cfg = result[1]
+    print(f"✓ Config instantiated: {type(cfg)}")
+    
+    print("\n" + "=" * 60)
+    print("TEST 7: Use Config to build DB")
+    print("=" * 60)
+    db_result = cfg.Run("build_db")
+    assert db_result[0] == 1, f"DB build failed: {db_result[2]}"
+    print(f"✓ DB built: {db_result[1]['tables']} tables, {db_result[1]['primitives']} primitives")
+    
+    print("\n" + "=" * 60)
+    print("TEST 8: Check graph tables in built DB")
+    print("=" * 60)
+    conn = db_result[1]["conn"]
+    graph_tables = ["graph_categories", "graph_classes", "graph_edges", "graph_flows"]
+    for table in graph_tables:
+        count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+        print(f"✓ {table}: {count} rows")
+    
+    print("\n" + "=" * 60)
+    print("TEST 9: Instantiate GraphEngine class")
+    print("=" * 60)
+    result = loader.Run("instantiate", {"class_name": "GraphEngine"})
+    if result[0] == 1:
+        print(f"✓ GraphEngine instantiated: {type(result[1])}")
+    else:
+        print(f"✗ GraphEngine instantiation failed (expected - may need params): {result[2]}")
+    
+    print("\n" + "=" * 60)
+    print("ALL TESTS PASSED")
+    print("=" * 60)
+    print("\nDomain successfully launched from database!")
+    print(f"DB: {BASE_DIR / 'dom_graph_work.db'}")
+    print(f"Launcher: {BASE_DIR / 'domain_loader.py'}")
+
+if __name__ == "__main__":
+    test_domain_loader()

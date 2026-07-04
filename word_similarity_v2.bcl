@@ -1,0 +1,152 @@
+[@SEMANTIC_SEARCH_V2]
+{
+    ("version";"2.0")
+    ("model";"all-MiniLM-L6-v2")
+    ("backend";"CoreML")
+    ("dim";384)
+    ("tokenizer";"HuggingFace.BERT")
+    ("store";"SQLite")
+    ("db";"semantic_corpus_v2.db")
+    ("extractor";"AST+Structured")
+    ("normalizer";"Unicode+Camel+Snake")
+    ("similarity";"Cosine+Dot+Euclidean+Hybrid")
+    ("ann";"ArgPartition")
+    ("cluster";"KMeans")
+    ("graph";"KnowledgeGraph")
+    ("exporter";"BCL+JSON+Graph")
+}
+[@COMPONENTS]
+{
+    ([@SemanticExtractor]
+    {
+        ("extract_python";"AST → ClassDef → FunctionDef → Import → Assign → Expr")
+        ("extract_markdown";"Headers → Bold → CodeRef → BCLToken")
+        ("extract_json";"WalkKeys → DictKey → ListItem")
+        ("extract_generic";"RegexIdentifier → CamelSplit")
+        ("extract";"RouteByExtension")
+    })
+    ([@Normalizer]
+    {
+        ("normalize";"LowerCase → Unicode → CamelSplit → SnakeSplit → Strip")
+        ("canonical";"Normalize → LengthFilter → DigitFilter → NullFilter")
+    })
+    ([@VectorStore]
+    {
+        ("table";"embeddings")
+        ("columns";"id;term;term_normalized;vector;source;file_path;line_number;symbol_type;term_hash;domain;tags;created_at")
+        ("indexes";"idx_norm;idx_source;idx_domain")
+        ("store";"ExistingLookup → Hash → InsertBlob → Commit")
+        ("load_all_vectors";"SELECT → Deserialize → StackMatrix")
+    })
+    ([@SimilarityEngine]
+    {
+        ("cosine";"NormalizeQuery → MatrixMultiply")
+        ("dot_product";"MatrixMultiply")
+        ("euclidean";"Diff → Sqrt → Negate")
+        ("hybrid";"Cosine*0.7 + Dot*0.3")
+        ("lexical_boost";"WordOverlap → Boost")
+        ("search";"Metric → Score → Argsort → TopN")
+    })
+    ([@ANNIndex]
+    {
+        ("search";"Normalize → MatMul → ArgPartition → TopN")
+        ("insert";"VStack → Renormalize")
+    })
+    ([@ClusterEngine]
+    {
+        ("cluster";"KMeans → FitPredict")
+        ("get_clusters";"GroupByLabel → SortByDist → TopTerms")
+        ("find_cluster";"CentroidDist → ArgMin")
+    })
+    ([@KnowledgeGraph]
+    {
+        ("build";"SimMatrix → Threshold → TopK → EdgeList")
+        ("neighbors";"BFS → Depth → Visited")
+        ("export_json";"JSON Serialize")
+    })
+    ([@Statistics]
+    {
+        ("report";"Count → BySource → ByDomain → Shape → RAM → Clusters")
+    })
+    ([@BCLExporter]
+    {
+        ("export_bcl";"[@SEMANTIC_SEARCH] format")
+        ("export_json";"JSON dict")
+        ("export_graph_json";"nodes + edges")
+        ("export_results_bcl";"[@SEARCH_RESULTS] format")
+    })
+}
+[@CLASS]
+{
+    ([@CoreMLSemanticSearch]
+    {
+        ("state";"model;tokenizer;store;extractor;normalizer;corpus;corpus_vectors;similarity;ann;cluster;graph;stats;exporter;embed_time")
+        ([@METHODS]
+        {
+            ("load";"CoreML → Tokenizer → VectorStore")
+            ("embed";"Tokenize → Pad → Truncate → Predict → Extract → Float32[384]")
+            ("embed_batch";"LOOP Embed → Progress → END → Stack")
+            ("scan_files";"Walk → Skip → Filter → Extract → Collect")
+            ("scan_mysql";"Connect → Query → Extract → Collect")
+            ("scan_dictionary";"Read → FilterAlpha → Normalize")
+            ("scan_chat_history";"Open → Read → Extract → Collect")
+            ("build_corpus";"Scan → Merge → Normalize → Dedup → Sort → Limit")
+            ("build_index";"Existing → Partition → Embed → Store → Load → Init")
+            ("search";"Embed → Similarity.search → RankedResults")
+            ("search_ann";"Embed → ANN.search → RankedResults")
+            ("reverse_search";"Search → Metadata → GroupByType → Rank → Merge")
+            ("build_clusters";"Init → KMeans → Labels")
+            ("build_graph";"Init → SimMatrix → Threshold → Edges")
+            ("add_term";"Normalize → Exists → Embed → Store → Reload")
+            ("export";"SWITCH bcl/json/graph")
+            ("interactive";"StateMachine")
+        })
+    })
+}
+[@STATE_MACHINE]
+{
+    ([@Idle]
+    {
+        ("Search";"<phrase> → cosine")
+        ("ANNSearch";"ann <phrase> → argpartition")
+        ("HybridSearch";"hybrid <phrase> → cosine+dot")
+        ("BoostedSearch";"boost <phrase> → cosine+lexical")
+        ("ReverseSearch";"rev <phrase> → bytype")
+        ("ShowClusters";"cluster → KMeans display")
+        ("BuildGraph";"graph → KnowledgeGraph")
+        ("PrintStats";"stats → report")
+        ("Export";"export <fmt> → bcl/json/graph")
+        ("BCLSearch";"bcl <phrase> → [@SEARCH_RESULTS]")
+        ("AddTerm";"add <term> → embed+store")
+        ("Rebuild";"rebuild → rescan+incremental")
+        ("Exit";"quit")
+    })
+}
+[@PIPELINE]
+{
+    ("sources";"Filesystem;MySQL;ChatHistory;Dictionary")
+    ("stage1";"SemanticExtractor")
+    ("stage2";"Normalizer")
+    ("stage3";"Deduplicate")
+    ("stage4";"EmbeddingPipeline")
+    ("stage5";"VectorStore")
+    ("stage6";"LoadVectors → Matrix")
+    ("stage7";"SimilarityEngine + ANNIndex + ClusterEngine")
+    ("stage8";"KnowledgeGraph")
+    ("stage9";"QueryEngine")
+    ("stage10";"API + CLI + BCLExporter")
+}
+[@UPGRADE_DIFF]
+{
+    ("v1";"RegexExtractor;SQLiteBlob(term+vector);CosineOnly;NoMetadata;NoGraph;NoCluster;NoExport")
+    ("v2";"ASTExtractor;VectorStore(12cols);MultiMetric;Domain+Tags+Hash;KnowledgeGraph;KMeans;BCL+JSON+Graph")
+}
+[@SEARCH_RESULTS]
+{
+    ("query";"template")
+    ("count";N)
+    ("term1";score1)
+    ("term2";score2)
+    ("...";"...")
+}
+[@END]

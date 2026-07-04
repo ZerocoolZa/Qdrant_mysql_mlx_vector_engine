@@ -1,0 +1,152 @@
+[@schemalint]{
+    [@meta]{
+        ("version";"2.1")
+        ("structural_count";36)
+        ("design_count";80)
+        ("total_count";116)
+        ("auto_fixable_count";14)
+        ("decision_tree_count";21)
+    }
+
+    [@severities]{
+        ("high";"high")
+        ("medium";"medium")
+        ("low";"low")
+        ("strict";"strict")
+        ("guideline";"guideline")
+    }
+
+    [@engines]{
+        ("sqlite";"sqlite")
+        ("mysql";"mysql")
+    }
+
+    [@thresholds]{
+        ("max_lob_columns";1)
+        ("max_table_columns";30)
+        ("max_index_columns";4)
+        ("min_tables_for_spread";3)
+    }
+
+    [@score_weights]{
+        ("high";10)
+        ("medium";3)
+        ("low";1)
+        ("strict";10)
+        ("guideline";3)
+        ("score_max";100)
+    }
+
+    [@patterns]{
+        ("bad_column_patterns";"^.*\.ID$")
+        ("csv_indicators";"_list";"_ids";"_csv";"_tags";"_names")
+        ("bad_timestamp_names";"timestamp";"time";"ts";"datetime")
+        ("boolean_prefixes";"is_";"has_")
+        ("fk_suffix";"_id")
+    }
+
+    [@types]{
+        ("lob_types";"TEXT";"BLOB")
+        ("boolean_types";"INTEGER";"INT";"BOOLEAN";"BOOL";"TINYINT")
+    }
+
+    [@reserved_words]{
+        ("abort";"action";"add";"after";"all";"alter";"analyze";"and";"as";
+         "asc";"attach";"autoincrement";"before";"begin";"between";"by";
+         "cascade";"case";"cast";"check";"collate";"column";"commit";
+         "conflict";"constraint";"create";"cross";"current_date";
+         "current_time";"current_timestamp";"database";"default";"deferrable";
+         "deferred";"delete";"desc";"detach";"distinct";"drop";"each";
+         "else";"end";"escape";"except";"exclusive";"exists";"explain";
+         "fail";"for";"foreign";"from";"full";"glob";"group";"having";
+         "if";"ignore";"immediate";"in";"index";"indexed";"initially";
+         "inner";"insert";"instead";"intersect";"into";"is";"isnull";
+         "join";"key";"left";"like";"limit";"match";"natural";"no";
+         "not";"notnull";"null";"of";"offset";"on";"or";"order";"outer";
+         "plan";"pragma";"primary";"query";"raise";"references";"regexp";
+         "reindex";"rename";"replace";"restrict";"right";"rollback";"row";
+         "savepoint";"select";"set";"table";"temp";"temporary";"then";
+         "timestamp";"to";"transaction";"trigger";"union";"unique";
+         "update";"using";"vacuum";"values";"view";"virtual";"when";"where")
+    }
+
+    [@domains]{
+        ("integrity";"must_have_pk";"pk_must_not_be_nullable";"fk_type_must_match";
+                     "no_fk_self_reference";"no_fk_cycles";"no_orphaned_fk";
+                     "no_fk_missing_ref_col";"must_enforce_fk";"no_without_rowid_no_pk";
+                     "no_autoincr_non_integer")
+        ("normalization";"no_all_nullable";"no_single_column_tables";"no_composite_pk";
+                         "no_incrementing_columns";"no_csv_in_text";"no_wide_table";
+                         "no_column_spread")
+        ("performance";"fk_must_have_index";"pk_must_be_first";"no_redundant_indexes";
+                       "no_duplicate_indexes";"no_nullable_in_unique";
+                       "no_index_too_many_cols";"no_over_indexed")
+        ("naming";"no_reserved_words";"no_spaces_in_names";"no_bad_column_names";
+                  "no_string_null_default";"no_mixed_naming_case";
+                  "no_col_prefix_match_table";"no_bool_wrong_type";
+                  "no_timestamp_naming";"fk_must_have_id_suffix";
+                  "column_type_consistent")
+    }
+
+    [@structural_rules]{
+        [@must_have_pk]{("description";"Every table MUST have a primary key")("severity";"high")("check_type";"table_must_have_pk")("enabled";True)("engines";"sqlite";"mysql")}
+        [@pk_must_not_be_nullable]{("description";"Primary key columns MUST NOT be nullable")("severity";"high")("check_type";"pk_must_not_be_nullable")("enabled";True)("engines";"sqlite";"mysql")}
+        [@fk_type_must_match]{("description";"FK column type MUST match referenced PK type")("severity";"medium")("check_type";"fk_type_must_match")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_fk_self_reference]{("description";"FKs MUST NOT self-reference the PK")("severity";"medium")("check_type";"no_fk_self_reference")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_fk_cycles]{("description";"Tables MUST NOT have cyclical FK relationships")("severity";"high")("check_type";"no_table_cycles")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_orphaned_fk]{("description";"FK MUST reference a table that exists")("severity";"high")("check_type";"no_orphaned_fk_target")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_fk_missing_ref_col]{("description";"FK referenced column MUST exist on target table")("severity";"high")("check_type";"no_fk_missing_ref_column")("enabled";True)("engines";"sqlite";"mysql")}
+        [@must_enforce_fk]{("description";"Database MUST enforce foreign keys")("severity";"high")("check_type";"must_enforce_foreign_keys")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_without_rowid_no_pk]{("description";"WITHOUT ROWID tables MUST have a primary key")("severity";"high")("check_type";"no_without_rowid_without_pk")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_autoincr_non_integer]{("description";"AUTOINCREMENT MUST NOT be on non-INTEGER PK")("severity";"medium")("check_type";"no_autoincrement_non_integer")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_all_nullable]{("description";"Tables MUST NOT have all nullable non-PK columns")("severity";"medium")("check_type";"no_all_nullable_columns")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_single_column_tables]{("description";"Tables MUST NOT have fewer than 2 columns")("severity";"low")("check_type";"no_single_column_table")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_composite_pk]{("description";"Tables SHOULD NOT use composite primary keys")("severity";"medium")("check_type";"no_composite_pk")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_incrementing_columns]{("description";"Tables MUST NOT have incrementing column names")("severity";"medium")("check_type";"no_incrementing_columns")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_csv_in_text]{("description";"TEXT columns MUST NOT have CSV-indicator names")("severity";"medium")("check_type";"no_csv_in_text_column")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_wide_table]{("description";"Tables MUST NOT have more than 30 columns")("severity";"medium")("check_type";"no_wide_table")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_column_spread]{("description";"Same non-FK column in 3+ tables suggests denormalization")("severity";"low")("check_type";"no_duplicate_column_spread")("enabled";True)("engines";"sqlite";"mysql")}
+        [@fk_must_have_index]{("description";"Every FK column MUST have an index")("severity";"low")("check_type";"fk_must_have_index")("enabled";True)("engines";"sqlite";"mysql")}
+        [@pk_must_be_first]{("description";"Primary key columns MUST be declared first")("severity";"low")("check_type";"pk_must_be_first")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_redundant_indexes]{("description";"Tables MUST NOT have redundant indexes")("severity";"high")("check_type";"no_redundant_indexes")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_duplicate_indexes]{("description";"Tables MUST NOT have exact duplicate indexes")("severity";"medium")("check_type";"no_duplicate_indexes")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_nullable_in_unique]{("description";"Unique indexes MUST NOT contain nullable columns")("severity";"medium")("check_type";"no_nullable_in_unique_index")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_index_too_many_cols]{("description";"Indexes MUST NOT have more than 4 columns")("severity";"low")("check_type";"no_index_too_many_columns")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_over_indexed]{("description";"Tables MUST NOT have more indexes than columns")("severity";"low")("check_type";"no_over_indexed_table")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_reserved_words]{("description";"Names MUST NOT be SQL reserved words")("severity";"medium")("check_type";"name_must_not_be_in_list")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_spaces_in_names]{("description";"Names MUST NOT contain spaces")("severity";"medium")("check_type";"name_must_not_contain_spaces")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_bad_column_names]{("description";"Columns MUST NOT be named bare ID")("severity";"low")("check_type";"no_bad_column_names")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_string_null_default]{("description";"Defaults MUST NOT be string NULL")("severity";"medium")("check_type";"no_string_null_default")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_mixed_naming_case]{("description";"Column names MUST NOT mix snake_case and camelCase")("severity";"low")("check_type";"no_inconsistent_naming_case")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_col_prefix_match_table]{("description";"Column names MUST NOT redundantly prefix table name")("severity";"low")("check_type";"no_column_prefix_match_table")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_bool_wrong_type]{("description";"is_*/has_* columns MUST be INTEGER type")("severity";"low")("check_type";"no_boolean_without_prefix")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_timestamp_naming]{("description";"Columns MUST NOT be named timestamp/time (use created_at)")("severity";"medium")("check_type";"no_timestamp_naming")("enabled";True)("engines";"sqlite";"mysql")}
+        [@fk_must_have_id_suffix]{("description";"Foreign key columns MUST end with _id")("severity";"low")("check_type";"fk_column_must_have_id_suffix")("enabled";True)("engines";"sqlite";"mysql")}
+        [@column_type_consistent]{("description";"Same column name MUST have same type across tables")("severity";"medium")("check_type";"column_type_consistent")("enabled";True)("engines";"sqlite";"mysql")}
+        [@no_empty_tables]{("description";"Tables MUST NOT be empty")("severity";"low")("check_type";"no_empty_table")("enabled";False)("engines";"sqlite";"mysql")}
+        [@no_table_without_indexes]{("description";"Tables MUST NOT lack indexes entirely")("severity";"low")("check_type";"no_table_without_indexes")("enabled";False)("engines";"sqlite";"mysql")}
+    }
+
+    [@design_rules]{
+        [@SCHEMA-001]{("description";"Every table should have a primary key; use auto-increment surrogate if no logical unique non-null column")("severity";"guideline")("check_type";"every_table_has_pk")("enabled";True)("engines";"sqlite";"mysql")}
+        [@SCHEMA-002]{("description";"INTEGER PRIMARY KEY is the rowid alias and auto-stores a unique 64-bit int")("severity";"strict")("check_type";"integer_pk_is_rowid_alias")("enabled";True)("engines";"sqlite")}
+        [@SCHEMA-003]{("description";"PRIMARY KEY columns are implicitly NOT NULL in SQLite")("severity";"strict")("check_type";"sqlite_pk_implicit_not_null")("enabled";True)("engines";"sqlite")}
+        [@SCHEMA-004]{("description";"UNIQUE rejects duplicate non-NULL values; multiple NULLs are distinct")("severity";"strict")("check_type";"unique_nulls_distinct")("enabled";True)("engines";"sqlite";"mysql")}
+        [@SCHEMA-005]{("description";"CHECK must evaluate true or NULL; cannot reference subqueries or other tables")("severity";"strict")("check_type";"check_no_subquery_or_other_table")("enabled";True)("engines";"sqlite";"mysql")}
+        [@SCHEMA-006]{("description";"NOT NULL rejects NULL on insert/update; column without DEFAULT defaults to NULL")("severity";"strict")("check_type";"not_null_default_semantics")("enabled";True)("engines";"sqlite";"mysql")}
+        [@SCHEMA-007]{("description";"SQLite DEFAULT expression must be constant (no subqueries, column refs, bound params)")("severity";"strict")("check_type";"sqlite_default_must_be_constant")("enabled";True)("engines";"sqlite")}
+        [@SCHEMA-008]{("description";"CREATE TABLE AS SELECT yields a table with no PK, no constraints, NULL defaults")("severity";"strict")("check_type";"ctas_has_no_constraints")("enabled";True)("engines";"sqlite")}
+        [@SCHEMA-009]{("description";"Without a PK, InnoDB uses the first all-NOT-NULL UNIQUE index as the clustered index")("severity";"strict")("check_type";"innodb_unique_fallback_clustered")("enabled";True)("engines";"mysql")}
+        [@SCHEMA-010]{("description";"Without PK or suitable UNIQUE index, InnoDB creates hidden GEN_CLUST_INDEX")("severity";"strict")("check_type";"innodb_hidden_clustered_index")("enabled";True)("engines";"mysql")}
+        [@SCHEMA-011]{("description";"Primary key columns are implicitly NOT NULL in InnoDB")("severity";"strict")("check_type";"mysql_pk_implicit_not_null")("enabled";True)("engines";"mysql")}
+        [@REF-001]{("description";"SQLite FK constraints are OFF by default; enable with PRAGMA foreign_keys = ON")("severity";"strict")("check_type";"sqlite_fk_enabled_pragma")("enabled";True)("engines";"sqlite")}
+        [@REF-002]{("description";"MySQL foreign_key_checks is ON by default; dynamic, global + session scope")("severity";"strict")("check_type";"mysql_fk_checks_default_on")("enabled";True)("engines";"mysql")}
+        [@REF-003]{("description";"FK satisfied if any child key is NULL; add NOT NULL to forbid NULL child keys")("severity";"strict")("check_type";"fk_null_satisfies_constraint")("enabled";True)("engines";"sqlite";"mysql")}
+        [@REF-004]{("description";"SQLite parent key must be PK or under a UNIQUE index with same collations")("severity";"strict")("check_type";"sqlite_parent_key_unique_collation")("enabled";True)("engines";"sqlite")}
+        [@REF-005]{("description";"Composite FK parent and child keys must have identical cardinality")("severity";"strict")("check_type";"composite_fk_cardinality_match")("enabled";True)("engines";"sqlite")}
+        [@REF-006]{("description";"Referencing a parent PK without naming columns requires count match")("severity";"strict")("check_type";"sqlite_fk_unnamed_pk_count_match")("enabled";True)("engines";"sqlite")}
+        [@REF-007]{("description";"An index on SQLite child key columns is strongly recommended")("severity";"guideline")("check_type";"sqlite_child_key_index_recommended")("enabled";True)("engines";"sqlite")}
+        [@REF-008]{("description";"MySQL FK parent and child tables must use the same storage engine")("severity";"strict")("check_type";"mysql_fk_same_engine_no_temp")("enabled";True)("engines";"mysql")}
+        [@REF-009]{("description";"MySQL FK/referenced columns must have similar types; size+sign must match")("severity";"strict")("check_type";"mysql_fk_column_type_match")("enabled";True)("engines";"mysql")}
+    }
+}

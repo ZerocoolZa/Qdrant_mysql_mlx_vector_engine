@@ -1,0 +1,1071 @@
+ErrorAI v2 — 100 Run Benchmark
+Date: 2026-07-04T12:22:03.305395
+Cases: 68
+Runs: 100
+================================================================================
+
+Run   1: trig=68 match=68 fix=68 prom= 1 known=67 conf_avg=0.503
+Run   2: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=0.724
+Run   3: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=0.825
+Run   4: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=0.922
+Run   5: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run   6: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run   7: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run   8: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run   9: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  10: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  11: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  12: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  13: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  14: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  15: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  16: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  17: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  18: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  19: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  20: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  21: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  22: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  23: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  24: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  25: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  26: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  27: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  28: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  29: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  30: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  31: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  32: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  33: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  34: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  35: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  36: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  37: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  38: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  39: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  40: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  41: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  42: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  43: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  44: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  45: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  46: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  47: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  48: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  49: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  50: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  51: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  52: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  53: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  54: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  55: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  56: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  57: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  58: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  59: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  60: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  61: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  62: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  63: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  64: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  65: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  66: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  67: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  68: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  69: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  70: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  71: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  72: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  73: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  74: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  75: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  76: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  77: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  78: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  79: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  80: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  81: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  82: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  83: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  84: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  85: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  86: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  87: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  88: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  89: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  90: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  91: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  92: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  93: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  94: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  95: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  96: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  97: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  98: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run  99: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+Run 100: trig=68 match=68 fix=68 prom=68 known=67 conf_avg=1.000
+
+================================================================================
+FINAL SUMMARY — 100 RUNS
+================================================================================
+Total cases:       68
+Triggered:         68/68
+Matched:           68/68
+Fixes validated:   68/68
+Promoted:          68/68
+Accuracy:          100.0%
+Fix success rate:  100.0%
+
+Knowledge store:   67 patterns
+  Promoted:        67
+  Testing:         0
+  Failed:          0
+  New:             0
+
+PER-ERROR CONFIDENCE (after 100 runs):
+Error                          Status       Conf   Occ
+-------------------------------------------------------
+ArithmeticError                promoted     1.00   202
+AssertionError                 promoted     1.00   101
+AttributeError                 promoted     1.00   101
+BaseExceptionGroup             promoted     1.00   101
+BlockingIOError                promoted     1.00   101
+BrokenPipeError                promoted     1.00   101
+BufferError                    promoted     1.00   101
+BytesWarning                   promoted     1.00   101
+ChildProcessError              promoted     1.00   101
+ConnectionAbortedError         promoted     1.00   101
+ConnectionError                promoted     1.00   101
+ConnectionRefusedError         promoted     1.00   101
+ConnectionResetError           promoted     1.00   101
+DeprecationWarning             promoted     1.00   101
+EOFError                       promoted     1.00   101
+EnvironmentError               promoted     1.00   101
+ExceptionGroup                 promoted     1.00   101
+FileExistsError                promoted     1.00   101
+FileNotFoundError              promoted     1.00   101
+FloatingPointError             promoted     1.00   101
+FutureWarning                  promoted     1.00   101
+GeneratorExit                  promoted     1.00   101
+IOError                        promoted     1.00   101
+ImportError                    promoted     1.00   101
+ImportWarning                  promoted     1.00   101
+IndentationError               promoted     1.00   101
+IndexError                     promoted     1.00   101
+InterruptedError               promoted     1.00   101
+IsADirectoryError              promoted     1.00   101
+KeyError                       promoted     1.00   101
+KeyboardInterrupt              promoted     1.00   101
+LookupError                    promoted     1.00   101
+MemoryError                    promoted     1.00   101
+ModuleNotFoundError            promoted     1.00   101
+NameError                      promoted     1.00   101
+NotADirectoryError             promoted     1.00   101
+NotImplementedError            promoted     1.00   101
+OSError                        promoted     1.00   101
+OverflowError                  promoted     1.00   101
+PendingDeprecationWarning      promoted     1.00   101
+PermissionError                promoted     1.00   101
+ProcessLookupError             promoted     1.00   101
+PythonFinalizationError        promoted     1.00   101
+RecursionError                 promoted     1.00   101
+ReferenceError                 promoted     1.00   101
+ResourceWarning                promoted     1.00   101
+RuntimeError                   promoted     1.00   101
+RuntimeWarning                 promoted     1.00   101
+StopAsyncIteration             promoted     1.00   101
+StopIteration                  promoted     1.00   101
+SyntaxError                    promoted     1.00   101
+SyntaxWarning                  promoted     1.00   101
+SystemError                    promoted     1.00   101
+SystemExit                     promoted     1.00   101
+TabError                       promoted     1.00   101
+TimeoutError                   promoted     1.00   101
+TypeError                      promoted     1.00   101
+UnboundLocalError              promoted     1.00   101
+UnicodeDecodeError             promoted     1.00   101
+UnicodeEncodeError             promoted     1.00   101
+UnicodeError                   promoted     1.00   101
+UnicodeTranslateError          promoted     1.00   101
+UnicodeWarning                 promoted     1.00   101
+UserWarning                    promoted     1.00   101
+ValueError                     promoted     1.00   101
+Warning                        promoted     1.00   101
+ZeroDivisionError              promoted     1.00   101
+
+BCL Knowledge Store (/Users/wws/Qdrant_mysql_mlx_vector_engine/core/Dom_Bloodhound/error_knowledge.bcl):
+================================================================================
+# BCL Knowledge Store
+# Updated: 2026-07-04T12:22:10.760322
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"SyntaxError")
+    ("pattern";"SyntaxError")
+    ("description";"Expected SyntaxError, got SyntaxError")
+    ("fix";"fix syntax error in source code")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.697910")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"IndentationError")
+    ("pattern";"IndentationError")
+    ("description";"Expected IndentationError, got IndentationError")
+    ("fix";"fix indentation to be consistent (use only spaces)")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.698468")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"NameError")
+    ("pattern";"NameError")
+    ("description";"Expected NameError, got NameError")
+    ("fix";"define the variable before using it")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.699033")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UnboundLocalError")
+    ("pattern";"UnboundLocalError")
+    ("description";"Expected UnboundLocalError, got UnboundLocalError")
+    ("fix";"assign local variable before reading it")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.699622")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"TypeError")
+    ("pattern";"TypeError")
+    ("description";"Expected TypeError, got TypeError")
+    ("fix";"check types before operation or convert types")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.700160")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ValueError")
+    ("pattern";"ValueError")
+    ("description";"Expected ValueError, got ValueError")
+    ("fix";"validate input value before conversion or operation")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.700710")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"KeyError")
+    ("pattern";"KeyError")
+    ("description";"Expected KeyError, got KeyError")
+    ("fix";"check key exists with .get() or 'in' before access")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.701262")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"IndexError")
+    ("pattern";"IndexError")
+    ("description";"Expected IndexError, got IndexError")
+    ("fix";"check len() before indexing into list")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.701957")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"AttributeError")
+    ("pattern";"AttributeError")
+    ("description";"Expected AttributeError, got AttributeError")
+    ("fix";"check object type before calling method")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.702534")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ImportError")
+    ("pattern";"ImportError")
+    ("description";"Expected ImportError, got ImportError")
+    ("fix";"check module name or install missing package")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.703289")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ModuleNotFoundError")
+    ("pattern";"ModuleNotFoundError")
+    ("description";"Expected ModuleNotFoundError, got ModuleNotFoundError")
+    ("fix";"install the module with pip or check path")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.703922")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"FileNotFoundError")
+    ("pattern";"FileNotFoundError")
+    ("description";"Expected FileNotFoundError, got FileNotFoundError")
+    ("fix";"check file path exists or create file first")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.704459")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ZeroDivisionError")
+    ("pattern";"ZeroDivisionError")
+    ("description";"Expected ZeroDivisionError, got ZeroDivisionError")
+    ("fix";"check divisor is not zero before dividing")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.706635")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"OverflowError")
+    ("pattern";"OverflowError")
+    ("description";"Expected OverflowError, got OverflowError")
+    ("fix";"use smaller values or catch overflow")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.707215")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"RecursionError")
+    ("pattern";"RecursionError")
+    ("description";"Expected RecursionError, got RecursionError")
+    ("fix";"add base case to recursive function")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.724993")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"StopIteration")
+    ("pattern";"StopIteration")
+    ("description";"Expected StopIteration, got StopIteration")
+    ("fix";"use for loop or catch StopIteration explicitly")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.725709")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"RuntimeError")
+    ("pattern";"RuntimeError")
+    ("description";"Expected RuntimeError, got RuntimeError")
+    ("fix";"handle the specific error condition that triggered this")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.726254")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"NotImplementedError")
+    ("pattern";"NotImplementedError")
+    ("description";"Expected NotImplementedError, got NotImplementedError")
+    ("fix";"implement the method or feature that was called")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.727022")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"AssertionError")
+    ("pattern";"AssertionError")
+    ("description";"Expected AssertionError, got AssertionError")
+    ("fix";"fix the condition that failed the assert")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.727580")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"EOFError")
+    ("pattern";"EOFError")
+    ("description";"Expected EOFError, got EOFError")
+    ("fix";"check for end of input before reading")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.728128")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"PermissionError")
+    ("pattern";"PermissionError")
+    ("description";"Expected PermissionError, got PermissionError")
+    ("fix";"check file permissions or run with appropriate privileges")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.728912")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"IsADirectoryError")
+    ("pattern";"IsADirectoryError")
+    ("description";"Expected IsADirectoryError, got IsADirectoryError")
+    ("fix";"check path is a file not a directory before file operations")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.729641")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"FileExistsError")
+    ("pattern";"FileExistsError")
+    ("description";"Expected FileExistsError, got FileExistsError")
+    ("fix";"check if file exists before creating, or use different name")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.730314")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UnicodeDecodeError")
+    ("pattern";"UnicodeDecodeError")
+    ("description";"Expected UnicodeDecodeError, got UnicodeDecodeError")
+    ("fix";"specify correct encoding or use errors='replace'")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.730976")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UnicodeEncodeError")
+    ("pattern";"UnicodeEncodeError")
+    ("description";"Expected UnicodeEncodeError, got UnicodeEncodeError")
+    ("fix";"specify correct encoding or use errors='replace'")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.731487")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ConnectionError")
+    ("pattern";"ConnectionError")
+    ("description";"Expected ConnectionError, got ConnectionError")
+    ("fix";"check network connection and retry")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.732044")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ConnectionRefusedError")
+    ("pattern";"ConnectionRefusedError")
+    ("description";"Expected ConnectionRefusedError, got ConnectionRefusedError")
+    ("fix";"check if server is running and port is open")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.732584")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"TimeoutError")
+    ("pattern";"TimeoutError")
+    ("description";"Expected TimeoutError, got TimeoutError")
+    ("fix";"increase timeout or optimize the operation")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.733117")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ArithmeticError")
+    ("pattern";"ArithmeticError")
+    ("description";"Expected ArithmeticError, got ArithmeticError")
+    ("fix";"validate operands before arithmetic operation")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"202")
+    ("last_seen";"2026-07-04T12:22:10.737251")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"SystemExit")
+    ("pattern";"SystemExit")
+    ("description";"Expected SystemExit, got SystemExit")
+    ("fix";"handle sys.exit() call gracefully")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.734210")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"KeyboardInterrupt")
+    ("pattern";"KeyboardInterrupt")
+    ("description";"Expected KeyboardInterrupt, got KeyboardInterrupt")
+    ("fix";"handle Ctrl+C signal gracefully")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.734939")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"TabError")
+    ("pattern";"TabError")
+    ("description";"Expected TabError, got TabError")
+    ("fix";"use only spaces or only tabs, do not mix")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.735504")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"LookupError")
+    ("pattern";"LookupError")
+    ("description";"Expected LookupError, got LookupError")
+    ("fix";"check key or index exists before lookup")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.736177")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ReferenceError")
+    ("pattern";"ReferenceError")
+    ("description";"Expected ReferenceError, got ReferenceError")
+    ("fix";"keep a reference to the object before accessing weakref")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.736736")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"FloatingPointError")
+    ("pattern";"FloatingPointError")
+    ("description";"Expected FloatingPointError, got FloatingPointError")
+    ("fix";"check for NaN or infinity in float operations")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.737776")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"MemoryError")
+    ("pattern";"MemoryError")
+    ("description";"Expected MemoryError, got MemoryError")
+    ("fix";"reduce data size or free memory before allocating")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.738295")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"BufferError")
+    ("pattern";"BufferError")
+    ("description";"Expected BufferError, got BufferError")
+    ("fix";"check buffer size and alignment before buffer operation")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.738922")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"SystemError")
+    ("pattern";"SystemError")
+    ("description";"Expected SystemError, got SystemError")
+    ("fix";"report as Python interpreter bug, try different approach")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.739465")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"GeneratorExit")
+    ("pattern";"GeneratorExit")
+    ("description";"Expected GeneratorExit, got GeneratorExit")
+    ("fix";"handle generator close properly")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.740071")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"OSError")
+    ("pattern";"OSError")
+    ("description";"Expected OSError, got OSError")
+    ("fix";"check OS resource availability and permissions")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.740689")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"IOError")
+    ("pattern";"IOError")
+    ("description";"Expected OSError, got OSError")
+    ("fix";"check file permissions, disk space, and path validity")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.741227")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"EnvironmentError")
+    ("pattern";"EnvironmentError")
+    ("description";"Expected OSError, got OSError")
+    ("fix";"check environment variables and OS resources")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.741764")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"NotADirectoryError")
+    ("pattern";"NotADirectoryError")
+    ("description";"Expected NotADirectoryError, got NotADirectoryError")
+    ("fix";"check path is a directory before directory operations")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.742456")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"InterruptedError")
+    ("pattern";"InterruptedError")
+    ("description";"Expected InterruptedError, got InterruptedError")
+    ("fix";"retry the operation or handle the interrupt signal")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.745751")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"BlockingIOError")
+    ("pattern";"BlockingIOError")
+    ("description";"Expected BlockingIOError, got BlockingIOError")
+    ("fix";"use non-blocking I/O or wait for resource")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.746324")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ChildProcessError")
+    ("pattern";"ChildProcessError")
+    ("description";"Expected ChildProcessError, got ChildProcessError")
+    ("fix";"check child process status and exit code")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.746886")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"BrokenPipeError")
+    ("pattern";"BrokenPipeError")
+    ("description";"Expected BrokenPipeError, got BrokenPipeError")
+    ("fix";"check pipe is connected before writing")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.747437")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ConnectionAbortedError")
+    ("pattern";"ConnectionAbortedError")
+    ("description";"Expected ConnectionAbortedError, got ConnectionAbortedError")
+    ("fix";"check connection stability and reconnect")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.748136")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ConnectionResetError")
+    ("pattern";"ConnectionResetError")
+    ("description";"Expected ConnectionResetError, got ConnectionResetError")
+    ("fix";"handle network reset and reconnect")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.748695")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ProcessLookupError")
+    ("pattern";"ProcessLookupError")
+    ("description";"Expected ProcessLookupError, got ProcessLookupError")
+    ("fix";"check process ID exists before signaling")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.749242")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UnicodeError")
+    ("pattern";"UnicodeError")
+    ("description";"Expected UnicodeError, got UnicodeError")
+    ("fix";"check encoding is correct for the data")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.749926")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UnicodeTranslateError")
+    ("pattern";"UnicodeTranslateError")
+    ("description";"Expected UnicodeTranslateError, got UnicodeTranslateError")
+    ("fix";"check character exists in target encoding")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.750567")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"Warning")
+    ("pattern";"Warning")
+    ("description";"Expected Warning, got Warning")
+    ("fix";"review the warning message and address root cause")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.751236")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UserWarning")
+    ("pattern";"UserWarning")
+    ("description";"Expected UserWarning, got UserWarning")
+    ("fix";"review user-defined warning condition")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.751805")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"DeprecationWarning")
+    ("pattern";"DeprecationWarning")
+    ("description";"Expected DeprecationWarning, got DeprecationWarning")
+    ("fix";"update code to use new API instead of deprecated one")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.752404")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"FutureWarning")
+    ("pattern";"FutureWarning")
+    ("description";"Expected FutureWarning, got FutureWarning")
+    ("fix";"update code to handle future behavior change")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.753005")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"RuntimeWarning")
+    ("pattern";"RuntimeWarning")
+    ("description";"Expected RuntimeWarning, got RuntimeWarning")
+    ("fix";"investigate runtime condition that triggered warning")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.753829")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"SyntaxWarning")
+    ("pattern";"SyntaxWarning")
+    ("description";"Expected SyntaxWarning, got SyntaxWarning")
+    ("fix";"fix suspicious syntax that Python warns about")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.754399")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"UnicodeWarning")
+    ("pattern";"UnicodeWarning")
+    ("description";"Expected UnicodeWarning, got UnicodeWarning")
+    ("fix";"check for unicode vs bytes comparison")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.755069")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"BytesWarning")
+    ("pattern";"BytesWarning")
+    ("description";"Expected BytesWarning, got BytesWarning")
+    ("fix";"check for bytes vs str comparison")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.755718")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ResourceWarning")
+    ("pattern";"ResourceWarning")
+    ("description";"Expected ResourceWarning, got ResourceWarning")
+    ("fix";"close resources properly with context managers")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.756285")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ImportWarning")
+    ("pattern";"ImportWarning")
+    ("description";"Expected ImportWarning, got ImportWarning")
+    ("fix";"check import path and module compatibility")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.756894")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"PendingDeprecationWarning")
+    ("pattern";"PendingDeprecationWarning")
+    ("description";"Expected PendingDeprecationWarning, got PendingDeprecationWarning")
+    ("fix";"plan migration before deprecation")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.757571")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"ExceptionGroup")
+    ("pattern";"ExceptionGroup")
+    ("description";"Expected ExceptionGroup, got ExceptionGroup")
+    ("fix";"unwrap and handle each exception in the group")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.758190")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"BaseExceptionGroup")
+    ("pattern";"BaseExceptionGroup")
+    ("description";"Expected BaseExceptionGroup, got BaseExceptionGroup")
+    ("fix";"unwrap and handle each exception in the group")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.758793")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"PythonFinalizationError")
+    ("pattern";"PythonFinalizationError")
+    ("description";"Expected PythonFinalizationError, got PythonFinalizationError")
+    ("fix";"avoid calling during interpreter shutdown")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.759498")
+}
+
+[@ERROR]
+{
+    ("producer";"ErrorGenerator")
+    ("entity";"StopAsyncIteration")
+    ("pattern";"StopAsyncIteration")
+    ("description";"Expected StopAsyncIteration, got StopAsyncIteration")
+    ("fix";"add StopAsyncIteration handling in async generator")
+    ("confidence";"1.00")
+    ("status";"promoted")
+    ("occurrences";"101")
+    ("last_seen";"2026-07-04T12:22:10.760054")
+}
+

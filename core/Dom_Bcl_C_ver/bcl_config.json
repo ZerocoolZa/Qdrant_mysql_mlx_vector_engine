@@ -1,0 +1,48 @@
+{
+  "backend": "mysql",
+  "domain": "bcl_c_engine",
+  "output_dir": "/Users/wws/Qdrant_mysql_mlx_vector_engine/core/Dom_Bcl_C_ver",
+  "binary_name": "dom_graph_engine",
+  "mysql": {
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "vb_shared",
+    "table": "c_classes",
+    "port": 3306
+  },
+  "sqlite": {
+    "path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/core/Dom_Bcl_C_ver/bcl_c_engine.db",
+    "table": "c_classes"
+  },
+  "compile": {
+    "cc": "cc",
+    "cflags": "-O2 -Wall -Wextra -Wno-unused-parameter",
+    "tree_sitter_inc": "/opt/homebrew/Cellar/tree-sitter/0.26.9/include",
+    "tree_sitter_lib": "/opt/homebrew/Cellar/tree-sitter/0.26.9/lib",
+    "tree_sitter_python_inc": "/opt/homebrew/Cellar/tree-sitter-python/0.25.0/include",
+    "tree_sitter_python_lib": "/opt/homebrew/Cellar/tree-sitter-python/0.25.0/lib",
+    "tree_sitter_c_inc": "/opt/homebrew/Cellar/tree-sitter-c/0.23.4/include",
+    "tree_sitter_c_lib": "/opt/homebrew/Cellar/tree-sitter-c/0.23.4/lib",
+    "json_c_inc": "/opt/homebrew/opt/json-c/include",
+    "json_c_lib": "/opt/homebrew/opt/json-c/lib",
+    "sqlite_inc": "/opt/homebrew/opt/sqlite/include",
+    "sqlite_lib": "/opt/homebrew/opt/sqlite/lib",
+    "mysql_inc": "/opt/homebrew/opt/mysql@8.0/include/mysql",
+    "mysql_lib": "/opt/homebrew/opt/mysql@8.0/lib",
+    "ssl_lib": "/opt/homebrew/opt/openssl@3/lib",
+    "extra_libs": "-lz -lresolv"
+  },
+  "link": {
+    "rpaths": [
+      "/opt/homebrew/Cellar/tree-sitter/0.26.9/lib",
+      "/opt/homebrew/Cellar/tree-sitter-python/0.25.0/lib",
+      "/opt/homebrew/Cellar/tree-sitter-c/0.23.4/lib",
+      "/opt/homebrew/opt/json-c/lib",
+      "/opt/homebrew/opt/sqlite/lib",
+      "/opt/homebrew/opt/mysql@8.0/lib",
+      "/opt/homebrew/opt/openssl@3/lib"
+    ],
+    "extra_flags": ""
+  }
+}

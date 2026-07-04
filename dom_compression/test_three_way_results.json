@@ -1,0 +1,660 @@
+[
+  {
+    "question": "What are you?",
+    "ai_alone": "I am an AI language model created by OpenAI.",
+    "db_alone": {
+      "question": "What are you?",
+      "answer": "I am 73 VBStyle domains living in a database. I contain 1394 classes, 13973 methods, 1 plan(s), and 6 pipeline(s). I am not an application \u2014 I am a pantry of capabilities. Plans compose my ingredients into recipes. Orchestration executes the recipes. You can ask me what I have, what I can do, what I'm missing, and what I could become.",
+      "identity": {
+        "name": "v20_hybrid_best",
+        "purpose": "Single source of truth for VBStyle domain classes, methods, computational units, plans, orchestration recipes, and execution logs. The database IS the application \u2014 .py files are thin loaders.",
+        "architecture": "Three layers: INGREDIENTS (what capabilities exist) -> PLANS (what to build and why) -> RECIPES (how to build it, step by step) -> EXECUTION (running system).",
+        "analogy": "The database is the pantry (ingredients). The plan is the recipe book (what to cook and why). The orchestration is the cooking instructions (step by step). The running system is the meal. Same ingredients, many dishes.",
+        "rules": "Every class has Run(command, params) dispatch. Every method returns Tuple3 (ok, data, error). No decorators, no print, no hardcoded paths. PascalCase classes, UPPERCASE constants. self.state dict (no self._). Constructor takes (self, mem, db, param)."
+      },
+      "scale": {
+        "vbstyle_domains": 73,
+        "total_classes": 1394,
+        "total_methods": 13973,
+        "computational_units": 2717,
+        "closure_methods": 873,
+        "plans": 1,
+        "pipelines": 6,
+        "executions_logged": 0
+      },
+      "self_awareness": {
+        "knows_what_it_is": true,
+        "knows_what_it_has": true,
+        "knows_what_its_missing": true,
+        "knows_what_it_could_become": true,
+        "can_be_interrogated": true,
+        "documents_itself": true
+      }
+    },
+    "db_plus_ai": "I am a 73 VBStyle domains living in a database.",
+    "ai_time": 0.7262430191040039,
+    "db_time": 0.1009531021118164,
+    "combined_time": 1.0258879661560059,
+    "db_error": null
+  },
+  {
+    "question": "Do you have GUI?",
+    "ai_alone": "Yes, I have a graphical user interface (GUI).",
+    "db_alone": {
+      "question": "Do you have gui?",
+      "answer": "Yes. I have the gui domain (DomGui).",
+      "class": "DomGui",
+      "description": "GUI domain: widget tree management, layout, drawing, and event handling using stdlib.",
+      "breakdown": {
+        "domain_exists": true,
+        "domain": "gui",
+        "methods": 41,
+        "method_list": [
+          "Run",
+          "__init__",
+          "_add_widget",
+          "_next_id",
+          "add_widget",
+          "button",
+          "checkbox",
+          "close_window",
+          "combo",
+          "create_window",
+          "dialog",
+          "draw_line",
+          "draw_rect",
+          "draw_text",
+          "event_click",
+          "event_close",
+          "event_key",
+          "event_mouse",
+          "event_resize",
+          "hide",
+          "label",
+          "layout",
+          "menu",
+          "paint",
+          "panel",
+          "progress",
+          "refresh",
+          "remove_widget",
+          "render",
+          "resize",
+          "set_style",
+          "set_theme",
+          "set_title",
+          "slider",
+          "splitter",
+          "tab",
+          "table",
+          "text",
+          "toolbar",
+          "tree",
+          "update"
+        ],
+        "used_in_pipelines": [],
+        "used_in_plans": [],
+        "ingredient_in_plans": [],
+        "closure_pct": 100.0,
+        "closure_status": "closed",
+        "violations": 0
+      },
+      "assessment": "41 methods available. not used in any pipeline. not part of any plan. 100% closure. no violations."
+    },
+    "db_plus_ai": "Yes.",
+    "ai_time": 0.6274340152740479,
+    "db_time": 0.03425312042236328,
+    "combined_time": 0.563988208770752,
+    "db_error": null
+  },
+  {
+    "question": "Do you have compress?",
+    "ai_alone": "Yes, I have a compress.",
+    "db_alone": {
+      "question": "Do you have compress?",
+      "answer": "Yes. I have the compression domain (DomCompression).",
+      "class": "DomCompression",
+      "description": "Compression domain: zlib, gzip, lzma, streaming, benchmarking.",
+      "breakdown": {
+        "domain_exists": true,
+        "domain": "compression",
+        "methods": 13,
+        "method_list": [
+          "Run",
+          "__init__",
+          "_coerce_bytes",
+          "_get_compressor",
+          "_get_decompressor",
+          "benchmark",
+          "compress",
+          "decompress",
+          "estimate_ratio",
+          "get_info",
+          "select_algorithm",
+          "stream_compress",
+          "stream_decompress"
+        ],
+        "used_in_pipelines": [],
+        "used_in_plans": [],
+        "ingredient_in_plans": [],
+        "closure_pct": null,
+        "closure_status": null,
+        "violations": 0
+      },
+      "assessment": "13 methods available. not used in any pipeline. not part of any plan. no violations."
+    },
+    "db_plus_ai": "Yes.",
+    "ai_time": 0.45186591148376465,
+    "db_time": 0.00850820541381836,
+    "combined_time": 0.5705389976501465,
+    "db_error": null
+  },
+  {
+    "question": "Do you have PyTorch?",
+    "ai_alone": "Yes, I have PyTorch.",
+    "db_alone": {
+      "question": "Do you have pytorch?",
+      "answer": "No. I don't have a domain called 'pytorch'.",
+      "breakdown": {
+        "domain_exists": false,
+        "similar_domains": [],
+        "methods_matching": []
+      },
+      "assessment": "Not available. No similar capabilities found."
+    },
+    "db_plus_ai": "No.",
+    "ai_time": 0.4836769104003906,
+    "db_time": 0.01056814193725586,
+    "combined_time": 0.44964098930358887,
+    "db_error": null
+  },
+  {
+    "question": "How does DomAi work?",
+    "ai_alone": "DomAi is a platform that uses AI to help people with various tasks, such as answering questions, writing essays, and even creating art. It works by analyzing the user's input and using machine learning algorithms to generate appropriate responses. The platform is designed to be user-friendly and accessible, with a simple interface that allows users to input their queries and receive accurate and helpful responses.",
+    "db_alone": {
+      "question": "How does DomAi work?",
+      "answer": "AI domain: text classification, generation, memory, reasoning, and scoring using stdlib.",
+      "identity": {
+        "class": "DomAi",
+        "domain": "ai",
+        "description": "AI domain: text classification, generation, memory, reasoning, and scoring using stdlib."
+      },
+      "what_it_can_do": [
+        "Run",
+        "__init__",
+        "classify",
+        "complete",
+        "embed",
+        "forget",
+        "generate",
+        "learn",
+        "plan",
+        "prompt",
+        "reason",
+        "reflect",
+        "remember",
+        "score",
+        "summarize",
+        "translate"
+      ],
+      "how_many_methods": 16,
+      "where_its_used": [
+        {
+          "pipeline": "efl_brain",
+          "step": 10,
+          "role": "extract_rule"
+        },
+        {
+          "pipeline": "efl_brain",
+          "step": 12,
+          "role": "reflect_on_loop"
+        }
+      ],
+      "plans_that_use_it": [
+        {
+          "plan": "efl_brain_repair_loop",
+          "step": "extract_rule",
+          "produces": "learned_rule",
+          "consumes": "repaired_code, error_class"
+        },
+        {
+          "plan": "efl_brain_repair_loop",
+          "step": "reflect_on_loop",
+          "produces": "reflection",
+          "consumes": "knowledge_id"
+        }
+      ],
+      "closure": {
+        "pct": 100.0,
+        "status": "closed"
+      },
+      "violations": 0,
+      "summary": "DomAi is my ai domain. It ai domain: text classification, generation, memory, reasoning, and scoring using stdlib. It can classify, complete, embed, forget, generate, learn, plan, prompt. It's used in the efl_brain pipeline(s). It's part of the efl_brain_repair_loop, efl_brain_repair_loop plan(s). It's fully closed \u2014 all needed methods are implemented."
+    },
+    "db_plus_ai": "DomAi works by using the stdlib for text classification, generation, memory, reasoning, and scoring. It can classify, complete, embed, forget, generate, learn, plan, prompt, reason, reflect, remember, score, and summarize. It is used in the efl_brain pipeline(s) and part of the efl_brain_repair_loop.",
+    "ai_time": 1.723149061203003,
+    "db_time": 0.05465221405029297,
+    "combined_time": 2.115001916885376,
+    "db_error": null
+  },
+  {
+    "question": "How does DomCompression work?",
+    "ai_alone": "DomCompression is a method used to compress the DOM (Document Object Model) of a web page. The DOM is a tree-like structure that represents the content of a web page, including all the elements, attributes, and text.\n\nDomCompression works by reducing the size of the DOM by removing unnecessary elements, attributes, and text. This can help improve the performance of a web page by reducing the amount of data that needs to be transferred over the network and processed by the browser.\n\nHere's a basic overview of how DomCompression works:\n\n1. **Identify Unnecessary Elements**: DomCompression starts by identifying elements that are not visible or are not necessary for the page's functionality. These elements are removed from the DOM.\n\n2. **Remove Attributes**:",
+    "db_alone": {
+      "question": "How does DomCompression work?",
+      "answer": "Compression domain: zlib, gzip, lzma, streaming, benchmarking.",
+      "identity": {
+        "class": "DomCompression",
+        "domain": "compression",
+        "description": "Compression domain: zlib, gzip, lzma, streaming, benchmarking."
+      },
+      "what_it_can_do": [
+        "Run",
+        "__init__",
+        "_coerce_bytes",
+        "_get_compressor",
+        "_get_decompressor",
+        "benchmark",
+        "compress",
+        "decompress",
+        "estimate_ratio",
+        "get_info",
+        "select_algorithm",
+        "stream_compress",
+        "stream_decompress"
+      ],
+      "how_many_methods": 13,
+      "where_its_used": [],
+      "plans_that_use_it": [],
+      "closure": {
+        "pct": null,
+        "status": null
+      },
+      "violations": 0,
+      "summary": "DomCompression is my compression domain. It compression domain: zlib, gzip, lzma, streaming, benchmarking. It can _coerce_bytes, _get_compressor, _get_decompressor, benchmark, compress, decompress, estimate_ratio, get_info. It's not currently used in any pipeline. It's not part of any plan yet."
+    },
+    "db_plus_ai": "DomCompression works by using the zlib, gzip, lzma, streaming, and benchmarking algorithms for compression and decompression. It provides methods for compressing and decompressing bytes, estimating the compression ratio, and retrieving information about the compression domain.",
+    "ai_time": 3.192790985107422,
+    "db_time": 0.009397029876708984,
+    "combined_time": 1.5609440803527832,
+    "db_error": null
+  },
+  {
+    "question": "Can you build a search engine?",
+    "ai_alone": "Yes, I can help you build a search engine.",
+    "db_alone": {
+      "question": "Can you build a search engine?",
+      "answer": "Yes.",
+      "buildable": true,
+      "coverage_pct": 100.0,
+      "domains_needed": [
+        "search",
+        "index",
+        "text",
+        "transform"
+      ],
+      "domains_have": [
+        {
+          "domain": "search",
+          "class": "DomSearch",
+          "description": "Search domain: text and vector search operations over a catalog.",
+          "methods": 20
+        },
+        {
+          "domain": "index",
+          "class": "DomIndex",
+          "description": "Index domain: build, merge, split and maintain searchable indices.",
+          "methods": 12
+        },
+        {
+          "domain": "text",
+          "class": "DomText",
+          "description": "Text domain: string manipulation, comparison, encoding, and transformation operations.",
+          "methods": 13
+        },
+        {
+          "domain": "transform",
+          "class": "DomTransform",
+          "description": "Data transformation operations: clean, filter, map, reduce, sort, merge and more.",
+          "methods": 137
+        }
+      ],
+      "domains_missing": [],
+      "summary": "Yes, I can build a search engine. I have all the ingredients: search, index, text, transform. The largest domain is DomTransform with 137 methods. Write a plan that orchestrates these domains and I can execute it."
+    },
+    "db_plus_ai": "Yes.",
+    "ai_time": 0.5407850742340088,
+    "db_time": 0.09669780731201172,
+    "combined_time": 0.5119020938873291,
+    "db_error": null
+  },
+  {
+    "question": "Can you build a chat system?",
+    "ai_alone": "Yes, I can help you build a chat system.",
+    "db_alone": {
+      "question": "Can you build a chat system?",
+      "answer": "Yes.",
+      "buildable": true,
+      "coverage_pct": 100.0,
+      "domains_needed": [
+        "ai",
+        "qa",
+        "search",
+        "knowledge",
+        "memory",
+        "text",
+        "gui",
+        "messaging",
+        "network"
+      ],
+      "domains_have": [
+        {
+          "domain": "ai",
+          "class": "DomAi",
+          "description": "AI domain: text classification, generation, memory, reasoning, and scoring using stdlib.",
+          "methods": 16
+        },
+        {
+          "domain": "qa",
+          "class": "DomQa",
+          "description": "Question answering: ask, answer, route, score, embed, classify, tune and history.",
+          "methods": 437
+        },
+        {
+          "domain": "search",
+          "class": "DomSearch",
+          "description": "Search domain: text and vector search operations over a catalog.",
+          "methods": 20
+        },
+        {
+          "domain": "knowledge",
+          "class": "DomKnowledge",
+          "description": "Knowledge graph store: concepts, facts, relations, rules, inference and provenance.",
+          "methods": 251
+        },
+        {
+          "domain": "memory",
+          "class": "DomMemory",
+          "description": "In-memory key-value store with TTL, compression, and persistence hooks.",
+          "methods": 17
+        },
+        {
+          "domain": "text",
+          "class": "DomText",
+          "description": "Text domain: string manipulation, comparison, encoding, and transformation operations.",
+          "methods": 13
+        },
+        {
+          "domain": "gui",
+          "class": "DomGui",
+          "description": "GUI domain: widget tree management, layout, drawing, and event handling using stdlib.",
+          "methods": 1546
+        },
+        {
+          "domain": "messaging",
+          "class": "DomMessaging",
+          "description": "Messaging domain: in-memory queues, topics, broadcast, and retry handling using stdlib.",
+          "methods": 16
+        },
+        {
+          "domain": "network",
+          "class": "DomNetwork",
+          "description": "Network operations: sockets, HTTP, DNS, streaming, websockets.",
+          "methods": 75
+        }
+      ],
+      "domains_missing": [],
+      "summary": "Yes, I can build a chat system. I have all the ingredients: ai, qa, search, knowledge, memory, text, gui, messaging, network. The largest domain is DomGui with 1546 methods. Write a plan that orchestrates these domains and I can execute it."
+    },
+    "db_plus_ai": "Yes.",
+    "ai_time": 0.5317559242248535,
+    "db_time": 0.10671496391296387,
+    "combined_time": 0.5643219947814941,
+    "db_error": null
+  },
+  {
+    "question": "What about encrypt?",
+    "ai_alone": "Encrypt is a process used to protect data by converting it into a form that cannot be read or understood by anyone except the person who encrypted it. This is done by using a secret key that only the person who created the encryption can use to decrypt it. The key is kept secret and is typically stored in a secure location. There are many different types of encryption algorithms that can be used, each with its own strengths and weaknesses.",
+    "db_alone": {
+      "question": "What about encrypt?",
+      "searches": {
+        "domains": [
+          {
+            "domain": "archive",
+            "class": "DomArchive",
+            "description": "Archive operations: compress, decompress, encrypt, decrypt, split, join, create."
+          },
+          {
+            "domain": "cryptography",
+            "class": "DomCryptography",
+            "description": "Cryptography domain: encrypt, decrypt, hash, sign, verify, keys."
+          }
+        ],
+        "methods": [
+          {
+            "class": "DomArchive",
+            "domain": "archive",
+            "method": "encrypt"
+          },
+          {
+            "class": "DomCryptography",
+            "domain": "cryptography",
+            "method": "encrypt"
+          },
+          {
+            "class": "DomSecurity",
+            "domain": "security",
+            "method": "encrypt"
+          }
+        ],
+        "plans": [],
+        "code": [
+          {
+            "class": "SeedIngestAuthority",
+            "method": "Detect_domain"
+          },
+          {
+            "class": "Security",
+            "method": "Run"
+          },
+          {
+            "class": "EncryptionManager",
+            "method": "Run"
+          },
+          {
+            "class": "EncryptionManager",
+            "method": "_encrypt"
+          },
+          {
+            "class": "DomainGenerator",
+            "method": "_dom_security"
+          },
+          {
+            "class": "DomainScanner",
+            "method": "_extract_signals"
+          },
+          {
+            "class": "EvidenceAccumulator",
+            "method": "_load_evidence_rules"
+          },
+          {
+            "class": "PythonFileIngestor",
+            "method": "_extract_signals"
+          },
+          {
+            "class": "PythonFileIngestor",
+            "method": "_classify_file"
+          }
+        ]
+      },
+      "answer": "Here's what I know about 'encrypt': I found 2 domain(s): archive, cryptography. 3 method(s) match: encrypt, encrypt, encrypt. Found in code: SeedIngestAuthority.Detect_domain, Security.Run, EncryptionManager.Run, EncryptionManager._encrypt, DomainGenerator._dom_security."
+    },
+    "db_plus_ai": "The term \"encrypt\" is used in the context of various domains and methods within the code database. It appears in the following domains and methods:\n\n1. Archive\n2. Cryptography\n\nThe method \"encrypt\" is used in the following code locations:\n\n1. SeedIngestAuthority.Detect_domain\n2. Security.Run\n3. EncryptionManager.Run\n4. EncryptionManager._encrypt\n5. DomainGenerator._dom_security\n\nThis information indicates that the \"encrypt\" function is used for various purposes related to data storage, security, and domain management within the system.",
+    "ai_time": 1.9384520053863525,
+    "db_time": 0.015617847442626953,
+    "combined_time": 2.78918719291687,
+    "db_error": null
+  },
+  {
+    "question": "What about print?",
+    "ai_alone": "Print is a method of reproducing text or images on paper or other materials. It is a common way of distributing information and is used in various industries, including publishing, advertising, and graphic design. Print can be done using various techniques, such as offset printing, lithography, and offset lithography. It is also used for creating books, magazines, and other printed materials.",
+    "db_alone": {
+      "question": "What about print?",
+      "searches": {
+        "domains": [],
+        "methods": [
+          {
+            "class": "DomValidate",
+            "domain": "validate",
+            "method": "check_no_print"
+          }
+        ],
+        "plans": [],
+        "code": [
+          {
+            "class": "DatabaseBrain",
+            "method": "Ask"
+          },
+          {
+            "class": "ExecutionChain",
+            "method": "Check_rules"
+          },
+          {
+            "class": "AsmReconstructorV1Authority",
+            "method": "Run"
+          },
+          {
+            "class": "AsmReconstructorV1Authority",
+            "method": "compile_with_nuitka"
+          },
+          {
+            "class": "AsmReconstructorV1Authority",
+            "method": "run_pipeline"
+          },
+          {
+            "class": "AsmReconstructorV1Authority",
+            "method": "print_usage"
+          },
+          {
+            "class": "BytecodeAuthority",
+            "method": "set_config"
+          },
+          {
+            "class": "CompassAuthority",
+            "method": "file_flags"
+          },
+          {
+            "class": "CompassAuthority",
+            "method": "vbstyle_score"
+          },
+          {
+            "class": "CompassAuthority",
+            "method": "analyze_file"
+          }
+        ]
+      },
+      "answer": "Here's what I know about 'print': 1 method(s) match: check_no_print. Found in code: DatabaseBrain.Ask, ExecutionChain.Check_rules, AsmReconstructorV1Authority.Run, AsmReconstructorV1Authority.compile_with_nuitka, AsmReconstructorV1Authority.run_pipeline."
+    },
+    "db_plus_ai": "The method `check_no_print` is used in the following code locations:\n\n1. `DatabaseBrain.Ask`\n2. `ExecutionChain.Check_rules`\n3. `AsmReconstructorV1Authority.Run`\n4. `AsmReconstructorV1Authority.compile_with_nuitka`\n5. `AsmReconstructorV1Authority.run_pipeline`",
+    "ai_time": 1.7608897686004639,
+    "db_time": 0.028483152389526367,
+    "combined_time": 1.9057977199554443,
+    "db_error": null
+  },
+  {
+    "question": "Do you have testing?",
+    "ai_alone": "Yes, I have testing.",
+    "db_alone": {
+      "question": "Do you have testing?",
+      "answer": "Yes. I have the testing domain (DomTesting).",
+      "class": "DomTesting",
+      "description": "Testing operations: assertions, benchmarks, coverage, fixtures, mocks, reports.",
+      "breakdown": {
+        "domain_exists": true,
+        "domain": "testing",
+        "methods": 12,
+        "method_list": [
+          "Run",
+          "__init__",
+          "assert_",
+          "benchmark",
+          "coverage",
+          "fixture",
+          "integration",
+          "mock",
+          "report",
+          "skip",
+          "teardown",
+          "unit"
+        ],
+        "used_in_pipelines": [
+          "efl_brain"
+        ],
+        "used_in_plans": [
+          "efl_brain_repair_loop"
+        ],
+        "ingredient_in_plans": [
+          "efl_brain_repair_loop"
+        ],
+        "closure_pct": 100.0,
+        "closure_status": "closed",
+        "violations": 0
+      },
+      "assessment": "12 methods available. used in 1 pipeline(s): efl_brain. used in 1 plan(s). 100% closure. no violations."
+    },
+    "db_plus_ai": "Yes.",
+    "ai_time": 0.42993617057800293,
+    "db_time": 0.0063228607177734375,
+    "combined_time": 0.5872948169708252,
+    "db_error": null
+  },
+  {
+    "question": "Do you have network?",
+    "ai_alone": "Yes, I have a network.",
+    "db_alone": {
+      "question": "Do you have network?",
+      "answer": "Yes. I have the network domain (DomNetwork).",
+      "class": "DomNetwork",
+      "description": "Network operations: sockets, HTTP, DNS, streaming, websockets.",
+      "breakdown": {
+        "domain_exists": true,
+        "domain": "network",
+        "methods": 20,
+        "method_list": [
+          "Run",
+          "__init__",
+          "_http_request",
+          "accept",
+          "delete",
+          "disconnect",
+          "download",
+          "listen",
+          "patch",
+          "ping",
+          "poll",
+          "post",
+          "put",
+          "recv",
+          "resolve",
+          "send",
+          "stream",
+          "trace",
+          "upload",
+          "websocket"
+        ],
+        "used_in_pipelines": [],
+        "used_in_plans": [],
+        "ingredient_in_plans": [],
+        "closure_pct": 100.0,
+        "closure_status": "closed",
+        "violations": 0
+      },
+      "assessment": "20 methods available. not used in any pipeline. not part of any plan. 100% closure. no violations."
+    },
+    "db_plus_ai": "Yes.",
+    "ai_time": 0.45796895027160645,
+    "db_time": 0.007242679595947266,
+    "combined_time": 0.5412490367889404,
+    "db_error": null
+  }
+]

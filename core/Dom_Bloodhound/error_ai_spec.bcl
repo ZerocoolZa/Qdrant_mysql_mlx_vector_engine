@@ -1,0 +1,881 @@
+[@PROJECT]
+{
+    Name="ErrorAI";
+    Version="2.0";
+    Purpose="Self-Validating Error Learning Framework";
+    Language="Python";
+    Target="Python 3.9+";
+    Layers="Producer;State;Reasoning;Presentation";
+    Architecture="Blackboard";
+    Authority="LiveState";
+    Storage="BCL";
+}
+
+[@CONFIG]
+{
+    Name="ErrorAIConfig";
+    BCLPath="error_knowledge.bcl";
+    NumRuns=3;
+    CrossPlatform=True;
+    SafeExec=True;
+    CatchBaseException=True;
+    ValidateFixes=True;
+    PromoteOnSuccess=True;
+    DemoteOnFailure=True;
+}
+
+[@MODULE]
+{
+    Name="common";
+    Purpose="Shared classes for v4 and v5";
+    Classes="BCL;ErrorHandler;Law";
+    UsedBy="test_py_memunit_debugger_v5;test_error_ai_v2";
+}
+
+[@MODULE]
+{
+    Name="test_error_ai_v2";
+    Purpose="Self-validating error learning benchmark";
+    Classes="ErrorCase;ErrorGenerator;BenchmarkRunner;Dashboard";
+    Functions="build_error_cases;run_benchmark;render_results;render_learning_curve;main";
+    Imports="os;sys;json;time;traceback;warnings;tempfile;datetime;rich;common";
+}
+
+[@CLASS]
+{
+    Name="ErrorCase";
+    Purpose="One error case: generator, expected exception, repair, validator";
+    Fields={
+        Name="str";
+        Family="str";
+        Generator="callable";
+        Expected="str";
+        Repair="callable";
+        Validator="callable";
+        FixDescription="str";
+    };
+    Methods={
+        trigger="Run generator, return (triggered, actual_exception, traceback)";
+        validate_fix="Run repair + validator, return (passed, detail)";
+    };
+    Events={
+        CaseTriggered;
+        ExceptionRaised;
+        FixValidated;
+        FixFailed;
+    };
+}
+
+[@CLASS]
+{
+    Name="ErrorHandler";
+    Purpose="Self-learning error handler. Error->compare->fix->test->promote";
+    Fields={
+        bcl="BCL";
+        errors="list";
+        known="dict";
+    };
+    Statuses="new;testing;promoted;failed";
+    Methods={
+        capture="Capture error, compare to known, return fix suggestion";
+        test_fix="Report fix success/failure, promote or demote";
+        report="Summary of all known errors and fix status";
+        get_stats="Return promoted/testing/failed/new counts";
+        _load_known="Load known errors from BCL into memory";
+        _record_new="Record new error in BCL format";
+        _update_known="Update known error with new occurrences/confidence";
+        _rewrite_all_known="Rewrite entire BCL file with current known";
+    };
+    AutoFixes="70+ Python exception types with real fix descriptions";
+    PromotionLogic={
+        NewToTesting="conf + 0.2 on success";
+        TestingToPromoted="conf + 0.2 on success";
+        PromotedBoost="conf + 0.05 on success";
+        DemotePromoted="conf - 0.2 on failure -> testing";
+        DemoteTesting="conf - 0.3 on failure -> failed";
+        DemoteNew="conf - 0.1 on failure -> failed";
+    };
+}
+
+[@CLASS]
+{
+    Name="BCL";
+    Purpose="BCL format reader/writer for persistent knowledge";
+    Fields={
+        file_path="str";
+    };
+    Methods={
+        read_all="Parse all BCL containers, return list of (type, dict)";
+        write_container="Append single BCL container to file";
+        rewrite_all="Rewrite entire file with new containers";
+        find_by_key="Find containers where key matches value";
+    };
+    Format={
+        Error="[@ERROR]{producer;entity;pattern;description;fix;confidence;status;occurrences;last_seen}";
+        Law="[@LAW]{id;name;statement;enforcement;authority;status;created}";
+    };
+}
+
+[@CLASS]
+{
+    Name="Law";
+    Purpose="Rule/law CRUD checker for system governance";
+    Fields={
+        bcl="BCL";
+        laws="dict";
+    };
+    Enforcements="info;warning;error;block";
+    Methods={
+        create="Create new law in BCL";
+        read="Get law by ID";
+        update="Update law fields";
+        delete="Remove law";
+        list_laws="Return formatted list of all laws";
+        check_all="Check all active laws against fact_checker";
+        get_stats="Return active/inactive/by_enforcement counts";
+    };
+}
+
+[@ENTITY]
+{
+    Name="Fact";
+    Purpose="Universal runtime primitive";
+    Fields={
+        producer="str";
+        phase="str";
+        kind="str";
+        entity="str";
+        attribute="str";
+        value="str";
+        confidence="float";
+        severity="int";
+        reasoning="str";
+        graph_node="str";
+        activation="str";
+        parent_id="int";
+        payload="json";
+        timestamp="float";
+    };
+    Kinds="step;result;error;variable;state;timing;import";
+}
+
+[@ENTITY]
+{
+    Name="ErrorCaseResult";
+    Purpose="Result of running one error case through the benchmark";
+    Fields={
+        name="str";
+        family="str";
+        triggered="bool";
+        expected="str";
+        actual="str";
+        match="bool";
+        fix_status="str";
+        fix_confidence="float";
+        fix_validated="bool";
+        fix_detail="str";
+        fix_description="str";
+    };
+}
+
+[@PIPELINE]
+{
+    Name="ErrorLearningLoop";
+    Steps={
+        1="Generate: trigger error via ErrorCase.generator()";
+        2="Capture: ErrorHandler.capture(producer, entity, pattern, description)";
+        3="Match: compare actual exception to expected";
+        4="RetrieveFix: get fix suggestion from ErrorHandler known or AUTO_FIXES";
+        5="ApplyFix: run ErrorCase.repair()";
+        6="Validate: run ErrorCase.validator()";
+        7="Score: ErrorHandler.test_fix(pattern, fix_passed)";
+        8="Promote: if success, increase confidence and promote status";
+        9="Demote: if failure, decrease confidence and demote status";
+        10="Persist: write updated knowledge to BCL file";
+    };
+    FeedbackLoop="Steps 1-10 repeat across runs. Confidence accumulates.";
+}
+
+[@SCORER]
+{
+    Name="ConfidenceScorer";
+    InitialConfidence=0.30;
+    MaxConfidence=1.00;
+    MinConfidence=0.10;
+    SuccessDelta={
+        New="+0.20";
+        Testing="+0.20";
+        Promoted="+0.05";
+    };
+    FailureDelta={
+        Promoted="-0.20";
+        Testing="-0.30";
+        New="-0.10";
+    };
+    PromotionThreshold={
+        NewToTesting="first success";
+        TestingToPromoted="second consecutive success";
+        PromotedStable="third+ success, diminishing returns";
+    };
+}
+
+[@ERRORCASE]
+{
+    Name="SyntaxError";
+    Family="syntax";
+    Generator="exec('def f(:\\n  pass')";
+    Expect="SyntaxError";
+    Repair="exec('def f():\\n  pass')";
+    Validator="True";
+    Fix="fix syntax error in source code";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="IndentationError";
+    Family="syntax";
+    Generator="exec('def f():\\n    x = 1\\n   y = 2')";
+    Expect="IndentationError";
+    Repair="exec('def f():\\n    x = 1\\n    y = 2')";
+    Validator="True";
+    Fix="fix indentation to be consistent (use only spaces)";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="NameError";
+    Family="runtime";
+    Generator="exec('print(undefined_var_xyz)')";
+    Expect="NameError";
+    Repair="exec(\"x = 'hello'\\nprint(x)\")";
+    Validator="True";
+    Fix="define the variable before using it";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="UnboundLocalError";
+    Family="runtime";
+    Generator="exec('def f():\\n  print(x)\\n  x = 1\\nf()')";
+    Expect="UnboundLocalError";
+    Repair="exec('def f():\\n  x = 1\\n  print(x)\\nf()')";
+    Validator="True";
+    Fix="assign local variable before reading it";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="TypeError";
+    Family="runtime";
+    Generator="exec(\"'hello' + 5\")";
+    Expect="TypeError";
+    Repair="exec(\"'hello' + str(5)\")";
+    Validator="True";
+    Fix="check types before operation or convert types";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="ValueError";
+    Family="runtime";
+    Generator="exec(\"int('abc')\")";
+    Expect="ValueError";
+    Repair="exec(\"int('123')\")";
+    Validator="True";
+    Fix="validate input value before conversion";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="KeyError";
+    Family="runtime";
+    Generator="exec(\"d = {'a': 1}\\nd['b']\")";
+    Expect="KeyError";
+    Repair="exec(\"d = {'a': 1}\\nprint(d.get('b', 'default'))\")";
+    Validator="True";
+    Fix="check key exists with .get() or 'in' before access";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="IndexError";
+    Family="runtime";
+    Generator="exec('lst = [1, 2]\\nlst[10]')";
+    Expect="IndexError";
+    Repair="exec('lst = [1, 2]\\nprint(lst[min(10, len(lst)-1)])')";
+    Validator="True";
+    Fix="check len() before indexing into list";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="AttributeError";
+    Family="runtime";
+    Generator="exec('x = 5\\nx.append(3)')";
+    Expect="AttributeError";
+    Repair="exec('x = [5]\\nx.append(3)')";
+    Validator="True";
+    Fix="check object type before calling method";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="ImportError";
+    Family="runtime";
+    Generator="exec('from nonexistent_module_xyz import something')";
+    Expect="ImportError";
+    Repair="exec('import json')";
+    Validator="True";
+    Fix="check module name or install missing package";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="ModuleNotFoundError";
+    Family="runtime";
+    Generator="exec('import nonexistent_module_xyz_123')";
+    Expect="ModuleNotFoundError";
+    Repair="exec('import json')";
+    Validator="True";
+    Fix="install the module with pip or check path";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="FileNotFoundError";
+    Family="runtime";
+    Generator="open(tmpdir/nonexistent_xyz_123_abc.txt)";
+    Expect="FileNotFoundError";
+    Repair="open(tmpdir/test_write_ok.txt, 'w')";
+    Validator="True";
+    Fix="check file path exists or create file first";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="ZeroDivisionError";
+    Family="runtime";
+    Generator="exec('1 / 0')";
+    Expect="ZeroDivisionError";
+    Repair="exec('x = 1 / 1')";
+    Validator="True";
+    Fix="check divisor is not zero before dividing";
+    Priority="P1";
+}
+
+[@ERRORCASE]
+{
+    Name="OverflowError";
+    Family="runtime";
+    Generator="exec('10.0 ** 10000')";
+    Expect="OverflowError";
+    Repair="exec('x = 10.0 ** 100')";
+    Validator="True";
+    Fix="use smaller values or catch overflow";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="RecursionError";
+    Family="runtime";
+    Generator="exec('def f():\\n  return f()\\nf()')";
+    Expect="RecursionError";
+    Repair="exec('def f(n=0):\\n  return n if n > 100 else f(n+1)\\nf()')";
+    Validator="True";
+    Fix="add base case to recursive function";
+    Priority="P1";
+    KnownIssue="exec scope may not persist function definition";
+}
+
+[@ERRORCASE]
+{
+    Name="StopIteration";
+    Family="runtime";
+    Generator="exec('it = iter([1])\\nnext(it)\\nnext(it)')";
+    Expect="StopIteration";
+    Repair="exec('it = iter([1, 2])\\nnext(it)\\nnext(it)')";
+    Validator="True";
+    Fix="use for loop or catch StopIteration explicitly";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="RuntimeError";
+    Family="runtime";
+    Generator="exec(\"raise RuntimeError('test')\")";
+    Expect="RuntimeError";
+    Repair="exec(\"x = 'no error'\")";
+    Validator="True";
+    Fix="handle the specific error condition that triggered this";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="NotImplementedError";
+    Family="runtime";
+    Generator="exec(\"raise NotImplementedError('todo')\")";
+    Expect="NotImplementedError";
+    Repair="exec(\"def f():\\n  return 'implemented'\\nf()\")";
+    Validator="True";
+    Fix="implement the method or feature that was called";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="AssertionError";
+    Family="runtime";
+    Generator="exec('assert 1 == 2')";
+    Expect="AssertionError";
+    Repair="exec('assert 1 == 1')";
+    Validator="True";
+    Fix="fix the condition that failed the assert";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="EOFError";
+    Family="runtime";
+    Generator="exec(\"raise EOFError('no input')\")";
+    Expect="EOFError";
+    Repair="exec(\"x = 'has input'\")";
+    Validator="True";
+    Fix="check for end of input before reading";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="PermissionError";
+    Family="os";
+    Generator="open(nonexistent_dir/file.txt, 'w')";
+    Expect="PermissionError";
+    Repair="open(tmpdir/test_write_ok.txt, 'w')";
+    Validator="True";
+    Fix="check file permissions or run with appropriate privileges";
+    Priority="P2";
+    KnownIssue="may raise FileNotFoundError instead if path doesn't exist";
+}
+
+[@ERRORCASE]
+{
+    Name="IsADirectoryError";
+    Family="os";
+    Generator="open(tmpdir)";
+    Expect="IsADirectoryError";
+    Repair="open(tmpdir/test_file_ok.txt, 'w')";
+    Validator="True";
+    Fix="check path is a file not a directory before file operations";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="FileExistsError";
+    Family="os";
+    Generator="os.makedirs(dir, exist_ok=False) twice";
+    Expect="FileExistsError";
+    Repair="os.makedirs(dir, exist_ok=True)";
+    Validator="True";
+    Fix="check if file exists before creating, or use exist_ok=True";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="UnicodeDecodeError";
+    Family="unicode";
+    Generator="b'\\xff\\xfe'.decode('utf-8')";
+    Expect="UnicodeDecodeError";
+    Repair="b'\\xff\\xfe'.decode('utf-8', errors='replace')";
+    Validator="True";
+    Fix="specify correct encoding or use errors='replace'";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="UnicodeEncodeError";
+    Family="unicode";
+    Generator="'\\udcff'.encode('utf-8')";
+    Expect="UnicodeEncodeError";
+    Repair="'\\udcff'.encode('utf-8', errors='replace')";
+    Validator="True";
+    Fix="specify correct encoding or use errors='replace'";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="ConnectionError";
+    Family="connection";
+    Generator="exec(\"raise ConnectionError('test')\")";
+    Expect="ConnectionError";
+    Repair="exec(\"x = 'connected'\")";
+    Validator="True";
+    Fix="check network connection and retry";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="ConnectionRefusedError";
+    Family="connection";
+    Generator="exec(\"raise ConnectionRefusedError('test')\")";
+    Expect="ConnectionRefusedError";
+    Repair="exec(\"x = 'connected'\")";
+    Validator="True";
+    Fix="check if server is running and port is open";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="TimeoutError";
+    Family="connection";
+    Generator="exec(\"raise TimeoutError('test')\")";
+    Expect="TimeoutError";
+    Repair="exec(\"x = 'completed'\")";
+    Validator="True";
+    Fix="increase timeout or optimize the operation";
+    Priority="P2";
+}
+
+[@ERRORCASE]
+{
+    Name="ArithmeticError";
+    Family="arithmetic";
+    Generator="exec(\"raise ArithmeticError('test')\")";
+    Expect="ArithmeticError";
+    Repair="exec('x = 1 + 1')";
+    Validator="True";
+    Fix="validate operands before arithmetic operation";
+    Priority="P3";
+}
+
+[@ERRORCASE]
+{
+    Name="SystemExit";
+    Family="system";
+    Generator="exec('raise SystemExit(1)')";
+    Expect="SystemExit";
+    Repair="exec(\"x = 'no exit'\")";
+    Validator="True";
+    Fix="handle sys.exit() call gracefully";
+    Priority="P3";
+    SafeCatch="must catch BaseException, not Exception";
+}
+
+[@ERRORCASE]
+{
+    Name="KeyboardInterrupt";
+    Family="system";
+    Generator="exec('raise KeyboardInterrupt()')";
+    Expect="KeyboardInterrupt";
+    Repair="exec(\"x = 'no interrupt'\")";
+    Validator="True";
+    Fix="handle Ctrl+C signal gracefully";
+    Priority="P3";
+    SafeCatch="must catch BaseException, not Exception";
+}
+
+[@FIXRULE]
+{
+    Name="DefineVariable";
+    AppliesTo="NameError";
+    Action="declare variable before first use";
+    Example="x = 'hello'; print(x)";
+}
+
+[@FIXRULE]
+{
+    Name="ConvertType";
+    AppliesTo="TypeError";
+    Action="convert type before operation";
+    Example="'hello' + str(5)";
+}
+
+[@FIXRULE]
+{
+    Name="ValidateInput";
+    AppliesTo="ValueError";
+    Action="validate input before conversion";
+    Example="int('123') instead of int('abc')";
+}
+
+[@FIXRULE]
+{
+    Name="CheckKey";
+    AppliesTo="KeyError";
+    Action="use .get() or 'in' before access";
+    Example="d.get('b', 'default')";
+}
+
+[@FIXRULE]
+{
+    Name="CheckLength";
+    AppliesTo="IndexError";
+    Action="check len() before indexing";
+    Example="lst[min(i, len(lst)-1)]";
+}
+
+[@FIXRULE]
+{
+    Name="CheckAttribute";
+    AppliesTo="AttributeError";
+    Action="check object type before calling method";
+    Example="use list instead of int for .append()";
+}
+
+[@FIXRULE]
+{
+    Name="CheckModule";
+    AppliesTo="ImportError;ModuleNotFoundError";
+    Action="check module name or pip install";
+    Example="import json instead of nonexistent";
+}
+
+[@FIXRULE]
+{
+    Name="CheckFile";
+    AppliesTo="FileNotFoundError";
+    Action="check path exists or create file";
+    Example="open(path, 'w') to create";
+}
+
+[@FIXRULE]
+{
+    Name="CheckZero";
+    AppliesTo="ZeroDivisionError";
+    Action="check divisor != 0";
+    Example="x = a / b if b != 0 else 0";
+}
+
+[@FIXRULE]
+{
+    Name="AddBaseCase";
+    AppliesTo="RecursionError";
+    Action="add terminating condition";
+    Example="def f(n): return n if n > 100 else f(n+1)";
+}
+
+[@FIXRULE]
+{
+    Name="UseErrorsReplace";
+    AppliesTo="UnicodeDecodeError;UnicodeEncodeError";
+    Action="add errors='replace' parameter";
+    Example="b.decode('utf-8', errors='replace')";
+}
+
+[@FIXRULE]
+{
+    Name="UseExistOk";
+    AppliesTo="FileExistsError";
+    Action="use exist_ok=True";
+    Example="os.makedirs(path, exist_ok=True)";
+}
+
+[@FIXRULE]
+{
+    Name="HandleException";
+    AppliesTo="RuntimeError;NotImplementedError;EOFError;ArithmeticError";
+    Action="remove raise or implement properly";
+    Example="return value instead of raising";
+}
+
+[@FIXRULE]
+{
+    Name="FixAssertion";
+    AppliesTo="AssertionError";
+    Action="fix the condition to be true";
+    Example="assert 1 == 1";
+}
+
+[@FIXRULE]
+{
+    Name="FixIndentation";
+    AppliesTo="IndentationError";
+    Action="make indentation consistent";
+    Example="use 4 spaces everywhere";
+}
+
+[@FIXRULE]
+{
+    Name="FixSyntax";
+    AppliesTo="SyntaxError";
+    Action="fix the syntax error";
+    Example="def f(): not def f(:";
+}
+
+[@VALIDATOR]
+{
+    Name="RunsWithoutException";
+    Description="Run repair code, return True if no exception raised";
+    Implementation="try: repair() except: return False; return True";
+}
+
+[@VALIDATOR]
+{
+    Name="ReturnsExpectedValue";
+    Description="Run repair, check return value matches expected";
+    Implementation="result = repair(); return result == expected";
+}
+
+[@VALIDATOR]
+{
+    Name="FileExists";
+    Description="Check that file was created by repair";
+    Implementation="return os.path.exists(path)";
+}
+
+[@VALIDATOR]
+{
+    Name="DirectoryExists";
+    Description="Check that directory was created by repair";
+    Implementation="return os.path.isdir(path)";
+}
+
+[@PROMOTION]
+{
+    Name="PromotionEngine";
+    States="new;testing;promoted;failed";
+    Transitions={
+        new_to_testing="first test_fix(True)";
+        testing_to_promoted="second test_fix(True)";
+        promoted_stable="third+ test_fix(True), diminishing returns";
+        promoted_to_testing="test_fix(False)";
+        testing_to_failed="test_fix(False)";
+        new_to_failed="test_fix(False)";
+    };
+    ConfidenceBounds={
+        Min=0.10;
+        Max=1.00;
+        Initial=0.30;
+    };
+}
+
+[@TRACEBACK]
+{
+    Name="TracebackFingerprint";
+    Purpose="Extract pattern from traceback for matching";
+    Extracts={
+        ExceptionType="type(e).__name__";
+        ExceptionMessage="str(e)";
+        FileName="last frame filename";
+        LineNumber="last frame lineno";
+        FunctionName="last frame function name";
+        CodeLine="last frame line";
+    };
+    Fingerprint="{ExceptionType}:{FileName}:{LineNumber}:{FunctionName}";
+}
+
+[@REPORT]
+{
+    Name="Dashboard";
+    Sections={
+        Header="Project name, version, config";
+        RunTable="Per-run table: error, family, triggered, match, fix_ok, status, conf, fix";
+        LearningCurve="Confidence across runs for each error type";
+        Summary="Total/triggered/matched/validated/promoted/accuracy/fix_rate";
+        Mismatches="Errors where actual != expected";
+        FailedFixes="Errors where repair raised or validator returned False";
+        BCLStore="Final BCL knowledge file contents";
+    };
+    Colors={
+        Triggered="green";
+        NotTriggered="dim";
+        Match="green";
+        Mismatch="red";
+        FixValid="green";
+        FixInvalid="red";
+        Promoted="green";
+        Testing="blue";
+        New="yellow";
+        Failed="bold red";
+    };
+}
+
+[@FLOW]
+{
+    Name="MainFlow";
+    Steps={
+        1="Delete old BCL knowledge file";
+        2="Build error cases from build_error_cases()";
+        3="For each run 1..N:";
+        4="  Create ErrorHandler with BCL path";
+        5="  Run benchmark: for each case -> trigger -> capture -> validate -> score";
+        6="  Render results table";
+        7="  Print run stats";
+        8="Render learning curve across all runs";
+        9="Render final summary with accuracy and fix rate";
+        10="Show mismatches and failed fixes";
+        11="Done";
+    };
+}
+
+[@STORAGE]
+{
+    Name="BCLKnowledgeStore";
+    Path="error_knowledge.bcl";
+    Format="BCL text file, human-readable";
+    Containers={
+        ERROR="[@ERROR]{producer;entity;pattern;description;fix;confidence;status;occurrences;last_seen}";
+        LAW="[@LAW]{id;name;statement;enforcement;authority;status;created}";
+    };
+    Operations={
+        Read="parse file -> list of (type, dict)";
+        Write="append container to file";
+        Rewrite="overwrite entire file with current state";
+    };
+    Persistence="survives across runs, accumulates knowledge";
+}
+
+[@STATE]
+{
+    Name="ErrorHandlerState";
+    Mutable={
+        known="dict of pattern -> error record";
+        errors="list of captured errors this run";
+    };
+    Immutable={
+        bcl="BCL instance (file path fixed at init)";
+    };
+    Authority="ErrorHandler is the only class that modifies known errors";
+}
+
+[@COMMAND]
+{
+    Name="CLI";
+    Flags={
+        default="live + structure + graph + tests";
+        "--test"="test results only";
+        "--table"="full table + structure + graph + tests";
+        "--all"="everything";
+        "--overview"="AI inspection";
+        "--replay"="replay inspection";
+        "--profile"="profiler inspection";
+        "--debug"="debugger inspection";
+    };
+    Verbosity={
+        0="SILENT (errors only)";
+        1="NORMAL (steps + results)";
+        2="DEBUG (show variables)";
+        3="VERBOSE (show everything)";
+    };
+}

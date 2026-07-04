@@ -1,0 +1,48 @@
+{
+    "name": "Image",
+    "file": "dom_image.py",
+    "summary": "Image domain - loading, processing, encoding, analysis, rendering",
+    "classes": [
+        {"name": "Loader", "methods": ["File", "URL", "Bytes", "Buffer", "Info"], "description": "Image loading"},
+        {"name": "Saver", "methods": ["PNG", "JPEG", "WEBP", "GIF", "TIFF", "BMP"], "description": "Image saving"},
+        {"name": "Resizer", "methods": ["Scale", "Crop", "Fit", "Fill", "Thumbnail"], "description": "Image resizing"},
+        {"name": "Filter", "methods": ["Blur", "Sharpen", "Grayscale", "Invert", "Sepia"], "description": "Image filters"},
+        {"name": "Rotator", "methods": ["Left", "Right", "Flip", "Flop", "Angle"], "description": "Image rotation"},
+        {"name": "Drawer", "methods": ["Line", "Rect", "Circle", "Text", "Polygon", "Pixel"], "description": "Image drawing"},
+        {"name": "Analyzer", "methods": ["Histogram", "Edges", "Corners", "Faces", "Colors"], "description": "Image analysis"},
+        {"name": "Converter", "methods": ["RGB", "RGBA", "Gray", "CMYK", "HSV"], "description": "Color space conversion"},
+        {"name": "Compressor", "methods": ["Lossless", "Lossy", "Progressive", "Optimize"], "description": "Image compression"},
+        {"name": "Thumbnail", "methods": ["Generate", "Batch", "Cache", "Clear"], "description": "Thumbnail generation"}
+    ],
+    "edges": [
+        {"src": "Loader", "dst": "Converter", "type": "USES"},
+        {"src": "Saver", "dst": "Compressor", "type": "USES"},
+        {"src": "Resizer", "dst": "Loader", "type": "USES"},
+        {"src": "Filter", "dst": "Converter", "type": "USES"},
+        {"src": "Thumbnail", "dst": "Resizer", "type": "WRAPS"},
+        {"src": "Thumbnail", "dst": "Saver", "type": "USES"},
+        {"src": "Analyzer", "dst": "Converter", "type": "USES"},
+        {"src": "Drawer", "dst": "Converter", "type": "USES"},
+        {"src": "Compressor", "dst": "Saver", "type": "FEEDS"}
+    ],
+    "flows": {
+        "Thumbnail": [
+            {"type": "call", "desc": "Loader -- load image"},
+            {"type": "call", "desc": "Resizer -- scale to thumbnail"},
+            {"type": "call", "desc": "Saver -- save thumbnail"},
+            {"type": "step", "desc": "Cache result"}
+        ],
+        "Filter": [
+            {"type": "call", "desc": "Loader -- load image"},
+            {"type": "call", "desc": "Converter -- convert to working space"},
+            {"type": "step", "desc": "Apply filter kernel"},
+            {"type": "call", "desc": "Saver -- save result"}
+        ]
+    },
+    "categories": {
+        "CRUD": ["Loader", "Saver", "Thumbnail"],
+        "TRANSFORM": ["Resizer", "Filter", "Rotator", "Converter", "Compressor"],
+        "SECURITY": [],
+        "UTILITY": ["Drawer", "Analyzer"]
+    }
+}

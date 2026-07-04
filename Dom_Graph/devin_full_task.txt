@@ -1,0 +1,114 @@
+You are building a Project Digital Twin system in /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/
+
+READ THIS FIRST: /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/DEVIN_SPEC_DOMAIN_TWIN.md
+This is your master spec. It contains ALL 75 sections with exact SQL schemas, Python class definitions, and implementation details. Follow it exactly.
+
+USE AGENTS: You have the ability to spawn sub-agents. Use them aggressively to parallelize work:
+- Spawn one agent per phase for parallel execution where possible
+- Spawn agents for independent file creation (e.g. backup_engine.py, sandbox_engine.py, ingestion_engine.py can be created simultaneously)
+- Use agents for verification tasks (compile check, test run, VBStyle audit)
+- Each agent should read the spec section it's responsible for
+
+BUILD ALL 7 PHASES. Every single section (1-75) must be implemented. Do not skip any.
+
+PHASE 1 (Foundation) — Sections 1, 2, 5, 6, 7, 8, 9:
+- 1. BACKUP PHASE: backup_engine.py — create_backup, verify_backup, restore_backup, list_backups
+- 2. SANDBOX PHASE: sandbox_engine.py — load DB into :memory:, verify schema, begin/commit/rollback
+- 5. INGESTION: ingestion_engine.py — scan files, compute hashes, detect duplicates, populate files table
+- 6. TABLE 1 (FILES): files table schema (in Config.py SCHEMA_SQL)
+- 7. TABLE 2 (CLASS SPLIT): classes table schema
+- 8. TABLE 3 (METHOD SPLIT): methods table schema with full method_code as text
+- 9. BCL NORMALIZATION: bcl_engine.py — extract_bcl, verify_bcl, compare_bcl, hash_bcl
+
+PHASE 2 (Graph) — Sections 4, 11, 17, 18:
+- 4. GRAPH ORIGINAL CODEBASE: graph_builder.py — build all graph types, detect cycles/dead code/duplicates/orphans/hotspots
+- 11. RELATIONSHIP EXTRACTION: relationship_extractor.py — extract file→file, class→class, method→method, method→variable/database/gui/api/thread edges
+- 17. PROJECT FINGERPRINTING: fingerprint_engine.py — hash everything, compare fingerprints, verify integrity
+- 18. VERSION SNAPSHOTS: snapshot_engine.py — create/restore/compare snapshots, timeline
+
+PHASE 3 (Knowledge) — Sections 3, 12, 14, 29:
+- 3. ERROR KNOWLEDGE DATABASE: knowledge_engine.py — record_error, record_fix, search_similar, learn, get_best_fix
+- 12. FIX ENGINE: fix_engine.py — find_error, search_fixes, apply_fix, compile_check, run_tests, rollback, record_outcome, learn
+- 14. KNOWLEDGE STORAGE: extend knowledge_engine.py — store error/fix/patch/explanation, FTS5 search index
+- 29. AI MEMORY: memory_engine.py — recall_errors, recall_fixes, recall_successes, recall_failures, recall_rules, recall_patterns
+
+PHASE 4 (Analysis) — Sections 10, 20-24, 42-48:
+- 10. STATIC ANALYSIS: static_analyzer.py — AST parse, symbol table, import resolution, dead code, duplicates, complexity
+- 20. SEMANTIC SEARCH: search_engine.py — search by name/bcl/signature/error/fix/dependency/call_chain/variable/comment/behavior
+- 21. EXECUTION TRACING: trace_engine.py — entry points, call order, stack trace, SQL/API/file/thread tracing
+- 22. IMPACT ANALYSIS: impact_engine.py — what_uses, what_breaks, reverse/forward call graph, ripple radius, risk score
+- 23. DUPLICATE DETECTION: duplicate_engine.py — find duplicate files/classes/methods/logic/sql/constants/imports/bcl/algorithms
+- 24. PATTERN ENGINE: pattern_engine.py — detect design patterns, anti-patterns, code smells, naming patterns, violations
+- 42. CALL PATH DATABASE: call_path_engine.py — incoming/outgoing/recursive/async calls, execution paths
+- 43. DATA FLOW ENGINE: data_flow_engine.py — variable origin/mutation/lifetime, parameter/return/database/file/network flow
+- 44. CONTROL FLOW ENGINE: control_flow_engine.py — branches, loops, exceptions, early returns, unreachable code, infinite loops
+- 45. SYMBOL DATABASE: symbol_engine.py — classes, methods, variables, constants, enums, interfaces
+- 46. TYPE SYSTEM: type_engine.py — type definitions, inference, casts, conversions, nullable/generic analysis, violations
+- 47. NAMING ENGINE: naming_engine.py — naming rules, duplicates, similar names, reserved words, violations, suggestions
+- 48. CODE QUALITY ENGINE: quality_engine.py — complexity, readability, maintainability, cohesion, coupling, reuse, documentation, stability
+
+PHASE 5 (Quality) — Sections 13, 25-27, 31, 34, 50:
+- 13. VALIDATION: validation_engine.py — syntax, imports, references, runtime, unit/integration tests, memory, database, performance, regression
+- 25. ARCHITECTURE VALIDATOR: arch_validator.py — circular deps, layer violations, invalid imports, missing classes/methods/files, broken references
+- 26. DATABASE VALIDATOR: db_validator.py — missing tables/indexes/foreign keys, broken constraints, duplicate/orphan rows, integrity check
+- 27. BCL VALIDATOR: extend bcl_engine.py — validate exists/format/complete/hash/matches_code/matches_db/references/parent
+- 31. SAFETY ENGINE: safety_engine.py — safe_write, verify_before/after, verify graph/database/runtime/output, emergency_rollback
+- 34. SELF-CHECK ENGINE: self_check_engine.py — check changes/expected/tests/graph/database/bcl/runtime/confidence
+- 50. TEST KNOWLEDGE: test_engine.py — unit/integration/regression tests, coverage, failed/passed/missing tests, history
+
+PHASE 6 (Intelligence) — Sections 33, 53-60:
+- 33. ROOT CAUSE ENGINE: root_cause_engine.py — surface error, walk backward, dependency/data flow/control flow analysis, origin detection, cascading effects
+- 53. OBSERVATION ENGINE: observation_engine.py — everything seen/changed/learned/ignored, unknowns, assumptions, confirmed facts, evidence links
+- 54. UNKNOWN ENGINE: unknown_engine.py — missing classes/files/methods/definitions, unknown types/dependencies/runtime/behavior
+- 55. DECISION ENGINE: decision_engine.py — candidate fixes, rank fixes, risk/cost/benefit analysis, simulation, validation, final decision
+- 56. ORCHESTRATION ENGINE: orchestration_engine.py — task/worker/dependency/priority/retry/rollback/learning/reporting queues
+- 57. DIGITAL EVIDENCE ENGINE: evidence_engine.py — every conclusion linked to evidence, fix linked to error, error linked to source, source linked to graph, full audit trail
+- 58. PROJECT DNA: dna_engine.py — coding style/architecture/naming/error/fix/dependency/runtime DNA, project identity
+- 59. PREDICTION ENGINE: prediction_engine.py — predict next error/broken code/side effects/build failure/runtime failure/performance impact/refactor risk/maintenance cost
+- 60. AUTONOMOUS REASONING LOOP: autonomous_loop.py — observe, parse, understand, graph, correlate, search memory/history, generate hypotheses, simulate, validate, repair, verify, learn, record, repeat
+
+PHASE 7 (Meta) — Sections 70-75:
+- 70. META-LEARNING ENGINE: meta_learning_engine.py — learn from past runs, improve graph accuracy, optimize repair strategies, evolve heuristics, reduce failures, improve predictions, adapt schema, self-benchmark
+- 71. EXECUTION FORMAT KERNEL: format_kernel.py — strict output mode, single-block enforcement, no commentary, raw structure output, format compliance validator
+- 72. CONTEXT CONTINUITY ENGINE: continuity_engine.py — sequential continuation lock, prevent redefinition, append-only expansion, no backtracking, continuation pointer, section jump prevention
+- 73. ERROR RESISTANCE LAYER: error_resistance.py — invalid instruction detection, conflicting constraint resolver, partial recovery, ambiguity isolation, safe fallback, deterministic recovery
+- 74. OUTPUT INTEGRITY CORE: output_integrity.py — block boundary enforcement, encoding consistency, structural completeness, missing section detection, schema lock, corruption detection, final render validate
+- 75. CONTINUATION PROTOCOL: extend continuity_engine.py — append-only continuation, no reprint, no summarization, strict next-index alignment, linear expansion, sequential numbering, end-state pointer
+
+ALSO BUILD THESE ORCHESTRATION FILES:
+- 15. REPORTING: report_engine.py — error/fix timeline, dependency/duplicate/complexity report, BCL/graph/method/test coverage, health score
+- 16. CONTINUOUS LOOP: continuous_loop.py — scan, ingest, index, graph, detect, search, repair, validate, learn, repeat
+- 19. CODE DIFFERENCE ENGINE: diff_engine.py — file/class/method/AST/graph/dependency/BCL/database/runtime diff
+- 28. KNOWLEDGE GRAPH: create SQL VIEW knowledge_graph unifying all entity types
+- 30. CONFIDENCE ENGINE: confidence_engine.py — parse/match/graph/repair/runtime/test/overall confidence
+- 32. BUILD PIPELINE: build_pipeline.py — scan, parse, index, bcl_extract, graph_build, validate, learn, store, test, report
+- 35. PROJECT DIGITAL TWIN: digital_twin.py — get_state, simulate_change, query, export/import snapshot, compare twins
+- 36. COMPILER KNOWLEDGE: compiler_engine.py — compile_file, compile_all, get_errors/warnings, build history
+- 37. RUNTIME KNOWLEDGE: runtime_engine.py — live objects, memory map, heap, stack, open files/sockets, threads, timers, handles, resource usage
+- 38. MEMORY FORENSICS: memory_forensics.py — leak detection, object lifetime, allocation/dealloc history, fragmentation, peak usage, growth trend
+- 39. SQL ANALYZER: sql_analyzer.py — query history, query plan, slow queries, missing indexes, table usage, transaction history, lock/deadlock analysis
+- 40. FILE FORENSICS: file_forensics.py — creation date, modification/rename/move history, ownership, permissions, encoding, file signature, hash timeline
+- 41. SOURCE EVOLUTION: evolution_engine.py — class/method/variable/dependency/architecture/error/fix/refactor timeline
+- 49. REFACTOR ENGINE: refactor_engine.py — safe rename/move/extract/inline/split/merge/delete/replace
+- 51. API KNOWLEDGE: api_engine.py — endpoints, parameters, responses, errors, authentication, rate limits, dependencies, usage graph
+- 52. CONFIGURATION ENGINE: config_engine.py — config files, env vars, feature flags, build/runtime options, defaults, overrides, validation
+
+TOTAL FILES TO CREATE: ~40 Python files + schema updates to Config.py
+
+VBSTYLE RULES (NON-NEGOTIABLE FOR ALL .py FILES):
+- PascalCase class names, UPPERCASE constants
+- __init__(self, mem=None, db=None, param=None)
+- self.state dict (NO self._ attributes)
+- Run(self, command, params=None) dispatch method in every class
+- All methods return Tuple3: (1, data, None) or (0, None, (code, desc, 0))
+- NO print(), NO decorators (@staticmethod, @property, @classmethod), NO tabs
+- Spaces only, one class per file
+- Every file has VBStyle header comments
+
+VERIFY AFTER EACH PHASE:
+1. py_compile all created files
+2. python3 test_everything.py — all 205+ tests must pass
+3. python3 audit_vbstyle.py — zero violations
+4. PRAGMA integrity_check on the database
+
+START WITH PHASE 1. Back up the database first. Then proceed through all phases sequentially. Use agents to parallelize file creation within each phase. Report results after each phase.

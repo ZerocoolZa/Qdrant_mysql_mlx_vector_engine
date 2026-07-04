@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1400">
+<rect width="100%%" height="100%%" fill="#0d0d1a"/>
+<text x="900" y="35" text-anchor="middle" fill="#fff" font-family="Menlo" font-size="22" font-weight="bold">CODEBASE File-Level Graph</text>
+<text x="900" y="58" text-anchor="middle" fill="#888" font-family="Menlo" font-size="13">200 directories, file counts by type, call edges + co-occurrence</text>
+<circle cx="50" cy="90" r="20" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="73" y="93" fill="#ccc" font-family="Menlo" font-size="9">Pyton files</text>
+<text x="73" y="103" fill="#666" font-family="Menlo" font-size="8">122698</text>
+<circle cx="230" cy="90" r="19" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="252" y="93" fill="#ccc" font-family="Menlo" font-size="9">Pyton files_converted</text>
+<text x="252" y="103" fill="#666" font-family="Menlo" font-size="8">122113</text>
+<circle cx="410" cy="90" r="12" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="425" y="93" fill="#ccc" font-family="Menlo" font-size="9">PYTHON</text>
+<text x="425" y="103" fill="#666" font-family="Menlo" font-size="8">62052</text>
+<circle cx="590" cy="90" r="12" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="605" y="93" fill="#ccc" font-family="Menlo" font-size="9">PYTHON</text>
+<text x="605" y="103" fill="#666" font-family="Menlo" font-size="8">61962</text>
+<circle cx="770" cy="90" r="8" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="781" y="93" fill="#ccc" font-family="Menlo" font-size="9">consolidated_python_..</text>
+<text x="781" y="103" fill="#666" font-family="Menlo" font-size="8">36372</text>
+<circle cx="950" cy="90" r="8" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="961" y="93" fill="#ccc" font-family="Menlo" font-size="9">consolidated_python_..</text>
+<text x="961" y="103" fill="#666" font-family="Menlo" font-size="8">36066</text>
+<circle cx="1130" cy="90" r="7" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="1140" y="93" fill="#ccc" font-family="Menlo" font-size="9">python_codebase</text>
+<text x="1140" y="103" fill="#666" font-family="Menlo" font-size="8">25990</text>
+<circle cx="1310" cy="90" r="6" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="1319" y="93" fill="#ccc" font-family="Menlo" font-size="9">consolidated_backup_..</text>
+<text x="1319" y="103" fill="#666" font-family="Menlo" font-size="8">18044</text>
+<circle cx="1490" cy="90" r="6" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="1499" y="93" fill="#ccc" font-family="Menlo" font-size="9">Validation</text>
+<text x="1499" y="103" fill="#666" font-family="Menlo" font-size="8">17719</text>
+<circle cx="1670" cy="90" r="5" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="1678" y="93" fill="#ccc" font-family="Menlo" font-size="9">FileHandler</text>
+<text x="1678" y="103" fill="#666" font-family="Menlo" font-size="8">14879</text>
+<circle cx="1850" cy="90" r="5" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="1858" y="93" fill="#ccc" font-family="Menlo" font-size="9">IO</text>
+<text x="1858" y="103" fill="#666" font-family="Menlo" font-size="8">14243</text>
+<circle cx="2030" cy="90" r="5" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="2038" y="93" fill="#ccc" font-family="Menlo" font-size="9">extracted_classes</text>
+<text x="2038" y="103" fill="#666" font-family="Menlo" font-size="8">12782</text>
+<circle cx="2210" cy="90" r="5" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="2218" y="93" fill="#ccc" font-family="Menlo" font-size="9">tests</text>
+<text x="2218" y="103" fill="#666" font-family="Menlo" font-size="8">12778</text>
+<circle cx="2390" cy="90" r="5" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="2398" y="93" fill="#ccc" font-family="Menlo" font-size="9">PYTHON</text>
+<text x="2398" y="103" fill="#666" font-family="Menlo" font-size="8">8478</text>
+<circle cx="2570" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="2577" y="93" fill="#ccc" font-family="Menlo" font-size="9">Tests</text>
+<text x="2577" y="103" fill="#666" font-family="Menlo" font-size="8">7506</text>
+<circle cx="2750" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="2757" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib</text>
+<text x="2757" y="103" fill="#666" font-family="Menlo" font-size="8">6830</text>
+<circle cx="2930" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="2937" y="93" fill="#ccc" font-family="Menlo" font-size="9">original_python_code</text>
+<text x="2937" y="103" fill="#666" font-family="Menlo" font-size="8">5021</text>
+<circle cx="3110" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="3117" y="93" fill="#ccc" font-family="Menlo" font-size="9">Core</text>
+<text x="3117" y="103" fill="#666" font-family="Menlo" font-size="8">4765</text>
+<circle cx="3290" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="3297" y="93" fill="#ccc" font-family="Menlo" font-size="9">AISystem</text>
+<text x="3297" y="103" fill="#666" font-family="Menlo" font-size="8">3861</text>
+<circle cx="3470" cy="90" r="4" fill="#7ED321" fill-opacity="0.6" stroke="#7ED321" stroke-width="1"/>
+<text x="3477" y="93" fill="#ccc" font-family="Menlo" font-size="9">Doc</text>
+<text x="3477" y="103" fill="#666" font-family="Menlo" font-size="8">3777</text>
+<circle cx="3650" cy="90" r="4" fill="#7ED321" fill-opacity="0.6" stroke="#7ED321" stroke-width="1"/>
+<text x="3657" y="93" fill="#ccc" font-family="Menlo" font-size="9">guides</text>
+<text x="3657" y="103" fill="#666" font-family="Menlo" font-size="8">3333</text>
+<circle cx="3830" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="3837" y="93" fill="#ccc" font-family="Menlo" font-size="9">lib</text>
+<text x="3837" y="103" fill="#666" font-family="Menlo" font-size="8">2942</text>
+<circle cx="4010" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="4017" y="93" fill="#ccc" font-family="Menlo" font-size="9">Database</text>
+<text x="4017" y="103" fill="#666" font-family="Menlo" font-size="8">2822</text>
+<circle cx="4190" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="4197" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="4197" y="103" fill="#666" font-family="Menlo" font-size="8">2094</text>
+<circle cx="4370" cy="90" r="4" fill="#FB8C00" fill-opacity="0.6" stroke="#FB8C00" stroke-width="1"/>
+<text x="4377" y="93" fill="#ccc" font-family="Menlo" font-size="9">SWIFT</text>
+<text x="4377" y="103" fill="#666" font-family="Menlo" font-size="8">2047</text>
+<circle cx="4550" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="4557" y="93" fill="#ccc" font-family="Menlo" font-size="9">extracted_code</text>
+<text x="4557" y="103" fill="#666" font-family="Menlo" font-size="8">2047</text>
+<circle cx="4730" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="4737" y="93" fill="#ccc" font-family="Menlo" font-size="9">Edward</text>
+<text x="4737" y="103" fill="#666" font-family="Menlo" font-size="8">2008</text>
+<circle cx="4910" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="4917" y="93" fill="#ccc" font-family="Menlo" font-size="9">lib</text>
+<text x="4917" y="103" fill="#666" font-family="Menlo" font-size="8">1982</text>
+<circle cx="5090" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="5097" y="93" fill="#ccc" font-family="Menlo" font-size="9">backup_20251129_124812</text>
+<text x="5097" y="103" fill="#666" font-family="Menlo" font-size="8">1825</text>
+<circle cx="5270" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="5277" y="93" fill="#ccc" font-family="Menlo" font-size="9">chat</text>
+<text x="5277" y="103" fill="#666" font-family="Menlo" font-size="8">1785</text>
+<circle cx="5450" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="5457" y="93" fill="#ccc" font-family="Menlo" font-size="9">lib_py</text>
+<text x="5457" y="103" fill="#666" font-family="Menlo" font-size="8">1784</text>
+<circle cx="5630" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="5637" y="93" fill="#ccc" font-family="Menlo" font-size="9">Mixed bag</text>
+<text x="5637" y="103" fill="#666" font-family="Menlo" font-size="8">1774</text>
+<circle cx="5810" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="5817" y="93" fill="#ccc" font-family="Menlo" font-size="9">Py</text>
+<text x="5817" y="103" fill="#666" font-family="Menlo" font-size="8">1742</text>
+<circle cx="5990" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="5997" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="5997" y="103" fill="#666" font-family="Menlo" font-size="8">1741</text>
+<circle cx="6170" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="6177" y="93" fill="#ccc" font-family="Menlo" font-size="9">MASTER_LIBART</text>
+<text x="6177" y="103" fill="#666" font-family="Menlo" font-size="8">1707</text>
+<circle cx="6350" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="6357" y="93" fill="#ccc" font-family="Menlo" font-size="9">PYTHONCODE </text>
+<text x="6357" y="103" fill="#666" font-family="Menlo" font-size="8">1680</text>
+<circle cx="6530" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="6537" y="93" fill="#ccc" font-family="Menlo" font-size="9">look</text>
+<text x="6537" y="103" fill="#666" font-family="Menlo" font-size="8">1628</text>
+<circle cx="6710" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="6717" y="93" fill="#ccc" font-family="Menlo" font-size="9">utility</text>
+<text x="6717" y="103" fill="#666" font-family="Menlo" font-size="8">1587</text>
+<circle cx="6890" cy="90" r="4" fill="#E74C3C" fill-opacity="0.6" stroke="#E74C3C" stroke-width="1"/>
+<text x="6897" y="93" fill="#ccc" font-family="Menlo" font-size="9">cascade_v56_run_bund..</text>
+<text x="6897" y="103" fill="#666" font-family="Menlo" font-size="8">1585</text>
+<circle cx="7070" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="7077" y="93" fill="#ccc" font-family="Menlo" font-size="9">TextProcessing</text>
+<text x="7077" y="103" fill="#666" font-family="Menlo" font-size="8">1568</text>
+<circle cx="7250" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="7257" y="93" fill="#ccc" font-family="Menlo" font-size="9">Classes</text>
+<text x="7257" y="103" fill="#666" font-family="Menlo" font-size="8">1564</text>
+<circle cx="7430" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="7437" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib_Shells_NoCls</text>
+<text x="7437" y="103" fill="#666" font-family="Menlo" font-size="8">1558</text>
+<circle cx="7610" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="7617" y="93" fill="#ccc" font-family="Menlo" font-size="9">Config</text>
+<text x="7617" y="103" fill="#666" font-family="Menlo" font-size="8">1538</text>
+<circle cx="7790" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="7797" y="93" fill="#ccc" font-family="Menlo" font-size="9">AbsoluteMaximumClasses</text>
+<text x="7797" y="103" fill="#666" font-family="Menlo" font-size="8">1536</text>
+<circle cx="7970" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="7977" y="93" fill="#ccc" font-family="Menlo" font-size="9">core</text>
+<text x="7977" y="103" fill="#666" font-family="Menlo" font-size="8">1495</text>
+<circle cx="8150" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="8157" y="93" fill="#ccc" font-family="Menlo" font-size="9">python</text>
+<text x="8157" y="103" fill="#666" font-family="Menlo" font-size="8">1462</text>
+<circle cx="8330" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="8337" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib</text>
+<text x="8337" y="103" fill="#666" font-family="Menlo" font-size="8">1455</text>
+<circle cx="8510" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="8517" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib_py</text>
+<text x="8517" y="103" fill="#666" font-family="Menlo" font-size="8">1420</text>
+<circle cx="8690" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="8697" y="93" fill="#ccc" font-family="Menlo" font-size="9">Report</text>
+<text x="8697" y="103" fill="#666" font-family="Menlo" font-size="8">1393</text>
+<circle cx="8870" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="8877" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib</text>
+<text x="8877" y="103" fill="#666" font-family="Menlo" font-size="8">1380</text>
+<circle cx="9050" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="9057" y="93" fill="#ccc" font-family="Menlo" font-size="9">backup_20251129_124813</text>
+<text x="9057" y="103" fill="#666" font-family="Menlo" font-size="8">1345</text>
+<circle cx="9230" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="9237" y="93" fill="#ccc" font-family="Menlo" font-size="9">Core</text>
+<text x="9237" y="103" fill="#666" font-family="Menlo" font-size="8">1300</text>
+<circle cx="9410" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="9417" y="93" fill="#ccc" font-family="Menlo" font-size="9">Other</text>
+<text x="9417" y="103" fill="#666" font-family="Menlo" font-size="8">1281</text>
+<circle cx="9590" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="9597" y="93" fill="#ccc" font-family="Menlo" font-size="9">core_v1</text>
+<text x="9597" y="103" fill="#666" font-family="Menlo" font-size="8">1280</text>
+<circle cx="9770" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="9777" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="9777" y="103" fill="#666" font-family="Menlo" font-size="8">1278</text>
+<circle cx="9950" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="9957" y="93" fill="#ccc" font-family="Menlo" font-size="9">vbstyle_backups</text>
+<text x="9957" y="103" fill="#666" font-family="Menlo" font-size="8">1268</text>
+<circle cx="10130" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="10137" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="10137" y="103" fill="#666" font-family="Menlo" font-size="8">1266</text>
+<circle cx="10310" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="10317" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="10317" y="103" fill="#666" font-family="Menlo" font-size="8">1253</text>
+<circle cx="10490" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="10497" y="93" fill="#ccc" font-family="Menlo" font-size="9">Users</text>
+<text x="10497" y="103" fill="#666" font-family="Menlo" font-size="8">1251</text>
+<circle cx="10670" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="10677" y="93" fill="#ccc" font-family="Menlo" font-size="9">Other</text>
+<text x="10677" y="103" fill="#666" font-family="Menlo" font-size="8">1248</text>
+<circle cx="10850" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="10857" y="93" fill="#ccc" font-family="Menlo" font-size="9">PY_MASIVE__files</text>
+<text x="10857" y="103" fill="#666" font-family="Menlo" font-size="8">1080</text>
+<circle cx="11030" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="11037" y="93" fill="#ccc" font-family="Menlo" font-size="9">AST</text>
+<text x="11037" y="103" fill="#666" font-family="Menlo" font-size="8">1050</text>
+<circle cx="11210" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="11217" y="93" fill="#ccc" font-family="Menlo" font-size="9">c_code</text>
+<text x="11217" y="103" fill="#666" font-family="Menlo" font-size="8">986</text>
+<circle cx="11390" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="11397" y="93" fill="#ccc" font-family="Menlo" font-size="9">cpp</text>
+<text x="11397" y="103" fill="#666" font-family="Menlo" font-size="8">984</text>
+<circle cx="11570" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="11577" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="11577" y="103" fill="#666" font-family="Menlo" font-size="8">949</text>
+<circle cx="11750" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="11757" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="11757" y="103" fill="#666" font-family="Menlo" font-size="8">945</text>
+<circle cx="11930" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="11937" y="93" fill="#ccc" font-family="Menlo" font-size="9">gui</text>
+<text x="11937" y="103" fill="#666" font-family="Menlo" font-size="8">938</text>
+<circle cx="12110" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="12117" y="93" fill="#ccc" font-family="Menlo" font-size="9">Mem</text>
+<text x="12117" y="103" fill="#666" font-family="Menlo" font-size="8">933</text>
+<circle cx="12290" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="12297" y="93" fill="#ccc" font-family="Menlo" font-size="9">Indexer</text>
+<text x="12297" y="103" fill="#666" font-family="Menlo" font-size="8">898</text>
+<circle cx="12470" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="12477" y="93" fill="#ccc" font-family="Menlo" font-size="9">YAMALS</text>
+<text x="12477" y="103" fill="#666" font-family="Menlo" font-size="8">854</text>
+<circle cx="12650" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="12657" y="93" fill="#ccc" font-family="Menlo" font-size="9">GUI</text>
+<text x="12657" y="103" fill="#666" font-family="Menlo" font-size="8">825</text>
+<circle cx="12830" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="12837" y="93" fill="#ccc" font-family="Menlo" font-size="9">core</text>
+<text x="12837" y="103" fill="#666" font-family="Menlo" font-size="8">810</text>
+<circle cx="13010" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="13017" y="93" fill="#ccc" font-family="Menlo" font-size="9">vbstyle_compliant</text>
+<text x="13017" y="103" fill="#666" font-family="Menlo" font-size="8">806</text>
+<circle cx="13190" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="13197" y="93" fill="#ccc" font-family="Menlo" font-size="9">lib_files</text>
+<text x="13197" y="103" fill="#666" font-family="Menlo" font-size="8">804</text>
+<circle cx="13370" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="13377" y="93" fill="#ccc" font-family="Menlo" font-size="9">GUI</text>
+<text x="13377" y="103" fill="#666" font-family="Menlo" font-size="8">774</text>
+<circle cx="13550" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="13557" y="93" fill="#ccc" font-family="Menlo" font-size="9">gui</text>
+<text x="13557" y="103" fill="#666" font-family="Menlo" font-size="8">764</text>
+<circle cx="13730" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="13737" y="93" fill="#ccc" font-family="Menlo" font-size="9">Tools</text>
+<text x="13737" y="103" fill="#666" font-family="Menlo" font-size="8">729</text>
+<circle cx="13910" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="13917" y="93" fill="#ccc" font-family="Menlo" font-size="9">Patterns</text>
+<text x="13917" y="103" fill="#666" font-family="Menlo" font-size="8">685</text>
+<circle cx="14090" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="14097" y="93" fill="#ccc" font-family="Menlo" font-size="9">stdhooks</text>
+<text x="14097" y="103" fill="#666" font-family="Menlo" font-size="8">678</text>
+<circle cx="14270" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="14277" y="93" fill="#ccc" font-family="Menlo" font-size="9">src</text>
+<text x="14277" y="103" fill="#666" font-family="Menlo" font-size="8">676</text>
+<circle cx="14450" cy="90" r="4" fill="#FB8C00" fill-opacity="0.6" stroke="#FB8C00" stroke-width="1"/>
+<text x="14457" y="93" fill="#ccc" font-family="Menlo" font-size="9">ast</text>
+<text x="14457" y="103" fill="#666" font-family="Menlo" font-size="8">668</text>
+<circle cx="14630" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="14637" y="93" fill="#ccc" font-family="Menlo" font-size="9">SecurityCrypto</text>
+<text x="14637" y="103" fill="#666" font-family="Menlo" font-size="8">632</text>
+<circle cx="14810" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="14817" y="93" fill="#ccc" font-family="Menlo" font-size="9">swift</text>
+<text x="14817" y="103" fill="#666" font-family="Menlo" font-size="8">632</text>
+<circle cx="14990" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="14997" y="93" fill="#ccc" font-family="Menlo" font-size="9">Code_Scraps</text>
+<text x="14997" y="103" fill="#666" font-family="Menlo" font-size="8">626</text>
+<circle cx="15170" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="15177" y="93" fill="#ccc" font-family="Menlo" font-size="9">vbstyle Code Libary</text>
+<text x="15177" y="103" fill="#666" font-family="Menlo" font-size="8">624</text>
+<circle cx="15350" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="15357" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="15357" y="103" fill="#666" font-family="Menlo" font-size="8">605</text>
+<circle cx="15530" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="15537" y="93" fill="#ccc" font-family="Menlo" font-size="9">Error</text>
+<text x="15537" y="103" fill="#666" font-family="Menlo" font-size="8">594</text>
+<circle cx="15710" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="15717" y="93" fill="#ccc" font-family="Menlo" font-size="9">LIB</text>
+<text x="15717" y="103" fill="#666" font-family="Menlo" font-size="8">560</text>
+<circle cx="15890" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="15897" y="93" fill="#ccc" font-family="Menlo" font-size="9">LIB</text>
+<text x="15897" y="103" fill="#666" font-family="Menlo" font-size="8">558</text>
+<circle cx="16070" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="16077" y="93" fill="#ccc" font-family="Menlo" font-size="9">tools</text>
+<text x="16077" y="103" fill="#666" font-family="Menlo" font-size="8">530</text>
+<circle cx="16250" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="16257" y="93" fill="#ccc" font-family="Menlo" font-size="9">BIG. G=HISTORK KEEP</text>
+<text x="16257" y="103" fill="#666" font-family="Menlo" font-size="8">504</text>
+<circle cx="16430" cy="90" r="4" fill="#7ED321" fill-opacity="0.6" stroke="#7ED321" stroke-width="1"/>
+<text x="16437" y="93" fill="#ccc" font-family="Menlo" font-size="9">Chatgpt</text>
+<text x="16437" y="103" fill="#666" font-family="Menlo" font-size="8">497</text>
+<circle cx="16610" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="16617" y="93" fill="#ccc" font-family="Menlo" font-size="9">consolidated_files</text>
+<text x="16617" y="103" fill="#666" font-family="Menlo" font-size="8">489</text>
+<circle cx="16790" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="16797" y="93" fill="#ccc" font-family="Menlo" font-size="9">Networking</text>
+<text x="16797" y="103" fill="#666" font-family="Menlo" font-size="8">489</text>
+<circle cx="16970" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="16977" y="93" fill="#ccc" font-family="Menlo" font-size="9">Watchdog</text>
+<text x="16977" y="103" fill="#666" font-family="Menlo" font-size="8">480</text>
+<circle cx="17150" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="17157" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="17157" y="103" fill="#666" font-family="Menlo" font-size="8">476</text>
+<circle cx="17330" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="17337" y="93" fill="#ccc" font-family="Menlo" font-size="9">vbfiles</text>
+<text x="17337" y="103" fill="#666" font-family="Menlo" font-size="8">467</text>
+<circle cx="17510" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="17517" y="93" fill="#ccc" font-family="Menlo" font-size="9">FolderHandler</text>
+<text x="17517" y="103" fill="#666" font-family="Menlo" font-size="8">466</text>
+<circle cx="17690" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="17697" y="93" fill="#ccc" font-family="Menlo" font-size="9">lab_files</text>
+<text x="17697" y="103" fill="#666" font-family="Menlo" font-size="8">463</text>
+<circle cx="17870" cy="90" r="4" fill="#FB8C00" fill-opacity="0.6" stroke="#FB8C00" stroke-width="1"/>
+<text x="17877" y="93" fill="#ccc" font-family="Menlo" font-size="9">utilities</text>
+<text x="17877" y="103" fill="#666" font-family="Menlo" font-size="8">461</text>
+<circle cx="18050" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="18057" y="93" fill="#ccc" font-family="Menlo" font-size="9">Project_PropPanel</text>
+<text x="18057" y="103" fill="#666" font-family="Menlo" font-size="8">460</text>
+<circle cx="18230" cy="90" r="4" fill="#7ED321" fill-opacity="0.6" stroke="#7ED321" stroke-width="1"/>
+<text x="18237" y="93" fill="#ccc" font-family="Menlo" font-size="9">OTHER</text>
+<text x="18237" y="103" fill="#666" font-family="Menlo" font-size="8">450</text>
+<circle cx="18410" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="18417" y="93" fill="#ccc" font-family="Menlo" font-size="9">docs</text>
+<text x="18417" y="103" fill="#666" font-family="Menlo" font-size="8">449</text>
+<circle cx="18590" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="18597" y="93" fill="#ccc" font-family="Menlo" font-size="9">YAMALS</text>
+<text x="18597" y="103" fill="#666" font-family="Menlo" font-size="8">435</text>
+<circle cx="18770" cy="90" r="4" fill="#E74C3C" fill-opacity="0.6" stroke="#E74C3C" stroke-width="1"/>
+<text x="18777" y="93" fill="#ccc" font-family="Menlo" font-size="9">output</text>
+<text x="18777" y="103" fill="#666" font-family="Menlo" font-size="8">427</text>
+<circle cx="18950" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="18957" y="93" fill="#ccc" font-family="Menlo" font-size="9">MASS_TEST_OUTPUT</text>
+<text x="18957" y="103" fill="#666" font-family="Menlo" font-size="8">426</text>
+<circle cx="19130" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="19137" y="93" fill="#ccc" font-family="Menlo" font-size="9">JSON</text>
+<text x="19137" y="103" fill="#666" font-family="Menlo" font-size="8">426</text>
+<circle cx="19310" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="19317" y="93" fill="#ccc" font-family="Menlo" font-size="9">components</text>
+<text x="19317" y="103" fill="#666" font-family="Menlo" font-size="8">411</text>
+<circle cx="19490" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="19497" y="93" fill="#ccc" font-family="Menlo" font-size="9">yaml</text>
+<text x="19497" y="103" fill="#666" font-family="Menlo" font-size="8">407</text>
+<circle cx="19670" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="19677" y="93" fill="#ccc" font-family="Menlo" font-size="9">yaml</text>
+<text x="19677" y="103" fill="#666" font-family="Menlo" font-size="8">407</text>
+<circle cx="19850" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="19857" y="93" fill="#ccc" font-family="Menlo" font-size="9">tools</text>
+<text x="19857" y="103" fill="#666" font-family="Menlo" font-size="8">396</text>
+<circle cx="20030" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="20037" y="93" fill="#ccc" font-family="Menlo" font-size="9">distinct_history</text>
+<text x="20037" y="103" fill="#666" font-family="Menlo" font-size="8">392</text>
+<circle cx="20210" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="20217" y="93" fill="#ccc" font-family="Menlo" font-size="9">Tokenizer</text>
+<text x="20217" y="103" fill="#666" font-family="Menlo" font-size="8">372</text>
+<circle cx="20390" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="20397" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="20397" y="103" fill="#666" font-family="Menlo" font-size="8">371</text>
+<circle cx="20570" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="20577" y="93" fill="#ccc" font-family="Menlo" font-size="9">Tools</text>
+<text x="20577" y="103" fill="#666" font-family="Menlo" font-size="8">371</text>
+<circle cx="20750" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="20757" y="93" fill="#ccc" font-family="Menlo" font-size="9">chatgpt_export</text>
+<text x="20757" y="103" fill="#666" font-family="Menlo" font-size="8">370</text>
+<circle cx="20930" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="20937" y="93" fill="#ccc" font-family="Menlo" font-size="9">misc</text>
+<text x="20937" y="103" fill="#666" font-family="Menlo" font-size="8">362</text>
+<circle cx="21110" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="21117" y="93" fill="#ccc" font-family="Menlo" font-size="9">Console</text>
+<text x="21117" y="103" fill="#666" font-family="Menlo" font-size="8">357</text>
+<circle cx="21290" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="21297" y="93" fill="#ccc" font-family="Menlo" font-size="9">Data</text>
+<text x="21297" y="103" fill="#666" font-family="Menlo" font-size="8">356</text>
+<circle cx="21470" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="21477" y="93" fill="#ccc" font-family="Menlo" font-size="9">Data</text>
+<text x="21477" y="103" fill="#666" font-family="Menlo" font-size="8">355</text>
+<circle cx="21650" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="21657" y="93" fill="#ccc" font-family="Menlo" font-size="9">hooks</text>
+<text x="21657" y="103" fill="#666" font-family="Menlo" font-size="8">354</text>
+<circle cx="21830" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="21837" y="93" fill="#ccc" font-family="Menlo" font-size="9">test</text>
+<text x="21837" y="103" fill="#666" font-family="Menlo" font-size="8">353</text>
+<circle cx="22010" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="22017" y="93" fill="#ccc" font-family="Menlo" font-size="9">collected_files</text>
+<text x="22017" y="103" fill="#666" font-family="Menlo" font-size="8">352</text>
+<circle cx="22190" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="22197" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="22197" y="103" fill="#666" font-family="Menlo" font-size="8">352</text>
+<circle cx="22370" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="22377" y="93" fill="#ccc" font-family="Menlo" font-size="9">collected_files</text>
+<text x="22377" y="103" fill="#666" font-family="Menlo" font-size="8">350</text>
+<circle cx="22550" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="22557" y="93" fill="#ccc" font-family="Menlo" font-size="9">CompressionHandler</text>
+<text x="22557" y="103" fill="#666" font-family="Menlo" font-size="8">349</text>
+<circle cx="22730" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="22737" y="93" fill="#ccc" font-family="Menlo" font-size="9">consolidated</text>
+<text x="22737" y="103" fill="#666" font-family="Menlo" font-size="8">346</text>
+<circle cx="22910" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="22917" y="93" fill="#ccc" font-family="Menlo" font-size="9">test</text>
+<text x="22917" y="103" fill="#666" font-family="Menlo" font-size="8">345</text>
+<circle cx="23090" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="23097" y="93" fill="#ccc" font-family="Menlo" font-size="9">LIB</text>
+<text x="23097" y="103" fill="#666" font-family="Menlo" font-size="8">332</text>
+<circle cx="23270" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="23277" y="93" fill="#ccc" font-family="Menlo" font-size="9">LIB</text>
+<text x="23277" y="103" fill="#666" font-family="Menlo" font-size="8">326</text>
+<circle cx="23450" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="23457" y="93" fill="#ccc" font-family="Menlo" font-size="9">LIB</text>
+<text x="23457" y="103" fill="#666" font-family="Menlo" font-size="8">326</text>
+<circle cx="23630" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="23637" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib</text>
+<text x="23637" y="103" fill="#666" font-family="Menlo" font-size="8">319</text>
+<circle cx="23810" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="23817" y="93" fill="#ccc" font-family="Menlo" font-size="9">Libraries</text>
+<text x="23817" y="103" fill="#666" font-family="Menlo" font-size="8">318</text>
+<circle cx="23990" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="23997" y="93" fill="#ccc" font-family="Menlo" font-size="9">temp_backup</text>
+<text x="23997" y="103" fill="#666" font-family="Menlo" font-size="8">318</text>
+<circle cx="24170" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="24177" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib</text>
+<text x="24177" y="103" fill="#666" font-family="Menlo" font-size="8">312</text>
+<circle cx="24350" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="24357" y="93" fill="#ccc" font-family="Menlo" font-size="9">lib_files</text>
+<text x="24357" y="103" fill="#666" font-family="Menlo" font-size="8">307</text>
+<circle cx="24530" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="24537" y="93" fill="#ccc" font-family="Menlo" font-size="9">extracted_lib_files</text>
+<text x="24537" y="103" fill="#666" font-family="Menlo" font-size="8">299</text>
+<circle cx="24710" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="24717" y="93" fill="#ccc" font-family="Menlo" font-size="9">core</text>
+<text x="24717" y="103" fill="#666" font-family="Menlo" font-size="8">298</text>
+<circle cx="24890" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="24897" y="93" fill="#ccc" font-family="Menlo" font-size="9">core</text>
+<text x="24897" y="103" fill="#666" font-family="Menlo" font-size="8">296</text>
+<circle cx="25070" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="25077" y="93" fill="#ccc" font-family="Menlo" font-size="9">VolcanoFiles</text>
+<text x="25077" y="103" fill="#666" font-family="Menlo" font-size="8">294</text>
+<circle cx="25250" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="25257" y="93" fill="#ccc" font-family="Menlo" font-size="9">vbstyle_quarantine</text>
+<text x="25257" y="103" fill="#666" font-family="Menlo" font-size="8">292</text>
+<circle cx="25430" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="25437" y="93" fill="#ccc" font-family="Menlo" font-size="9">inductor</text>
+<text x="25437" y="103" fill="#666" font-family="Menlo" font-size="8">292</text>
+<circle cx="25610" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="25617" y="93" fill="#ccc" font-family="Menlo" font-size="9">inductor</text>
+<text x="25617" y="103" fill="#666" font-family="Menlo" font-size="8">291</text>
+<circle cx="25790" cy="90" r="4" fill="#7ED321" fill-opacity="0.6" stroke="#7ED321" stroke-width="1"/>
+<text x="25797" y="93" fill="#ccc" font-family="Menlo" font-size="9">swift_codebase</text>
+<text x="25797" y="103" fill="#666" font-family="Menlo" font-size="8">291</text>
+<circle cx="25970" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="25977" y="93" fill="#ccc" font-family="Menlo" font-size="9">Lib_Python</text>
+<text x="25977" y="103" fill="#666" font-family="Menlo" font-size="8">289</text>
+<circle cx="26150" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="26157" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="26157" y="103" fill="#666" font-family="Menlo" font-size="8">289</text>
+<circle cx="26330" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="26337" y="93" fill="#ccc" font-family="Menlo" font-size="9">Common</text>
+<text x="26337" y="103" fill="#666" font-family="Menlo" font-size="8">286</text>
+<circle cx="26510" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="26517" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="26517" y="103" fill="#666" font-family="Menlo" font-size="8">284</text>
+<circle cx="26690" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="26697" y="93" fill="#ccc" font-family="Menlo" font-size="9">temp_backup</text>
+<text x="26697" y="103" fill="#666" font-family="Menlo" font-size="8">283</text>
+<circle cx="26870" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="26877" y="93" fill="#ccc" font-family="Menlo" font-size="9">collected_files</text>
+<text x="26877" y="103" fill="#666" font-family="Menlo" font-size="8">283</text>
+<circle cx="27050" cy="90" r="4" fill="#FB8C00" fill-opacity="0.6" stroke="#FB8C00" stroke-width="1"/>
+<text x="27057" y="93" fill="#ccc" font-family="Menlo" font-size="9">config</text>
+<text x="27057" y="103" fill="#666" font-family="Menlo" font-size="8">278</text>
+<circle cx="27230" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="27237" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="27237" y="103" fill="#666" font-family="Menlo" font-size="8">272</text>
+<circle cx="27410" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="27417" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="27417" y="103" fill="#666" font-family="Menlo" font-size="8">272</text>
+<circle cx="27590" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="27597" y="93" fill="#ccc" font-family="Menlo" font-size="9">coder</text>
+<text x="27597" y="103" fill="#666" font-family="Menlo" font-size="8">268</text>
+<circle cx="27770" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="27777" y="93" fill="#ccc" font-family="Menlo" font-size="9">Fix_sort</text>
+<text x="27777" y="103" fill="#666" font-family="Menlo" font-size="8">264</text>
+<circle cx="27950" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="27957" y="93" fill="#ccc" font-family="Menlo" font-size="9">Threading</text>
+<text x="27957" y="103" fill="#666" font-family="Menlo" font-size="8">264</text>
+<circle cx="28130" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="28137" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="28137" y="103" fill="#666" font-family="Menlo" font-size="8">263</text>
+<circle cx="28310" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="28317" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="28317" y="103" fill="#666" font-family="Menlo" font-size="8">263</text>
+<circle cx="28490" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="28497" y="93" fill="#ccc" font-family="Menlo" font-size="9">maths</text>
+<text x="28497" y="103" fill="#666" font-family="Menlo" font-size="8">260</text>
+<circle cx="28670" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="28677" y="93" fill="#ccc" font-family="Menlo" font-size="9">guiengin203</text>
+<text x="28677" y="103" fill="#666" font-family="Menlo" font-size="8">255</text>
+<circle cx="28850" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="28857" y="93" fill="#ccc" font-family="Menlo" font-size="9">YAML</text>
+<text x="28857" y="103" fill="#666" font-family="Menlo" font-size="8">255</text>
+<circle cx="29030" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="29037" y="93" fill="#ccc" font-family="Menlo" font-size="9">extracted</text>
+<text x="29037" y="103" fill="#666" font-family="Menlo" font-size="8">252</text>
+<circle cx="29210" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="29217" y="93" fill="#ccc" font-family="Menlo" font-size="9">Vdive2UNIFIED_LIB</text>
+<text x="29217" y="103" fill="#666" font-family="Menlo" font-size="8">248</text>
+<circle cx="29390" cy="90" r="4" fill="#E74C3C" fill-opacity="0.6" stroke="#E74C3C" stroke-width="1"/>
+<text x="29397" y="93" fill="#ccc" font-family="Menlo" font-size="9">Json_Quarantine_Rest</text>
+<text x="29397" y="103" fill="#666" font-family="Menlo" font-size="8">248</text>
+<circle cx="29570" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="29577" y="93" fill="#ccc" font-family="Menlo" font-size="9">windsurf-project</text>
+<text x="29577" y="103" fill="#666" font-family="Menlo" font-size="8">241</text>
+<circle cx="29750" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="29757" y="93" fill="#ccc" font-family="Menlo" font-size="9">base</text>
+<text x="29757" y="103" fill="#666" font-family="Menlo" font-size="8">240</text>
+<circle cx="29930" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="29937" y="93" fill="#ccc" font-family="Menlo" font-size="9">tools</text>
+<text x="29937" y="103" fill="#666" font-family="Menlo" font-size="8">238</text>
+<circle cx="30110" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="30117" y="93" fill="#ccc" font-family="Menlo" font-size="9">ai_model_generation</text>
+<text x="30117" y="103" fill="#666" font-family="Menlo" font-size="8">236</text>
+<circle cx="30290" cy="90" r="4" fill="#9B59B6" fill-opacity="0.6" stroke="#9B59B6" stroke-width="1"/>
+<text x="30297" y="93" fill="#ccc" font-family="Menlo" font-size="9">cs</text>
+<text x="30297" y="103" fill="#666" font-family="Menlo" font-size="8">236</text>
+<circle cx="30470" cy="90" r="4" fill="#1ABC9C" fill-opacity="0.6" stroke="#1ABC9C" stroke-width="1"/>
+<text x="30477" y="93" fill="#ccc" font-family="Menlo" font-size="9">YAMALS</text>
+<text x="30477" y="103" fill="#666" font-family="Menlo" font-size="8">235</text>
+<circle cx="30650" cy="90" r="4" fill="#9B59B6" fill-opacity="0.6" stroke="#9B59B6" stroke-width="1"/>
+<text x="30657" y="93" fill="#ccc" font-family="Menlo" font-size="9">csharp</text>
+<text x="30657" y="103" fill="#666" font-family="Menlo" font-size="8">233</text>
+<circle cx="30830" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="30837" y="93" fill="#ccc" font-family="Menlo" font-size="9">Global_Systems_Extra..</text>
+<text x="30837" y="103" fill="#666" font-family="Menlo" font-size="8">229</text>
+<circle cx="31010" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="31017" y="93" fill="#ccc" font-family="Menlo" font-size="9">native</text>
+<text x="31017" y="103" fill="#666" font-family="Menlo" font-size="8">222</text>
+<circle cx="31190" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="31197" y="93" fill="#ccc" font-family="Menlo" font-size="9">UNITS</text>
+<text x="31197" y="103" fill="#666" font-family="Menlo" font-size="8">218</text>
+<circle cx="31370" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="31377" y="93" fill="#ccc" font-family="Menlo" font-size="9">py</text>
+<text x="31377" y="103" fill="#666" font-family="Menlo" font-size="8">214</text>
+<circle cx="31550" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="31557" y="93" fill="#ccc" font-family="Menlo" font-size="9">New Folder With Items</text>
+<text x="31557" y="103" fill="#666" font-family="Menlo" font-size="8">209</text>
+<circle cx="31730" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="31737" y="93" fill="#ccc" font-family="Menlo" font-size="9">01_AI_Assistants</text>
+<text x="31737" y="103" fill="#666" font-family="Menlo" font-size="8">208</text>
+<circle cx="31910" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="31917" y="93" fill="#ccc" font-family="Menlo" font-size="9">generated_libs</text>
+<text x="31917" y="103" fill="#666" font-family="Menlo" font-size="8">206</text>
+<circle cx="32090" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="32097" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="32097" y="103" fill="#666" font-family="Menlo" font-size="8">202</text>
+<circle cx="32270" cy="90" r="4" fill="#7ED321" fill-opacity="0.6" stroke="#7ED321" stroke-width="1"/>
+<text x="32277" y="93" fill="#ccc" font-family="Menlo" font-size="9">md</text>
+<text x="32277" y="103" fill="#666" font-family="Menlo" font-size="8">202</text>
+<circle cx="32450" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="32457" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="32457" y="103" fill="#666" font-family="Menlo" font-size="8">196</text>
+<circle cx="32630" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="32637" y="93" fill="#ccc" font-family="Menlo" font-size="9">dynamo</text>
+<text x="32637" y="103" fill="#666" font-family="Menlo" font-size="8">195</text>
+<circle cx="32810" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="32817" y="93" fill="#ccc" font-family="Menlo" font-size="9">Prj_testbed</text>
+<text x="32817" y="103" fill="#666" font-family="Menlo" font-size="8">194</text>
+<circle cx="32990" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="32997" y="93" fill="#ccc" font-family="Menlo" font-size="9">scanned_raw</text>
+<text x="32997" y="103" fill="#666" font-family="Menlo" font-size="8">194</text>
+<circle cx="33170" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="33177" y="93" fill="#ccc" font-family="Menlo" font-size="9">Gui</text>
+<text x="33177" y="103" fill="#666" font-family="Menlo" font-size="8">194</text>
+<circle cx="33350" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="33357" y="93" fill="#ccc" font-family="Menlo" font-size="9">test</text>
+<text x="33357" y="103" fill="#666" font-family="Menlo" font-size="8">193</text>
+<circle cx="33530" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="33537" y="93" fill="#ccc" font-family="Menlo" font-size="9">C_Libs</text>
+<text x="33537" y="103" fill="#666" font-family="Menlo" font-size="8">188</text>
+<circle cx="33710" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="33717" y="93" fill="#ccc" font-family="Menlo" font-size="9">raw</text>
+<text x="33717" y="103" fill="#666" font-family="Menlo" font-size="8">186</text>
+<circle cx="33890" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="33897" y="93" fill="#ccc" font-family="Menlo" font-size="9">asm_Egine</text>
+<text x="33897" y="103" fill="#666" font-family="Menlo" font-size="8">186</text>
+<circle cx="34070" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="34077" y="93" fill="#ccc" font-family="Menlo" font-size="9">tests</text>
+<text x="34077" y="103" fill="#666" font-family="Menlo" font-size="8">182</text>
+<circle cx="34250" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="34257" y="93" fill="#ccc" font-family="Menlo" font-size="9">SALVAGE</text>
+<text x="34257" y="103" fill="#666" font-family="Menlo" font-size="8">181</text>
+<circle cx="34430" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="34437" y="93" fill="#ccc" font-family="Menlo" font-size="9">SALVAGE_BACKUP</text>
+<text x="34437" y="103" fill="#666" font-family="Menlo" font-size="8">180</text>
+<circle cx="34610" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="34617" y="93" fill="#ccc" font-family="Menlo" font-size="9">PRj_codex-notes</text>
+<text x="34617" y="103" fill="#666" font-family="Menlo" font-size="8">178</text>
+<circle cx="34790" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="34797" y="93" fill="#ccc" font-family="Menlo" font-size="9">tests1</text>
+<text x="34797" y="103" fill="#666" font-family="Menlo" font-size="8">178</text>
+<circle cx="34970" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="34977" y="93" fill="#ccc" font-family="Menlo" font-size="9">Email</text>
+<text x="34977" y="103" fill="#666" font-family="Menlo" font-size="8">176</text>
+<circle cx="35150" cy="90" r="4" fill="#F5A623" fill-opacity="0.6" stroke="#F5A623" stroke-width="1"/>
+<text x="35157" y="93" fill="#ccc" font-family="Menlo" font-size="9">DELETED_C_BACKUP</text>
+<text x="35157" y="103" fill="#666" font-family="Menlo" font-size="8">172</text>
+<circle cx="35330" cy="90" r="4" fill="#FB8C00" fill-opacity="0.6" stroke="#FB8C00" stroke-width="1"/>
+<text x="35337" y="93" fill="#ccc" font-family="Menlo" font-size="9">Centrall_Lib</text>
+<text x="35337" y="103" fill="#666" font-family="Menlo" font-size="8">172</text>
+<circle cx="35510" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="35517" y="93" fill="#ccc" font-family="Menlo" font-size="9">mixed_assets</text>
+<text x="35517" y="103" fill="#666" font-family="Menlo" font-size="8">171</text>
+<circle cx="35690" cy="90" r="4" fill="#4A90D9" fill-opacity="0.6" stroke="#4A90D9" stroke-width="1"/>
+<text x="35697" y="93" fill="#ccc" font-family="Menlo" font-size="9">PyObjCTest</text>
+<text x="35697" y="103" fill="#666" font-family="Menlo" font-size="8">170</text>
+<rect x="50" y="1300" width="1700" height="90" fill="#1a1a2e" stroke="#333" rx="5"/>
+<text x="70" y="1320" fill="#fff" font-family="Menlo" font-size="12" font-weight="bold">File Types:</text>
+<rect x="170" y="1312" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="186" y="1322" fill="#ccc" font-family="Menlo" font-size="10">python</text>
+<rect x="300" y="1312" width="12" height="12" fill="#F5A623" rx="2"/>
+<text x="316" y="1322" fill="#ccc" font-family="Menlo" font-size="10">c</text>
+<rect x="430" y="1312" width="12" height="12" fill="#FB8C00" rx="2"/>
+<text x="446" y="1322" fill="#ccc" font-family="Menlo" font-size="10">swift</text>
+<rect x="560" y="1312" width="12" height="12" fill="#9B59B6" rx="2"/>
+<text x="576" y="1322" fill="#ccc" font-family="Menlo" font-size="10">csharp</text>
+<rect x="690" y="1312" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="706" y="1322" fill="#ccc" font-family="Menlo" font-size="10">markdown</text>
+<rect x="820" y="1312" width="12" height="12" fill="#E74C3C" rx="2"/>
+<text x="836" y="1322" fill="#ccc" font-family="Menlo" font-size="10">json</text>
+<rect x="950" y="1312" width="12" height="12" fill="#1ABC9C" rx="2"/>
+<text x="966" y="1322" fill="#ccc" font-family="Menlo" font-size="10">yaml</text>
+<text x="70" y="1345" fill="#888" font-family="Menlo" font-size="10">Node size = file count in directory</text>
+<text x="70" y="1362" fill="#888" font-family="Menlo" font-size="10">Edges = directory parent->child tree</text>
+<text x="70" y="1379" fill="#888" font-family="Menlo" font-size="10">Overlay: bcl_edges (4,147 calls), code_co_occurrence (12,248 pairs), class_graph (36 arch)</text>
+</svg>

@@ -1,0 +1,634 @@
+{
+  "domain": "Web",
+  "file": "dom_web.py",
+  "generated": "2026-07-04T00:07:25.623938",
+  "controller": "Web",
+  "classes": [
+    {
+      "name": "Browser",
+      "methods": [
+        "Open",
+        "Close",
+        "Refresh",
+        "Navigate",
+        "Back",
+        "Forward"
+      ],
+      "method_count": 6,
+      "description": "Browser control component"
+    },
+    {
+      "name": "Request",
+      "methods": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete",
+        "Patch",
+        "Head",
+        "Options"
+      ],
+      "method_count": 7,
+      "description": "HTTP request builder"
+    },
+    {
+      "name": "Response",
+      "methods": [
+        "Status",
+        "Headers",
+        "Body",
+        "Json",
+        "Text",
+        "Bytes"
+      ],
+      "method_count": 6,
+      "description": "HTTP response handler"
+    },
+    {
+      "name": "Session",
+      "methods": [
+        "Create",
+        "Restore",
+        "Save",
+        "Clear",
+        "Info"
+      ],
+      "method_count": 5,
+      "description": "Session management"
+    },
+    {
+      "name": "Cookie",
+      "methods": [
+        "Set",
+        "Get",
+        "Delete",
+        "List",
+        "Clear"
+      ],
+      "method_count": 5,
+      "description": "Cookie jar management"
+    },
+    {
+      "name": "Header",
+      "methods": [
+        "Set",
+        "Get",
+        "Remove",
+        "List",
+        "Parse"
+      ],
+      "method_count": 5,
+      "description": "HTTP header management"
+    },
+    {
+      "name": "URL",
+      "methods": [
+        "Parse",
+        "Build",
+        "Encode",
+        "Decode",
+        "Resolve",
+        "Normalize"
+      ],
+      "method_count": 6,
+      "description": "URL parsing and building"
+    },
+    {
+      "name": "HTTP",
+      "methods": [
+        "Connect",
+        "Send",
+        "Receive",
+        "Close"
+      ],
+      "method_count": 4,
+      "description": "HTTP protocol handler"
+    },
+    {
+      "name": "HTTPS",
+      "methods": [
+        "Connect",
+        "Send",
+        "Receive",
+        "Close"
+      ],
+      "method_count": 4,
+      "description": "HTTPS protocol handler"
+    },
+    {
+      "name": "Download",
+      "methods": [
+        "File",
+        "Stream",
+        "Resume",
+        "Cancel",
+        "Progress"
+      ],
+      "method_count": 5,
+      "description": "Download manager"
+    },
+    {
+      "name": "Upload",
+      "methods": [
+        "File",
+        "Stream",
+        "Multipart",
+        "Cancel",
+        "Progress"
+      ],
+      "method_count": 5,
+      "description": "Upload manager"
+    },
+    {
+      "name": "Cache",
+      "methods": [
+        "Read",
+        "Write",
+        "Clear",
+        "Invalidate",
+        "Size",
+        "Keys"
+      ],
+      "method_count": 6,
+      "description": "Response cache"
+    },
+    {
+      "name": "Parser",
+      "methods": [
+        "HTML",
+        "JSON",
+        "XML",
+        "YAML",
+        "RSS",
+        "Sitemap"
+      ],
+      "method_count": 6,
+      "description": "Multi-format parser"
+    },
+    {
+      "name": "Scraper",
+      "methods": [
+        "Fetch",
+        "Extract",
+        "Mirror",
+        "Download",
+        "Status"
+      ],
+      "method_count": 5,
+      "description": "Web scraper with fallback"
+    },
+    {
+      "name": "Crawler",
+      "methods": [
+        "Crawl",
+        "CheckRobots",
+        "Queue",
+        "Visited",
+        "Reset"
+      ],
+      "method_count": 5,
+      "description": "Web crawler"
+    },
+    {
+      "name": "Spider",
+      "methods": [
+        "Crawl",
+        "Follow",
+        "Extract",
+        "Store",
+        "Schedule"
+      ],
+      "method_count": 5,
+      "description": "Spider for systematic crawling"
+    },
+    {
+      "name": "Auth",
+      "methods": [
+        "Basic",
+        "Bearer",
+        "OAuth",
+        "JWT",
+        "APIKey",
+        "Verify"
+      ],
+      "method_count": 6,
+      "description": "Authentication handler"
+    },
+    {
+      "name": "Proxy",
+      "methods": [
+        "Set",
+        "Get",
+        "Remove",
+        "List",
+        "Test"
+      ],
+      "method_count": 5,
+      "description": "Proxy configuration"
+    },
+    {
+      "name": "DNS",
+      "methods": [
+        "Resolve",
+        "Lookup",
+        "Reverse",
+        "Records"
+      ],
+      "method_count": 4,
+      "description": "DNS resolver"
+    },
+    {
+      "name": "SSL",
+      "methods": [
+        "Verify",
+        "Info",
+        "Pin",
+        "Fingerprint"
+      ],
+      "method_count": 4,
+      "description": "SSL/TLS certificate handler"
+    },
+    {
+      "name": "RateLimiter",
+      "methods": [
+        "Check",
+        "Wait",
+        "Reset",
+        "Config"
+      ],
+      "method_count": 4,
+      "description": "Rate limiting"
+    },
+    {
+      "name": "Retry",
+      "methods": [
+        "Attempt",
+        "Backoff",
+        "Reset",
+        "Config"
+      ],
+      "method_count": 4,
+      "description": "Retry with backoff"
+    },
+    {
+      "name": "Redirect",
+      "methods": [
+        "Follow",
+        "Chain",
+        "Resolve",
+        "Config"
+      ],
+      "method_count": 4,
+      "description": "Redirect following"
+    },
+    {
+      "name": "Compression",
+      "methods": [
+        "Compress",
+        "Decompress",
+        "Gzip",
+        "Deflate",
+        "Brotli"
+      ],
+      "method_count": 5,
+      "description": "Content compression"
+    },
+    {
+      "name": "Robots",
+      "methods": [
+        "Parse",
+        "Check",
+        "Allowed",
+        "Disallowed",
+        "Sitemap"
+      ],
+      "method_count": 5,
+      "description": "Robots.txt parser"
+    },
+    {
+      "name": "Monitor",
+      "methods": [
+        "Start",
+        "Stop",
+        "Log",
+        "Metrics",
+        "Alert"
+      ],
+      "method_count": 5,
+      "description": "Web monitoring"
+    },
+    {
+      "name": "Security",
+      "methods": [
+        "CORS",
+        "CSP",
+        "HSTS",
+        "CSRF",
+        "XSS",
+        "Fingerprint"
+      ],
+      "method_count": 6,
+      "description": "Web security policies"
+    },
+    {
+      "name": "Validator",
+      "methods": [
+        "URL",
+        "Email",
+        "HTML",
+        "JSON",
+        "XML",
+        "Schema"
+      ],
+      "method_count": 6,
+      "description": "Input validation"
+    }
+  ],
+  "edges": [
+    {
+      "src": "Browser",
+      "dst": "Request",
+      "type": "USES"
+    },
+    {
+      "src": "Browser",
+      "dst": "Response",
+      "type": "USES"
+    },
+    {
+      "src": "Browser",
+      "dst": "Cookie",
+      "type": "USES"
+    },
+    {
+      "src": "Browser",
+      "dst": "Session",
+      "type": "USES"
+    },
+    {
+      "src": "Browser",
+      "dst": "Cache",
+      "type": "USES"
+    },
+    {
+      "src": "Browser",
+      "dst": "Parser",
+      "type": "USES"
+    },
+    {
+      "src": "Request",
+      "dst": "Header",
+      "type": "USES"
+    },
+    {
+      "src": "Request",
+      "dst": "Auth",
+      "type": "USES"
+    },
+    {
+      "src": "Request",
+      "dst": "URL",
+      "type": "USES"
+    },
+    {
+      "src": "Request",
+      "dst": "Cookie",
+      "type": "FEEDS"
+    },
+    {
+      "src": "Request",
+      "dst": "HTTP",
+      "type": "TRIGGERS"
+    },
+    {
+      "src": "Request",
+      "dst": "HTTPS",
+      "type": "TRIGGERS"
+    },
+    {
+      "src": "HTTP",
+      "dst": "Response",
+      "type": "FEEDS"
+    },
+    {
+      "src": "HTTPS",
+      "dst": "Response",
+      "type": "FEEDS"
+    },
+    {
+      "src": "Response",
+      "dst": "Parser",
+      "type": "FEEDS"
+    },
+    {
+      "src": "Response",
+      "dst": "Cache",
+      "type": "FEEDS"
+    },
+    {
+      "src": "Scraper",
+      "dst": "Request",
+      "type": "USES"
+    },
+    {
+      "src": "Scraper",
+      "dst": "Parser",
+      "type": "USES"
+    },
+    {
+      "src": "Scraper",
+      "dst": "Download",
+      "type": "USES"
+    },
+    {
+      "src": "Crawler",
+      "dst": "Scraper",
+      "type": "WRAPS"
+    },
+    {
+      "src": "Crawler",
+      "dst": "Robots",
+      "type": "USES"
+    },
+    {
+      "src": "Crawler",
+      "dst": "RateLimiter",
+      "type": "USES"
+    },
+    {
+      "src": "Spider",
+      "dst": "Crawler",
+      "type": "WRAPS"
+    },
+    {
+      "src": "Spider",
+      "dst": "Cache",
+      "type": "USES"
+    },
+    {
+      "src": "Download",
+      "dst": "Retry",
+      "type": "USES"
+    },
+    {
+      "src": "Download",
+      "dst": "Redirect",
+      "type": "USES"
+    },
+    {
+      "src": "Upload",
+      "dst": "Retry",
+      "type": "USES"
+    },
+    {
+      "src": "Auth",
+      "dst": "SSL",
+      "type": "ENABLES"
+    },
+    {
+      "src": "Proxy",
+      "dst": "HTTP",
+      "type": "WRAPS"
+    },
+    {
+      "src": "Proxy",
+      "dst": "HTTPS",
+      "type": "WRAPS"
+    },
+    {
+      "src": "DNS",
+      "dst": "URL",
+      "type": "FEEDS"
+    },
+    {
+      "src": "Monitor",
+      "dst": "Validator",
+      "type": "MEASURES"
+    },
+    {
+      "src": "Security",
+      "dst": "Validator",
+      "type": "USES"
+    },
+    {
+      "src": "Compression",
+      "dst": "HTTP",
+      "type": "ENABLES"
+    }
+  ],
+  "flows": {
+    "Browser": [
+      {
+        "type": "call",
+        "desc": "Request -- build HTTP request"
+      },
+      {
+        "type": "step",
+        "desc": "Send via HTTP/HTTPS"
+      },
+      {
+        "type": "call",
+        "desc": "Response -- receive response"
+      },
+      {
+        "type": "call",
+        "desc": "Parser -- parse response body"
+      },
+      {
+        "type": "call",
+        "desc": "Cache -- store response"
+      },
+      {
+        "type": "call",
+        "desc": "Cookie -- update cookies"
+      }
+    ],
+    "Scraper": [
+      {
+        "type": "call",
+        "desc": "Request -- fetch URL"
+      },
+      {
+        "type": "step",
+        "desc": "Fallback to wget if urllib fails"
+      },
+      {
+        "type": "call",
+        "desc": "Parser -- extract content"
+      },
+      {
+        "type": "call",
+        "desc": "Download -- save to disk"
+      }
+    ],
+    "Crawler": [
+      {
+        "type": "call",
+        "desc": "Robots -- check allowed"
+      },
+      {
+        "type": "call",
+        "desc": "RateLimiter -- wait if needed"
+      },
+      {
+        "type": "call",
+        "desc": "Scraper -- fetch page"
+      },
+      {
+        "type": "step",
+        "desc": "Extract links from page"
+      },
+      {
+        "type": "step",
+        "desc": "Queue new links"
+      },
+      {
+        "type": "step",
+        "desc": "Mark URL as visited"
+      }
+    ]
+  },
+  "categories": {
+    "CRUD": [
+      "Browser",
+      "Request",
+      "Response",
+      "Download",
+      "Upload",
+      "Cache",
+      "Cookie",
+      "Session"
+    ],
+    "TRANSFORM": [
+      "Parser",
+      "Compression",
+      "Redirect",
+      "URL"
+    ],
+    "SECURITY": [
+      "Auth",
+      "SSL",
+      "Security",
+      "Validator"
+    ],
+    "UTILITY": [
+      "Scraper",
+      "Crawler",
+      "Spider",
+      "Proxy",
+      "DNS",
+      "Robots",
+      "RateLimiter",
+      "Retry",
+      "Monitor"
+    ],
+    "META": [
+      "Header",
+      "HTTP",
+      "HTTPS"
+    ]
+  },
+  "total_classes": 28,
+  "total_methods": 143,
+  "total_edges": 34
+}

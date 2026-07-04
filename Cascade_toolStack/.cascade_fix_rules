@@ -1,0 +1,198 @@
+[
+  {
+    "error_name": "ModuleNotFoundError",
+    "error_keyword": "modulenotfounderror",
+    "fix_description": "Module not installed or wrong name. Try: pip install <module> or check import spelling.",
+    "fix_action": "check_import",
+    "examples": [
+      {
+        "bad": "import nonexistent_xyz",
+        "good": "import os  # use a real module"
+      },
+      {
+        "bad": "import nump",
+        "good": "import numpy as np  # typo: nump -> numpy"
+      }
+    ]
+  },
+  {
+    "error_name": "ImportError",
+    "error_keyword": "cannot import name",
+    "fix_description": "Name does not exist in the module. Check the module's exports or API docs.",
+    "fix_action": "check_import_name",
+    "examples": [
+      {
+        "bad": "from os import notarealthing",
+        "good": "from os import path  # check available names"
+      }
+    ]
+  },
+  {
+    "error_name": "FileNotFoundError",
+    "error_keyword": "no such file or directory",
+    "fix_description": "File or directory does not exist. Check path spelling, use absolute paths, or create the file first.",
+    "fix_action": "check_path",
+    "examples": [
+      {
+        "bad": "open('/nonexistent/file.txt')",
+        "good": "open(os.path.expanduser('~/file.txt'))  # use real path"
+      },
+      {
+        "bad": "chdir('/nonexistent')",
+        "good": "chdir(os.path.dirname(__file__))  # use known dir"
+      }
+    ]
+  },
+  {
+    "error_name": "AttributeError",
+    "error_keyword": "has no attribute",
+    "fix_description": "Object does not have that attribute. Check the class API or use getattr() with a default.",
+    "fix_action": "check_attribute",
+    "examples": [
+      {
+        "bad": "obj.nonexistent_method()",
+        "good": "getattr(obj, 'method', default_fn)()  # safe access"
+      }
+    ]
+  },
+  {
+    "error_name": "KeyError",
+    "error_keyword": "keyerror",
+    "fix_description": "Key not in dictionary. Use dict.get(key) with a default or check key existence first.",
+    "fix_action": "use_get_or_check",
+    "examples": [
+      {
+        "bad": "value = my_dict['missing_key']",
+        "good": "value = my_dict.get('missing_key', default_value)"
+      }
+    ]
+  },
+  {
+    "error_name": "IndexError",
+    "error_keyword": "list index out of range",
+    "fix_description": "List index too large. Check len() before indexing or use try/except.",
+    "fix_action": "check_length",
+    "examples": [
+      {
+        "bad": "x = my_list[5]",
+        "good": "x = my_list[5] if len(my_list) > 5 else None"
+      },
+      {
+        "bad": "print(x[5])  # x=[1,2]",
+        "good": "print(x[min(5, len(x)-1)])  # safe index"
+      }
+    ]
+  },
+  {
+    "error_name": "IndentationError",
+    "error_keyword": "expected an indented block",
+    "fix_description": "Missing indentation after a colon. Add 4 spaces after if/for/while/def/class lines.",
+    "fix_action": "fix_indentation",
+    "examples": [
+      {
+        "bad": "if True:\npass",
+        "good": "if True:\n    pass  # indent 4 spaces"
+      }
+    ]
+  },
+  {
+    "error_name": "NameError",
+    "error_keyword": "is not defined",
+    "fix_description": "Variable or function name not defined. Check spelling, imports, or define before use.",
+    "fix_action": "check_name",
+    "examples": [
+      {
+        "bad": "print(undefined_var)",
+        "good": "undefined_var = None  # define before use\nprint(undefined_var)"
+      }
+    ]
+  },
+  {
+    "error_name": "ValueError",
+    "error_keyword": "invalid literal for",
+    "fix_description": "Cannot convert value to the requested type. Validate input before conversion.",
+    "fix_action": "validate_input",
+    "examples": [
+      {
+        "bad": "int('abc')",
+        "good": "int('abc') if 'abc'.isdigit() else 0  # validate first"
+      }
+    ]
+  },
+  {
+    "error_name": "TypeError",
+    "error_keyword": "unsupported operand type",
+    "fix_description": "Wrong type for operation. Check types with isinstance() or convert before use.",
+    "fix_action": "check_type",
+    "examples": [
+      {
+        "bad": "result = 'hello' + 5",
+        "good": "result = 'hello' + str(5)  # convert type"
+      }
+    ]
+  },
+  {
+    "error_name": "SyntaxError",
+    "error_keyword": "invalid syntax",
+    "fix_description": "Python syntax error. Check for missing colons, parens, quotes, or wrong operators.",
+    "fix_action": "fix_syntax",
+    "examples": [
+      {
+        "bad": "if True\n    pass",
+        "good": "if True:\n    pass  # missing colon"
+      },
+      {
+        "bad": "print('hello)",
+        "good": "print('hello')  # missing closing quote"
+      }
+    ]
+  },
+  {
+    "error_name": "PermissionError",
+    "error_keyword": "permission denied",
+    "fix_description": "No permission for the operation. Check file permissions or use sudo (with caution).",
+    "fix_action": "check_permissions",
+    "examples": [
+      {
+        "bad": "open('/etc/passwd', 'w')",
+        "good": "open('/tmp/myfile', 'w')  # use writable location"
+      }
+    ]
+  },
+  {
+    "error_name": "ConnectionError",
+    "error_keyword": "connection refused",
+    "fix_description": "Cannot connect to service. Check if the service is running and the port is correct.",
+    "fix_action": "check_connection",
+    "examples": [
+      {
+        "bad": "connect('localhost:9999')",
+        "good": "connect('localhost:8080')  # check port"
+      }
+    ]
+  },
+  {
+    "error_name": "RecursionError",
+    "error_keyword": "maximum recursion depth",
+    "fix_description": "Infinite recursion. Add a base case or increase recursion limit with care.",
+    "fix_action": "add_base_case",
+    "examples": [
+      {
+        "bad": "def fib(n): return fib(n-1)+fib(n-2)",
+        "good": "def fib(n):\n    if n < 2: return n\n    return fib(n-1)+fib(n-2)  # base case"
+      }
+    ]
+  },
+  {
+    "error_name": "UnicodeDecodeError",
+    "error_keyword": "codec can't decode",
+    "fix_description": "Encoding mismatch. Specify encoding explicitly when opening files.",
+    "fix_action": "specify_encoding",
+    "examples": [
+      {
+        "bad": "open('file.txt').read()",
+        "good": "open('file.txt', encoding='utf-8').read()"
+      }
+    ]
+  }
+]

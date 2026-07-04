@@ -1,0 +1,55 @@
+{
+    "name": "Sql",
+    "file": "dom_sql.py",
+    "summary": "SQL domain - queries, connections, schemas, migrations, transactions",
+    "classes": [
+        {"name": "Connection", "methods": ["Open", "Close", "Ping", "Info"], "description": "Database connection"},
+        {"name": "Query", "methods": ["Select", "Insert", "Update", "Delete", "Raw"], "description": "Query builder"},
+        {"name": "Schema", "methods": ["Create", "Alter", "Drop", "Describe", "List"], "description": "Schema management"},
+        {"name": "Migration", "methods": ["Up", "Down", "Status", "History"], "description": "Migration runner"},
+        {"name": "Transaction", "methods": ["Begin", "Commit", "Rollback", "Savepoint"], "description": "Transaction control"},
+        {"name": "Index", "methods": ["Create", "Drop", "Rebuild", "Analyze"], "description": "Index management"},
+        {"name": "View", "methods": ["Create", "Drop", "List"], "description": "View management"},
+        {"name": "Trigger", "methods": ["Create", "Drop", "Enable", "Disable"], "description": "Trigger management"},
+        {"name": "Procedure", "methods": ["Call", "List", "Define", "Drop"], "description": "Stored procedures"},
+        {"name": "Backup", "methods": ["Export", "Import", "Restore", "Verify"], "description": "Backup and restore"},
+        {"name": "Pool", "methods": ["Acquire", "Release", "Stats", "Drain"], "description": "Connection pool"},
+        {"name": "Validator", "methods": ["Syntax", "Schema", "Constraint", "Type"], "description": "SQL validation"}
+    ],
+    "edges": [
+        {"src": "Connection", "dst": "Pool", "type": "USES"},
+        {"src": "Query", "dst": "Connection", "type": "USES"},
+        {"src": "Query", "dst": "Transaction", "type": "USES"},
+        {"src": "Query", "dst": "Validator", "type": "USES"},
+        {"src": "Migration", "dst": "Schema", "type": "USES"},
+        {"src": "Migration", "dst": "Transaction", "type": "USES"},
+        {"src": "Backup", "dst": "Connection", "type": "USES"},
+        {"src": "Backup", "dst": "Schema", "type": "USES"},
+        {"src": "Index", "dst": "Schema", "type": "USES"},
+        {"src": "View", "dst": "Schema", "type": "USES"},
+        {"src": "Trigger", "dst": "Schema", "type": "USES"},
+        {"src": "Procedure", "dst": "Connection", "type": "USES"},
+        {"src": "Pool", "dst": "Connection", "type": "WRAPS"}
+    ],
+    "flows": {
+        "Query": [
+            {"type": "call", "desc": "Validator -- check syntax"},
+            {"type": "call", "desc": "Connection -- get connection"},
+            {"type": "step", "desc": "Execute query"},
+            {"type": "call", "desc": "Transaction -- commit or rollback"}
+        ],
+        "Migration": [
+            {"type": "call", "desc": "Schema -- read current"},
+            {"type": "step", "desc": "Apply migration SQL"},
+            {"type": "call", "desc": "Transaction -- wrap in transaction"},
+            {"type": "step", "desc": "Record migration history"}
+        ]
+    },
+    "categories": {
+        "CRUD": ["Connection", "Query", "Pool", "Backup"],
+        "TRANSFORM": ["Migration", "Schema", "Index", "View"],
+        "SECURITY": ["Validator", "Transaction"],
+        "UTILITY": ["Trigger", "Procedure"],
+        "META": []
+    }
+}

@@ -1,0 +1,29 @@
+# BCL Knowledge Store
+# Updated: 2026-07-04T11:34:09.426504
+
+[@ERROR]
+{
+    ("producer";"Scanner")
+    ("entity";"extract_scents")
+    ("pattern";"UNSUPPORTED_LANGUAGE")
+    ("description";"Cannot extract scents from makefile files")
+    ("fix";"skip file and continue scan")
+    ("confidence";"0.50")
+    ("status";"testing")
+    ("occurrences";"1")
+    ("last_seen";"2026-07-04T11:34:09.425581")
+}
+
+[@ERROR]
+{
+    ("producer";"Scanner")
+    ("entity";"check_errors")
+    ("pattern";"HAS_ERRORS")
+    ("description";"Scan completed with 1 errors")
+    ("fix";"log errors and report in summary")
+    ("confidence";"0.50")
+    ("status";"testing")
+    ("occurrences";"1")
+    ("last_seen";"2026-07-04T11:34:09.425977")
+}
+

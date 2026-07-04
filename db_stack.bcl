@@ -1,0 +1,83 @@
+# ═══════════════════════════════════════════════════════
+# Qdrant + MySQL + MLX Vector Engine — Full Architecture
+# Vibrant edition with section zones and color coding
+# ═══════════════════════════════════════════════════════
+
+# --- Section backgrounds ---
+box zone_ai "AI LAYER" @ (60,60) w=1020 h=100 fill=#1a237e stroke=#3949ab
+box zone_proc "PROCESSING" @ (130,165) w=890 h=90 fill=#311b92 stroke=#5e35b1
+box zone_core "CORE ENGINES" @ (70,280) w=960 h=120 fill=#004d40 stroke=#00897b
+box zone_data "DATA STORES" @ (30,420) w=1080 h=130 fill=#bf360c stroke=#ff6f00
+box zone_pipe "PIPELINES" @ (30,550) w=1080 h=90 fill=#0d47a1 stroke=#2196f3
+
+# --- Title ---
+text title "Qdrant · MySQL · MLX Vector Engine" @ (350,10) size=28
+text subtitle "Full System Architecture — Live BCL Diagram" @ (420,40) size=14
+
+# --- Layer 1: AI Agents ---
+ellipse cascade "Cascade AI" @ (100,80) w=140 h=60 fill=#42a5f5 stroke=#1565c0
+ellipse devin "Devin CLI" @ (300,80) w=140 h=60 fill=#66bb6a stroke=#2e7d32
+ellipse ollama "Ollama LLM" @ (500,80) w=140 h=60 fill=#ff7043 stroke=#bf360c
+ellipse chatgpt "ChatGPT" @ (700,80) w=140 h=60 fill=#ec407a stroke=#ad1457
+ellipse user "User" @ (900,80) w=140 h=60 fill=#ffca28 stroke=#f57f17
+
+# --- Layer 2: Processing ---
+box mcp "MCP Server" @ (150,180) w=160 h=60 fill=#ab47bc stroke=#6a1b9a
+box cli "Cascade CLI" @ (380,180) w=160 h=60 fill=#26c6da stroke=#00838f
+box bcl "BCL Engine" @ (610,180) w=160 h=60 fill=#ef5350 stroke=#b71c1c
+box watcher "File Watcher" @ (840,180) w=160 h=60 fill=#9ccc65 stroke=#558b2f
+
+# --- Layer 3: Core Engines ---
+diamond domsys "DomSystem" @ (100,300) w=160 h=80 fill=#ffeb3b stroke=#f57f17
+box graph "Graph Engine\n8-Graph Pipeline" @ (320,300) w=180 h=80 fill=#26a69a stroke=#00695c
+box vector "Vector Engine\nMLX + Qdrant" @ (560,300) w=180 h=80 fill=#5c6bc0 stroke=#283593
+box embed "Word2Vec\nSGNS Trainer" @ (800,300) w=160 h=80 fill=#ff8a65 stroke=#d84315
+
+# --- Layer 4: Data Stores ---
+box mysql "MySQL 8.0\nTruth Store\n10K rules" @ (50,440) w=170 h=90 fill=#ef5350 stroke=#b71c1c
+box neo4j "Neo4j\nGraph DB" @ (270,440) w=160 h=90 fill=#42a5f5 stroke=#1565c0
+ellipse qdrant "Qdrant\nVector DB" @ (490,440) w=160 h=90 fill=#ab47bc stroke=#6a1b9a
+box sqlite "SQLite\nLocal Cache" @ (700,440) w=160 h=90 fill=#66bb6a stroke=#2e7d32
+diamond lmdb "LMDB\nRAM Vector" @ (910,440) w=160 h=90 fill=#ffca28 stroke=#f57f17
+
+# --- Layer 5: Pipelines ---
+box p1 "Code→DB" @ (50,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p2 "8-Graph" @ (180,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p3 "Chat Ingest" @ (310,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p4 "Error Capture" @ (440,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p5 "BCL Code" @ (570,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p6 "CLI Safe" @ (700,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p7 "Context" @ (830,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+box p8 "Config" @ (960,580) w=110 h=40 fill=#80cbc4 stroke=#00695c
+
+# --- Arrows: Agents → Processing ---
+arrow cascade --> mcp
+arrow devin --> cli
+arrow ollama --> bcl
+arrow chatgpt --> watcher
+arrow user --> mcp "commands"
+
+# --- Arrows: Processing → Core ---
+arrow mcp --> domsys
+arrow cli --> graph "parses"
+arrow bcl --> vector "embeds"
+arrow watcher --> embed
+
+# --- Arrows: Core → Data ---
+arrow domsys --> mysql "truth"
+arrow graph --> neo4j "edges"
+arrow vector --> qdrant "vectors"
+arrow embed --> sqlite "cache"
+arrow domsys --> lmdb "ram" dashed
+
+# --- Arrows: Data → Pipelines ---
+arrow mysql --> p1
+arrow neo4j --> p2
+arrow qdrant --> p3
+arrow sqlite --> p4
+arrow lmdb --> p5
+
+# --- Cross connections ---
+arrow vector --> domsys "queries" dashed
+arrow graph --> domsys "validates" dashed
+arrow cli --> domsys "executes"

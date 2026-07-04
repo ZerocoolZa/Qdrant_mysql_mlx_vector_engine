@@ -1,0 +1,523 @@
+# BCL Knowledge Store
+# Updated: 2026-07-04T12:37:30.542934
+
+[@ERRORAI]
+{
+    ("pattern";"ZeroDivisionError")
+    ("best_fix";"check_zero")
+    ("working_fixes";"check_zero|wrong_op")
+    ("failed_fixes";"safe_div|skip|still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542852")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"KeyError")
+    ("best_fix";"add_key")
+    ("working_fixes";"add_key|use_get|use_default")
+    ("failed_fixes";"wrong_key|still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542854")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"IndexError")
+    ("best_fix";"bounds_check")
+    ("working_fixes";"bounds_check|extend_list|wrong_index")
+    ("failed_fixes";"still_bad|empty_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542855")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"TypeError")
+    ("best_fix";"cast_int")
+    ("working_fixes";"cast_int|cast_str")
+    ("failed_fixes";"wrong_order|wrong_op|still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542856")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"ValueError")
+    ("best_fix";"valid_input")
+    ("working_fixes";"valid_input|hex_parse")
+    ("failed_fixes";"try_except|still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542858")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"NameError")
+    ("best_fix";"define_var")
+    ("working_fixes";"define_var|use_literal")
+    ("failed_fixes";"wrong_name|still_bad|string_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542859")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"AttributeError")
+    ("best_fix";"use_list")
+    ("working_fixes";"use_list|use_extend")
+    ("failed_fixes";"wrong_method|still_bad|wrong_type")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542861")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"FileNotFoundError")
+    ("best_fix";"create_file")
+    ("working_fixes";"create_file|use_exists|still_bad")
+    ("failed_fixes";"wrong_path|skip_read")
+    ("success_count";"1")
+    ("fail_count";"0")
+    ("confidence";"0.200")
+    ("encounters";"1")
+    ("last_seen";"2026-07-04T12:37:30.542862")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"OverflowError")
+    ("best_fix";"small_exp")
+    ("working_fixes";"small_exp|use_int|use_math")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542863")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"RecursionError")
+    ("best_fix";"use_loop")
+    ("working_fixes";"use_loop|add_limit")
+    ("failed_fixes";"add_base_case|wrong_fix|still_bad")
+    ("success_count";"9")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"9")
+    ("last_seen";"2026-07-04T12:37:30.542865")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"StopIteration")
+    ("best_fix";"bigger_iter")
+    ("working_fixes";"bigger_iter")
+    ("failed_fixes";"use_default|use_for|still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542866")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"AssertionError")
+    ("best_fix";"fix_assert")
+    ("working_fixes";"fix_assert|remove_assert|fix_value")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542867")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"UnicodeDecodeError")
+    ("best_fix";"use_replace")
+    ("working_fixes";"use_replace|use_ignore|use_latin1")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542869")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"TypeErrorArgs")
+    ("best_fix";"convert_str")
+    ("working_fixes";"convert_str|convert_list|use_str|wrong_fix")
+    ("failed_fixes";"still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542870")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"NoFixAvailable")
+    ("best_fix";"")
+    ("working_fixes";"")
+    ("failed_fixes";"try_except|use_null|still_bad|wrong_fix|skip")
+    ("success_count";"0")
+    ("fail_count";"5")
+    ("confidence";"0.000")
+    ("encounters";"1")
+    ("last_seen";"2026-07-04T12:37:30.542871")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"KeyErrorNested")
+    ("best_fix";"add_port")
+    ("working_fixes";"add_port|use_get|use_default")
+    ("failed_fixes";"wrong_key|still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542873")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"ValueErrorRange")
+    ("best_fix";"fix_month")
+    ("working_fixes";"fix_month|fix_to_jan|use_try")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542874")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"ImportError")
+    ("best_fix";"use_stdlib")
+    ("working_fixes";"use_stdlib|try_except|skip_import")
+    ("failed_fixes";"wrong_fix|still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542875")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"RuntimeError")
+    ("best_fix";"catch_it")
+    ("working_fixes";"catch_it|dont_raise|raise_diff")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542876")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"SyntaxError")
+    ("best_fix";"fix_syntax")
+    ("working_fixes";"fix_syntax|fix_return|remove_def")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542878")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"PermissionError")
+    ("best_fix";"use_tmp")
+    ("working_fixes";"use_tmp|check_perm|try_except|wrong_fix")
+    ("failed_fixes";"still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542879")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"IsADirectoryError")
+    ("best_fix";"use_file")
+    ("working_fixes";"use_file|list_dir|try_except|wrong_fix")
+    ("failed_fixes";"still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542880")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"UnicodeEncodeError")
+    ("best_fix";"use_replace")
+    ("working_fixes";"use_replace|use_ignore")
+    ("failed_fixes";"use_latin1|still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542881")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"ConnectionError")
+    ("best_fix";"try_except")
+    ("working_fixes";"try_except|use_timeout|skip")
+    ("failed_fixes";"wrong_port|still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542883")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"TimeoutError")
+    ("best_fix";"try_except")
+    ("working_fixes";"try_except|longer_timeout|skip")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542884")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"NotImplementedError")
+    ("best_fix";"implement")
+    ("working_fixes";"implement|override|try_except")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542885")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"EOFError")
+    ("best_fix";"catch_it")
+    ("working_fixes";"catch_it|dont_raise|use_default")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542887")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"UnboundLocalError")
+    ("best_fix";"init_first")
+    ("working_fixes";"init_first|use_param|use_global|wrong_fix")
+    ("failed_fixes";"still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542888")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"TabError")
+    ("best_fix";"fix_tabs")
+    ("working_fixes";"fix_tabs|fix_all_tabs|wrong_fix|skip")
+    ("failed_fixes";"still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542889")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"NoFixImpossibleResult")
+    ("best_fix";"")
+    ("working_fixes";"")
+    ("failed_fixes";"safe_div|check_zero|still_bad|wrong_op|skip")
+    ("success_count";"0")
+    ("fail_count";"5")
+    ("confidence";"0.000")
+    ("encounters";"1")
+    ("last_seen";"2026-07-04T12:37:30.542890")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"IndentationError")
+    ("best_fix";"fix_indent")
+    ("working_fixes";"fix_indent|fix_tabs|remove_func")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542892")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"ArithmeticError")
+    ("best_fix";"catch")
+    ("working_fixes";"catch|dont_raise|use_try")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542893")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"FloatingPointError")
+    ("best_fix";"use_abs")
+    ("working_fixes";"use_abs|use_cmath|try_except")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542894")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"SystemExit")
+    ("best_fix";"catch")
+    ("working_fixes";"catch|dont_raise|use_code")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542896")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"KeyboardInterrupt")
+    ("best_fix";"catch")
+    ("working_fixes";"catch|dont_raise|use_handler")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542897")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"NoFixMemoryExhaustion")
+    ("best_fix";"")
+    ("working_fixes";"")
+    ("failed_fixes";"catch|dont_raise|free_mem|still_bad|wrong_fix")
+    ("success_count";"0")
+    ("fail_count";"5")
+    ("confidence";"0.000")
+    ("encounters";"1")
+    ("last_seen";"2026-07-04T12:37:30.542898")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"LookupError")
+    ("best_fix";"catch")
+    ("working_fixes";"catch|dont_raise|use_key")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542899")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"BufferError")
+    ("best_fix";"catch")
+    ("working_fixes";"catch|dont_raise|use_msg")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542901")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"ReferenceError")
+    ("best_fix";"use_ref")
+    ("working_fixes";"use_ref|keep_ref|try_except|wrong_fix")
+    ("failed_fixes";"still_bad")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542902")
+}
+
+[@ERRORAI]
+{
+    ("pattern";"GeneratorExit")
+    ("best_fix";"catch")
+    ("working_fixes";"catch|dont_raise|use_msg")
+    ("failed_fixes";"still_bad|wrong_fix")
+    ("success_count";"10")
+    ("fail_count";"0")
+    ("confidence";"1.000")
+    ("encounters";"10")
+    ("last_seen";"2026-07-04T12:37:30.542903")
+}
+

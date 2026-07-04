@@ -1,0 +1,55 @@
+{
+    "name": "AI",
+    "file": "dom_ai.py",
+    "summary": "AI domain - models, training, inference, embeddings, agents",
+    "classes": [
+        {"name": "Model", "methods": ["Load", "Save", "Info", "List", "Unload"], "description": "Model management"},
+        {"name": "Trainer", "methods": ["Train", "Evaluate", "Checkpoint", "Restore", "Stop"], "description": "Training pipeline"},
+        {"name": "Inference", "methods": ["Predict", "Classify", "Generate", "Embed", "Batch"], "description": "Inference engine"},
+        {"name": "Dataset", "methods": ["Load", "Split", "Augment", "Label", "Stats"], "description": "Dataset management"},
+        {"name": "Embedding", "methods": ["Encode", "Decode", "Similarity", "Search"], "description": "Embedding operations"},
+        {"name": "Agent", "methods": ["Plan", "Act", "Observe", "Reflect", "Reset"], "description": "AI agent"},
+        {"name": "Memory", "methods": ["Store", "Recall", "Forget", "Clear", "Size"], "description": "Agent memory"},
+        {"name": "Tokenizer", "methods": ["Encode", "Decode", "Count", "Vocab"], "description": "Tokenizer"},
+        {"name": "Optimizer", "methods": ["Adam", "SGD", "Schedule", "Step", "Zero"], "description": "Optimizers"},
+        {"name": "Validator", "methods": ["Accuracy", "Loss", "Confusion", "Metrics"], "description": "Model validation"}
+    ],
+    "edges": [
+        {"src": "Trainer", "dst": "Model", "type": "USES"},
+        {"src": "Trainer", "dst": "Dataset", "type": "USES"},
+        {"src": "Trainer", "dst": "Optimizer", "type": "USES"},
+        {"src": "Trainer", "dst": "Validator", "type": "USES"},
+        {"src": "Inference", "dst": "Model", "type": "USES"},
+        {"src": "Inference", "dst": "Tokenizer", "type": "USES"},
+        {"src": "Embedding", "dst": "Model", "type": "USES"},
+        {"src": "Embedding", "dst": "Tokenizer", "type": "USES"},
+        {"src": "Agent", "dst": "Inference", "type": "USES"},
+        {"src": "Agent", "dst": "Memory", "type": "USES"},
+        {"src": "Agent", "dst": "Embedding", "type": "USES"},
+        {"src": "Dataset", "dst": "Tokenizer", "type": "USES"}
+    ],
+    "flows": {
+        "Trainer": [
+            {"type": "call", "desc": "Dataset -- load training data"},
+            {"type": "call", "desc": "Model -- initialize model"},
+            {"type": "step", "desc": "Forward pass"},
+            {"type": "call", "desc": "Validator -- compute loss"},
+            {"type": "call", "desc": "Optimizer -- backward pass"},
+            {"type": "step", "desc": "Checkpoint if improved"}
+        ],
+        "Agent": [
+            {"type": "call", "desc": "Memory -- recall context"},
+            {"type": "step", "desc": "Plan next action"},
+            {"type": "call", "desc": "Inference -- execute action"},
+            {"type": "step", "desc": "Observe result"},
+            {"type": "call", "desc": "Memory -- store observation"},
+            {"type": "step", "desc": "Reflect on outcome"}
+        ]
+    },
+    "categories": {
+        "CRUD": ["Model", "Dataset", "Memory"],
+        "TRANSFORM": ["Trainer", "Inference", "Embedding", "Tokenizer"],
+        "SECURITY": ["Validator"],
+        "UTILITY": ["Agent", "Optimizer"]
+    }
+}

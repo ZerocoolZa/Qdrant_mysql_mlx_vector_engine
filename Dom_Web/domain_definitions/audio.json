@@ -1,0 +1,50 @@
+{
+    "name": "Audio",
+    "file": "dom_audio.py",
+    "summary": "Audio domain - playback, recording, encoding, analysis, synthesis",
+    "classes": [
+        {"name": "Player", "methods": ["Play", "Pause", "Stop", "Seek", "Volume", "Mute"], "description": "Audio playback"},
+        {"name": "Recorder", "methods": ["Start", "Stop", "Pause", "Resume", "Save"], "description": "Audio recording"},
+        {"name": "Encoder", "methods": ["MP3", "WAV", "AAC", "FLAC", "OGG"], "description": "Audio encoding"},
+        {"name": "Decoder", "methods": ["MP3", "WAV", "AAC", "FLAC", "OGG"], "description": "Audio decoding"},
+        {"name": "Mixer", "methods": ["Add", "Remove", "Mix", "Clear", "Levels"], "description": "Audio mixing"},
+        {"name": "Analyzer", "methods": ["FFT", "Spectrum", "Pitch", "Tempo", "Key"], "description": "Audio analysis"},
+        {"name": "Synthesizer", "methods": ["Tone", "Chord", "Noise", "Sweep", "Sequence"], "description": "Audio synthesis"},
+        {"name": "Stream", "methods": ["Open", "Read", "Write", "Close", "Seek"], "description": "Audio streaming"},
+        {"name": "Filter", "methods": ["LowPass", "HighPass", "BandPass", "Reverb", "Echo"], "description": "Audio filters"},
+        {"name": "Converter", "methods": ["Resample", "Normalize", "Stereo", "Mono", "Trim"], "description": "Audio conversion"}
+    ],
+    "edges": [
+        {"src": "Player", "dst": "Decoder", "type": "USES"},
+        {"src": "Player", "dst": "Stream", "type": "USES"},
+        {"src": "Recorder", "dst": "Encoder", "type": "USES"},
+        {"src": "Recorder", "dst": "Stream", "type": "USES"},
+        {"src": "Mixer", "dst": "Stream", "type": "USES"},
+        {"src": "Mixer", "dst": "Filter", "type": "USES"},
+        {"src": "Analyzer", "dst": "Decoder", "type": "USES"},
+        {"src": "Synthesizer", "dst": "Encoder", "type": "USES"},
+        {"src": "Converter", "dst": "Decoder", "type": "USES"},
+        {"src": "Converter", "dst": "Encoder", "type": "USES"},
+        {"src": "Filter", "dst": "Stream", "type": "WRAPS"}
+    ],
+    "flows": {
+        "Player": [
+            {"type": "call", "desc": "Decoder -- decode audio file"},
+            {"type": "call", "desc": "Stream -- open audio stream"},
+            {"type": "step", "desc": "Play audio buffer"},
+            {"type": "step", "desc": "Handle pause/stop/seek"}
+        ],
+        "Recorder": [
+            {"type": "call", "desc": "Stream -- open input stream"},
+            {"type": "step", "desc": "Capture audio buffer"},
+            {"type": "call", "desc": "Encoder -- encode captured audio"},
+            {"type": "step", "desc": "Save to file"}
+        ]
+    },
+    "categories": {
+        "CRUD": ["Player", "Recorder", "Stream"],
+        "TRANSFORM": ["Encoder", "Decoder", "Converter", "Filter"],
+        "SECURITY": [],
+        "UTILITY": ["Mixer", "Synthesizer", "Analyzer"]
+    }
+}

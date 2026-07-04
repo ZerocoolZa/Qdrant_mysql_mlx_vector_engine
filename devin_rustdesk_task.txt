@@ -1,0 +1,46 @@
+Build patched RustDesk v1.4.8 with stretch view style for Windows.
+
+## Problem
+RustDesk 1.4.8 Flutter client (installed at C:\Program Files\RustDesk\) lacks a 'stretch' view style. 
+Mac server is 1280x800 (16:10), Windows screen is 1366x768 (16:9). 
+Adaptive mode preserves aspect ratio causing black bars. We need stretch mode that scales X and Y independently.
+
+## Installed RustDesk Info
+- Version: 1.4.8
+- Location: C:\Program Files\RustDesk\rustdesk.exe
+- Flutter assets: C:\Program Files\RustDesk\data\app.so (AOT compiled)
+- Config: C:\Users\Administrator\AppData\Roaming\RustDesk\config\peers\371163513.toml
+
+## Available on Windows
+- Python 3.14
+- Git
+- Devin CLI v2026.5.26
+- NO Flutter SDK (need to install)
+- NO Rust toolchain (need to install)
+- NO Visual Studio Build Tools (need to install)
+
+## Task
+1. Install Flutter SDK (download zip from https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.27.0-stable.zip, extract to C:\flutter, add to PATH)
+2. Install Rust toolchain (download rustup-init.exe from https://win.rustup.rs/x86_64, run with -y)
+3. Install Visual Studio Build Tools with C++ desktop workload
+4. git clone https://github.com/rustdesk/rustdesk.git C:\rustdesk_src
+5. Checkout tag 1.4.8 (or closest matching tag)
+6. Patch flutter/lib/consts.dart - add: const kRemoteViewStyleStretch = 'stretch';
+7. Patch flutter/lib/models/model.dart - in CanvasModel.updateViewStyle(), add stretch case:
+   When style == 'stretch': calculate scale_x = windowWidth/remoteWidth and scale_y = windowHeight/remoteHeight, use them independently (don't take min)
+8. Patch flutter/lib/desktop/widgets/remote_toolbar.dart - add 'Stretch' as a radio menu option in viewStyle()
+9. Run: cd C:\rustdesk_src && flutter pub get && flutter build windows --release
+10. Copy built exe and DLLs from build\windows\x64\runner\Release\ to C:\Program Files\RustDesk\ (backup original first)
+11. Set C:\Users\Administrator\AppData\Roaming\RustDesk\config\peers\371163513.toml: view_style = 'stretch'
+12. attrib +r C:\Users\Administrator\AppData\Roaming\RustDesk\config\peers\371163513.toml
+13. Restart RustDesk
+
+## Alternative if build fails
+If building from source is too complex, try patching app.so directly:
+- The string 'adaptive' exists at offset 3091252 in app.so
+- Try replacing 'adaptive' with 'stretch' (same length? no - adaptive=8, stretch=7)
+- Instead, find where the view style logic compares strings and patch the comparison
+- OR: find if there's a way to make adaptive mode not preserve aspect ratio
+
+## Verify
+After patching, restart RustDesk, connect to Mac (ID 371163513), screen should fill completely.

@@ -1,0 +1,52 @@
+ErrorAI v3 — 100K Concurrent Benchmark
+Date: 2026-07-04T13:45:54.483203
+Scenarios: 40
+Runs per scenario: 100,000
+Total encounters: 4,000,000
+Time: 834.4s
+
+Scenario                      Trig    Match    Fixed  Correct  NoFix  Chgs BestFix            Conf
+----------------------------------------------------------------------------------------------------
+ArithmeticError            100,000  100,000  100,000  100,000      0     0 catch             1.000
+AssertionError             100,000  100,000  100,000  100,000      0     0 fix_assert        1.000
+AttributeError             100,000  100,000  100,000  100,000      0     0 use_list          1.000
+BufferError                100,000  100,000  100,000  100,000      0     0 catch             1.000
+ConnectionError            100,000        0   99,995   99,995      0     5 try_except        1.000
+EOFError                   100,000  100,000  100,000  100,000      0     0 catch_it          1.000
+FileNotFoundError               13       13       13       13      0     0 create_file       1.000
+FloatingPointError         100,000  100,000  100,000  100,000      0     0 use_abs           1.000
+GeneratorExit              100,000  100,000  100,000  100,000      0     0 catch             1.000
+ImportError                100,000  100,000  100,000  100,000      0     0 use_stdlib        1.000
+IndentationError           100,000  100,000  100,000  100,000      0     0 fix_indent        1.000
+IndexError                 100,000  100,000  100,000  100,000      0     0 bounds_check      1.000
+IsADirectoryError          100,000  100,000   99,968   99,968      0    32 list_dir          1.000
+KeyError                   100,000  100,000  100,000  100,000      0     0 add_key           1.000
+KeyErrorNested             100,000  100,000  100,000  100,000      0     0 add_port          1.000
+KeyboardInterrupt          100,000  100,000  100,000  100,000      0     0 catch             1.000
+LookupError                100,000  100,000  100,000  100,000      0     0 catch             1.000
+NameError                  100,000  100,000  100,000  100,000      0     0 define_var        1.000
+NoFixAvailable             100,000        0        0        0 100,000     0                   0.000
+NoFixImpossibleResult      100,000  100,000        0        0 100,000     0                   0.000
+NoFixMemoryExhaustion      100,000  100,000        0        0 100,000     0                   0.000
+NotImplementedError        100,000  100,000  100,000  100,000      0     0 implement         1.000
+OverflowError              100,000  100,000  100,000  100,000      0     0 small_exp         1.000
+PermissionError            100,000  100,000  100,000  100,000      0     0 use_tmp           1.000
+RecursionError             100,000  100,000   99,999   99,999      0     1 use_loop          1.000
+ReferenceError             100,000  100,000  100,000  100,000      0     0 use_ref           1.000
+RuntimeError               100,000  100,000  100,000  100,000      0     0 catch_it          1.000
+StopIteration              100,000  100,000  100,000  100,000      0     0 bigger_iter       1.000
+SyntaxError                100,000  100,000  100,000  100,000      0     0 fix_syntax        1.000
+SystemExit                 100,000  100,000  100,000  100,000      0     0 catch             1.000
+TabError                   100,000  100,000  100,000  100,000      0     0 fix_tabs          1.000
+TimeoutError               100,000  100,000  100,000  100,000      0     0 try_except        1.000
+TypeError                  100,000  100,000  100,000  100,000      0     0 cast_int          1.000
+TypeErrorArgs              100,000  100,000  100,000  100,000      0     0 convert_str       1.000
+UnboundLocalError          100,000  100,000  100,000  100,000      0     0 init_first        1.000
+UnicodeDecodeError         100,000  100,000  100,000  100,000      0     0 use_replace       1.000
+UnicodeEncodeError         100,000  100,000  100,000  100,000      0     0 use_replace       1.000
+ValueError                 100,000  100,000  100,000  100,000      0     0 valid_input       1.000
+ValueErrorRange            100,000  100,000  100,000  100,000      0     0 fix_month         1.000
+ZeroDivisionError          100,000  100,000  100,000  100,000      0     0 check_zero        1.000
+
+Fix rate: 92.31%
+Avg confidence: 0.925

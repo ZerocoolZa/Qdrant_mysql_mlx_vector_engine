@@ -1,0 +1,75 @@
+digraph CODEBASE {
+  rankdir=LR;
+  bgcolor="#1a1a2e";
+  node [fontname="Menlo", fontsize=10, style="filled"];
+  edge [fontname="Menlo", fontsize=8, color="#666688"];
+
+  "c_files" [label="c_files\n64,250 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+  "computational_units" [label="computational_units\n33 rows", fillcolor="#D0021B", fontcolor="#ffffff"];
+  "csharp_files" [label="csharp_files\n1,634 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+  "directories" [label="directories\n16,625 rows", fillcolor="#7ED321", fontcolor="#ffffff"];
+  "file_archive" [label="file_archive\n1,261 rows", fillcolor="#7ED321", fontcolor="#ffffff"];
+  "file_checkpoint" [label="file_checkpoint\n420,299 rows", fillcolor="#7ED321", fontcolor="#ffffff"];
+  "ingest_solutions" [label="ingest_solutions\n1 rows", fillcolor="#7ED321", fontcolor="#ffffff"];
+  "ingestion_jobs" [label="ingestion_jobs\n442,433 rows", fillcolor="#7ED321", fontcolor="#ffffff"];
+  "json_files" [label="json_files\n14,064 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+  "markdown_files" [label="markdown_files\n36,866 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+  "python_baseclass_index" [label="python_baseclass_index\n0 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "python_class_index" [label="python_class_index\n559,151 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "python_decorator_index" [label="python_decorator_index\n0 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "python_files" [label="python_files\n774,649 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+  "python_import_index" [label="python_import_index\n0 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "python_index_state" [label="python_index_state\n0 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "python_method_index" [label="python_method_index\n0 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "python_run_index" [label="python_run_index\n0 rows", fillcolor="#F5A623", fontcolor="#ffffff"];
+  "swift_files" [label="swift_files\n11,213 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+  "tune_history" [label="tune_history\n9 rows", fillcolor="#D0021B", fontcolor="#ffffff"];
+  "yaml_files" [label="yaml_files\n6,077 rows", fillcolor="#4A90D9", fontcolor="#ffffff"];
+
+  "directories" -> "python_files" [label="contains"];
+  "directories" -> "c_files" [label="contains"];
+  "directories" -> "swift_files" [label="contains"];
+  "directories" -> "csharp_files" [label="contains"];
+  "directories" -> "markdown_files" [label="contains"];
+  "directories" -> "json_files" [label="contains"];
+  "directories" -> "yaml_files" [label="contains"];
+  "directories" -> "directories" [label="parent_of"];
+  "python_files" -> "python_class_index" [label="defines_class"];
+  "python_files" -> "file_checkpoint" [label="checkpointed"];
+  "python_files" -> "ingestion_jobs" [label="ingested"];
+  "c_files" -> "file_checkpoint" [label="checkpointed"];
+  "c_files" -> "ingestion_jobs" [label="ingested"];
+  "computational_units" -> "python_class_index" [label="instantiates"];
+  "file_archive" -> "file_checkpoint" [label="archived_from"];
+  "ingestion_jobs" -> "file_checkpoint" [label="produces"];
+  "tune_history" -> "computational_units" [label="tuned"];
+
+  subgraph cluster_file {
+    label="File Storage"; bgcolor="#2a2a4e";
+    "python_files";
+    "c_files";
+    "swift_files";
+    "csharp_files";
+    "markdown_files";
+    "json_files";
+    "yaml_files";
+  }
+  subgraph cluster_index {
+    label="Index"; bgcolor="#2e2a1e";
+    "python_class_index";
+    "python_baseclass_index";
+    "python_decorator_index";
+    "python_import_index";
+    "python_method_index";
+    "python_run_index";
+    "python_index_state";
+  }
+  subgraph cluster_track {
+    label="Tracking"; bgcolor="#1e2e1e";
+    "file_checkpoint";
+    "ingestion_jobs";
+    "file_archive";
+    "directories";
+    "ingest_solutions";
+  }
+}

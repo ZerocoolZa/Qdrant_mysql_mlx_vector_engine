@@ -1,0 +1,384 @@
+#!/usr/bin/env python3
+"""
+BclGenerator.py — AST → FeatureMap → RuleEngine → BCL header pipeline.
+Deterministic compiler: no heuristics, no ML, pure constraint evaluation.
+"""
+
+import ast
+import hashlib
+import os
+import datetime
+import sys
+import json
+
+
+# ─── RULE DEFINITIONS (strict format) ───────────────────────────────
+
+RULES = [
+    {"id": "@print(22)",       "scope": "method", "severity": "hard", "predicate": lambda f: f["has_print"],           "description": "Disallow print() in method scope"},
+    {"id": "@decorators(20)",  "scope": "method", "severity": "hard", "predicate": lambda f: f["decorator_count"] > 0, "description": "No @staticmethod/@property/@classmethod"},
+    {"id": "@underscore(19)",  "scope": "method", "severity": "hard", "predicate": lambda f: f["has_self_underscore"], "description": "No self._xxx access"},
+    {"id": "@t3(50)",          "scope": "method", "severity": "hard", "predicate": lambda f: f["return_count"] > 0 and not f["returns_tuple3"], "description": "All methods must return Tuple3"},
+    {"id": "@pascal(38)",      "scope": "class",  "severity": "hard", "predicate": lambda c: c["class_name"] and not c["class_name"][:1].isupper(), "description": "Classes must be PascalCase"},
+    {"id": "@run(43)",         "scope": "class",  "severity": "hard", "predicate": lambda c: not c["has_run"],   "description": "Class must have Run() method"},
+    {"id": "@ctor(40)",        "scope": "class",  "severity": "hard", "predicate": lambda c: not c["has_init"], "description": "Class must have __init__"},
+    {"id": "@state(41)",       "scope": "class",  "severity": "hard", "predicate": lambda c: not c["has_state"], "description": "Class must use self.state dict"},
+    {"id": "@tabs(25)",        "scope": "class",  "severity": "hard", "predicate": lambda c: c["has_tabs"],     "description": "No tabs, spaces only"},
+]
+
+
+# ─── RULE ENGINE (strict separation: rules never touch AST) ────────
+
+class RuleEngine:
+    def __init__(self, rules=None, mem=None, db=None, param=None):
+        self.state = {
+            "rules": rules or [],
+            "config": {},
+        }
+        if param:
+            for key, value in param.items():
+                self.state[key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "evaluate_method":
+            return self.EvaluateMethod(params)
+        elif command == "evaluate_class":
+            return self.EvaluateClass(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state[key] = value
+        return (1, dict(self.state), None)
+
+    def EvaluateMethod(self, params):
+        mf = self._p(params, "features")
+        if mf is None:
+            return (0, None, ("MISSING_PARAM", "features required", 0))
+        violations = []
+        for r in self.state["rules"]:
+            if r["scope"] == "method":
+                if r["predicate"](mf):
+                    violations.append({"rule": r["id"], "scope": "method", "method": mf["name"], "description": r["description"]})
+        return (1, violations, None)
+
+    def EvaluateClass(self, params):
+        cf = self._p(params, "features")
+        if cf is None:
+            return (0, None, ("MISSING_PARAM", "features required", 0))
+        violations = []
+        for r in self.state["rules"]:
+            if r["scope"] == "class":
+                if r["predicate"](cf):
+                    violations.append({"rule": r["id"], "scope": "class", "description": r["description"]})
+        return (1, violations, None)
+
+
+# ─── FEATURE EXTRACTION (AST → FeatureMap, strict schema) ─────────
+
+def extract_method_features(node, class_name):
+    mf = {
+        "name": node.name,
+        "class_name": class_name,
+        "params": [a.arg for a in node.args.args],
+        "decorators": [ast.dump(d) for d in node.decorator_list],
+        "decorator_count": len(node.decorator_list),
+        "return_count": 0,
+        "returns_tuple3": False,
+        "has_print": False,
+        "has_self_underscore": False,
+        "has_self_attr": False,
+        "self_attrs": [],
+        "calls": [],
+        "call_count": 0,
+        "branch_count": 0,
+        "loop_count": 0,
+        "line_span": (getattr(node, "end_lineno", node.lineno) - node.lineno),
+    }
+
+    for child in ast.walk(node):
+        if isinstance(child, ast.Call):
+            func = child.func
+            if isinstance(func, ast.Name) and func.id == "print":
+                mf["has_print"] = True
+            if isinstance(func, ast.Attribute):
+                mf["call_count"] += 1
+                mf["calls"].append(func.attr)
+            elif isinstance(func, ast.Name):
+                mf["call_count"] += 1
+                mf["calls"].append(func.id)
+
+        if isinstance(child, ast.Attribute):
+            if isinstance(child.value, ast.Name) and child.value.id == "self":
+                mf["has_self_attr"] = True
+                mf["self_attrs"].append(child.attr)
+                if child.attr.startswith("_") and child.attr not in ("__init__",):
+                    mf["has_self_underscore"] = True
+
+        if isinstance(child, ast.Return) and child.value:
+            mf["return_count"] += 1
+            if isinstance(child.value, ast.Tuple) and len(child.value.elts) == 3:
+                mf["returns_tuple3"] = True
+
+        if isinstance(child, (ast.If, ast.Match)):
+            mf["branch_count"] += 1
+        if isinstance(child, (ast.For, ast.While)):
+            mf["loop_count"] += 1
+
+    return mf
+
+
+def extract_class_features(node, source_lines):
+    class_name = node.name
+    methods = [n for n in node.body if isinstance(n, ast.FunctionDef)]
+    method_features = [extract_method_features(m, class_name) for m in methods]
+
+    docstring = ast.get_docstring(node)
+
+    has_run = any(m.name == "Run" for m in methods)
+    has_init = any(m.name == "__init__" for m in methods)
+
+    has_state = False
+    for child in ast.walk(node):
+        if isinstance(child, ast.Attribute):
+            if isinstance(child.value, ast.Name) and child.value.id == "self":
+                if child.attr == "state":
+                    has_state = True
+
+    has_tabs = any("\t" in line for line in source_lines)
+
+    return {
+        "class_name": class_name,
+        "docstring": docstring,
+        "methods": method_features,
+        "method_names": [m.name for m in methods],
+        "has_run": has_run,
+        "has_init": has_init,
+        "has_state": has_state,
+        "has_tabs": has_tabs,
+        "lineno": node.lineno,
+        "end_lineno": getattr(node, "end_lineno", node.lineno),
+        "bases": [ast.dump(b) for b in node.bases],
+    }
+
+
+# ─── BCL GENERATION (3-level: file → class → method) ──────────────
+
+def generate_summary(cf):
+    if cf["docstring"]:
+        return cf["docstring"].strip().split("\n")[0][:120]
+    methods = cf["method_names"]
+    if not methods:
+        return f"Class {cf['class_name']} with no methods"
+    return f"Class {cf['class_name']} — methods: {', '.join(methods[:8])}"
+
+
+def generate_file_bcl(filepath, source, class_results):
+    file_hash = hashlib.md5(source.encode()).hexdigest()[:8]
+    today = datetime.date.today().isoformat()
+    filename = os.path.basename(filepath)
+    total_classes = len(class_results)
+    total_methods = sum(r["method_count"] for r in class_results)
+    total_violations = sum(r["violation_count"] for r in class_results)
+    all_compliant = total_violations == 0
+
+    lines = []
+    lines.append(f"#[@FILE]    {filename} path={filepath}")
+    lines.append(f"#[@FILEID]  md5={file_hash} date={today} lines={len(source.splitlines())} classes={total_classes} methods={total_methods}")
+    lines.append(f"#[@FSTAT]   violations={total_violations} compliant={all_compliant}")
+    return "\n".join(lines)
+
+
+def generate_method_bcl(mf, method_violations):
+    vstr = "; ".join(v["rule"] for v in method_violations) if method_violations else "NONE"
+    params_str = ",".join(mf["params"]) if mf["params"] else "NONE"
+    calls_str = ",".join(mf["calls"][:8]) if mf["calls"] else "NONE"
+    self_attrs_str = ",".join(sorted(set(mf["self_attrs"]))) if mf["self_attrs"] else "NONE"
+    decorators_str = ",".join(mf["decorators"]) if mf["decorators"] else "NONE"
+
+    lines = []
+    lines.append(f"  #[@METHOD]    {mf['name']}")
+    lines.append(f"  #[@PARAMS]    {params_str}")
+    lines.append(f"  #[@RETURNS]   count={mf['return_count']} tuple3={mf['returns_tuple3']}")
+    lines.append(f"  #[@CALLS]     count={mf['call_count']} targets={calls_str}")
+    lines.append(f"  #[@SELF]      attrs={self_attrs_str}")
+    lines.append(f"  #[@DECORATE]  count={mf['decorator_count']} items={decorators_str}")
+    lines.append(f"  #[@FLOW]      branches={mf['branch_count']} loops={mf['loop_count']} span={mf['line_span']}")
+    lines.append(f"  #[@MVIOLATE]  {vstr}")
+    return "\n".join(lines)
+
+
+def generate_class_bcl(filepath, source, cf, all_violations, class_violations, method_violations_by_name):
+    file_hash = hashlib.md5(source.encode()).hexdigest()[:8]
+    today = datetime.date.today().isoformat()
+    filename = os.path.basename(filepath)
+
+    compliant = len(all_violations) == 0
+    class_vstr = "; ".join(v["rule"] for v in class_violations) if class_violations else "NONE"
+    all_vstr = "; ".join(v["rule"] for v in all_violations) if all_violations else "NONE"
+    summary = generate_summary(cf)
+    method_str = ", ".join(cf["method_names"]) if cf["method_names"] else "NONE"
+
+    lines = []
+    lines.append(f"#[@GHOST]    file={filepath} date={today} author=BclGenerator hash={file_hash}")
+    lines.append(f"#[@VBSTYLE]  compliant={compliant} violations={len(all_violations)} rules={all_vstr}")
+    lines.append(f"#[@CLASS]    {cf['class_name']}")
+    lines.append(f"#[@CSUMMARY] {summary}")
+    lines.append(f"#[@CMETHODS] {method_str}")
+    lines.append(f"#[@CVIOLATE] {class_vstr}")
+    lines.append(f"#[@CBASES]   {','.join(cf['bases']) if cf['bases'] else 'NONE'}")
+    lines.append(f"#[@CBODY]    lines={cf['lineno']}-{cf['end_lineno']}")
+
+    for mf in cf["methods"]:
+        mv = method_violations_by_name.get(mf["name"], [])
+        lines.append(generate_method_bcl(mf, mv))
+
+    return "\n".join(lines)
+
+
+# ─── CALL GRAPH BUILDER (normalized edges, not strings) ────────────
+
+def build_call_graph(tree):
+    edges = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            class_name = node.name
+            for m in node.body:
+                if isinstance(m, ast.FunctionDef):
+                    for child in ast.walk(m):
+                        if isinstance(child, ast.Call):
+                            if isinstance(child.func, ast.Attribute):
+                                edges.append({"caller_class": class_name, "caller_method": m.name, "callee": child.func.attr, "callee_type": "attr"})
+                            elif isinstance(child.func, ast.Name):
+                                edges.append({"caller_class": class_name, "caller_method": m.name, "callee": child.func.id, "callee_type": "name"})
+    return edges
+
+
+# ─── FULL PIPELINE: parse → extract → evaluate → generate ───────────
+
+def process_file(filepath):
+    with open(filepath, "r") as f:
+        source = f.read()
+    source_lines = source.splitlines()
+    tree = ast.parse(source, filename=filepath)
+
+    engine = RuleEngine(RULES)
+    results = []
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            cf = extract_class_features(node, source_lines)
+
+            class_violations = engine.Run("evaluate_class", {"features": cf})
+            method_violations = []
+            for mf in cf["methods"]:
+                method_violations.extend(engine.Run("evaluate_method", {"features": mf}))
+
+            all_violations = class_violations + method_violations
+
+            method_violations_by_name = {}
+            for mv in method_violations:
+                method_violations_by_name.setdefault(mv["method"], []).append(mv)
+
+            bcl = generate_class_bcl(filepath, source, cf, all_violations, class_violations, method_violations_by_name)
+
+            call_edges = []
+            for m in node.body:
+                if isinstance(m, ast.FunctionDef):
+                    for child in ast.walk(m):
+                        if isinstance(child, ast.Call):
+                            if isinstance(child.func, ast.Attribute):
+                                call_edges.append({"caller": m.name, "callee": child.func.attr, "type": "attr"})
+                            elif isinstance(child.func, ast.Name):
+                                call_edges.append({"caller": m.name, "callee": child.func.id, "type": "name"})
+
+            results.append({
+                "file": filepath,
+                "class": cf["class_name"],
+                "methods": cf["method_names"],
+                "method_count": len(cf["method_names"]),
+                "docstring": cf["docstring"],
+                "violations": all_violations,
+                "violation_count": len(all_violations),
+                "class_violations": class_violations,
+                "method_violations": method_violations,
+                "compliant": len(all_violations) == 0,
+                "bcl_header": bcl,
+                "call_edges": call_edges,
+                "method_features": cf["methods"],
+            })
+    return results
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.stdout.write("Usage: python3 BclGenerator.py <file.py> [--json] [--stamp]\n")
+        sys.stdout.write("  --json   Output as JSON\n")
+        sys.stdout.write("  --stamp  Write BCL header to file\n")
+        sys.exit(1)
+
+    filepath = sys.argv[1]
+    output_json = "--json" in sys.argv
+    stamp = "--stamp" in sys.argv
+
+    if not os.path.exists(filepath):
+        sys.stdout.write("ERROR: File not found: " + filepath + "\n")
+        sys.exit(1)
+
+    results = process_file(filepath)
+
+    if output_json:
+        output = json.dumps(results, indent=2, default=str)
+        sys.stdout.write(output + "\n")
+    else:
+        file_bcl = generate_file_bcl(filepath, open(filepath).read(), results)
+        sys.stdout.write("#" * 70 + "\n")
+        sys.stdout.write("# FILE-LEVEL BCL\n")
+        sys.stdout.write("#" * 70 + "\n")
+        sys.stdout.write(file_bcl + "\n")
+        sys.stdout.write("\n")
+
+        for r in results:
+            sys.stdout.write("=" * 70 + "\n")
+            sys.stdout.write("# CLASS-LEVEL BCL\n")
+            sys.stdout.write("=" * 70 + "\n")
+            sys.stdout.write(r["bcl_header"])
+            sys.stdout.write("\n")
+
+            sys.stdout.write("-" * 70 + "\n")
+            sys.stdout.write(f"CALL EDGES ({len(r['call_edges'])}):\n")
+            for e in r["call_edges"]:
+                sys.stdout.write(f"  {e['caller']} -> {e['callee']} ({e['type']})\n")
+            sys.stdout.write("=" * 70 + "\n\n")
+
+        if stamp:
+            with open(filepath, "r") as f:
+                content = f.read()
+            if "#[@GHOST]" not in content:
+                full_bcl = file_bcl + "\n\n"
+                for r in results:
+                    full_bcl += r["bcl_header"] + "\n\n"
+                stamped = full_bcl + content
+                with open(filepath, "w") as f:
+                    f.write(stamped)
+                sys.stdout.write(f"[STAMPED] Full BCL headers written to {filepath}\n")
+            else:
+                sys.stdout.write(f"[SKIP] File already has BCL header\n")
+
+
+if __name__ == "__main__":
+    main()

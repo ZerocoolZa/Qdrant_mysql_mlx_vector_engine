@@ -1,0 +1,185 @@
+{
+    "version": 2,
+    "engine_name": "GhostQA",
+
+    "models": {
+        "embedding": {
+            "active": "bge_small",
+            "registry": {
+                "bge_small": {
+                    "type": "sentence_transformer",
+                    "name": "BAAI/bge-small-en-v1.5",
+                    "dim": 384,
+                    "max_seq": 512,
+                    "device": "auto"
+                },
+                "bge_small_mlx": {
+                    "type": "mlx",
+                    "name": "mlx-community/bge-small-en-v1.5-bf16",
+                    "dim": 384,
+                    "max_seq": 512,
+                    "device": "metal"
+                },
+                "minilm_l12": {
+                    "type": "coreml",
+                    "name": "all-MiniLM-L12-v2",
+                    "path": "/Users/wws/Documents/Models/MiniLM-L12-v2/all-MiniLM-L12-v2-converted/all-MiniLM-L6-v2_6136536182.mlpackage",
+                    "dim": 384,
+                    "max_seq": 256,
+                    "device": "metal"
+                },
+                "token_embedder": {
+                    "type": "coreml",
+                    "name": "TokenEmbedder_V2",
+                    "path": "/Users/wws/Documents/Models/coreml_models/TokenEmbedder_V2.mlpackage",
+                    "dim": 384,
+                    "max_seq": 128,
+                    "device": "metal"
+                },
+                "codebert": {
+                    "type": "coreml",
+                    "name": "microsoft_codebert-base",
+                    "path": "/Users/wws/Documents/Models/coreml_models/microsoft_codebert-base.mlpackage",
+                    "dim": 768,
+                    "max_seq": 512,
+                    "device": "metal"
+                },
+                "bge_m3_mlx": {
+                    "type": "mlx",
+                    "name": "mlx-community/bge-m3-mlx-fp16",
+                    "dim": 1024,
+                    "max_seq": 8192,
+                    "device": "metal"
+                }
+            }
+        },
+        "qa": {
+            "active": "bert_squad_fp16",
+            "registry": {
+                "bert_squad_fp16": {
+                    "type": "coreml",
+                    "name": "BERTSquadFP16",
+                    "path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/qa_engine/BERTSQUADFP16.mlmodel",
+                    "tokenizer": "bert-base-uncased",
+                    "max_length": 384,
+                    "device": "metal"
+                },
+                "bert_squad_int8": {
+                    "type": "coreml",
+                    "name": "BERTSquadINT8",
+                    "path": "",
+                    "tokenizer": "bert-base-uncased",
+                    "max_length": 384,
+                    "device": "metal"
+                }
+            }
+        },
+        "llm": {
+            "active": "qwen25_coder_4bit",
+            "enabled": true,
+            "registry": {
+                "qwen25_coder_4bit": {
+                    "type": "mlx",
+                    "name": "mlx-community/Qwen2.5-Coder-1.5B-Instruct-4bit",
+                    "max_tokens": 200,
+                    "device": "metal"
+                },
+                "none": {
+                    "type": "none",
+                    "name": "no_llm"
+                }
+            }
+        }
+    },
+
+    "storage": {
+        "mode": "persistent",
+        "persistence_policy": "save_on_demand",
+        "refresh_policy": "manual",
+        "vector_backend": "qdrant",
+        "backends": {
+            "qdrant": {
+                "url": "http://localhost:6333",
+                "collections": [
+                    "dim_semantic", "dim_structural", "dim_capability",
+                    "dim_lifecycle", "dim_bracket"
+                ],
+                "default_collection": "dim_semantic"
+            },
+            "faiss": {
+                "index_type": "IndexFlatIP",
+                "path": ""
+            },
+            "sqlite_vector": {
+                "path": "",
+                "table": "embeddings"
+            },
+            "ram": {
+                "index_type": "numpy"
+            }
+        }
+    },
+
+    "hardware": {
+        "execution_mode": "auto",
+        "detect_on_init": true,
+        "resource_limits": {
+            "max_ram_mb": 4096,
+            "max_vram_mb": 2048,
+            "max_chunk_count": 100000,
+            "max_embedding_count": 1000000,
+            "max_document_size_mb": 100,
+            "max_retrieval_depth": 10,
+            "max_qa_context_chars": 2000
+        }
+    },
+
+    "retrieval": {
+        "top_k": 5,
+        "similarity_threshold": 0.30,
+        "distance_metric": "cosine",
+        "chunk_size": 400,
+        "chunk_overlap": 80,
+        "reranking_enabled": false,
+        "reranker_model": ""
+    },
+
+    "qa": {
+        "confidence_threshold": 0.0,
+        "max_answer_length": 50,
+        "span_extraction_mode": "best_span",
+        "multi_answer_mode": false
+    },
+
+    "pipeline": {
+        "mode": "B",
+        "stages": ["embed", "search", "qa_extract", "classify"]
+    },
+
+    "classification": {
+        "true_threshold": 5.0,
+        "unknown_threshold": 0.0,
+        "false_threshold": 0.0
+    },
+
+    "metrics": {
+        "record_latencies": true,
+        "record_ram_usage": true,
+        "record_retrieval_scores": true,
+        "record_qa_confidence": true
+    },
+
+    "failure_attribution": {
+        "stages": [
+            "DOCUMENT_LOAD",
+            "CHUNKING",
+            "EMBEDDING",
+            "VECTOR_STORE",
+            "RETRIEVAL",
+            "RERANKING",
+            "QA_EXTRACTION",
+            "CLASSIFICATION",
+            "RESOURCE_LIMIT"
+        ]
+    }
+}

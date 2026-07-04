@@ -1,0 +1,18 @@
+{
+  "batchFingerprint": "b85d85bb9fbc827e733087b79ef5bf248d60368320b160072296b8f11f4e94d8",
+  "originalFileName": "config-system.json",
+  "sessionId": "aa1a50f3-a6d7-4dab-8e81-428c9866ebcc",
+  "outcome": "processed",
+  "changeIds": [
+    "072f0e35-b6cf-44a1-b8fb-bc5e93c38b9f",
+    "8cf6c120-e6ba-42ae-bbbe-5521edd00f40",
+    "8e002348-7ce8-44a7-aa67-faee384a886b",
+    "fc814029-76ff-4f59-a4a6-9a7e8a6f6c7b",
+    "357f2540-54d6-4eb0-8556-e5452385ac40",
+    "0beae0b1-aa04-44cd-8a35-22245dcaeef4"
+  ],
+  "processedFileName": "config-system.json",
+  "mode": "auto",
+  "createdAt": 1782720593996,
+  "importedAt": 1782720593996
+}

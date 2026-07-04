@@ -1,0 +1,48 @@
+# ═══════════════════════════════════════════════════════
+# BCL v2 Feature Demo — every element type + property
+# ═══════════════════════════════════════════════════════
+
+text title "BCL v2 — Full Feature Demo" @ (350,10) size=28 stroke=#1a237e
+text subtitle "boxes · ellipses · diamonds · lines · arrows · frames · groups" @ (250,40) size=14 stroke=#5e35b1
+
+# --- Container (using box as frame substitute) ---
+box cluster "Cluster View" @ (50,70) w=500 h=300 fill=#f5f5f5 stroke=#bdbdbd opacity=30
+    box node1 "Node A" @ (80,100) w=120 h=60 fill=#42a5f5 stroke=#1565c0
+    box node2 "Node B" @ (280,100) w=120 h=60 fill=#66bb6a stroke=#2e7d32
+    arrow node1 --> node2 "sync"
+    box node3 "Node C" @ (180,200) w=120 h=60 fill=#ff7043 stroke=#bf360c
+    arrow node2 --> node3
+    arrow node1 --> node3 "fallback" dashed
+
+# --- Group: elements with same color = visual group ---
+box ga "Group A" @ (600,80) w=100 h=50 fill=#ab47bc stroke=#6a1b9a
+box gb "Group B" @ (720,80) w=100 h=50 fill=#ab47bc stroke=#6a1b9a
+arrow ga --> gb
+
+# --- Shape variety ---
+ellipse cloud "Cloud Service" @ (600,180) w=160 h=80 fill=#26c6da stroke=#00838f
+diamond decision "Decision" @ (800,180) w=140 h=80 fill=#ffeb3b stroke=#f57f17
+
+# --- Line with multiple points ---
+line path1 @ (50,400) -> (200,400) -> (200,500) -> (400,500) stroke=#e91e63 strokeW=3
+
+# --- Arrow with explicit coordinates ---
+arrow arr1 @ (600,300) -> (900,300) "data flow" stroke=#9c27b0 strokeW=3
+
+# --- Style variations ---
+box rough "Rough Box" @ (50,520) w=120 h=60 fill=#c8e6c9 stroke=#2e7d32 roughness=2
+box smooth "Smooth Box" @ (200,520) w=120 h=60 fill=#bbdefb stroke=#1565c0 roughness=0
+box hatch "Hatch Fill" @ (350,520) w=120 h=60 fill=#ffcc80 stroke=#e65100 fillStyle=hachure
+box dotted "Dotted Stroke" @ (500,520) w=120 h=60 fill=#f8bbd0 stroke=#ad1457 strokeStyle=dotted
+box thick "Thick Stroke" @ (650,520) w=120 h=60 fill=#d1c4e9 stroke=#4527a0 strokeW=4
+box faded "Faded 40%" @ (800,520) w=120 h=60 fill=#fff9c4 stroke=#f57f17 opacity=40
+
+# --- Cross connections ---
+arrow cloud --> decision "routes"
+arrow decision --> ga "yes"
+arrow decision --> gb "no" dashed
+
+# --- Text styles ---
+text big "Big Text" @ (600,420) size=36 stroke=#b71c1c
+text small "small text" @ (750,420) size=10 stroke=#424242
+text right "right aligned" @ (900,420) size=16 align=right stroke=#1565c0

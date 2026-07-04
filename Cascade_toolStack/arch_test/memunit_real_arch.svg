@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" font-family="monospace">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0066cc"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#cc0000"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#006600"/>
+    </marker>
+    <style>
+      .title { font-size: 22px; font-weight: bold; fill: #1a1a1a; }
+      .subtitle { font-size: 13px; fill: #555; }
+      .box-title { font-size: 14px; font-weight: bold; }
+      .box-sub { font-size: 10px; fill: #444; }
+      .label { font-size: 10px; fill: #333; }
+      .flow { font-size: 9px; fill: #0066cc; font-weight: bold; }
+      .table-name { font-size: 9px; fill: #333; }
+      .core-name { font-size: 11px; font-weight: bold; }
+      .core-desc { font-size: 8px; fill: #555; }
+      .legend { font-size: 10px; fill: #333; }
+      .pass { font-size: 9px; fill: #006600; font-weight: bold; }
+      .stat { font-size: 10px; fill: #333; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1000" fill="#fafafa"/>
+
+  <!-- Title -->
+  <text x="700" y="30" text-anchor="middle" class="title">MemUnit Architecture — REAL Tested Flow</text>
+  <text x="700" y="50" text-anchor="middle" class="subtitle">From MEM_Complete_System.py | 10/10 tests passed | 2026-06-23 23:23</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 1: CALLER (top)
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="550" y="70" width="300" height="50" rx="8" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+  <text x="700" y="92" text-anchor="middle" class="box-title">CALLER</text>
+  <text x="700" y="108" text-anchor="middle" class="box-sub">mu.Run("execute", {target, action, params})</text>
+
+  <!-- Arrow: Caller → MemUnit -->
+  <line x1="700" y1="120" x2="700" y2="145" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="710" y="138" class="flow">Tuple3 in</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 2: MEMUNIT (gravity center)
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="400" y="145" width="600" height="80" rx="10" fill="#e3f2fd" stroke="#0066cc" stroke-width="3"/>
+  <text x="700" y="170" text-anchor="middle" class="box-title" fill="#004499">MemUnit — THE GRAVITY CENTER</text>
+  <text x="700" y="188" text-anchor="middle" class="box-sub">Owns MemDB + MemBus + Executor | All routes go through here</text>
+  <text x="700" y="205" text-anchor="middle" class="box-sub">Run() dispatch: connect_core | connect_lib | execute | read_state</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 3: THE THREE PILLARS
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Arrow: MemUnit → 3 pillars -->
+  <line x1="550" y1="225" x2="250" y2="260" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="700" y1="225" x2="700" y2="260" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="850" y1="225" x2="1150" y2="260" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Pillar 1: MemDB -->
+  <rect x="80" y="260" width="340" height="280" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="250" y="285" text-anchor="middle" class="box-title" fill="#1b5e20">MemDB</text>
+  <text x="250" y="300" text-anchor="middle" class="box-sub">In-RAM SQLite (:memory:)</text>
+
+  <!-- MemDB tables -->
+  <rect x="100" y="310" width="300" height="220" rx="5" fill="#fff" stroke="#2e7d32" stroke-width="1"/>
+
+  <text x="115" y="325" class="table-name" font-weight="bold">Infrastructure (3):</text>
+  <text x="125" y="340" class="table-name">★ command_queue (9 rows)</text>
+  <text x="125" y="355" class="table-name">  state_cache</text>
+  <text x="125" y="370" class="table-name">★ routing_map (4 rows)</text>
+
+  <text x="115" y="390" class="table-name" font-weight="bold">Mandatory boot (6):</text>
+  <text x="125" y="405" class="table-name">★ startup_state (1 row)</text>
+  <text x="125" y="420" class="table-name">★ config_state (2 rows)</text>
+  <text x="125" y="435" class="table-name">★ logs (1 row)</text>
+  <text x="125" y="450" class="table-name">★ errors (1 row)</text>
+  <text x="125" y="465" class="table-name">★ report_state</text>
+  <text x="125" y="480" class="table-name">★ memory_routing_state</text>
+
+  <text x="115" y="500" class="table-name" font-weight="bold">On-demand (7):</text>
+  <text x="125" y="515" class="table-name">io_state, os_state, hw_state, ast_state,</text>
+  <text x="125" y="528" class="table-name">bracket_state, rules_state, gui_state</text>
+
+  <!-- Pillar 2: MemBus -->
+  <rect x="530" y="260" width="340" height="280" rx="10" fill="#fce4ec" stroke="#c62828" stroke-width="2"/>
+  <text x="700" y="285" text-anchor="middle" class="box-title" fill="#b71c1c">MemBus</text>
+  <text x="700" y="300" text-anchor="middle" class="box-sub">Pub/Sub Message Routing</text>
+
+  <rect x="550" y="310" width="300" height="220" rx="5" fill="#fff" stroke="#c62828" stroke-width="1"/>
+
+  <text x="565" y="325" class="table-name" font-weight="bold">Subscribers (7):</text>
+  <text x="575" y="340" class="table-name">Core_config  (pattern match)</text>
+  <text x="575" y="355" class="table-name">Core_os      (pattern match)</text>
+  <text x="575" y="370" class="table-name">Core_hw      (pattern match)</text>
+  <text x="575" y="385" class="table-name">Core_io      (pattern match)</text>
+  <text x="575" y="400" class="table-name">Core_error   (pattern match)</text>
+  <text x="575" y="415" class="table-name">Core_report  (pattern match)</text>
+  <text x="575" y="430" class="table-name">*            (wildcard)</text>
+
+  <text x="565" y="455" class="table-name" font-weight="bold">API:</text>
+  <text x="575" y="470" class="table-name">subscribe(pattern, callback)</text>
+  <text x="575" y="485" class="table-name">publish(action, payload)</text>
+  <text x="575" y="500" class="table-name">  → action.startswith(pattern)</text>
+  <text x="575" y="515" class="table-name">  → or pattern == "*"</text>
+
+  <!-- Pillar 3: Executor -->
+  <rect x="980" y="260" width="340" height="280" rx="10" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+  <text x="1150" y="285" text-anchor="middle" class="box-title" fill="#4a148c">Executor</text>
+  <text x="1150" y="300" text-anchor="middle" class="box-sub">Core/Lib Registration + Dispatch</text>
+
+  <rect x="1000" y="310" width="300" height="220" rx="5" fill="#fff" stroke="#6a1b9a" stroke-width="1"/>
+
+  <text x="1015" y="325" class="table-name" font-weight="bold">Registered Cores (6):</text>
+  <text x="1025" y="340" class="table-name">Core_config  → config authority</text>
+  <text x="1025" y="355" class="table-name">Core_os      → OS inspection</text>
+  <text x="1025" y="370" class="table-name">Core_hw      → hardware inspection</text>
+  <text x="1025" y="385" class="table-name">Core_io      → file IO</text>
+  <text x="1025" y="400" class="table-name">Core_error   → error standardization</text>
+  <text x="1025" y="415" class="table-name">Core_report  → formatting</text>
+
+  <text x="1015" y="440" class="table-name" font-weight="bold">Registered Libs (0):</text>
+  <text x="1025" y="455" class="table-name">(none yet)</text>
+
+  <text x="1015" y="480" class="table-name" font-weight="bold">API:</text>
+  <text x="1025" y="495" class="table-name">register_core(name, instance)</text>
+  <text x="1025" y="510" class="table-name">register_lib(name, instance)</text>
+  <text x="1025" y="525" class="table-name">execute(target, action, params)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 4: FLOW BETWEEN PILLARS
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- MemUnit.execute() → MemDB.queue_command() -->
+  <path d="M 480 240 Q 400 240 350 260" fill="none" stroke="#006600" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowGreen)"/>
+  <text x="380" y="235" class="flow">1. queue_command()</text>
+
+  <!-- MemDB → Executor -->
+  <line x1="420" y1="400" x2="980" y2="400" stroke="#006600" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowGreen)"/>
+  <text x="600" y="395" class="flow">2. dispatch to registered core</text>
+
+  <!-- Executor → Cores -->
+  <line x1="1150" y1="540" x2="1150" y2="570" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1160" y="560" class="flow">3. core.Run(action, params)</text>
+
+  <!-- MemBus ← publish events -->
+  <line x1="530" y1="400" x2="420" y2="400" stroke="#cc0000" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrowRed)"/>
+  <text x="440" y="390" class="flow" fill="#cc0000">events</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 5: CORE WORLDS (boot chain)
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="80" y="570" width="1240" height="180" rx="10" fill="#f5f5f5" stroke="#666" stroke-width="2"/>
+  <text x="700" y="590" text-anchor="middle" class="box-title">BOOT CHAIN — Core Worlds (from MEM_Complete_System.py)</text>
+  <text x="700" y="605" text-anchor="middle" class="box-sub">MemUnit → config → os → hw → io → ast → brackets → rules → error → report → output</text>
+
+  <!-- Core boxes -->
+  <!-- Row 1: config, os, hw, io -->
+  <g>
+    <rect x="100" y="620" width="140" height="55" rx="5" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+    <text x="170" y="640" text-anchor="middle" class="core-name">Core_config</text>
+    <text x="170" y="655" text-anchor="middle" class="core-desc">config authority</text>
+    <text x="170" y="668" text-anchor="middle" class="pass">[PASS]</text>
+  </g>
+  <g>
+    <rect x="260" y="620" width="140" height="55" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+    <text x="330" y="640" text-anchor="middle" class="core-name">Core_os</text>
+    <text x="330" y="655" text-anchor="middle" class="core-desc">OS inspection</text>
+    <text x="330" y="668" text-anchor="middle" class="pass">[PASS]</text>
+  </g>
+  <g>
+    <rect x="420" y="620" width="140" height="55" rx="5" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+    <text x="490" y="640" text-anchor="middle" class="core-name">Core_hw</text>
+    <text x="490" y="655" text-anchor="middle" class="core-desc">hardware inspection</text>
+    <text x="490" y="668" text-anchor="middle" class="pass">[PASS]</text>
+  </g>
+  <g>
+    <rect x="580" y="620" width="140" height="55" rx="5" fill="#fce4ec" stroke="#c62828" stroke-width="1.5"/>
+    <text x="650" y="640" text-anchor="middle" class="core-name">Core_io</text>
+    <text x="650" y="655" text-anchor="middle" class="core-desc">file IO</text>
+    <text x="650" y="668" text-anchor="middle" class="pass">[PASS]</text>
+  </g>
+
+  <!-- Row 2: error, report, (not yet: ast, brackets, rules, output) -->
+  <g>
+    <rect x="100" y="690" width="140" height="55" rx="5" fill="#ffebee" stroke="#b71c1c" stroke-width="1.5"/>
+    <text x="170" y="710" text-anchor="middle" class="core-name">Core_error</text>
+    <text x="170" y="725" text-anchor="middle" class="core-desc">error standardization</text>
+    <text x="170" y="738" text-anchor="middle" class="pass">[PASS]</text>
+  </g>
+  <g>
+    <rect x="260" y="690" width="140" height="55" rx="5" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.5"/>
+    <text x="330" y="710" text-anchor="middle" class="core-name">Core_report</text>
+    <text x="330" y="725" text-anchor="middle" class="core-desc">formatting</text>
+    <text x="330" y="738" text-anchor="middle" class="pass">[PASS]</text>
+  </g>
+
+  <!-- Not yet implemented cores (greyed out) -->
+  <g opacity="0.4">
+    <rect x="420" y="690" width="140" height="55" rx="5" fill="#eee" stroke="#999" stroke-width="1"/>
+    <text x="490" y="710" text-anchor="middle" class="core-name">Core_ast</text>
+    <text x="490" y="725" text-anchor="middle" class="core-desc">structure discovery</text>
+    <text x="490" y="738" text-anchor="middle" class="core-desc">(not yet tested)</text>
+  </g>
+  <g opacity="0.4">
+    <rect x="580" y="690" width="140" height="55" rx="5" fill="#eee" stroke="#999" stroke-width="1"/>
+    <text x="650" y="710" text-anchor="middle" class="core-name">Core_brackets</text>
+    <text x="650" y="725" text-anchor="middle" class="core-desc">contract discovery</text>
+    <text x="650" y="738" text-anchor="middle" class="core-desc">(not yet tested)</text>
+  </g>
+  <g opacity="0.4">
+    <rect x="740" y="690" width="140" height="55" rx="5" fill="#eee" stroke="#999" stroke-width="1"/>
+    <text x="810" y="710" text-anchor="middle" class="core-name">Core_rules</text>
+    <text x="810" y="725" text-anchor="middle" class="core-desc">rule validation</text>
+    <text x="810" y="738" text-anchor="middle" class="core-desc">(not yet tested)</text>
+  </g>
+  <g opacity="0.4">
+    <rect x="900" y="690" width="140" height="55" rx="5" fill="#eee" stroke="#999" stroke-width="1"/>
+    <text x="970" y="710" text-anchor="middle" class="core-name">Core_output</text>
+    <text x="970" y="725" text-anchor="middle" class="core-desc">final delivery</text>
+    <text x="970" y="738" text-anchor="middle" class="core-desc">(not yet tested)</text>
+  </g>
+
+  <!-- Boot chain arrows -->
+  <line x1="240" y1="648" x2="260" y2="648" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="400" y1="648" x2="420" y2="648" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="560" y1="648" x2="580" y2="648" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 6: EXECUTE FLOW (bottom)
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="80" y="770" width="1240" height="100" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="700" y="790" text-anchor="middle" class="box-title" fill="#1b5e20">EXECUTE FLOW (tested &amp; verified)</text>
+
+  <text x="100" y="815" class="stat">1. mu.Run("execute", {"target":"Core_os", "action":"inspect"})</text>
+  <text x="100" y="832" class="stat">2. → MemDB.queue_command(action="inspect", target="Core_os")  → cmd_id stored in SQLite</text>
+  <text x="100" y="849" class="stat">3. → Executor.execute(target="Core_os") → finds Core_os in registered cores</text>
+  <text x="100" y="866" class="stat">4. → Core_os.Run("inspect", {}) → (1, {"os":"Darwin", "python":"3.13.12"}, None)  ← Tuple3 returned</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LAYER 7: STATS BAR
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="80" y="885" width="1240" height="90" rx="8" fill="#1a1a1a"/>
+  <text x="100" y="910" fill="#4caf50" font-size="13" font-weight="bold">TEST RESULTS: 10/10 PASSED</text>
+
+  <text x="100" y="930" fill="#fff" font-size="10">17 tables</text>
+  <text x="220" y="930" fill="#fff" font-size="10">6 cores registered</text>
+  <text x="380" y="930" fill="#fff" font-size="10">7 bus subscribers</text>
+  <text x="540" y="930" fill="#fff" font-size="10">4 routing rules</text>
+  <text x="680" y="930" fill="#fff" font-size="10">9 commands queued</text>
+  <text x="840" y="930" fill="#fff" font-size="10">100% Tuple3</text>
+
+  <text x="100" y="950" fill="#8bc34a" font-size="9">command_queue | state_cache | routing_map | startup_state | config_state | logs | errors | report_state</text>
+  <text x="100" y="965" fill="#8bc34a" font-size="9">memory_routing_state | io_state | os_state | hw_state | ast_state | bracket_state | rules_state | gui_state</text>
+
+  <!-- Legend -->
+  <rect x="1050" y="895" width="120" height="70" rx="5" fill="#333" stroke="#555"/>
+  <text x="1060" y="912" fill="#4caf50" font-size="9" font-weight="bold">Legend:</text>
+  <line x1="1060" y1="922" x2="1080" y2="922" stroke="#006600" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="1085" y="925" fill="#ccc" font-size="8">data flow</text>
+  <line x1="1060" y1="935" x2="1080" y2="935" stroke="#cc0000" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="1085" y="938" fill="#ccc" font-size="8">events</text>
+  <line x1="1060" y1="948" x2="1080" y2="948" stroke="#333" stroke-width="2"/>
+  <text x="1085" y="951" fill="#ccc" font-size="8">dispatch</text>
+
+</svg>

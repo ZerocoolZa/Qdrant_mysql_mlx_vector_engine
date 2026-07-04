@@ -1,0 +1,73 @@
+# dom_mcp.toml — Example configuration for the unified Dom_Mcp server.
+# Place at ~/.config/devin/dom_mcp.toml or pass via --config <path>.
+
+[server]
+name = "dom_mcp"
+version = "1.0.0"
+
+[tools]
+# Enable only the tools you need — unused tools add zero overhead.
+enabled = [
+    "filesystem",
+    "sqlite",
+    "memory",
+    "msearch",
+    "contextram",
+    "pinecone",
+    "pbreader",
+    "bclcompressor",
+]
+
+# --- Filesystem (native os/path/filepath) ---
+
+[tools.filesystem]
+allowed_dirs = [
+    "/Users/wws/Qdrant_mysql_mlx_vector_engine",
+    "/Users/wws/contestsystem",
+    "/Users/wws/Downloads",
+]
+
+# --- SQLite (pure-Go modernc.org/sqlite, no CGO) ---
+
+[tools.sqlite]
+db_path = "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Mcp/dom_mcp/test.db"
+
+# --- Memory (JSON file knowledge graph) ---
+
+[tools.memory]
+memory_file = "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Mcp/dom_mcp/memory.json"
+
+# --- Msearch (subprocess wrapper for C msearch binary) ---
+
+[tools.msearch]
+binary = "/Users/wws/Qdrant_mysql_mlx_vector_engine/Cascade_toolStack/Built_tools/msearch"
+timeout_ms = 30000
+
+# --- ContextRAM (subprocess wrapper for Swift ctx binary) ---
+
+[tools.contextram]
+ctx_binary = "/Users/wws/contestsystem/ContextRAMSwift/.build/release/ctx"
+store_path = "~/.contextram/context.json"
+timeout_ms = 10000
+
+# --- Pinecone (HTTP client to Pinecone vector DB API) ---
+
+[tools.pinecone]
+api_key_env = "PINECONE_API_KEY"  # read API key from this environment variable
+index = "devin-memory"
+host = ""                          # set to your index host, e.g. idx-xxx.svc.environment.pinecone.io
+timeout_ms = 30000
+
+# --- PbReader (pb_reader.py Python subprocess — decrypt/search Windsurf .pb chat files) ---
+
+[tools.pbreader]
+python_binary = "python3"
+script_path = "/Users/wws/Qdrant_mysql_mlx_vector_engine/chat_mover/pb_reader.py"
+timeout_ms = 30000
+
+# --- BclCompressor (bcl_chat_compressor.py Python subprocess — BCL Stage 1 chat compression)
+
+[tools.bclcompressor]
+python_binary = "python3"
+script_path = "/Users/wws/Qdrant_mysql_mlx_vector_engine/chat_mover/bcl_chat_compressor.py"
+timeout_ms = 60000

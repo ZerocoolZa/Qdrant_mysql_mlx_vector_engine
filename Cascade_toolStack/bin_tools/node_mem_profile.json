@@ -1,0 +1,383 @@
+{
+  "report_type": "node_memory_profile",
+  "generated": "2026-06-28",
+  "agent": "Agent 1 of 8",
+  "machine": "macOS Apple Silicon",
+  "summary": {
+    "total_pure_node_processes": 11,
+    "total_node_related_processes": 5,
+    "total_mcp_servers_configured": 8,
+    "total_mcp_servers_running": 5,
+    "total_mcp_servers_disabled_but_running": 2,
+    "total_mcp_servers_not_running": 3,
+    "total_pure_node_rss_mb": 281.5,
+    "total_node_related_rss_mb": 1037.6,
+    "total_windsurf_langserver_rss_mb": 1110.9,
+    "grand_total_rss_mb": 2430.0
+  },
+  "top5_node_memory_hogs": [
+    {
+      "rank": 1,
+      "pid": 28328,
+      "rss_mb": 119.0,
+      "ppid": 28296,
+      "what": "Devin Helper (Plugin) - main NodeService host",
+      "can_kill": false
+    },
+    {
+      "rank": 2,
+      "pid": 28363,
+      "rss_mb": 39.0,
+      "ppid": 28296,
+      "what": "Devin Helper - NodeService utility",
+      "can_kill": false
+    },
+    {
+      "rank": 3,
+      "pid": 27082,
+      "rss_mb": 37.4,
+      "ppid": 28328,
+      "what": "Devin Helper (Plugin) - markdown language server",
+      "can_kill": false
+    },
+    {
+      "rank": 4,
+      "pid": 28329,
+      "rss_mb": 29.4,
+      "ppid": 28296,
+      "what": "Devin Helper - NodeService utility",
+      "can_kill": false
+    },
+    {
+      "rank": 5,
+      "pid": 28398,
+      "rss_mb": 23.6,
+      "ppid": 28328,
+      "what": "Devin Helper (Plugin) - JSON language server",
+      "can_kill": false
+    }
+  ],
+  "all_processes": [
+    {
+      "pid": 28466,
+      "rss_mb": 1110.9,
+      "ppid": 28328,
+      "type": "native_binary",
+      "what": "Windsurf language_server_macos_arm (MCP parent, LSP, indexer)",
+      "can_kill": false,
+      "note": "NOT node but parent of all MCP servers. Biggest memory hog overall."
+    },
+    {
+      "pid": 28303,
+      "rss_mb": 591.6,
+      "ppid": 28296,
+      "type": "electron_renderer",
+      "what": "Devin Helper (Renderer) - Electron/Chromium renderer #1",
+      "can_kill": false
+    },
+    {
+      "pid": 28328,
+      "rss_mb": 119.0,
+      "ppid": 28296,
+      "type": "node",
+      "what": "Devin Helper (Plugin) - main NodeService host",
+      "can_kill": false
+    },
+    {
+      "pid": 28296,
+      "rss_mb": 84.5,
+      "ppid": 1,
+      "type": "electron_main",
+      "what": "Devin.app main process (Electron)",
+      "can_kill": false
+    },
+    {
+      "pid": 28945,
+      "rss_mb": 75.8,
+      "ppid": 27978,
+      "type": "go_binary",
+      "what": "devin --resume (terminal session, Go binary)",
+      "can_kill": false
+    },
+    {
+      "pid": 27078,
+      "rss_mb": 67.1,
+      "ppid": 28296,
+      "type": "electron_renderer",
+      "what": "Devin Helper (Renderer) - Electron/Chromium renderer #2",
+      "can_kill": false
+    },
+    {
+      "pid": 28297,
+      "rss_mb": 52.4,
+      "ppid": 28296,
+      "type": "electron_gpu",
+      "what": "Devin Helper (GPU) - GPU process",
+      "can_kill": false
+    },
+    {
+      "pid": 28363,
+      "rss_mb": 39.0,
+      "ppid": 28296,
+      "type": "node",
+      "what": "Devin Helper - NodeService utility",
+      "can_kill": false
+    },
+    {
+      "pid": 27082,
+      "rss_mb": 37.4,
+      "ppid": 28328,
+      "type": "node",
+      "what": "Devin Helper (Plugin) - markdown language server",
+      "can_kill": false
+    },
+    {
+      "pid": 28329,
+      "rss_mb": 29.4,
+      "ppid": 28296,
+      "type": "node",
+      "what": "Devin Helper - NodeService utility",
+      "can_kill": false
+    },
+    {
+      "pid": 28398,
+      "rss_mb": 23.6,
+      "ppid": 28328,
+      "type": "node",
+      "what": "Devin Helper (Plugin) - JSON language server",
+      "can_kill": false
+    },
+    {
+      "pid": 28330,
+      "rss_mb": 22.8,
+      "ppid": 28296,
+      "type": "node",
+      "what": "Devin Helper - NodeService utility",
+      "can_kill": false
+    },
+    {
+      "pid": 28561,
+      "rss_mb": 8.1,
+      "ppid": 28328,
+      "type": "go_binary",
+      "what": "devin acp (agent control plane, Go binary)",
+      "can_kill": false
+    },
+    {
+      "pid": 28562,
+      "rss_mb": 3.1,
+      "ppid": 28328,
+      "type": "go_binary",
+      "what": "devin acp --agent-type summarizer (Go binary)",
+      "can_kill": false
+    },
+    {
+      "pid": 96471,
+      "rss_mb": 2.4,
+      "ppid": 1,
+      "type": "node",
+      "what": "node server.js (brain_server in Dom_Graph)",
+      "can_kill": true,
+      "note": "Orphaned (PPID=1=launchd). Working dir: Dom_Graph/brain_server. Kill if not in use."
+    },
+    {
+      "pid": 28552,
+      "rss_mb": 2.3,
+      "ppid": 28466,
+      "type": "npm",
+      "what": "npm exec @pinecone-database/mcp (pinecone MCP parent)",
+      "can_kill": true,
+      "note": "If Pinecone vector DB not actively used. Killing this also kills child 28578."
+    },
+    {
+      "pid": 28548,
+      "rss_mb": 2.0,
+      "ppid": 28466,
+      "type": "go_binary",
+      "what": "mcp-server-email (yahoo-mail-go, Go binary)",
+      "can_kill": true,
+      "note": "DISABLED in config but still running! Bug in Windsurf disabled flag handling."
+    },
+    {
+      "pid": 28578,
+      "rss_mb": 1.8,
+      "ppid": 28552,
+      "type": "node",
+      "what": "node pinecone-mcp (MCP: devin/pinecone-mcp-server)",
+      "can_kill": true,
+      "note": "Child of npm exec 28552. Kill parent to stop both."
+    },
+    {
+      "pid": 28551,
+      "rss_mb": 1.8,
+      "ppid": 28466,
+      "type": "node",
+      "what": "node ContextRAMSwift/mcp-server/index.js (MCP: contextram)",
+      "can_kill": false,
+      "note": "Active, enabled MCP server."
+    },
+    {
+      "pid": 28555,
+      "rss_mb": 1.8,
+      "ppid": 28466,
+      "type": "node",
+      "what": "node taskplanner mcp-server.js (MCP: taskplanner)",
+      "can_kill": false,
+      "note": "Active, enabled MCP server."
+    },
+    {
+      "pid": 28556,
+      "rss_mb": 1.8,
+      "ppid": 28466,
+      "type": "node",
+      "what": "node yahoo-mail-mcp-server/server.js (MCP: yahoo-mail)",
+      "can_kill": true,
+      "note": "DISABLED in config but still running! Bug in Windsurf disabled flag handling."
+    }
+  ],
+  "mcp_servers": {
+    "config_files": [
+      {
+        "path": "/Users/wws/.config/devin/config.json",
+        "type": "devin_cli"
+      },
+      {
+        "path": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "type": "windsurf_ide"
+      }
+    ],
+    "servers": [
+      {
+        "name": "msearch",
+        "source_config": "/Users/wws/.config/devin/config.json",
+        "command": "python3",
+        "args": ["/Users/wws/Qdrant_mysql_mlx_vector_engine/Cascade_toolStack/bin_tools/msearch_mcp_server.py"],
+        "disabled": false,
+        "running": false,
+        "pid": null,
+        "rss_mb": 0
+      },
+      {
+        "name": "contextram",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "node",
+        "args": ["/Users/wws/contestsystem/ContextRAMSwift/mcp-server/index.js"],
+        "disabled": false,
+        "running": true,
+        "pid": 28551,
+        "rss_mb": 1.8
+      },
+      {
+        "name": "devin/pinecone-mcp-server",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "npx",
+        "args": ["-y", "@pinecone-database/mcp"],
+        "disabled": false,
+        "running": true,
+        "pid": 28552,
+        "child_pid": 28578,
+        "rss_mb": 4.1,
+        "note": "Combined RSS of npm parent + node child"
+      },
+      {
+        "name": "filesystem",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "/Users/wws/go/bin/mcp-filesystem-server",
+        "disabled": false,
+        "running": false,
+        "pid": null,
+        "rss_mb": 0
+      },
+      {
+        "name": "gmail",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "npx",
+        "args": ["@gongrzhe/server-gmail-autoauth-mcp"],
+        "disabled": true,
+        "running": false,
+        "pid": null,
+        "rss_mb": 0
+      },
+      {
+        "name": "taskplanner",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "node",
+        "args": ["/Users/wws/.windsurf/extensions/refined.taskplanner-1.5.2-universal/cursor-plugin/dist/mcp-server.js"],
+        "disabled": false,
+        "running": true,
+        "pid": 28555,
+        "rss_mb": 1.8
+      },
+      {
+        "name": "yahoo-mail",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "node",
+        "args": ["/Users/wws/yahoo-mail-mcp-server/server.js"],
+        "disabled": true,
+        "running": true,
+        "pid": 28556,
+        "rss_mb": 1.8,
+        "bug": "DISABLED in config but still running"
+      },
+      {
+        "name": "yahoo-mail-go",
+        "source_config": "/Users/wws/.codeium/windsurf/mcp_config.json",
+        "command": "/Users/wws/Qdrant_mysql_mlx_vector_engine/mcp-server-email/mcp-server-email",
+        "disabled": true,
+        "running": true,
+        "pid": 28548,
+        "rss_mb": 2.0,
+        "bug": "DISABLED in config but still running"
+      }
+    ]
+  },
+  "standalone_node_processes": [
+    {
+      "pid": 96471,
+      "rss_mb": 2.4,
+      "ppid": 1,
+      "command": "node server.js",
+      "working_dir": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/brain_server",
+      "what": "brain_server - standalone Node.js server for Dom_Graph",
+      "can_kill": true,
+      "note": "Orphaned (PPID=1=launchd). Persists across sessions."
+    }
+  ],
+  "optimization_targets": [
+    {
+      "priority": 1,
+      "target": "Windsurf language_server (PID 28466)",
+      "rss_mb": 1110.9,
+      "action": "Investigate workspace indexing limits, database dir size, retention settings",
+      "can_kill": false
+    },
+    {
+      "priority": 2,
+      "target": "Disabled MCP servers still running (PIDs 28556, 28548)",
+      "rss_mb": 3.8,
+      "action": "kill 28556 28548",
+      "can_kill": true
+    },
+    {
+      "priority": 3,
+      "target": "brain_server (PID 96471)",
+      "rss_mb": 2.4,
+      "action": "kill 96471",
+      "can_kill": true
+    },
+    {
+      "priority": 4,
+      "target": "Pinecone MCP (PIDs 28552, 28578)",
+      "rss_mb": 4.1,
+      "action": "kill 28552 (also kills child 28578)",
+      "can_kill": true
+    },
+    {
+      "priority": 5,
+      "target": "Devin Renderer (PID 28303)",
+      "rss_mb": 591.6,
+      "action": "Restart Devin to clear Chromium renderer memory",
+      "can_kill": false
+    }
+  ]
+}

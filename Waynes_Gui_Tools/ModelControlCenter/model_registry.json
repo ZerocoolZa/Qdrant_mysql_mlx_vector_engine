@@ -1,0 +1,655 @@
+[
+  {
+    "id": "kokoro_fp16",
+    "name": "Kokoro 82M FP16",
+    "size_mb": 163,
+    "description": "Neural TTS model optimized for Apple Silicon (FP16)",
+    "platforms": [
+      "mac",
+      "m1",
+      "m2",
+      "m3"
+    ],
+    "pip": [
+      "onnxruntime",
+      "soundfile",
+      "numpy"
+    ],
+    "source_url": "https://huggingface.co/anyam12/Kokoro",
+    "local_path": "/Users/wws/KokoroModels/kokoro_fp16",
+    "status": "not_installed",
+    "version": "1.0",
+    "category": "Neural TTS"
+  },
+  {
+    "id": "kokoro_q8",
+    "name": "Kokoro 82M Q8 Quantized",
+    "size_mb": 82,
+    "description": "Quantized Kokoro model \u2014 smaller footprint, slightly lower quality",
+    "platforms": [
+      "mac",
+      "m1",
+      "m2",
+      "m3"
+    ],
+    "pip": [
+      "onnxruntime",
+      "soundfile",
+      "numpy"
+    ],
+    "source_url": "https://huggingface.co/anyam12/Kokoro",
+    "local_path": "/Users/wws/KokoroModels/kokoro_q8",
+    "status": "not_installed",
+    "version": "1.0",
+    "category": "Neural TTS"
+  },
+  {
+    "id": "edge_tts",
+    "name": "Edge Neural TTS (Cloud)",
+    "size_mb": 0,
+    "description": "Microsoft Edge neural voices via API \u2014 no local download needed",
+    "platforms": [
+      "mac",
+      "win",
+      "linux"
+    ],
+    "pip": [
+      "edge-tts"
+    ],
+    "source_url": "https://pypi.org/project/edge-tts/",
+    "local_path": null,
+    "status": "installed",
+    "version": "latest",
+    "category": "Cloud TTS"
+  },
+  {
+    "id": "macos_say",
+    "name": "macOS say (System)",
+    "size_mb": 0,
+    "description": "Built-in macOS TTS voices \u2014 no installation required",
+    "platforms": [
+      "mac"
+    ],
+    "pip": [],
+    "source_url": null,
+    "local_path": null,
+    "status": "installed",
+    "version": "system",
+    "category": "System TTS"
+  },
+  {
+    "id": "coqui_xtts",
+    "name": "Coqui XTTS v2",
+    "size_mb": 1800,
+    "description": "Multilingual neural TTS with voice cloning capability",
+    "platforms": [
+      "mac",
+      "win",
+      "linux"
+    ],
+    "pip": [
+      "TTS",
+      "torch",
+      "soundfile"
+    ],
+    "source_url": "https://huggingface.co/coqui/XTTS-v2",
+    "local_path": "/Users/wws/KokoroModels/coqui_xtts",
+    "status": "not_installed",
+    "version": "2.0",
+    "category": "Neural TTS"
+  },
+  {
+    "id": "bark",
+    "name": "Suno Bark",
+    "size_mb": 1200,
+    "description": "Generative audio model \u2014 speech, music, and sound effects",
+    "platforms": [
+      "mac",
+      "win",
+      "linux"
+    ],
+    "pip": [
+      "bark",
+      "torch",
+      "soundfile"
+    ],
+    "source_url": "https://huggingface.co/suno/bark",
+    "local_path": "/Users/wws/KokoroModels/bark",
+    "status": "not_installed",
+    "version": "1.0",
+    "category": "Generative Audio"
+  },
+  {
+    "category": "ONNX Runtime",
+    "description": "Discovered on disk: /Users/wws/KokoroModels/onnx/model_fp16.onnx",
+    "file_path": "/Users/wws/KokoroModels/onnx/model_fp16.onnx",
+    "file_type": ".onnx",
+    "format_confirmed": false,
+    "framework": "ONNX",
+    "id": "scan_model_fp16_onnx",
+    "local_path": "/Users/wws/KokoroModels/onnx",
+    "magic_match": null,
+    "model_metadata": {},
+    "name": "Model Fp16",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 155,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "NumPy Arrays",
+    "description": "Discovered on disk: /Users/wws/KokoroModels/voices.npy",
+    "file_path": "/Users/wws/KokoroModels/voices.npy",
+    "file_type": ".npy",
+    "format_confirmed": true,
+    "framework": "NumPy",
+    "id": "scan_voices_npy",
+    "local_path": "/Users/wws/KokoroModels",
+    "magic_match": "numpy",
+    "model_metadata": {},
+    "name": "Voices",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 13,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Downloads/Procecced_chatgpt- 18 -june.zip",
+    "file_path": "/Users/wws/Downloads/Procecced_chatgpt- 18 -june.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_procecced_chatgpt-_18_-june_zip",
+    "local_path": "/Users/wws/Downloads",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Procecced Chatgpt- 18 -June",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 191,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/GGUF_Context_Fix-main.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/GGUF_Context_Fix-main.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_gguf_context_fix-main_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Gguf Context Fix-Main",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 3,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Keras",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/CascadeProjects/scroll/scroll-source.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/CascadeProjects/scroll/scroll-source.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Keras",
+    "id": "scan_scroll-source_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/CascadeProjects/scroll",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Scroll-Source",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 14,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/rustdesk-server/rustdesk-server-linux-arm64v8.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/rustdesk-server/rustdesk-server-linux-arm64v8.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_rustdesk-server-linux-arm64v8_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/rustdesk-server",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Rustdesk-Server-Linux-Arm64V8",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 5,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Wayne_Prefeances.Zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Wayne_Prefeances.Zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_wayne_prefeances_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Wayne Prefeances",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 375,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Db/TABLE/DB_Messages.table copy.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Db/TABLE/DB_Messages.table copy.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_db_messages_table_copy_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Db/TABLE",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Db Messages.Table Copy",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 25,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Documents_22-03-26/Aec_chat_documents/Cascade.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Documents_22-03-26/Aec_chat_documents/Cascade.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_cascade_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/Prj_testbed/Documents_22-03-26/Aec_chat_documents",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Cascade",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 135,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/CASCADE_TOOLS_2030/ToolHub/rule_workbench.sqlite3.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/CASCADE_TOOLS_2030/ToolHub/rule_workbench.sqlite3.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_rule_workbench_sqlite3_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/CASCADE_TOOLS_2030/ToolHub",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Rule Workbench.Sqlite3",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 145,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/embeddiongs/Codex_Important.db.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/embeddiongs/Codex_Important.db.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_codex_important_db_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/embeddiongs",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Codex Important.Db",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 74,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/Master_Data/Chat_histoty_files/conversations_embed.db.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/Master_Data/Chat_histoty_files/conversations_embed.db.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_conversations_embed_db_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/Master_Data/Chat_histoty_files",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Conversations Embed.Db",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 412,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/Master_Data/docs/tag_pairs_parallel.json.zip",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/Master_Data/docs/tag_pairs_parallel.json.zip",
+    "file_type": ".zip",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_tag_pairs_parallel_json_zip",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/PRj_codex-notes/Master_Data/docs",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Tag Pairs Parallel.Json",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 18,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Data File",
+    "description": "Discovered on disk: /Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/chat_gpt_may 3/file_000000004060722fa92a7a508bfa79a0.dat",
+    "file_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/chat_gpt_may 3/file_000000004060722fa92a7a508bfa79a0.dat",
+    "file_type": ".dat",
+    "format_confirmed": false,
+    "framework": "Data",
+    "id": "scan_file_000000004060722fa92a7a508bfa79a0_dat",
+    "local_path": "/Users/wws/Documents/MOVED_FROM_WAYNE_OLD_ACCOUNT/chat_gpt_may 3",
+    "magic_match": null,
+    "model_metadata": {},
+    "name": "File 000000004060722Fa92A7A508Bfa79A0",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 1,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Serialized Object",
+    "description": "Discovered on disk: /Users/wws/Documents/Models/models/classical_embedding_model.pkl",
+    "file_path": "/Users/wws/Documents/Models/models/classical_embedding_model.pkl",
+    "file_type": ".pkl",
+    "format_confirmed": true,
+    "framework": "Pickle",
+    "id": "scan_classical_embedding_model_pkl",
+    "local_path": "/Users/wws/Documents/Models/models",
+    "magic_match": "pickle4",
+    "model_metadata": {},
+    "name": "Classical Embedding Model",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 4,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/Models/coreml_models/meta_embedding_cache_v2.npz",
+    "file_path": "/Users/wws/Documents/Models/coreml_models/meta_embedding_cache_v2.npz",
+    "file_type": ".npz",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_meta_embedding_cache_v2_npz",
+    "local_path": "/Users/wws/Documents/Models/coreml_models",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Meta Embedding Cache V2",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 3,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Documents/Models/coreml_models/training_checkpoints_v2/IgnoranceGapDetector.pt",
+    "file_path": "/Users/wws/Documents/Models/coreml_models/training_checkpoints_v2/IgnoranceGapDetector.pt",
+    "file_type": ".pt",
+    "format_confirmed": true,
+    "framework": "Archive",
+    "id": "scan_ignorancegapdetector_pt",
+    "local_path": "/Users/wws/Documents/Models/coreml_models/training_checkpoints_v2",
+    "magic_match": "zip",
+    "model_metadata": {},
+    "name": "Ignorancegapdetector",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 1,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "PyTorch",
+    "description": "Discovered on disk: /Users/wws/Library/Application Support/Google/Chrome/OnDeviceHeadSuggestModel/20251024.824731831.14/cr_en-gb_500000_index.bin",
+    "file_path": "/Users/wws/Library/Application Support/Google/Chrome/OnDeviceHeadSuggestModel/20251024.824731831.14/cr_en-gb_500000_index.bin",
+    "file_type": ".bin",
+    "format_confirmed": false,
+    "framework": "PyTorch",
+    "id": "scan_cr_en-gb_500000_index_bin",
+    "local_path": "/Users/wws/Library/Application Support/Google/Chrome/OnDeviceHeadSuggestModel/20251024.824731831.14",
+    "magic_match": null,
+    "model_metadata": {},
+    "name": "Cr En-Gb 500000 Index",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 7,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "Archive Bundle",
+    "description": "Discovered on disk: /Users/wws/Library/Application Support/com.apple.wallpaper/aerials/manifest.tar",
+    "file_path": "/Users/wws/Library/Application Support/com.apple.wallpaper/aerials/manifest.tar",
+    "file_type": ".tar",
+    "format_confirmed": false,
+    "framework": "Archive",
+    "id": "scan_manifest_tar",
+    "local_path": "/Users/wws/Library/Application Support/com.apple.wallpaper/aerials",
+    "magic_match": null,
+    "model_metadata": {},
+    "name": "Manifest",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 1,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "SafeTensors",
+    "description": "Discovered on disk: /Users/wws/.cache/rapid-mlx/prefix_cache/mlx-community--Qwen2.5-Coder-1.5B-Instruct-4bit--257d8302/entry_3.safetensors",
+    "file_path": "/Users/wws/.cache/rapid-mlx/prefix_cache/mlx-community--Qwen2.5-Coder-1.5B-Instruct-4bit--257d8302/entry_3.safetensors",
+    "file_type": ".safetensors",
+    "format_confirmed": false,
+    "framework": "SafeTensors",
+    "id": "scan_entry_3_safetensors",
+    "local_path": "/Users/wws/.cache/rapid-mlx/prefix_cache/mlx-community--Qwen2.5-Coder-1.5B-Instruct-4bit--257d8302",
+    "magic_match": null,
+    "model_metadata": {
+      "format": "safetensors",
+      "metadata_fields": [
+        "0.0",
+        "0.1",
+        "0.10",
+        "0.11",
+        "0.12",
+        "0.13",
+        "0.14",
+        "0.15",
+        "0.16",
+        "0.17",
+        "0.18",
+        "0.19",
+        "0.2",
+        "0.20",
+        "0.21",
+        "0.22",
+        "0.23",
+        "0.24",
+        "0.25",
+        "0.26",
+        "0.27",
+        "0.3",
+        "0.4",
+        "0.5",
+        "0.6",
+        "0.7",
+        "0.8",
+        "0.9",
+        "1.num_tokens",
+        "2.0",
+        "2.1",
+        "2.10",
+        "2.11",
+        "2.12",
+        "2.13",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.19",
+        "2.2",
+        "2.20",
+        "2.21",
+        "2.22",
+        "2.23",
+        "2.24",
+        "2.25",
+        "2.26",
+        "2.27",
+        "2.3",
+        "2.4",
+        "2.5",
+        "2.6",
+        "2.7",
+        "2.8",
+        "2.9"
+      ],
+      "tensor_count": 56,
+      "tensor_names": [
+        "0.0",
+        "0.1",
+        "1.0",
+        "1.1",
+        "10.0",
+        "10.1",
+        "11.0",
+        "11.1",
+        "12.0",
+        "12.1"
+      ]
+    },
+    "name": "Entry 3",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 42,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  },
+  {
+    "category": "SafeTensors",
+    "description": "Discovered on disk: /Users/wws/.cache/huggingface/hub/models--HuggingFaceTB--SmolLM-135M-Instruct/snapshots/fcc320f490e08fdb4b99d935b2c58d40bf35b0d0/model.safetensors",
+    "file_path": "/Users/wws/.cache/huggingface/hub/models--HuggingFaceTB--SmolLM-135M-Instruct/snapshots/fcc320f490e08fdb4b99d935b2c58d40bf35b0d0/model.safetensors",
+    "file_type": ".safetensors",
+    "format_confirmed": false,
+    "framework": "SafeTensors",
+    "id": "scan_model_safetensors",
+    "local_path": "/Users/wws/.cache/huggingface/hub/models--HuggingFaceTB--SmolLM-135M-Instruct/snapshots/fcc320f490e08fdb4b99d935b2c58d40bf35b0d0",
+    "magic_match": null,
+    "model_metadata": {
+      "format": "safetensors",
+      "metadata_fields": [
+        "format"
+      ],
+      "tensor_count": 272,
+      "tensor_names": [
+        "model.embed_tokens.weight",
+        "model.layers.0.input_layernorm.weight",
+        "model.layers.0.mlp.down_proj.weight",
+        "model.layers.0.mlp.gate_proj.weight",
+        "model.layers.0.mlp.up_proj.weight",
+        "model.layers.0.post_attention_layernorm.weight",
+        "model.layers.0.self_attn.k_proj.weight",
+        "model.layers.0.self_attn.o_proj.weight",
+        "model.layers.0.self_attn.q_proj.weight",
+        "model.layers.0.self_attn.v_proj.weight"
+      ]
+    },
+    "name": "Model",
+    "pip": [],
+    "platforms": [
+      "mac"
+    ],
+    "size_mb": 256,
+    "source_url": null,
+    "status": "installed",
+    "version": "unknown"
+  }
+]

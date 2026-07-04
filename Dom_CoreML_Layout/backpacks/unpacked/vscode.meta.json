@@ -1,0 +1,17 @@
+{
+  "name": "vscode",
+  "domain": "vscode",
+  "version": 1,
+  "description": "vscode layout expert",
+  "created_at": 1782609861.2884219,
+  "architecture": {
+    "input_dim": 40,
+    "hidden_dim": 128,
+    "output_dim": 10,
+    "total_params": 23050,
+    "layers": "40->128->128->10",
+    "activation": "relu"
+  },
+  "format": "backpack_v1",
+  "contract": "40D input, 10D output, shared interface"
+}

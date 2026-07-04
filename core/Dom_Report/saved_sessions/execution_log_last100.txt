@@ -1,0 +1,101 @@
+run_id	command	status	exit_code	timestamp	error_type
+404	mysql -u root vbstyle_documents -e 'DESCRIBE paths;'	DONE	0	2026-06-28 16:41:20	NULL
+403	mysql -u root vbstyle_documents -e 'DESCRIBE markdown_files; SELECT * FROM paths LIMIT 5;'	DONE	0	2026-06-28 16:41:09	NULL
+402	mysql -u root chatgpt_export -e 'SELECT conversation_id, MAX(create_date) AS latest FROM messages GROUP BY conversation_id ORDER BY latest DESC LIMIT 5;'	DONE	0	2026-06-28 16:11:45	NULL
+401	mysql -u root chatgpt_export -e 'DESCRIBE messages;'	DONE	0	2026-06-28 16:11:39	NULL
+400	mysql -u root chatgpt_chats -e "SELECT id, title, update_date, message_count, token_count FROM conversations ORDER BY update_time DESC LIMIT 5;"	DONE	0	2026-06-28 16:11:34	NULL
+399	mysql -u root chatgpt_chats -e "SELECT id, title, update_date, message_count FROM conversations WHERE title LIKE '%AST%' OR title LIKE '%cluster%' OR title LIKE '%code%shape%' OR title LIKE '%CoreML%' OR title LIKE '%VBSTYLE%' OR title LIKE '%generator%' OR title LIKE '%267%' OR title LIKE '%BrkBank%' ORDER BY update_time DESC LIMIT 15;"	DONE	0	2026-06-28 16:11:28	NULL
+398	mysql -u root vbstyle_documents -e "SELECT id, file_name, mac_modified_at FROM markdown_files WHERE file_name LIKE '%chatgpt%' ORDER BY mac_modified_at DESC LIMIT 10;"	DONE	0	2026-06-28 16:10:53	NULL
+397	mysql -u root vbstyle_documents -e 'DESCRIBE markdown_files;'	DONE	0	2026-06-28 16:10:46	NULL
+396	mysql -u root vbstyle_documents -e 'SELECT COUNT(*) AS total FROM markdown_files;'	DONE	0	2026-06-28 16:10:40	NULL
+395	mysql -u root vbstyle_documents -e 'SHOW TABLES;'	DONE	0	2026-06-28 16:10:31	NULL
+394	mysql -u root chatgpt_export -e 'SELECT COUNT(*) AS total_messages FROM messages; SELECT COUNT(DISTINCT conversation_id) AS total_convs FROM messages; SELECT conversation_id, MAX(created_at) AS latest FROM messages GROUP BY conversation_id ORDER BY latest DESC LIMIT 5;'	FAILED	1	2026-06-28 16:10:03	MySQLProgrammingError
+393	mysql -u root chatgpt_export -e 'SHOW TABLES; SELECT COUNT(*) AS total FROM chat_messages;'	FAILED	1	2026-06-28 16:09:49	NULL
+392	mysql -u root chatgpt_chats -e 'SELECT id, title, update_date, message_count FROM conversations ORDER BY update_time DESC LIMIT 10;'	DONE	0	2026-06-28 16:09:38	NULL
+391	mysql -u root chatgpt_chats -e 'DESCRIBE conversations;'	DONE	0	2026-06-28 16:09:27	NULL
+390	mysql -u root chatgpt_chats -e 'SELECT id, title, created_at, updated_at FROM conversations ORDER BY updated_at DESC LIMIT 10;'	FAILED	1	2026-06-28 16:09:18	MySQLProgrammingError
+389	mysql -u root chatgpt_chats -e 'SHOW TABLES; SELECT COUNT(*) AS total_messages FROM messages; SELECT COUNT(DISTINCT conversation_id) AS total_conversations FROM messages;'	DONE	0	2026-06-28 16:09:09	NULL
+388	mysql -u root -e 'SHOW DATABASES;'	DONE	0	2026-06-28 16:08:59	NULL
+387	mysql -u root vb_shared -e 'SELECT problem, description FROM know_problems WHERE description LIKE "%267%" OR description LIKE "%300k%" OR description LIKE "%variation%" OR description LIKE "%ast%" LIMIT 10'	DONE	0	2026-06-28 14:36:01	NULL
+386	mysql -u root vb_shared -e 'SELECT pattern, fix_action, confidence FROM learned_rules WHERE pattern LIKE "%267%" OR pattern LIKE "%300k%" OR pattern LIKE "%300K%" OR pattern LIKE "%variation%" OR pattern LIKE "%variations%" ORDER BY confidence DESC LIMIT 10'	DONE	0	2026-06-28 14:35:55	NULL
+385	mysql -u root vb_code_test -e 'SELECT m.method_name, c.class_name FROM vb_methods m JOIN vb_classes c ON m.class_id = c.id WHERE c.class_name IN ("AST","ASTCodeGraph","ASTEncoder","AstParse","AstParser","ASTPathExtractor","ASTStructureEngine","ASTStructureLayer","ClassAST","CoreAstV3","PythonAstExtractor","SyntaxChecker","SyntaxStructure") ORDER BY c.class_name LIMIT 50'	DONE	0	2026-06-28 14:35:51	NULL
+384	mysql -u root vb_code_test -e 'SELECT class_name FROM vb_classes WHERE class_name LIKE "%ast%" OR class_name LIKE "%AST%" OR class_name LIKE "%tree%" OR class_name LIKE "%syntax%" LIMIT 20'	DONE	0	2026-06-28 14:35:18	NULL
+383	mysql -u root vb_shared -e 'SELECT class_name, class_code FROM code_classes WHERE class_name LIKE "%ast%" OR class_name LIKE "%AST%" OR class_name LIKE "%AbstractSyntax%" OR class_name LIKE "%PythonAST%" LIMIT 10'	DONE	0	2026-06-28 14:35:12	NULL
+382	mysql -u root vb_shared -e 'SELECT solution_name, description FROM know_solutions WHERE description LIKE "%ast%" OR description LIKE "%AST%" OR solution_name LIKE "%ast%" LIMIT 10'	FAILED	1	2026-06-28 14:35:06	MySQLProgrammingError
+381	mysql -u root vb_shared -e 'SELECT problem, description FROM know_problems WHERE problem LIKE "%ast%" OR problem LIKE "%AST%" OR description LIKE "%ast%" LIMIT 10'	DONE	0	2026-06-28 14:34:58	NULL
+380	mysql -u root vb_shared -e 'SELECT rule_name, pattern, fix_action, confidence FROM learned_rules WHERE pattern LIKE "%ast%" OR pattern LIKE "%AST%" OR pattern LIKE "%abstract_syntax%" OR pattern LIKE "%python_ast%" ORDER BY confidence DESC LIMIT 20'	FAILED	1	2026-06-28 14:34:50	MySQLProgrammingError
+379	mysql -u root vb_shared -e 'SELECT problem, description FROM know_problems WHERE problem LIKE "%service%" OR problem LIKE "%resource%" OR problem LIKE "%DomSystem%" LIMIT 10;'	DONE	0	2026-06-28 12:52:32	NULL
+378	mysql -u root vb_shared -e 'SELECT pattern, fix_action, confidence FROM learned_rules WHERE pattern LIKE "%service%" OR pattern LIKE "%lifecycle%" OR pattern LIKE "%refcount%" OR pattern LIKE "%idle%" OR pattern LIKE "%DomSystem%" ORDER BY confidence DESC LIMIT 10;'	DONE	0	2026-06-28 12:52:32	NULL
+377	mysql -u root vb_shared -e 'SHOW TABLES;'	DONE	0	2026-06-28 02:25:53	NULL
+376	mysql -u root vb_code_test -e 'SELECT class_name, domain FROM vb_classes WHERE class_name IN ("MPSTrainer", "NeuralTrainer", "TrainableEmbedding", "TrainingMigrator");'	BLOCKED	127	2026-06-28 02:08:06	NULL
+375	mysql -u root vb_code_test -e 'SELECT class_name, LEFT(class_code, 800) FROM vb_classes WHERE class_name IN ("MPSTrainer", "NeuralTrainer", "TrainableEmbedding", "TrainingMigrator", "CoreMLModelCollector");'	BLOCKED	127	2026-06-28 02:05:55	NULL
+374	mysql -u root vb_code_test -e 'SELECT class_name FROM vb_classes WHERE class_name LIKE "%CoreML%" OR class_name LIKE "%MLUpdate%" OR class_name LIKE "%Updatable%" OR class_name LIKE "%Metal%" OR class_name LIKE "%Train%" ORDER BY class_name LIMIT 50;'	DONE	0	2026-06-28 02:04:48	NULL
+373	mysql -u root vb_code_test -e 'SELECT class_name, domain, role FROM vb_classes WHERE class_name LIKE "%CoreML%" OR class_name LIKE "%MLUpdate%" OR class_name LIKE "%Updatable%" OR class_name LIKE "%Metal%" OR class_name LIKE "%Train%" ORDER BY class_name LIMIT 30;'	DONE	0	2026-06-28 02:04:33	NULL
+372	mysql -u root vb_code_test -e 'SELECT class_name, domain, role FROM vb_classes WHERE class_name LIKE "%CoreML%" OR class_name LIKE "%MLUpdate%" OR class_name LIKE "%Updatable%" OR class_name LIKE "%Metal%" OR class_name LIKE "%Train%" ORDER BY class_name LIMIT 30;'	DONE	0	2026-06-28 02:04:04	NULL
+371	mysql -u root vb_shared -e "SELECT pattern, fix_action, confidence FROM learned_rules WHERE pattern LIKE '%coreml%train%' OR pattern LIKE '%train%coreml%' OR pattern LIKE '%MLUpdateTask%' OR pattern LIKE '%updatable%model%' ORDER BY confidence DESC LIMIT 10;"	DONE	0	2026-06-28 01:57:57	NULL
+370	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM markdown_files WHERE content LIKE '%train%TokenEmbedder%' OR content LIKE '%TokenEmbedder%train%' OR content LIKE '%training TokenEmbedder%' LIMIT 50;"	BLOCKED	127	2026-06-28 01:52:54	NULL
+369	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM markdown_files WHERE (content LIKE '%TokenEmbedder%' OR content LIKE '%BestMapper%' OR content LIKE '%40-dim%' OR content LIKE '%40 dim%') AND (content LIKE '%train%' OR content LIKE '%pytorch%' OR content LIKE '%PyTorch%') LIMIT 50;"	BLOCKED	127	2026-06-28 01:52:53	NULL
+368	mysql -u root CODEBASE -e "SELECT id, filename, full_path, LEFT(CAST(content AS CHAR(4000)),3500) AS preview FROM markdown_files WHERE id=17702;"	DONE	0	2026-06-28 01:52:48	NULL
+367	mysql -u root CODEBASE -e "SELECT id, filename, full_path, LEFT(CAST(content AS CHAR(4000)),3500) AS preview FROM markdown_files WHERE id=17619;"	DONE	0	2026-06-28 01:52:48	NULL
+366	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM markdown_files WHERE content LIKE '%trained in coreml%' OR content LIKE '%trained a coreml%' OR content LIKE '%coreml training session%' OR content LIKE '%trained the coreml%' OR content LIKE '%coreml train%' OR content LIKE '%train coreml%' OR content LIKE '%training coreml%' OR content LIKE '%trained model in coreml%' LIMIT 50;"	DONE	0	2026-06-28 01:52:44	NULL
+365	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM markdown_files WHERE content LIKE '%MLUpdateTask%' OR content LIKE '%make_updatable%' OR content LIKE '%set_adam_optimizer%' OR content LIKE '%updatable model%' LIMIT 50;"	DONE	0	2026-06-28 01:52:35	NULL
+364	mysql -u root CODEBASE -e "SELECT id, filename, full_path, LEFT(CAST(content AS CHAR(8000)),6000) AS preview FROM markdown_files WHERE id=1352;"	DONE	0	2026-06-28 01:52:03	NULL
+363	mysql -u root CODEBASE -e "SELECT id, filename, full_path, LEFT(CAST(content AS CHAR(8000)),6000) AS preview FROM markdown_files WHERE id=356;"	DONE	0	2026-06-28 01:52:03	NULL
+362	mysql -u root CODEBASE -e "SELECT id, filename, full_path, LEFT(CAST(content AS CHAR(8000)),6000) AS preview FROM markdown_files WHERE id=1209;"	DONE	0	2026-06-28 01:52:02	NULL
+361	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM markdown_files WHERE content LIKE '%train%coreml%' OR content LIKE '%coreml%train%' OR content LIKE '%MLUpdateTask%' OR content LIKE '%trained in coreml%' OR content LIKE '%coreml training%' LIMIT 50;"	DONE	0	2026-06-28 01:51:58	NULL
+360	mysql -u root CODEBASE -e "SELECT CAST(content AS CHAR(30000)) AS src FROM c_files WHERE id=2861;"	DONE	0	2026-06-28 01:50:56	NULL
+359	mysql -u root CODEBASE -e "SELECT CAST(content AS CHAR(30000)) AS src FROM c_files WHERE id=2791;"	DONE	0	2026-06-28 01:50:55	NULL
+358	mysql -u root CODEBASE -e "SELECT CAST(content AS CHAR(20000)) AS src FROM c_files WHERE id=2554;"	DONE	0	2026-06-28 01:50:54	NULL
+357	mysql -u root CODEBASE -e "SELECT id, filename, full_path, LEFT(CAST(content AS CHAR(2000)),1500) AS preview FROM python_files WHERE id=51388;"	DONE	0	2026-06-28 01:50:54	NULL
+356	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM python_files WHERE content LIKE '%MLUpdateTask%' OR content LIKE '%make_updatable%' OR content LIKE '%set_adam_optimizer%' LIMIT 50;"	DONE	0	2026-06-28 01:50:48	NULL
+355	mysql -u root CODEBASE -e "SELECT CAST(content AS CHAR(8000)) AS src FROM c_files WHERE id=2544;"	DONE	0	2026-06-28 01:50:22	NULL
+354	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM c_files WHERE content LIKE '%train%' AND filename LIKE '%coreml%' LIMIT 50;"	DONE	0	2026-06-28 01:50:09	NULL
+353	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM c_files WHERE content LIKE '%MLArrayBatchProvider%' LIMIT 50;"	DONE	0	2026-06-28 01:50:07	NULL
+352	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM c_files WHERE content LIKE '%MLUpdateTask%' LIMIT 50;"	DONE	0	2026-06-28 01:50:04	NULL
+351	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM c_files WHERE content LIKE '%MLUpdateProgressHandlers%' LIMIT 50;"	DONE	0	2026-06-28 01:50:04	NULL
+350	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM c_files WHERE content LIKE '%MLUpdateTask%' OR content LIKE '%MLUpdateProgressHandlers%' OR content LIKE '%MLArrayBatchProvider%' OR content LIKE '%MLTrainingInput%' OR content LIKE '%make_updatable%' LIMIT 50;"	DONE	0	2026-06-28 01:49:49	NULL
+349	mysql -u root CODEBASE -e "SELECT id, filename, CAST(content AS CHAR(50000)) AS src FROM c_files WHERE id IN (2544,2554,2791,2861,2883,2907,2921,2985,3011,1376);" --xml	DONE	0	2026-06-28 01:49:40	NULL
+348	mysql -u root CODEBASE -e "SELECT id, filename, full_path, CAST(content AS CHAR(20000)) AS src FROM c_files WHERE id=2544;"	DONE	0	2026-06-28 01:49:36	NULL
+347	mysql -u root CODEBASE -e "SELECT id, filename, full_path FROM c_files WHERE id IN (2544,2554,2791,2861,2883,2907,2921,2985,3011,1376);"	DONE	0	2026-06-28 01:49:36	NULL
+346	mysql -u root CODEBASE -e "SELECT id, filename, LEFT(full_path,120) AS path, file_size FROM c_files WHERE filename LIKE '%coreml%' OR full_path LIKE '%coreml%' LIMIT 50;"	DONE	0	2026-06-28 01:49:30	NULL
+345	mysql -u root CODEBASE -e 'SHOW COLUMNS FROM c_files;'	DONE	0	2026-06-28 01:49:26	NULL
+344	mysql -u root CODEBASE -e 'SHOW TABLES;'	DONE	0	2026-06-28 01:49:23	NULL
+343	mysql -u root vb_shared -e "SELECT answer FROM know_answers WHERE id=11491;"	DONE	0	2026-06-28 01:41:25	NULL
+342	mysql -u root vb_shared -e "SHOW COLUMNS FROM know_answers;"	DONE	0	2026-06-28 01:41:23	NULL
+341	mysql -u root vb_shared -e "SELECT question, answer FROM know_answers WHERE id=11491;"	FAILED	1	2026-06-28 01:41:19	MySQLProgrammingError
+340	mysql -u root vb_shared -e 'SELECT problem, description FROM know_problems WHERE problem LIKE "%CoreML%" OR problem LIKE "%coreml%" OR problem LIKE "%train%" LIMIT 10;'	DONE	0	2026-06-28 01:39:48	NULL
+339	mysql -u root vb_shared -e 'SELECT pattern, fix_action, confidence FROM learned_rules WHERE pattern LIKE "%CoreML%" OR pattern LIKE "%coreml%" OR pattern LIKE "%MLUpdateTask%" OR pattern LIKE "%CreateML%" ORDER BY confidence DESC LIMIT 10;'	DONE	0	2026-06-28 01:39:34	NULL
+338	mysql -u root vb_code_test -e 'SELECT class_name, LEFT(class_code, 500) FROM vb_classes WHERE class_name IN ("CoreMLBracketCliOrchestrator", "CoreMLModelCollector", "CoreMLModelSQLitePackager");'	DONE	0	2026-06-28 01:39:25	NULL
+337	mysql -u root vb_code_test -e 'SHOW COLUMNS FROM vb_classes;'	DONE	0	2026-06-28 01:39:22	NULL
+336	mysql -u root vb_code_test -e 'SELECT method_name FROM vb_methods WHERE method_name LIKE "%CoreML%" OR method_name LIKE "%coreml%" OR method_name LIKE "%MLUpdate%" OR method_name LIKE "%train%" OR method_name LIKE "%personaliz%" LIMIT 30;'	DONE	0	2026-06-28 01:39:11	NULL
+335	mysql -u root vb_code_test -e 'SELECT class_name FROM vb_classes WHERE class_name LIKE "%CoreML%" OR class_name LIKE "%coreml%" OR class_name LIKE "%MLModel%" OR class_name LIKE "%CreateML%" LIMIT 20;'	DONE	0	2026-06-28 01:39:04	NULL
+334	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-28 00:02:40	NULL
+333	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-28 00:00:09	NULL
+332	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-27 23:58:16	NULL
+331	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	FAILED	-6	2026-06-27 23:54:33	TypeError
+330	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-27 23:51:36	NULL
+329	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-27 23:48:23	NULL
+328	mysql -u root vb_shared -e "SELECT SUBSTRING(class_code, 4500, 3000) FROM code_classes WHERE class_name = 'Lib_MagneticComponent_v1';"	DONE	0	2026-06-27 23:48:03	NULL
+327	mysql -u root vb_shared -e "SELECT SUBSTRING(class_code, 1500, 3000) FROM code_classes WHERE class_name = 'Lib_MagneticComponent_v1';"	DONE	0	2026-06-27 23:47:57	NULL
+326	mysql -u root vb_shared -e "SELECT class_name, LEFT(class_code, 3000) as code FROM code_classes WHERE class_name = 'Lib_MagneticComponent_v1';"	DONE	0	2026-06-27 23:47:52	NULL
+325	mysql -u root vb_shared -e "SELECT class_name, LEFT(class_code, 1500) as code FROM code_classes WHERE class_name = 'Lib_MagneticComponent_v1';"	DONE	0	2026-06-27 23:47:47	NULL
+324	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-27 23:46:39	NULL
+323	mysql -u root vb_shared -e "SELECT class_name, description FROM code_classes WHERE class_name LIKE '%magnetic%' LIMIT 30;"	DONE	0	2026-06-27 23:45:54	NULL
+322	mysql -u root vb_shared -e "SELECT class_name, description FROM code_classes WHERE class_name LIKE '%magnetic%' AND (description LIKE '%gui%' OR description LIKE '%ui%' OR description LIKE '%layout%' OR description LIKE '%graph%' OR description LIKE '%visual%') LIMIT 20;"	DONE	0	2026-06-27 23:45:52	NULL
+321	mysql -u root vb_shared -e "SELECT class_name, description FROM code_classes WHERE class_name LIKE '%MagneticGui%' OR class_name LIKE '%magnetic_gui%' OR class_name LIKE '%MagneticGUI%' LIMIT 10;"	DONE	0	2026-06-27 23:45:47	NULL
+320	mysql -u root vb_shared -e "SELECT class_name, description FROM code_classes WHERE class_name LIKE '%gui%' AND (class_name LIKE '%magnetic%' OR description LIKE '%magnetic%') LIMIT 20;"	DONE	0	2026-06-27 23:45:44	NULL
+319	mysql -u root vb_shared -e "SELECT class_name, description, LEFT(class_code, 200) as code_preview FROM code_classes WHERE class_name LIKE '%magnetic%' OR class_name LIKE '%Magnetic%' OR description LIKE '%magnetic%' LIMIT 20;"	DONE	0	2026-06-27 23:45:39	NULL
+318	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/ui_energy_optimizer.py	TIMEOUT	-9	2026-06-27 23:45:11	NULL
+317	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/insert_file_rules.py	DONE	0	2026-06-27 23:41:32	NULL
+316	mysql -u root vb_shared -e 'SELECT LEFT(class_code,2000) FROM code_classes WHERE id=98'	DONE	0	2026-06-27 23:35:34	NULL
+315	mysql -u root vb_shared -e 'SELECT LEFT(class_code,3000) FROM code_classes WHERE id=99'	DONE	0	2026-06-27 23:35:22	NULL
+314	mysql -u root vb_shared -e 'SELECT class_code FROM code_classes WHERE id=99'	DONE	0	2026-06-27 23:35:10	NULL
+313	mysql -u root vb_shared -e 'SELECT id, name, LEFT(bracket_body,120) as body, category FROM rule_tokens WHERE name LIKE "%File%" OR name LIKE "%Header%" OR name LIKE "%GHOST%" OR name LIKE "%VBSTYLE%" OR name LIKE "%Annotation%" OR name LIKE "%Identity%" OR name LIKE "%Summary%" OR name LIKE "%Class%" OR name LIKE "%Method%" OR name LIKE "%Import%" OR name LIKE "%Config%" OR name LIKE "%Doc%" OR name LIKE "%Module%" ORDER BY id'	DONE	0	2026-06-27 23:32:37	NULL
+312	python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/insert_gui_master.py	DONE	0	2026-06-27 23:29:49	NULL
+311	mysql -u root vb_shared -e "INSERT INTO rule_tokens (name, bracket_body, category) VALUES ('[@GuiStandardMaster]', '({[@Application]{MenuBar ToolBar StatusBar Settings ThemeEngine FontEngine IconTheme ShortcutManager HelpSystem Search About VersionInfo Preferences}[@EveryWindow]{Title Icon StatusBar Toolbar MenuBar HelpAction SettingsAction SearchAction}[@EveryControl]{Name Label Tooltip HelpText Icon Shortcut EnabledState VisibleState DefaultValue Validation}[@EveryAction]{Caption Tooltip Icon 	BLOCKED	127	2026-06-27 23:15:43	NULL
+310	mysql -u root vb_shared -e 'SELECT id, name, LEFT(bracket_body,80) as body FROM rule_tokens WHERE category="GUI" ORDER BY id'	DONE	0	2026-06-27 23:14:49	NULL
+309	mysql -u root vb_shared -e "INSERT INTO rule_tokens (name, bracket_body, category) VALUES ('[@GuiStandardSelector]', '(\\"Every GUI with data MUST have selector: dropdown combobox or tree. Selector state persists. Selector drives detail view\\";92)', 'GUI')"	DONE	0	2026-06-27 23:14:08	NULL
+308	mysql -u root vb_shared -e "INSERT INTO rule_tokens (name, bracket_body, category) VALUES ('[@GuiStandardAbout]', '(\\"Every GUI MUST have About dialog: app name version author date. About text defined in config\\";92)', 'GUI')"	DONE	0	2026-06-27 23:14:05	NULL
+307	mysql -u root vb_shared -e "INSERT INTO rule_tokens (name, bracket_body, category) VALUES ('[@GuiStandardConfigDriven]', '(\\"All GUI elements MUST be driven by config: theme fonts icons tooltips labels shortcuts menus buttons. Code reads config not hardcodes\\";92)', 'GUI')"	DONE	0	2026-06-27 23:13:22	NULL
+306	mysql -u root vb_shared -e "INSERT INTO rule_tokens (name, bracket_body, category) VALUES ('[@GuiStandardFonts]', '(\\"Every GUI MUST define fonts in config: family size weight. No hardcoded font names in code\\";92)', 'GUI')"	DONE	0	2026-06-27 23:13:21	NULL
+305	mysql -u root vb_shared -e "INSERT INTO rule_tokens (name, bracket_body, category) VALUES ('[@GuiStandardSettings]', '(\\"Every GUI MUST have Settings dialog from menu and toolbar. Settings persist to config\\";92)', 'GUI')"	DONE	0	2026-06-27 23:13:06	NULL

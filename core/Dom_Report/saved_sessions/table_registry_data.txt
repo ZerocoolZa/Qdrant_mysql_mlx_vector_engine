@@ -1,0 +1,47 @@
+id	table_name	display_name	purpose	description	type_id	owner	primary_key	is_active	version	created_at
+10	answer	Answer	An answer to a diagnostic question for an incident	NULL	135	report	id	1	1	2026-07-02 23:02:32
+2	category	Category	Canonical classification grouping	NULL	134	architecture	id	1	1	2026-07-02 23:02:32
+11	cause	Cause	A cause identified for an incident	NULL	135	report	id	1	1	2026-07-02 23:02:32
+44	Class	Class	A composition of computation units — the highest level code structure entity	NULL	135	code	Id	1	1	2026-07-02 23:09:02
+46	ClassComputationUnit	ClassComputationUnit	M:N join between Class and ComputationUnit — sequence	NULL	136	code	Class+ComputationUnit	1	1	2026-07-02 23:09:02
+43	ComputationUnit	ComputationUnit	A composition of methods — a computational unit that groups methods into a reusable unit	NULL	135	code	Id	1	1	2026-07-02 23:09:02
+45	ComputationUnitMethod	ComputationUnitMethod	M:N join between ComputationUnit and Method — sequence and role	NULL	136	code	ComputationUnit+Method	1	1	2026-07-02 23:09:02
+23	decision	Decision	Records of why a design choice was made — documents WHY, not WHAT	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+3	domain	Domain	Canonical domain scope classification	NULL	134	architecture	id	1	1	2026-07-02 23:02:32
+17	error	Error	A known error type with cause and solution	NULL	135	report	id	1	1	2026-07-02 23:02:32
+14	evidence	Evidence	Supporting data for an incident	NULL	135	report	id	1	1	2026-07-02 23:02:32
+9	fact	Fact	A fact observed during an incident. incident_id is the relationship.	NULL	135	report	id	1	1	2026-07-02 23:02:32
+12	fix	Fix	A fix attempted for an incident	NULL	135	report	id	1	1	2026-07-02 23:02:32
+37	foundation_law	Foundation Law	Deprecated — replaced by law + pattern + pattern_law + decision	NULL	139	architecture	id	0	1	2026-07-02 23:02:32
+7	group	Group	Canonical grouping for collections	NULL	134	architecture	id	1	1	2026-07-02 23:02:32
+8	incident	Incident	The anchor — one row per operation execution. This IS the report made persistent.	NULL	135	report	id	1	1	2026-07-02 23:02:32
+34	incident_problem	Incident-Problem	M:N link between incident and problem (legacy)	NULL	138	report	incident_id+problem_id	1	1	2026-07-02 23:02:32
+20	law	Law	Architectural truths — permanent principles that govern every design decision	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+42	Method	Method	The smallest executable unit — a single method/function with its own Code, BCL, BCLIR, Graph representations	NULL	135	code	Id	1	1	2026-07-02 23:09:02
+21	pattern	Pattern	Forbidden or recommended implementation patterns	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+22	pattern_law	Pattern-Law	Which laws each pattern violates or satisfies — the reasoning graph	NULL	137	architecture	pattern_id+law_id+relationship	1	1	2026-07-02 23:02:32
+13	prevention	Prevention	A prevention rule derived from an incident	NULL	135	report	id	1	1	2026-07-02 23:02:32
+6	priority	Priority	Canonical priority level	NULL	134	architecture	id	1	1	2026-07-02 23:02:32
+15	problem	Problem	A generalized problem type (type-level, not instance-level)	NULL	135	report	id	1	1	2026-07-02 23:02:32
+35	problem_solution	Problem-Solution	Known solutions for a problem type (legacy — should be entity not junction)	NULL	138	report	id	1	1	2026-07-02 23:02:32
+18	question	Question	A diagnostic question with fingerprint for dedup	NULL	135	report	id	1	1	2026-07-02 23:02:32
+36	question_type	Question Type	Legacy type table — replaced by type authority	NULL	138	report	id	0	1	2026-07-02 23:02:32
+19	report	Report	A container of relationships — references entities, does not duplicate them	NULL	135	report	id	1	1	2026-07-02 23:02:32
+30	report_answer	Report-Answer	M:N link between report and answer	NULL	136	report	report_id+answer_id	1	1	2026-07-02 23:02:32
+26	report_cause	Report-Cause	M:N link between report and cause	NULL	136	report	report_id+cause_id	1	1	2026-07-02 23:02:32
+24	report_error	Report-Error	M:N link between report and error	NULL	136	report	report_id+error_id	1	1	2026-07-02 23:02:32
+31	report_evidence	Report-Evidence	M:N link between report and evidence	NULL	136	report	report_id+evidence_id	1	1	2026-07-02 23:02:32
+29	report_fact	Report-Fact	M:N link between report and fact	NULL	136	report	report_id+fact_id	1	1	2026-07-02 23:02:32
+27	report_fix	Report-Fix	M:N link between report and fix	NULL	136	report	report_id+fix_id	1	1	2026-07-02 23:02:32
+28	report_prevention	Report-Prevention	M:N link between report and prevention	NULL	136	report	report_id+prevention_id	1	1	2026-07-02 23:02:32
+25	report_problem	Report-Problem	M:N link between report and problem	NULL	136	report	report_id+problem_id	1	1	2026-07-02 23:02:32
+33	report_question	Report-Question	M:N link between report and question	NULL	136	report	report_id+question_id	1	1	2026-07-02 23:02:32
+32	report_rule	Report-Rule	M:N link between report and rule	NULL	136	report	report_id+rule_id	1	1	2026-07-02 23:02:32
+16	rule	Rule	A repair rule — pattern + trigger + fix action	NULL	135	report	id	1	1	2026-07-02 23:02:32
+5	severity	Severity	Canonical severity level	NULL	134	architecture	id	1	1	2026-07-02 23:02:32
+4	status	Status	Canonical lifecycle state	NULL	134	architecture	id	1	1	2026-07-02 23:02:32
+39	table_column	Table Column	One row per column — what each column means	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+38	table_registry	Table Registry	One row per table — what the table is	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+40	table_relationship	Table Relationship	One row per FK — how tables connect	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+41	table_rule	Table Rule	Which laws apply to which table	NULL	137	architecture	id	1	1	2026-07-02 23:02:32
+1	type	Type	Canonical classification of what something is	NULL	134	architecture	id	1	1	2026-07-02 23:02:32

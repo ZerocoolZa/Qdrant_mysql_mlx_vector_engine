@@ -1,0 +1,220 @@
+{
+  "name": "Wizard Idle",
+  "width": 512,
+  "height": 512,
+  "background": [0.05, 0.03, 0.12],
+  "duration": 4.0,
+  "fps": 60,
+  "objects": [
+    {
+      "id": "rune_bg",
+      "type": "rune_circle",
+      "position": [256, 280],
+      "rotation": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#00ffff",
+      "stroke_color": "#00ffff",
+      "stroke_width": 2,
+      "motion": {
+        "type": "rotate",
+        "speed": 0.2,
+        "amplitude": 0,
+        "radius": 0,
+        "phase": 0,
+        "center": [256, 280],
+        "seed": 42
+      }
+    },
+    {
+      "id": "glow_bg",
+      "type": "glow_orb",
+      "position": [256, 280],
+      "rotation": 0,
+      "scale": 3.0,
+      "opacity": 1.0,
+      "color": "#7b2ff7",
+      "stroke_color": "#ffffff",
+      "stroke_width": 2,
+      "motion": {
+        "type": "glow",
+        "speed": 0.5,
+        "amplitude": 10,
+        "radius": 0,
+        "phase": 0,
+        "center": [256, 280],
+        "seed": 42
+      }
+    },
+    {
+      "id": "hat",
+      "type": "hat",
+      "position": [256, 180],
+      "rotation": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#2a1860",
+      "stroke_color": "#ffd700",
+      "stroke_width": 2,
+      "motion": {
+        "type": "float",
+        "speed": 0.4,
+        "amplitude": 6,
+        "radius": 0,
+        "phase": 0,
+        "center": [256, 180],
+        "seed": 42
+      }
+    },
+    {
+      "id": "coat",
+      "type": "coat",
+      "position": [256, 300],
+      "rotation": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#1e5eff",
+      "stroke_color": "#ffd700",
+      "stroke_width": 2,
+      "motion": {
+        "type": "float",
+        "speed": 0.4,
+        "amplitude": 4,
+        "radius": 0,
+        "phase": 0.5,
+        "center": [256, 300],
+        "seed": 42
+      }
+    },
+    {
+      "id": "beard",
+      "type": "beard",
+      "position": [256, 240],
+      "rotation": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#e0e0e0",
+      "stroke_color": "#ffffff",
+      "stroke_width": 1,
+      "motion": {
+        "type": "float",
+        "speed": 0.4,
+        "amplitude": 3,
+        "radius": 0,
+        "phase": 0.3,
+        "center": [256, 240],
+        "seed": 42
+      }
+    },
+    {
+      "id": "wand",
+      "type": "wand",
+      "position": [330, 280],
+      "rotation": -25,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#ffd700",
+      "stroke_color": "#ffffff",
+      "stroke_width": 2,
+      "motion": {
+        "type": "wand_wave",
+        "speed": 1.0,
+        "amplitude": 15,
+        "radius": 0,
+        "phase": 0,
+        "center": [330, 280],
+        "seed": 42
+      }
+    },
+    {
+      "id": "star_0",
+      "type": "star",
+      "position": [256, 256],
+      "rotation": 0,
+      "scale": 0.6,
+      "opacity": 1.0,
+      "color": "#ffd700",
+      "stroke_color": "#ffffff",
+      "stroke_width": 1,
+      "motion": {
+        "type": "orbit",
+        "speed": 0.3,
+        "amplitude": 0,
+        "radius": 80,
+        "phase": 0,
+        "center": [256, 256],
+        "seed": 42
+      }
+    },
+    {
+      "id": "star_1",
+      "type": "star",
+      "position": [256, 256],
+      "rotation": 0,
+      "scale": 0.8,
+      "opacity": 1.0,
+      "color": "#7ec8ff",
+      "stroke_color": "#ffffff",
+      "stroke_width": 1,
+      "motion": {
+        "type": "orbit",
+        "speed": 0.4,
+        "amplitude": 0,
+        "radius": 100,
+        "phase": 0.2,
+        "center": [256, 256],
+        "seed": 42
+      }
+    },
+    {
+      "id": "magic_dust",
+      "type": "emitter",
+      "position": [256, 200],
+      "rotation": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#7b2ff7",
+      "stroke_color": "#ffffff",
+      "stroke_width": 1,
+      "emitter": {
+        "type": "dust",
+        "rate": 30,
+        "speed": 25,
+        "speed_var": 15,
+        "size": 2.5,
+        "size_var": 1,
+        "life": 3.0,
+        "life_var": 1.0,
+        "gravity": -15,
+        "drag": 0.98,
+        "area": [40, 20],
+        "max": 200
+      }
+    },
+    {
+      "id": "wand_sparks",
+      "type": "emitter",
+      "position": [330, 220],
+      "rotation": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "color": "#ffd700",
+      "stroke_color": "#ffffff",
+      "stroke_width": 1,
+      "emitter": {
+        "type": "spark",
+        "rate": 15,
+        "speed": 40,
+        "speed_var": 20,
+        "size": 2,
+        "size_var": 0.5,
+        "life": 1.5,
+        "life_var": 0.5,
+        "gravity": 30,
+        "drag": 0.98,
+        "area": [10, 10],
+        "max": 100
+      }
+    }
+  ]
+}

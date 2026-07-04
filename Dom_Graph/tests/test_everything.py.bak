@@ -1,0 +1,359 @@
+#!/usr/bin/env python3
+"""Comprehensive test of everything in the Dom_Graph domain from DB."""
+import sys
+import sqlite3
+import py_compile
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent
+sys.path.insert(0, str(BASE_DIR))
+
+from domain_loader import DomainLoader
+
+PASS = 0
+FAIL = 0
+
+def check(name, condition, detail=""):
+    global PASS, FAIL
+    if condition:
+        PASS += 1
+        print(f"  PASS  {name}")
+    else:
+        FAIL += 1
+        print(f"  FAIL  {name} — {detail}")
+
+print("=" * 70)
+print("SECTION 1: Database Structure")
+print("=" * 70)
+
+DB_PATH = BASE_DIR / "dom_graph_work.db"
+conn = sqlite3.connect(DB_PATH)
+cur = conn.cursor()
+
+tables = ["src", "config_constants", "class_registry", "method_registry"]
+for t in tables:
+    cur.execute(f"SELECT COUNT(*) FROM {t}")
+    count = cur.fetchone()[0]
+    check(f"Table {t} exists", count > 0, f"count={count}")
+
+cur.execute("SELECT COUNT(*) FROM src")
+src_lines = cur.fetchone()[0]
+check("src has >10000 lines", src_lines > 10000, f"lines={src_lines}")
+
+cur.execute("SELECT COUNT(DISTINCT file) FROM src")
+src_files = cur.fetchone()[0]
+check("src has >15 files", src_files > 15, f"files={src_files}")
+
+cur.execute("SELECT COUNT(*) FROM config_constants")
+const_count = cur.fetchone()[0]
+check("config_constants has >30 entries", const_count > 30, f"count={const_count}")
+
+cur.execute("SELECT COUNT(*) FROM class_registry")
+class_count = cur.fetchone()[0]
+check("class_registry has >30 classes", class_count > 30, f"count={class_count}")
+
+cur.execute("SELECT COUNT(*) FROM method_registry")
+method_count = cur.fetchone()[0]
+check("method_registry has >100 methods", method_count > 100, f"count={method_count}")
+
+print(f"\n  Database: {src_lines} lines, {src_files} files, {const_count} constants, {class_count} classes, {method_count} methods")
+
+print("\n" + "=" * 70)
+print("SECTION 2: All Python Files Compile")
+print("=" * 70)
+
+for path in sorted(BASE_DIR.glob("*.py")):
+    if path.name.startswith("step") or path.name in ["fix_config_from_db.py", "view_config.py", "check_build_db.py", "debug_lookup.py"]:
+        continue
+    try:
+        py_compile.compile(str(path), doraise=True)
+        check(f"Compile {path.name}", True)
+    except Exception as e:
+        check(f"Compile {path.name}", False, str(e))
+
+print("\n" + "=" * 70)
+print("SECTION 3: DomainLoader - List Operations")
+print("=" * 70)
+
+loader = DomainLoader()
+
+result = loader.Run("list_classes")
+check("list_classes returns 1", result[0] == 1)
+check("list_classes returns 38 classes", len(result[1]) == 38, f"got {len(result[1])}")
+
+result = loader.Run("list_constants")
+check("list_constants returns 1", result[0] == 1)
+check("list_constants returns 42 constants", len(result[1]) == 42, f"got {len(result[1])}")
+
+print("\n" + "=" * 70)
+print("SECTION 4: DomainLoader - Config Constants from DB")
+print("=" * 70)
+
+expected_constants = [
+    ("BASE_DIR", "path"),
+    ("SOURCE_PATH", "path"),
+    ("DB_MODE", "string"),
+    ("CODECS", "list"),
+    ("DEFAULT_CODEC", "string"),
+    ("SIM_FRAMES", "int"),
+    ("TARGET_FPS", "int"),
+    ("DISPLAY_WIDTH", "int"),
+    ("DISPLAY_HEIGHT", "int"),
+    ("FRAME_BUFFER_BYTES", "int"),
+    ("JPEG_QUALITY", "int"),
+    ("SERVER_PORT", "int"),
+    ("GRAPH_CATEGORIES", "dict"),
+    ("GRAPH_CATEGORY_ORDER", "list"),
+    ("GRAPH_EDGE_COLORS", "dict"),
+    ("GRAPH_FLOW_COLORS", "dict"),
+    ("GRAPH_CLASSES", "list"),
+    ("GRAPH_EDGES", "list"),
+    ("GRAPH_FLOWS", "dict"),
+    ("GRAPH_LIFECYCLE_PHASES", "list"),
+    ("GRAPH_CLASS_PHASE", "dict"),
+    ("GRAPH_PHASE_COLORS", "dict"),
+    ("GRAPH_PHASE_ORDER", "list"),
+    ("GRAPH_OPERATION_VERBS", "list"),
+    ("GRAPH_VERB_CATEGORY", "dict"),
+    ("FILE_REGISTRY", "dict"),
+    ("GRAPH_PIPELINE", "list"),
+    ("PRIMITIVES", "list"),
+    ("FUNCTION_GRAPH", "dict"),
+]
+
+for name, expected_type in expected_constants:
+    result = loader.Run("get_config", {"name": name})
+    if result[0] == 1:
+        value = result[1]
+        if expected_type == "int":
+            check(f"Constant {name} is int", isinstance(value, int), f"got {type(value)}")
+        elif expected_type == "float":
+            check(f"Constant {name} is float", isinstance(value, float), f"got {type(value)}")
+        elif expected_type == "list":
+            check(f"Constant {name} is list", isinstance(value, list), f"got {type(value)}")
+        elif expected_type == "dict":
+            check(f"Constant {name} is dict", isinstance(value, dict), f"got {type(value)}")
+        elif expected_type == "string":
+            check(f"Constant {name} is string", isinstance(value, str), f"got {type(value)}")
+        elif expected_type == "path":
+            check(f"Constant {name} is string/path", isinstance(value, str), f"got {type(value)}")
+    else:
+        check(f"Constant {name} found", False, str(result[2]))
+
+print("\n" + "=" * 70)
+print("SECTION 5: Graph Data Integrity")
+print("=" * 70)
+
+result = loader.Run("get_config", {"name": "GRAPH_CATEGORIES"})
+cats = result[1]
+check("GRAPH_CATEGORIES has 6 categories", len(cats) == 6, f"got {len(cats)}")
+check("GRAPH_CATEGORIES has CRUD", "CRUD" in cats)
+check("GRAPH_CATEGORIES has SECURITY", "SECURITY" in cats)
+check("GRAPH_CATEGORIES has META", "META" in cats)
+
+result = loader.Run("get_config", {"name": "GRAPH_CLASSES"})
+classes = result[1]
+check("GRAPH_CLASSES has 24 classes", len(classes) == 24, f"got {len(classes)}")
+check("GRAPH_CLASSES has Compress", any(c[0] == "Compress" for c in classes))
+check("GRAPH_CLASSES has Batch", any(c[0] == "Batch" for c in classes))
+
+result = loader.Run("get_config", {"name": "GRAPH_EDGES"})
+edges = result[1]
+check("GRAPH_EDGES has 28 edges", len(edges) == 28, f"got {len(edges)}")
+
+result = loader.Run("get_config", {"name": "GRAPH_FLOWS"})
+flows = result[1]
+check("GRAPH_FLOWS has 24 flows", len(flows) == 24, f"got {len(flows)}")
+check("GRAPH_FLOWS has Compress", "Compress" in flows)
+check("GRAPH_FLOWS has Batch", "Batch" in flows)
+
+result = loader.Run("get_config", {"name": "GRAPH_LIFECYCLE_PHASES"})
+phases = result[1]
+check("GRAPH_LIFECYCLE_PHASES has 7 phases", len(phases) == 7, f"got {len(phases)}")
+
+result = loader.Run("get_config", {"name": "GRAPH_CLASS_PHASE"})
+class_phase = result[1]
+check("GRAPH_CLASS_PHASE has 24 mappings", len(class_phase) == 24, f"got {len(class_phase)}")
+
+result = loader.Run("get_config", {"name": "GRAPH_OPERATION_VERBS"})
+verbs = result[1]
+check("GRAPH_OPERATION_VERBS has >70 verbs", len(verbs) > 70, f"got {len(verbs)}")
+
+result = loader.Run("get_config", {"name": "GRAPH_VERB_CATEGORY"})
+verb_cat = result[1]
+check("GRAPH_VERB_CATEGORY has >30 mappings", len(verb_cat) > 30, f"got {len(verb_cat)}")
+
+print("\n" + "=" * 70)
+print("SECTION 6: Config Class - DB Build & Graph Tables")
+print("=" * 70)
+
+result = loader.Run("instantiate", {"class_name": "Config"})
+check("Config instantiation", result[0] == 1, str(result[2]) if result[0] != 1 else "")
+cfg = result[1]
+
+db_result = cfg.Run("build_db")
+check("DB build returns 1", db_result[0] == 1, str(db_result[2]) if db_result[0] != 1 else "")
+
+if db_result[0] == 1:
+    db_conn = db_result[1]["conn"]
+    check("DB has 49 tables", db_result[1]["tables"] == 49, f"got {db_result[1]['tables']}")
+    check("DB has 63 primitives", db_result[1]["primitives"] == 63, f"got {db_result[1]['primitives']}")
+    
+    graph_tables = {
+        "graph_categories": 6,
+        "graph_classes": 24,
+        "graph_edges": 28,
+        "graph_edge_colors": 9,
+        "graph_flows": 179,
+        "graph_flow_colors": 6,
+        "graph_lifecycle_phases": 7,
+        "graph_class_phase": 24,
+        "graph_operation_verbs": 78,
+    }
+    
+    for table, expected_count in graph_tables.items():
+        try:
+            count = db_conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+            check(f"Table {table} has {expected_count} rows", count == expected_count, f"got {count}")
+        except Exception as e:
+            check(f"Table {table} exists", False, str(e))
+    
+    # Test graph queries
+    crud_classes = db_conn.execute("SELECT COUNT(*) FROM graph_classes WHERE category = 'CRUD'").fetchone()[0]
+    check("CRUD category has 6 classes", crud_classes == 6, f"got {crud_classes}")
+    
+    feeds_edges = db_conn.execute("SELECT COUNT(*) FROM graph_edges WHERE edge_type = 'FEEDS'").fetchone()[0]
+    check("FEEDS edges has 3", feeds_edges == 3, f"got {feeds_edges}")
+    
+    compress_flow = db_conn.execute("SELECT COUNT(*) FROM graph_flows WHERE class_name = 'Compress'").fetchone()[0]
+    check("Compress flow has 12 steps", compress_flow == 12, f"got {compress_flow}")
+    
+    create_phase = db_conn.execute("SELECT COUNT(*) FROM graph_class_phase WHERE phase = 'CREATE'").fetchone()[0]
+    check("CREATE phase has 2 classes", create_phase == 2, f"got {create_phase}")
+
+print("\n" + "=" * 70)
+print("SECTION 7: Config Class - Run Dispatch")
+print("=" * 70)
+
+result = cfg.Run("read_state")
+check("Run('read_state') returns 1", result[0] == 1)
+check("read_state has state dict", isinstance(result[1], dict))
+
+result = cfg.Run("set_config", {"test_key": "test_value"})
+check("Run('set_config') returns 1", result[0] == 1)
+
+result = cfg.Run("get", {"key": "codecs"})
+check("Run('get', codecs) returns 1", result[0] == 1)
+check("codecs is list", isinstance(result[1], list))
+
+result = cfg.Run("get", {"key": "graph_classes"})
+check("Run('get', graph_classes) returns 1", result[0] == 1)
+check("graph_classes is list", isinstance(result[1], list))
+check("graph_classes has 24 items", len(result[1]) == 24, f"got {len(result[1])}")
+
+result = cfg.Run("get", {"key": "schema_sql"})
+check("Run('get', schema_sql) returns 1", result[0] == 1)
+check("schema_sql is string", isinstance(result[1], str))
+
+result = cfg.Run("get", {"key": "file_registry"})
+check("Run('get', file_registry) returns 1", result[0] == 1)
+check("file_registry is dict", isinstance(result[1], dict))
+
+result = cfg.Run("get", {"key": "nonexistent_key"})
+check("Run('get', nonexistent) returns 0", result[0] == 0)
+
+result = cfg.Run("unknown_command")
+check("Run('unknown') returns 0", result[0] == 0)
+
+print("\n" + "=" * 70)
+print("SECTION 8: Class Registry Lookup")
+print("=" * 70)
+
+test_classes = ["Config", "SpecGraph", "SpecFlow", "PlanGraph",
+                "LifecycleGraph", "DepGraph", "ErrorGraph",
+                "OrchGraph", "GapGraph", "GraphEngine", "ConstraintChecker",
+                "AgentGraph", "ExecutionGraph", "TypedGraph", "GraphViewer"]
+
+for cls_name in test_classes:
+    result = loader.Run("get_class", {"class_name": cls_name})
+    check(f"get_class({cls_name})", result[0] == 1, str(result[2]) if result[0] != 1 else "")
+
+print("\n" + "=" * 70)
+print("SECTION 9: Graph Pipeline Files")
+print("=" * 70)
+
+pipeline_files = ["Dom_Graph_Plan.py", "Dom_Graph_Spec.py", "Dom_Graph_Flow.py", "Dom_Graph_Lifecycle.py",
+                  "Dom_Graph_Dep.py", "Dom_Graph_Error.py", "Dom_Graph_Orch.py", "Dom_Graph_Gap.py"]
+
+for f in pipeline_files:
+    path = BASE_DIR / f
+    check(f"File {f} exists", path.exists())
+    
+    if path.exists():
+        content = path.read_text()
+        check(f"{f} imports Config", "from Config import Config" in content)
+        check(f"{f} has no local CATEGORIES", "\nCATEGORIES = {" not in content)
+        check(f"{f} has no local CLASSES", "\nCLASSES = [" not in content)
+        check(f"{f} has no local EDGES", "\nEDGES = [" not in content)
+
+print("\n" + "=" * 70)
+print("SECTION 10: File Registry")
+print("=" * 70)
+
+result = loader.Run("get_config", {"name": "FILE_REGISTRY"})
+registry = result[1]
+check("FILE_REGISTRY has Config", "Config" in registry)
+check("FILE_REGISTRY has PlanGraph", "PlanGraph" in registry)
+check("FILE_REGISTRY has SpecGraph", "SpecGraph" in registry)
+check("FILE_REGISTRY has GapGraph", "GapGraph" in registry)
+check("FILE_REGISTRY has >15 entries", len(registry) > 15, f"got {len(registry)}")
+
+print("\n" + "=" * 70)
+print("SECTION 11: Graph Pipeline")
+print("=" * 70)
+
+result = loader.Run("get_config", {"name": "GRAPH_PIPELINE"})
+pipeline = result[1]
+check("GRAPH_PIPELINE has 8 stages", len(pipeline) == 8, f"got {len(pipeline)}")
+
+expected_stages = ["PlanGraph", "SpecGraph", "SpecFlow", "LifecycleGraph", "DepGraph", "ErrorGraph", "OrchGraph", "GapGraph"]
+for i, stage in enumerate(expected_stages):
+    check(f"GRAPH_PIPELINE[{i}] is {stage}", pipeline[i][0] == stage, f"got {pipeline[i][0]}")
+
+print("\n" + "=" * 70)
+print("SECTION 12: Primitives")
+print("=" * 70)
+
+result = loader.Run("get_config", {"name": "PRIMITIVES"})
+primitives = result[1]
+check("PRIMITIVES has >50 entries", len(primitives) > 50, f"got {len(primitives)}")
+
+prim_names = [p[0] for p in primitives]
+check("PRIMITIVES has memcpy", "memcpy" in prim_names)
+check("PRIMITIVES has CGDisplayCreateImage", "CGDisplayCreateImage" in prim_names)
+check("PRIMITIVES has pthread_mutex_lock", "pthread_mutex_lock" in prim_names)
+check("PRIMITIVES has send", "send" in prim_names)
+check("PRIMITIVES has recv", "recv" in prim_names)
+
+print("\n" + "=" * 70)
+print("SECTION 13: Function Graph")
+print("=" * 70)
+
+result = loader.Run("get_config", {"name": "FUNCTION_GRAPH"})
+func_graph = result[1]
+check("FUNCTION_GRAPH has main", "main" in func_graph)
+check("FUNCTION_GRAPH has Capture_GrabFrame", "Capture_GrabFrame" in func_graph)
+check("FUNCTION_GRAPH has VidCodec_Encode", "VidCodec_Encode" in func_graph)
+check("FUNCTION_GRAPH has Network_SendMsg", "Network_SendMsg" in func_graph)
+check("FUNCTION_GRAPH has >10 functions", len(func_graph) > 10, f"got {len(func_graph)}")
+
+print("\n" + "=" * 70)
+print(f"RESULTS: {PASS} passed, {FAIL} failed")
+print("=" * 70)
+
+if FAIL == 0:
+    print("ALL TESTS PASSED ✓")
+else:
+    print(f"{FAIL} TESTS FAILED ✗")
+
+conn.close()

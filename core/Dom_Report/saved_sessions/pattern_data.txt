@@ -1,0 +1,17 @@
+id	pattern_code	pattern_name	pattern_text	domain_id	category_id	status_id	source	created_at
+3	DEC	No Decorators	No @property, @staticmethod, @classmethod, @dataclass, @abstractmethod, @objc. Decorators are hidden behavior — they modify execution without being visible in the dispatch chain.	182	35026	45	vbpack	2026-07-02 22:52:36
+4	DTC	No Direct Type Check	No direct type checking with isinstance() or type(). Use capability resolution or dispatch patterns instead.	182	35026	45	vbpack	2026-07-02 22:52:36
+1	ENU	No Enums	Do not use enums. Use integer constants or string values with authority table FKs. Enums are hidden partitioning — they embed meaning in the column type instead of in a reference.	182	35026	45	vbpack	2026-07-02 22:52:36
+8	FMN	No Fake Manager	No fake manager classes. Helper, Util, Service, FakeManager are warning signs. Real classes own real domains.	182	35026	45	vbpack	2026-07-02 22:52:36
+9	FWB	No Forbidden Write Back	No forbidden write back. Data flows in one direction through the pipeline. No silent writes behind the system.	182	35026	45	vbpack	2026-07-02 22:52:36
+13	GHOST	Ghost Header Required	All files must have #[@GHOST] header with file_path, date, author, session_id, context. No anonymous files.	279	35026	45	vbpack	2026-07-02 22:52:36
+6	HUD	No Hidden Behavior	No hidden or implicit behavior. All actions must be explicit. No implicit auto operations. If something happens, it must be visible in the dispatch chain.	182	35026	45	vbpack	2026-07-02 22:52:36
+7	IAO	No Implicit Auto Ops	No implicit automatic operations. Everything must be explicitly dispatched. No magic. No behind-the-scenes behavior.	182	35026	45	vbpack	2026-07-02 22:52:36
+16	NCC	No Compound Concept Names	Do not create compound column names that encode context. No method_name, bcl_ir, graph_id, entity_type. Use Name, BCLIR, Graph, Type. Every word is a proper concept. No underscores. No compound names unless genuinely one concept (like BCLIR).	144	35026	45	conversation	2026-07-02 23:11:44
+10	NHB	No Hidden Behavior (locked)	No hidden behavior. All execution must be explicit and visible in the dispatch chain. This is the locked version of HUD.	182	35026	45	vbpack	2026-07-02 22:52:36
+11	NHUS	No Hidden Underscore State	No self._ variables. Use self.state dictionary. Hidden state is hidden behavior.	279	35026	45	vbpack	2026-07-02 22:52:36
+2	PRT	No Print Statements	No print() in class methods or authorities. Use Report class or logging. Print is hidden output — it bypasses the report engine and violates the three-layer pipeline.	182	35026	45	vbpack	2026-07-02 22:52:36
+15	SVU	No Specialized Version of Universal	Do not create specialized versions of universal concepts. No EntityType, ErrorType, MethodType, FileType, RepresentationType. Use Type. No FoundationLaw, LearnedRule, IncidentFact. Use Law, Rule, Fact. The table provides context. The name does not.	144	35026	45	conversation	2026-07-02 23:11:44
+12	TUPLE3	Tuple3 Return Required	All methods must return (ok, data, error) where ok=1 success, ok=0 failure. No other return shape allowed.	279	35026	45	vbpack	2026-07-02 22:52:36
+14	VBSTYLE	VBStyle Header Required	All files must have #[@VBSTYLE] header with auth, role, return, orch, no, model. Identity = existence.	279	35026	45	vbpack	2026-07-02 22:52:36
+5	VFP	No Visible Function Print	No visible function print. All output goes through the Report class.	182	35026	45	vbpack	2026-07-02 22:52:36

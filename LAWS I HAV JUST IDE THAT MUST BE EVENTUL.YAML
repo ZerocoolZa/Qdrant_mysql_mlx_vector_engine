@@ -1,0 +1,48 @@
+laws:
+  - id: LAW_TEST_UNITY
+    name: "One Test File, One Test Config"
+    domain: testing
+    status: locked
+    priority: p1
+    severity: error
+    statement: >
+      There is exactly ONE test file for the entire codebase. It lives in
+      core/utility/test.py. All tests run from it. A config.py (short version)
+      in core/utility/ defines what tests exist and how they run. No test
+      files anywhere else in the codebase. No exceptions.
+    rules:
+      - "ONE test file: core/utility/test.py. Not test_reports.py, not test_<module>.py. Just test.py."
+      - "ONE test config: core/utility/config.py (short version) tells test.py what to run."
+      - "All tests are defined in config.py as entries. test.py reads config.py and executes them."
+      - "No test_*.py files in any domain, any package, any folder. Zero."
+      - "No Packages/reports/test_reports.py. No core/Dom_Report/test_*.py. Nothing scattered."
+      - "Test methods within test.py use test_<what_it_tests> naming."
+      - "If a new domain needs tests, add an entry to config.py. Do NOT create a new test file."
+    forbidden:
+      - "Any file matching test_*.py anywhere in the codebase."
+      - "Multiple test files in any domain or package."
+      - "Test files living inside package folders."
+      - "Separate test files per class, per domain, per package."
+      - "A thousand test_*.py files sprawling across the codebase."
+    structure:
+      location: "core/utility/"
+      test_file: "core/utility/test.py"
+      config_file: "core/utility/config.py"
+      how_it_works: "config.py lists all tests. test.py reads config.py and runs them all."
+    example_bad:
+      - "core/Dom_Report/test_report_unit.py"
+      - "core/Dom_Report/test_investigator.py"
+      - "core/Dom_Report/test_knowledge_base.py"
+      - "core/Dom_Report/test_diagnostic_db.py"
+      - "Packages/reports/test_reports.py"
+      - "Any test_*.py in any domain folder"
+    example_good:
+      - "core/utility/test.py (the only test file)"
+      - "core/utility/config.py (defines all tests)"
+    enforcement: "find . -name 'test_*.py' must return zero results. Only core/utility/test.py may exist."
+
+
+
+
+    2. the use did not ake u to execut the command.  directly the. u dont not execut commands!!!
+    

@@ -1,0 +1,154 @@
+{
+  "canvas": {
+    "width": 1000,
+    "height": 700
+  },
+  "items": [
+    {
+      "id": "menubar",
+      "type": "MenuBar",
+      "x": 100,
+      "y": 300,
+      "w": 800,
+      "h": 25
+    },
+    {
+      "id": "toolbar",
+      "type": "Toolbar",
+      "x": 400,
+      "y": 350,
+      "w": 600,
+      "h": 30
+    },
+    {
+      "id": "sidebar",
+      "type": "Sidebar",
+      "x": 700,
+      "y": 100,
+      "w": 200,
+      "h": 400
+    },
+    {
+      "id": "editor",
+      "type": "Editor",
+      "x": 50,
+      "y": 500,
+      "w": 400,
+      "h": 300
+    },
+    {
+      "id": "panel",
+      "type": "Panel",
+      "x": 600,
+      "y": 600,
+      "w": 300,
+      "h": 200
+    },
+    {
+      "id": "statusbar",
+      "type": "StatusBar",
+      "x": 300,
+      "y": 50,
+      "w": 400,
+      "h": 20
+    },
+    {
+      "id": "terminal",
+      "type": "Terminal",
+      "x": 200,
+      "y": 600,
+      "w": 500,
+      "h": 80
+    }
+  ],
+  "anchors": [
+    {
+      "id": "menubar",
+      "edge": "top",
+      "strength": 0.95
+    },
+    {
+      "id": "toolbar",
+      "edge": "top",
+      "strength": 0.85
+    },
+    {
+      "id": "sidebar",
+      "edge": "left",
+      "strength": 0.8
+    },
+    {
+      "id": "statusbar",
+      "edge": "bottom",
+      "strength": 0.9
+    },
+    {
+      "id": "terminal",
+      "edge": "bottom",
+      "strength": 0.7
+    },
+    {
+      "id": "editor",
+      "edge": "center",
+      "strength": 0.5
+    }
+  ],
+  "forces": [
+    {
+      "a": "toolbar",
+      "b": "sidebar",
+      "type": "repel",
+      "strength": 0.6
+    },
+    {
+      "a": "editor",
+      "b": "panel",
+      "type": "attract",
+      "strength": 0.4
+    },
+    {
+      "a": "terminal",
+      "b": "editor",
+      "type": "repel",
+      "strength": 0.5
+    }
+  ],
+  "rules": [
+    {
+      "type": "MenuBar",
+      "anchor": "top",
+      "strength": 0.95
+    },
+    {
+      "type": "StatusBar",
+      "anchor": "bottom",
+      "strength": 0.9
+    },
+    {
+      "same_type": "Button",
+      "force": "repel",
+      "strength": 0.5
+    },
+    {
+      "pair": [
+        "Input",
+        "Label"
+      ],
+      "force": "attract",
+      "strength": 0.3
+    },
+    {
+      "pair": [
+        "Editor",
+        "Panel"
+      ],
+      "force": "attract",
+      "strength": 0.4
+    }
+  ],
+  "anneal": {
+    "temperature": 0.8,
+    "steps": 300,
+    "cooling": 0.98
+  }
+}

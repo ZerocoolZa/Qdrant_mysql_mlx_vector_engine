@@ -1,0 +1,4204 @@
+#!/usr/bin/env python3
+# [@GHOST]{file_path="/Users/wws/Qdrant_mysql_mlx_vector_engine/BCL/bcl_all.py"
+# date="2026-06-27" author="Cascade" session_id="combine"
+# context="Combined module from BCL"}
+# [@VBSTYLE]{standard="VBStyle" version="1" rules="PascalCase UPPERCASE Tuple3 Run dispatch"}
+# [@FILEID]{id="bcl_all.py" domain="combined" authority="combined"}
+# [@SUMMARY]{summary="Combined source files. Imports from config only."}
+
+import ast
+import hashlib
+import json
+import os
+import sqlite3
+import sys
+import datetime
+from collections import Counter
+
+from bcl_config import (
+    ESCAPE_MAP, CONTAINER_OPEN, BRACE_OPEN, BRACE_CLOSE,
+    PAREN_OPEN, PAREN_CLOSE, SEMICOLON, STRING, NUMBER, BAREWORD, EOF,
+    TYPE_NAMES, WHITESPACE, DELIMITERS,
+    STAGES, MAX_FIX_CYCLES, ALLOWED_TRANSITIONS,
+    FIXER_MAX_ITERATIONS, WEIGHT_MIN, WEIGHT_MAX,
+    BRANCH_TOKENS, OPTIONAL_BRANCH_TOKENS,
+    IR_RULES, DOMAIN_KEYWORDS, DOMAIN_EXCLUDE,
+)
+
+VALID_NAME_CHARS = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-")
+
+
+# ======================================================================
+# SECTION: bcl_parser.py
+# ======================================================================
+
+class BCLNode:
+    """AST node = one [@container] with tuples and child containers."""
+
+    def __init__(self, name=None, parent=None, mem=None, db=None, param=None):
+        self.state = {
+            "name": name or "",
+            "tuples": [],
+            "children": [],
+            "parent": parent,
+        }
+        if param:
+            for key, value in param.items():
+                self.state[key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "path":
+            return self.Path(params)
+        elif command == "get":
+            return self.Get(params)
+        elif command == "get_weight":
+            return self.GetWeight(params)
+        elif command == "set":
+            return self.Set(params)
+        elif command == "to_bcl":
+            return self.ToBcl(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state[key] = value
+        return (1, dict(self.state), None)
+
+    def Path(self, params=None):
+        parts = []
+        node = self
+        while node is not None and node.state["name"] != "root":
+            parts.append(node.state["name"])
+            node = node.state["parent"]
+        if parts:
+            return (1, "/" + "/".join(reversed(parts)), None)
+        return (1, "/root", None)
+
+    def Get(self, params):
+        key = self._p(params, "key")
+        if key is None:
+            return (0, None, ("MISSING_PARAM", "key required", 0))
+        for t in self.state["tuples"]:
+            if t and t[0] == key:
+                if len(t) == 2:
+                    return (1, t[1], None)
+                return (1, {"value": t[1] if len(t) > 1 else None,
+                           "weight": t[-1] if isinstance(t[-1], (int, float)) else None}, None)
+        return (1, None, None)
+
+    def GetWeight(self, params=None):
+        if self.state["tuples"] and self.state["tuples"][0]:
+            last = self.state["tuples"][0][-1]
+            return (1, last if isinstance(last, (int, float)) else None, None)
+        return (1, None, None)
+
+    def Set(self, params):
+        key = self._p(params, "key")
+        value = self._p(params, "value")
+        if key is None:
+            return (0, None, ("MISSING_PARAM", "key required", 0))
+        for i, t in enumerate(self.state["tuples"]):
+            if t and t[0] == key:
+                if len(t) == 1:
+                    self.state["tuples"][i].append(value)
+                elif len(t) >= 2:
+                    self.state["tuples"][i][1] = value
+                return (1, True, None)
+        self.state["tuples"].append([key, value])
+        return (1, True, None)
+
+    def ToBcl(self, params=None):
+        indent = self._p(params, "indent", 0)
+        pad = "    " * indent
+        lines = ["[@%s]{" % self.state["name"]]
+        for t in self.state["tuples"]:
+            parts = []
+            for v in t:
+                if isinstance(v, (int, float)):
+                    parts.append(str(v))
+                else:
+                    parts.append('"%s"' % v)
+            lines.append("%s    (%s)" % (pad, ";".join(parts)))
+        for child in self.state["children"]:
+            child_result = child.ToBcl({"indent": indent + 1})
+            if child_result[0] == 1:
+                lines.append(child_result[1])
+        lines.append("%s}" % pad)
+        return (1, "\n".join(lines), None)
+
+
+class BCLParser:
+    """Recursive descent parser. Token stream in, BCLNode AST out."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "tokens": [],
+            "pos": 0,
+            "root": None,
+            "errors": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "parse":
+            return self.Parse(params)
+        elif command == "parse_container":
+            return self.ParseContainer(params)
+        elif command == "parse_body":
+            return self.ParseBody(params)
+        elif command == "parse_tuple":
+            return self.ParseTuple(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Peek(self):
+        if self.state["pos"] < len(self.state["tokens"]):
+            return (1, self.state["tokens"][self.state["pos"]], None)
+        if self.state["tokens"]:
+            return (1, self.state["tokens"][-1], None)
+        return (0, None, ("NO_TOKENS", "Token list is empty", 0))
+
+    def Advance(self):
+        peek_result = self.Peek()
+        if peek_result[0] == 0:
+            return peek_result
+        tok = peek_result[1]
+        self.state["pos"] += 1
+        return (1, tok, None)
+
+    def Expect(self, expected_type):
+        peek_result = self.Peek()
+        if peek_result[0] == 0:
+            return peek_result
+        tok = peek_result[1]
+        if tok["type"] != expected_type:
+            err = ("PARSE_ERROR",
+                   "Expected %s got %s (%s)" % (expected_type, tok["type"], tok["value"]), 0)
+            self.state["errors"].append(err)
+            return (0, None, err)
+        return self.Advance()
+
+    def Parse(self, params):
+        tokens = self._p(params, "tokens")
+        if tokens is None:
+            return (0, None, ("MISSING_PARAM", "tokens required", 0))
+        self.state["tokens"] = tokens
+        self.state["pos"] = 0
+        self.state["errors"] = []
+        root = BCLNode("root")
+        peek_result = self.Peek()
+        while peek_result[0] == 1 and peek_result[1]["type"] != EOF:
+            if peek_result[1]["type"] == CONTAINER_OPEN:
+                container_result = self.ParseContainer({"parent": root})
+                if container_result[0] == 1 and container_result[1] is not None:
+                    root.state["children"].append(container_result[1])
+                elif container_result[0] == 0:
+                    return container_result
+            else:
+                self.Advance()
+            peek_result = self.Peek()
+        self.state["root"] = root
+        return (1, {"root": root, "children": len(root.state["children"]),
+                    "errors": self.state["errors"]}, None)
+
+    def ParseContainer(self, params):
+        parent = self._p(params, "parent")
+        expect_result = self.Expect(CONTAINER_OPEN)
+        if expect_result[0] == 0:
+            return expect_result
+        tok = expect_result[1]
+        node = BCLNode(tok["value"], parent=parent)
+        peek_result = self.Peek()
+        if peek_result[0] == 0:
+            return peek_result
+        next_tok = peek_result[1]
+        if next_tok["type"] == BRACE_OPEN:
+            self.Advance()
+            body_result = self.ParseBody({"node": node})
+            if body_result[0] == 0:
+                return body_result
+        elif next_tok["type"] == PAREN_OPEN:
+            tuple_result = self.ParseTuple({})
+            if tuple_result[0] == 0:
+                return tuple_result
+            if tuple_result[1] is not None:
+                node.state["tuples"].append(tuple_result[1])
+        return (1, node, None)
+
+    def ParseBody(self, params):
+        node = self._p(params, "node")
+        if node is None:
+            return (0, None, ("MISSING_PARAM", "node required", 0))
+        while True:
+            peek_result = self.Peek()
+            if peek_result[0] == 0:
+                return peek_result
+            tok = peek_result[1]
+            if tok["type"] == BRACE_CLOSE:
+                self.Advance()
+                return (1, node, None)
+            elif tok["type"] == EOF:
+                err = ("UNCLOSED_CONTAINER", "Unclosed container [@%s]" % node.state["name"], 0)
+                self.state["errors"].append(err)
+                return (0, None, err)
+            elif tok["type"] == PAREN_OPEN:
+                tuple_result = self.ParseTuple({})
+                if tuple_result[0] == 0:
+                    return tuple_result
+                if tuple_result[1] is not None:
+                    node.state["tuples"].append(tuple_result[1])
+            elif tok["type"] == CONTAINER_OPEN:
+                child_result = self.ParseContainer({"parent": node})
+                if child_result[0] == 0:
+                    return child_result
+                if child_result[1] is not None:
+                    node.state["children"].append(child_result[1])
+            else:
+                self.Advance()
+
+    def ParseTuple(self, params):
+        expect_result = self.Expect(PAREN_OPEN)
+        if expect_result[0] == 0:
+            return expect_result
+        values = []
+        while True:
+            peek_result = self.Peek()
+            if peek_result[0] == 0:
+                return peek_result
+            tok = peek_result[1]
+            if tok["type"] == PAREN_CLOSE:
+                self.Advance()
+                if values:
+                    return (1, values, None)
+                return (1, None, None)
+            elif tok["type"] == EOF:
+                err = ("UNCLOSED_TUPLE", "Unclosed tuple missing )", 0)
+                self.state["errors"].append(err)
+                return (0, None, err)
+            elif tok["type"] == SEMICOLON:
+                self.Advance()
+            elif tok["type"] in (STRING, NUMBER, BAREWORD):
+                adv_result = self.Advance()
+                if adv_result[0] == 0:
+                    return adv_result
+                values.append(adv_result[1]["value"])
+            else:
+                self.Advance()
+
+
+# ======================================================================
+# SECTION: bcl_lexer.py
+# ======================================================================
+
+class BCLTokenizer:
+    """Lexer: converts BCL text to list of Token dicts. Character-level, no regex."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "text": "",
+            "pos": 0,
+            "length": 0,
+            "tokens": [],
+            "errors": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "tokenize":
+            return self.Tokenize(params)
+        elif command == "lex_container":
+            return self.LexContainer(params)
+        elif command == "lex_string":
+            return self.LexString(params)
+        elif command == "lex_number":
+            return self.LexNumber(params)
+        elif command == "lex_bareword":
+            return self.LexBareword(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Peek(self, offset=0):
+        p = self.state["pos"] + offset
+        if p < self.state["length"]:
+            return (1, self.state["text"][p], None)
+        return (1, "\0", None)
+
+    def Advance(self):
+        pos = self.state["pos"]
+        if pos < self.state["length"]:
+            ch = self.state["text"][pos]
+            self.state["pos"] = pos + 1
+            return (1, ch, None)
+        return (1, "\0", None)
+
+    def SkipWhitespace(self):
+        text = self.state["text"]
+        length = self.state["length"]
+        while self.state["pos"] < length and text[self.state["pos"]] in WHITESPACE:
+            self.state["pos"] += 1
+        return (1, self.state["pos"], None)
+
+    def MakeToken(self, token_type, value, pos):
+        return (1, {"type": token_type, "type_name": TYPE_NAMES.get(token_type, "UNKNOWN"),
+                    "value": value, "pos": pos}, None)
+
+    def Tokenize(self, params):
+        text = self._p(params, "text")
+        if text is None:
+            return (0, None, ("MISSING_PARAM", "text required", 0))
+        self.state["text"] = text
+        self.state["length"] = len(text)
+        self.state["pos"] = 0
+        self.state["tokens"] = []
+        self.state["errors"] = []
+        while self.state["pos"] < self.state["length"]:
+            self.SkipWhitespace()
+            if self.state["pos"] >= self.state["length"]:
+                break
+            ch = self.state["text"][self.state["pos"]]
+            start = self.state["pos"]
+            if ch == "[" and self.Peek(1)[1] == "@":
+                result = self.LexContainer({"start": start})
+                if result[0] == 0:
+                    return result
+                self.state["tokens"].append(result[1])
+            elif ch == "{":
+                self.Advance()
+                tok = self.MakeToken(BRACE_OPEN, "{", start)
+                self.state["tokens"].append(tok[1])
+            elif ch == "}":
+                self.Advance()
+                tok = self.MakeToken(BRACE_CLOSE, "}", start)
+                self.state["tokens"].append(tok[1])
+            elif ch == "(":
+                self.Advance()
+                tok = self.MakeToken(PAREN_OPEN, "(", start)
+                self.state["tokens"].append(tok[1])
+            elif ch == ")":
+                self.Advance()
+                tok = self.MakeToken(PAREN_CLOSE, ")", start)
+                self.state["tokens"].append(tok[1])
+            elif ch == ";":
+                self.Advance()
+                tok = self.MakeToken(SEMICOLON, ";", start)
+                self.state["tokens"].append(tok[1])
+            elif ch == '"':
+                result = self.LexString({"start": start})
+                if result[0] == 0:
+                    return result
+                self.state["tokens"].append(result[1])
+            elif ch.isdigit() or (ch == "-" and self.Peek(1)[1].isdigit()):
+                result = self.LexNumber({"start": start})
+                if result[0] == 0:
+                    return result
+                self.state["tokens"].append(result[1])
+            else:
+                result = self.LexBareword({"start": start})
+                if result[0] == 1 and result[1] is not None:
+                    self.state["tokens"].append(result[1])
+        eof_tok = self.MakeToken(EOF, None, self.state["pos"])
+        self.state["tokens"].append(eof_tok[1])
+        return (1, {"tokens": self.state["tokens"], "count": len(self.state["tokens"]),
+                    "errors": self.state["errors"]}, None)
+
+    def LexContainer(self, params):
+        start = self._p(params, "start", self.state["pos"])
+        self.state["pos"] += 2
+        name_start = self.state["pos"]
+        text = self.state["text"]
+        while self.state["pos"] < self.state["length"] and text[self.state["pos"]] != "]":
+            self.state["pos"] += 1
+        if self.state["pos"] >= self.state["length"]:
+            err = ("UNCLOSED_CONTAINER", "Unclosed container name missing ]", 0)
+            self.state["errors"].append(err)
+            return (0, None, err)
+        name = text[name_start:self.state["pos"]]
+        self.state["pos"] += 1
+        return self.MakeToken(CONTAINER_OPEN, name, start)
+
+    def LexString(self, params):
+        start = self._p(params, "start", self.state["pos"])
+        self.state["pos"] += 1
+        chars = []
+        text = self.state["text"]
+        while self.state["pos"] < self.state["length"] and text[self.state["pos"]] != '"':
+            if text[self.state["pos"]] == "\\" and self.state["pos"] + 1 < self.state["length"]:
+                next_ch = text[self.state["pos"] + 1]
+                chars.append(ESCAPE_MAP.get(next_ch, next_ch))
+                self.state["pos"] += 2
+            else:
+                chars.append(text[self.state["pos"]])
+                self.state["pos"] += 1
+        if self.state["pos"] >= self.state["length"]:
+            err = ("UNCLOSED_STRING", "Unclosed string missing quote", 0)
+            self.state["errors"].append(err)
+            return (0, None, err)
+        self.state["pos"] += 1
+        return self.MakeToken(STRING, "".join(chars), start)
+
+    def LexNumber(self, params):
+        start = self._p(params, "start", self.state["pos"])
+        num_start = self.state["pos"]
+        text = self.state["text"]
+        if text[self.state["pos"]] == "-":
+            self.state["pos"] += 1
+        while self.state["pos"] < self.state["length"] and (text[self.state["pos"]].isdigit() or text[self.state["pos"]] == "."):
+            self.state["pos"] += 1
+        raw = text[num_start:self.state["pos"]]
+        if "." in raw:
+            return self.MakeToken(NUMBER, float(raw), start)
+        return self.MakeToken(NUMBER, int(raw), start)
+
+    def LexBareword(self, params):
+        start = self._p(params, "start", self.state["pos"])
+        word_start = self.state["pos"]
+        text = self.state["text"]
+        while self.state["pos"] < self.state["length"] and text[self.state["pos"]] not in DELIMITERS:
+            self.state["pos"] += 1
+        word = text[word_start:self.state["pos"]]
+        if word:
+            return self.MakeToken(BAREWORD, word, start)
+        self.state["pos"] += 1
+        return (1, None, None)
+
+
+# ======================================================================
+# SECTION: bcl_validator.py
+# ======================================================================
+
+BRANCH_TOKENS = ["Pass", "Fail"]
+OPTIONAL_BRANCH_TOKENS = ["Unsure", "Wait"]
+MAX_DEPTH = 256
+WEIGHT_MIN = 0
+WEIGHT_MAX = 100
+
+VALID_NAME_CHARS = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-")
+
+
+class BCLViolation:
+    """One rule violation produced by validator."""
+
+    def __init__(self, rule_id=None, rule_name=None, severity=None, path=None, message=None, mem=None, db=None, param=None):
+        self.state = {
+            "rule_id": rule_id if rule_id is not None else 0,
+            "rule_name": rule_name or "",
+            "severity": severity or "",
+            "path": path or "",
+            "message": message or "",
+        }
+        if param:
+            for key, value in param.items():
+                self.state[key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "to_dict":
+            return self.ToDict(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state[key] = value
+        return (1, dict(self.state), None)
+
+    def ToDict(self, params=None):
+        return (1, dict(self.state), None)
+
+
+class BCLValidationReport:
+    """Output of validation: status plus violations list."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "status": "PASS",
+            "violations": [],
+            "warnings": [],
+        }
+        if param:
+            for key, value in param.items():
+                self.state[key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "add":
+            return self.Add(params)
+        elif command == "is_ok":
+            return self.IsOk(params)
+        elif command == "summary":
+            return self.Summary(params)
+        elif command == "to_dict":
+            return self.ToDict(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state[key] = value
+        return (1, dict(self.state), None)
+
+    def Add(self, params):
+        violation = self._p(params, "violation")
+        if violation is None:
+            return (0, None, ("MISSING_PARAM", "violation required", 0))
+        if violation.state["severity"] == "low":
+            self.state["warnings"].append(violation)
+            if self.state["status"] == "PASS":
+                self.state["status"] = "WARN"
+        else:
+            self.state["violations"].append(violation)
+            self.state["status"] = "FAIL"
+        return (1, True, None)
+
+    def IsOk(self, params=None):
+        return (1, self.state["status"] == "PASS", None)
+
+    def Summary(self, params=None):
+        lines = ["Status: " + self.state["status"]]
+        if self.state["violations"]:
+            lines.append("Violations: " + str(len(self.state["violations"])))
+            for v in self.state["violations"]:
+                lines.append("  [rule %d] %s: %s" % (v.state["rule_id"], v.state["path"], v.state["message"]))
+        if self.state["warnings"]:
+            lines.append("Warnings: " + str(len(self.state["warnings"])))
+            for w in self.state["warnings"]:
+                lines.append("  [rule %d] %s: %s" % (w.state["rule_id"], w.state["path"], w.state["message"]))
+        if not self.state["violations"] and not self.state["warnings"]:
+            lines.append("All rules passed.")
+        return (1, "\n".join(lines), None)
+
+    def ToDict(self, params=None):
+        v_dicts = []
+        for v in self.state["violations"]:
+            td = v.ToDict({})
+            if td[0] == 1:
+                v_dicts.append(td[1])
+        w_dicts = []
+        for w in self.state["warnings"]:
+            td = w.ToDict({})
+            if td[0] == 1:
+                w_dicts.append(td[1])
+        ok_result = self.IsOk({})
+        ok_val = ok_result[1] if ok_result[0] == 1 else False
+        return (1, {
+            "status": self.state["status"],
+            "violations": v_dicts,
+            "warnings": w_dicts,
+            "ok": ok_val,
+        }, None)
+
+
+class BCLValidator:
+    """Check layer: inspects AST, produces BCLValidationReport. NEVER modifies AST."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "report": None,
+            "errors": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "validate":
+            return self.Validate(params)
+        elif command == "validate_text":
+            return self.ValidateText(params)
+        elif command == "check_container_name":
+            return self.CheckContainerName(params)
+        elif command == "check_weights":
+            return self.CheckWeights(params)
+        elif command == "check_duplicate_siblings":
+            return self.CheckDuplicateSiblings(params)
+        elif command == "check_branch_pairs":
+            return self.CheckBranchPairs(params)
+        elif command == "check_circular_ref":
+            return self.CheckCircularRef(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Validate(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        report = BCLValidationReport()
+        for child in root.state["children"]:
+            self.ValidateNode(child, report, [child.state["name"]], 1)
+        self.state["report"] = report
+        td = report.ToDict()
+        return (1, td[1] if td[0] == 1 else {}, None)
+
+    def ValidateNode(self, node, report, path_stack, depth):
+        if depth > MAX_DEPTH:
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            report.Run("add", {"violation": BCLViolation(0, "depth_limit", "high", path_str,
+                                 "Depth %d exceeds limit %d" % (depth, MAX_DEPTH))})
+            return (1, True, None)
+        self.CheckContainerName({"node": node, "report": report})
+        self.CheckWeights({"node": node, "report": report})
+        self.CheckDuplicateSiblings({"node": node, "report": report})
+        self.CheckBranchPairs({"node": node, "report": report})
+        self.CheckCircularRef({"node": node, "report": report, "path_stack": path_stack})
+        for child in node.state["children"]:
+            self.ValidateNode(child, report, path_stack + [child.state["name"]], depth + 1)
+        return (1, True, None)
+
+    def ValidateText(self, params):
+        text = self._p(params, "text")
+        if text is None:
+            return (0, None, ("MISSING_PARAM", "text required", 0))
+        errors = []
+        stack = []
+        pairs = {"{": "}", "[": "]", "(": ")"}
+        openers = set(pairs.keys())
+        closers = set(pairs.values())
+        for i, ch in enumerate(text):
+            if ch in openers:
+                stack.append((ch, i))
+            elif ch in closers:
+                if not stack:
+                    errors.append("Unmatched %s at position %d" % (ch, i))
+                    continue
+                last_open, pos = stack.pop()
+                if pairs[last_open] != ch:
+                    errors.append("Mismatched bracket: %s at %d vs %s at %d" % (last_open, pos, ch, i))
+        if stack:
+            for ch, pos in stack:
+                errors.append("Unclosed %s at position %d" % (ch, pos))
+        return (1, {"errors": errors, "count": len(errors), "ok": len(errors) == 0}, None)
+
+    def CheckContainerName(self, params):
+        node = self._p(params, "node")
+        report = self._p(params, "report")
+        if node is None or report is None:
+            return (0, None, ("MISSING_PARAM", "node and report required", 0))
+        name = node.state["name"]
+        if not name:
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            report.Run("add", {"violation": BCLViolation(24, "bracket_format", "high", path_str,
+                                 "Container name is empty")})
+            return (1, True, None)
+        if not name[0].isupper():
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            report.Run("add", {"violation": BCLViolation(24, "bracket_format", "high", path_str,
+                                 "Container name %s must start with capital letter" % name)})
+            return (1, True, None)
+        for ch in name:
+            if ch not in VALID_NAME_CHARS:
+                path_result = node.Run("path", {})
+                path_str = path_result[1] if path_result[0] == 1 else ""
+                report.Run("add", {"violation": BCLViolation(24, "bracket_format", "high", path_str,
+                                     "Container name %s has invalid character %s" % (name, ch))})
+                return (1, True, None)
+        return (1, True, None)
+
+    def CheckWeights(self, params):
+        node = self._p(params, "node")
+        report = self._p(params, "report")
+        if node is None or report is None:
+            return (0, None, ("MISSING_PARAM", "node and report required", 0))
+        for i, t in enumerate(node.state["tuples"]):
+            if not t:
+                continue
+            last = t[-1]
+            if isinstance(last, float):
+                path_result = node.Run("path", {})
+                path_str = path_result[1] if path_result[0] == 1 else ""
+                report.Run("add", {"violation": BCLViolation(999, "weight_position", "high", path_str,
+                                     "Tuple %d: weight must be integer got float %s" % (i, last))})
+            elif isinstance(last, int):
+                if last < WEIGHT_MIN or last > WEIGHT_MAX:
+                    path_result = node.Run("path", {})
+                    path_str = path_result[1] if path_result[0] == 1 else ""
+                    report.Add(BCLViolation(999, "weight_position", "high", path_str,
+                                         "Tuple %d: weight %d out of range (%d-%d)" % (i, last, WEIGHT_MIN, WEIGHT_MAX)))
+        return (1, True, None)
+
+    def CheckDuplicateSiblings(self, params):
+        node = self._p(params, "node")
+        report = self._p(params, "report")
+        if node is None or report is None:
+            return (0, None, ("MISSING_PARAM", "node and report required", 0))
+        seen = {}
+        for child in node.state["children"]:
+            if child.state["name"] in seen:
+                child_path = child.Run("path", {})
+                child_path_str = child_path[1] if child_path[0] == 1 else ""
+                report.Run("add", {"violation": BCLViolation(10, "container_uniqueness", "high", child_path_str,
+                                     "Duplicate container [@%s] under [@%s]" % (child.state["name"], node.state["name"]))})
+            else:
+                seen[child.state["name"]] = True
+        return (1, True, None)
+
+    def CheckBranchPairs(self, params):
+        node = self._p(params, "node")
+        report = self._p(params, "report")
+        if node is None or report is None:
+            return (0, None, ("MISSING_PARAM", "node and report required", 0))
+        child_names = set(child.state["name"] for child in node.state["children"])
+        has_pass = "Pass" in child_names
+        has_fail = "Fail" in child_names
+        if has_pass and not has_fail:
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            report.Run("add", {"violation": BCLViolation(11, "branch_pair", "high", path_str,
+                                 "Container [@%s] has [@Pass] but missing [@Fail]" % node.state["name"])})
+        elif has_fail and not has_pass:
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            report.Run("add", {"violation": BCLViolation(11, "branch_pair", "high", path_str,
+                                 "Container [@%s] has [@Fail] but missing [@Pass]" % node.state["name"])})
+        return (1, True, None)
+
+    def CheckCircularRef(self, params):
+        node = self._p(params, "node")
+        report = self._p(params, "report")
+        path_stack = self._p(params, "path_stack")
+        if node is None or report is None or path_stack is None:
+            return (0, None, ("MISSING_PARAM", "node report path_stack required", 0))
+        if len(path_stack) < 2:
+            return (1, True, None)
+        current_name = path_stack[-1]
+        if current_name in BRANCH_TOKENS or current_name in OPTIONAL_BRANCH_TOKENS:
+            return (1, True, None)
+        if current_name in path_stack[:-1]:
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            report.Run("add", {"violation": BCLViolation(12, "no_circular_refs", "high", path_str,
+                                 "Circular reference: [@%s] repeats along path %s" % (current_name, "/".join(path_stack)))})
+
+        return (1, True, None)
+
+
+class BCLIRValidator:
+    """Validate IR consistency post-compilation."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "issues": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "validate_ir":
+            return self.ValidateIr(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def ValidateIr(self, params):
+        results = self._p(params, "results")
+        if results is None:
+            return (0, None, ("MISSING_PARAM", "results required", 0))
+        issues = []
+        all_ids = set()
+        all_parents = set()
+        for r in results:
+            if "error" in r:
+                continue
+            for block in r["bcl"].split("\n\n"):
+                first_line = block.split("\n")[0]
+                if "[@IRNODE]" not in first_line:
+                    continue
+                node_id = ""
+                parent_id = ""
+                for p in first_line.split():
+                    if p.startswith("id="):
+                        node_id = p[3:]
+                    elif p.startswith("parent="):
+                        parent_id = p[7:]
+                if node_id in all_ids:
+                    issues.append("DUPLICATE ID: %s in %s" % (node_id, r["filepath"]))
+                all_ids.add(node_id)
+                if parent_id:
+                    all_parents.add(parent_id)
+        orphan_parents = all_parents - all_ids
+        if orphan_parents:
+            issues.append("ORPHAN PARENT REFS: %d parent IDs not found as nodes" % len(orphan_parents))
+        end_count = sum(r.get("bcl", "").count("[@ENDNODE]") for r in results if "error" not in r)
+        node_count = sum(r.get("bcl", "").count("[@IRNODE]") for r in results if "error" not in r)
+        if end_count != node_count:
+            issues.append("MISMATCH: %d IRNODE tags but %d ENDNODE tags" % (node_count, end_count))
+        self.state["issues"] = issues
+        return (1, {"issues": issues, "count": len(issues), "ok": len(issues) == 0}, None)
+
+
+# ======================================================================
+# SECTION: bcl_fixer.py
+# ======================================================================
+
+class BCLFixAction:
+    """One recorded transformation log entry."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "rule_id": "",
+            "path": "",
+            "action": "",
+            "old_value": None,
+            "new_value": None,
+        }
+        if param:
+            for key, value in param.items():
+                self.state[key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "to_dict":
+            return self.ToDict(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state[key] = value
+        return (1, dict(self.state), None)
+
+    def ToDict(self, params):
+        return (1, dict(self.state), None)
+
+
+class BCLFixer:
+    """Fix engine: applies rule-driven transformations to AST."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "actions": [],
+            "snapshot": None,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "fix":
+            return self.Fix(params)
+        elif command == "restore":
+            return self.Restore(params)
+        elif command == "fix_container_name":
+            return self.FixContainerName(params)
+        elif command == "fix_weight":
+            return self.FixWeight(params)
+        elif command == "find_by_path":
+            return self.FindByPath(params)
+        elif command == "cleanup_empty":
+            return self.CleanupEmpty(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def CloneNode(self, node, parent=None):
+        new_node = BCLNode(node.state["name"], parent=parent)
+        new_node.state["tuples"] = [list(t) for t in node.state["tuples"]]
+        for child in node.state["children"]:
+            new_node.state["children"].append(self.CloneNode(child, new_node))
+        return (1, new_node, None)
+
+    def Fix(self, params):
+        root = self._p(params, "root")
+        report = self._p(params, "report")
+        if root is None or report is None:
+            return (0, None, ("MISSING_PARAM", "root and report required", 0))
+        snapshot_result = self.CloneNode(root)
+        snapshot = snapshot_result[1]
+        self.state["snapshot"] = snapshot
+        actions = []
+        if hasattr(report, "state"):
+            violations = report.state["violations"]
+        elif isinstance(report, dict):
+            violations = []
+            for vd in report.get("violations", []):
+                vobj = BCLViolation(vd.get("rule_id", 0), vd.get("rule_name", ""), vd.get("severity", ""), vd.get("path", ""), vd.get("message", ""))
+                violations.append(vobj)
+        else:
+            violations = []
+        sorted_violations = sorted(violations, key=lambda v: v.state["rule_id"])
+        for violation in sorted_violations:
+            if violation.state["rule_id"] == 24:
+                result = self.FixContainerName({"root": root, "violation": violation})
+                if result[0] == 1 and result[1] is not None:
+                    actions.append(result[1])
+            elif violation.state["rule_id"] == 999:
+                result = self.FixWeight({"root": root, "violation": violation})
+                if result[0] == 1 and result[1] is not None:
+                    actions.append(result[1])
+        action_dicts = []
+        for a in actions:
+            td = a.ToDict({})
+            if td[0] == 1:
+                action_dicts.append(td[1])
+        self.state["actions"] = action_dicts
+        return (1, {"root": root, "actions": action_dicts,
+                    "action_count": len(actions), "snapshot": snapshot}, None)
+
+    def Restore(self, params):
+        snapshot = self._p(params, "snapshot")
+        if snapshot is None:
+            snapshot = self.state.get("snapshot")
+        if snapshot is None:
+            return (0, None, ("NO_SNAPSHOT", "No snapshot available for restore", 0))
+        clone_result = self.CloneNode(snapshot)
+        return (1, {"root": clone_result[1]}, None)
+
+    def FixContainerName(self, params):
+        root = self._p(params, "root")
+        violation = self._p(params, "violation")
+        if root is None or violation is None:
+            return (0, None, ("MISSING_PARAM", "root and violation required", 0))
+        find_result = self.FindByPath({"root": root, "path": violation.state["path"]})
+        if find_result[0] == 0 or find_result[1] is None:
+            return (1, None, None)
+        node = find_result[1]
+        old_name = node.state["name"]
+        if not old_name:
+            return (1, None, None)
+        if old_name[0].islower():
+            new_name = old_name[0].upper() + old_name[1:]
+            node.state["name"] = new_name
+            action = BCLFixAction(param={"rule_id": 24, "path": violation.state["path"], "action": "capitalize_name", "old_value": old_name, "new_value": new_name})
+            return (1, action, None)
+        return (1, None, None)
+
+    def FixWeight(self, params):
+        root = self._p(params, "root")
+        violation = self._p(params, "violation")
+        if root is None or violation is None:
+            return (0, None, ("MISSING_PARAM", "root and violation required", 0))
+        find_result = self.FindByPath({"root": root, "path": violation.state["path"]})
+        if find_result[0] == 0 or find_result[1] is None:
+            return (1, None, None)
+        node = find_result[1]
+        old_values = []
+        new_values = []
+        fixed = False
+        for t in node.state["tuples"]:
+            if not t:
+                continue
+            last = t[-1]
+            if isinstance(last, float):
+                old_values.append(last)
+                t[-1] = int(last)
+                new_values.append(t[-1])
+                fixed = True
+            elif isinstance(last, int):
+                if last < WEIGHT_MIN:
+                    old_values.append(last)
+                    t[-1] = WEIGHT_MIN
+                    new_values.append(WEIGHT_MIN)
+                    fixed = True
+                elif last > WEIGHT_MAX:
+                    old_values.append(last)
+                    t[-1] = WEIGHT_MAX
+                    new_values.append(WEIGHT_MAX)
+                    fixed = True
+        if fixed:
+            action = BCLFixAction(param={"rule_id": 999, "path": violation.state["path"], "action": "fix_weight", "old_value": old_values, "new_value": new_values})
+            return (1, action, None)
+        return (1, None, None)
+
+    def FindByPath(self, params):
+        root = self._p(params, "root")
+        path = self._p(params, "path")
+        if root is None or path is None:
+            return (0, None, ("MISSING_PARAM", "root and path required", 0))
+        if path == "/root" or not path:
+            return (1, root, None)
+        parts = path.strip("/").split("/")
+        if not parts or parts == ["root"]:
+            return (1, root, None)
+        if parts[0] == "root":
+            parts = parts[1:]
+        current = root
+        for part in parts:
+            found = None
+            for child in current.state["children"]:
+                if child.state["name"] == part:
+                    found = child
+                    break
+            if found is None:
+                return (1, None, None)
+            current = found
+        return (1, current, None)
+
+    def CleanupEmpty(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        actions = []
+        self.CleanupNode(root, actions)
+        self.VerifyConnectivity(root, None, actions)
+        action_dicts = []
+        for a in actions:
+            td = a.ToDict({})
+            if td[0] == 1:
+                action_dicts.append(td[1])
+        return (1, {"actions": action_dicts,
+                    "action_count": len(action_dicts)}, None)
+
+    def CleanupNode(self, node, actions):
+        removed = []
+        for i, child in enumerate(node.state["children"]):
+            if not child.state["name"] and not child.state["tuples"] and not child.state["children"]:
+                removed.append(i)
+        for i in reversed(removed):
+            node.state["children"].pop(i)
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            actions.append(BCLFixAction(param={"rule_id": 0, "path": path_str, "action": "remove_empty", "old_value": None, "new_value": None}))
+        for child in node.state["children"]:
+            self.CleanupNode(child, actions)
+        return (1, True, None)
+
+    def VerifyConnectivity(self, node, parent, actions):
+        if node is not self.state.get("cleanup_root", node):
+            if node.state["parent"] is not parent:
+                node.state["parent"] = parent
+                path_result = node.Run("path", {})
+                path_str = path_result[1] if path_result[0] == 1 else ""
+                actions.append(BCLFixAction(param={"rule_id": 0, "path": path_str, "action": "relink_orphan", "old_value": "stale_parent", "new_value": parent.state["name"] if parent else "root"}))
+            if parent and node not in parent.state["children"]:
+                parent.state["children"].append(node)
+                path_result = node.Run("path", {})
+                path_str = path_result[1] if path_result[0] == 1 else ""
+                actions.append(BCLFixAction(param={"rule_id": 0, "path": path_str, "action": "reattach_orphan", "old_value": None, "new_value": parent.state["name"] if parent else "root"}))
+        for child in node.state["children"]:
+            self.VerifyConnectivity(child, node, actions)
+        return (1, True, None)
+
+
+# ======================================================================
+# SECTION: bcl_engine.py
+# ======================================================================
+
+class BCLEngine:
+    """Orchestrator: runs the full BCL pipeline with strict FSM enforcement."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {"auto_fix": True},
+            "result": None,
+            "allowed_next": {"LEX"},
+            "memunit": mem,
+            "db_manager": db,
+        }
+        self.validator = BCLValidator()
+        self.fixer = BCLFixer()
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "run_pipeline":
+            return self.RunPipeline(params)
+        elif command == "load_file":
+            return self.LoadFile(params)
+        elif command == "save_file":
+            return self.SaveFile(params)
+        elif command == "create":
+            return self.Create(params)
+        elif command == "update":
+            return self.Update(params)
+        elif command == "delete":
+            return self.Delete(params)
+        elif command == "read":
+            return self.Read(params)
+        elif command == "list_all":
+            return self.ListAll(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def CloneAst(self, node):
+        new_node = BCLNode(node.state["name"])
+        new_node.state["tuples"] = [list(t) for t in node.state["tuples"]]
+        for child in node.state["children"]:
+            new_child = self.CloneAst(child)
+            new_child.state["parent"] = new_node
+            new_node.state["children"].append(new_child)
+        return (1, new_node, None)
+
+    def AstHash(self, node):
+        if node is None:
+            return (1, "0" * 32, None)
+        def Walk(n):
+            out = [n.state["name"], str(n.state["tuples"])]
+            for c in n.state["children"]:
+                out.append(Walk(c))
+            return "|".join(out)
+        return (1, hashlib.md5(Walk(node).encode()).hexdigest(), None)
+
+    def EnterStage(self, stage_name, stages_run):
+        allowed = self.state["allowed_next"]
+        if stage_name not in allowed:
+            return (0, None, ("STAGE_VIOLATION",
+                              "Expected %s got %s" % (sorted(allowed), stage_name), 0))
+        stages_run.append(stage_name)
+        self.state["allowed_next"] = ALLOWED_TRANSITIONS[stage_name]
+        return (1, True, None)
+
+    def Serialize(self, root):
+        lines = []
+        for child in root.state["children"]:
+            bcl_result = child.ToBcl({"indent": 0})
+            if bcl_result[0] == 1:
+                lines.append(bcl_result[1])
+        return (1, "\n".join(lines), None)
+
+    def FindByName(self, root, name):
+        if root.state["name"] == name:
+            return (1, root, None)
+        for child in root.state["children"]:
+            result = self.FindByName(child, name)
+            if result[0] == 1 and result[1] is not None:
+                return result
+        return (1, None, None)
+
+    def CountNodes(self, node):
+        if node is None:
+            return (1, 0, None)
+        count = 1
+        for child in node.state["children"]:
+            count_result = self.CountNodes(child)
+            count += count_result[1]
+        return (1, count, None)
+
+    def RunPipeline(self, params):
+        text = self._p(params, "text")
+        if text is None:
+            return (0, None, ("MISSING_PARAM", "text required", 0))
+        self.state["allowed_next"] = {"LEX"}
+        stages_run = []
+        errors = []
+        tokens = []
+        ast_root = None
+        report_dict = None
+        fixes = []
+        fixed = False
+        status = "PASS"
+        auto_fix = self.state["config"].get("auto_fix", True)
+
+        enter_result = self.EnterStage("LEX", stages_run)
+        if enter_result[0] == 0:
+            return enter_result
+        tokenizer = BCLTokenizer()
+        tok_result = tokenizer.Run("tokenize", {"text": text})
+        if tok_result[0] == 0:
+            return (0, None, ("LEXER_ERROR", str(tok_result[2]), 0))
+        tokens = tok_result[1]["tokens"]
+
+        enter_result = self.EnterStage("PARSE", stages_run)
+        if enter_result[0] == 0:
+            return enter_result
+        parser = BCLParser()
+        parse_result = parser.Run("parse", {"tokens": tokens})
+        if parse_result[0] == 0:
+            return (0, None, ("PARSER_ERROR", str(parse_result[2]), 0))
+        ast_root = parse_result[1]["root"]
+
+        cycle = 0
+        prev_hash = None
+        while cycle <= MAX_FIX_CYCLES:
+            enter_result = self.EnterStage("VALIDATE", stages_run)
+            if enter_result[0] == 0:
+                return enter_result
+            val_result = self.validator.Run("validate", {"root": ast_root})
+            if val_result[0] == 0:
+                return val_result
+            report_dict = val_result[1]
+            violation_count = len(report_dict["violations"])
+
+            if report_dict["ok"]:
+                status = "PASS"
+                if fixes:
+                    fixed = True
+                break
+
+            if not auto_fix or not report_dict["violations"]:
+                if not report_dict["violations"] and report_dict["warnings"]:
+                    status = "PASS"
+                else:
+                    status = "FAIL"
+                break
+
+            hash_result = self.AstHash(ast_root)
+            current_hash = hash_result[1]
+            if current_hash == prev_hash:
+                status = "FAIL"
+                errors.append("Fix convergence stalled: AST stopped changing")
+                break
+            prev_hash = current_hash
+
+            enter_result = self.EnterStage("FIX", stages_run)
+            if enter_result[0] == 0:
+                return enter_result
+            fix_result = self.fixer.Run("fix", {"root": ast_root, "report": report_dict})
+            if fix_result[0] == 0:
+                return fix_result
+            new_fixes = fix_result[1]["actions"]
+            fixes.extend(new_fixes)
+            snapshot = fix_result[1]["snapshot"]
+
+            reval_result = self.validator.Run("validate", {"root": ast_root})
+            if reval_result[0] == 0:
+                return reval_result
+            new_violation_count = len(reval_result[1]["violations"])
+            if new_violation_count > violation_count and new_fixes:
+                restore_result = self.fixer.Run("restore", {"snapshot": snapshot})
+                if restore_result[0] == 1:
+                    ast_root = restore_result[1]["root"]
+                status = "FAIL"
+                errors.append("Fix regression: violations increased (%d to %d) reverted" % (violation_count, new_violation_count))
+                reval2 = self.validator.Run("validate", {"root": ast_root})
+                if reval2[0] == 1:
+                    report_dict = reval2[1]
+                break
+            cycle += 1
+        else:
+            status = "FAIL"
+            errors.append("Fix convergence limit reached (%d cycles)" % MAX_FIX_CYCLES)
+
+        self.state["allowed_next"] = {"SERIALIZE"}
+        text_out = None
+        text_mode = None
+        if ast_root is not None:
+            enter_result = self.EnterStage("SERIALIZE", stages_run)
+            if enter_result[0] == 0:
+                return enter_result
+            ser_result = self.Serialize(ast_root)
+            text_out = ser_result[1]
+            text_mode = "PASS" if status == "PASS" else "DIAGNOSTIC"
+
+        node_count = self.CountNodes(ast_root)[1]
+        result = {
+            "status": status,
+            "fixed": fixed,
+            "tokens": tokens,
+            "ast": ast_root,
+            "report": report_dict,
+            "fixes": fixes,
+            "text": text_out,
+            "text_mode": text_mode,
+            "errors": errors,
+            "stages_run": stages_run,
+            "node_count": node_count,
+            "ok": status == "PASS",
+        }
+        self.state["result"] = result
+        return (1, result, None)
+
+    def BuildReport(self, report_dict):
+        report = BCLValidationReport()
+        for v in report_dict.get("violations", []):
+            report.Run("add", {"violation": BCLViolation(v["rule_id"], v["rule_name"], v["severity"], v["path"], v["message"])})
+        for w in report_dict.get("warnings", []):
+            report.Run("add", {"violation": BCLViolation(w["rule_id"], w["rule_name"], "low", w["path"], w["message"])})
+        return (1, report, None)
+
+    def LoadFile(self, params):
+        path = self._p(params, "path")
+        if path is None:
+            return (0, None, ("MISSING_PARAM", "path required", 0))
+        try:
+            with open(path, "r") as f:
+                text = f.read()
+        except OSError as exc:
+            return (0, None, ("FILE_READ_FAILED", str(exc), 0))
+        return self.RunPipeline({"text": text})
+
+    def SaveFile(self, params):
+        path = self._p(params, "path")
+        result = self._p(params, "result")
+        if path is None or result is None:
+            return (0, None, ("MISSING_PARAM", "path and result required", 0))
+        if result.get("ok") and result.get("text"):
+            try:
+                with open(path, "w") as f:
+                    f.write(result["text"])
+            except OSError as exc:
+                return (0, None, ("FILE_WRITE_FAILED", str(exc), 0))
+            return (1, {"saved": True, "path": path}, None)
+        return (1, {"saved": False, "reason": "result not ok or no text"}, None)
+
+    def Create(self, params):
+        root = self._p(params, "root")
+        parent_name = self._p(params, "parent_name")
+        node = self._p(params, "node")
+        if root is None or node is None:
+            return (0, None, ("MISSING_PARAM", "root and node required", 0))
+        clone_result = self.CloneAst(root)
+        test_root = clone_result[1]
+        if parent_name is None:
+            test_parent = test_root
+        else:
+            find_result = self.FindByName(test_root, parent_name)
+            if find_result[1] is None:
+                return (0, None, ("PARENT_NOT_FOUND", str(parent_name), 0))
+            test_parent = find_result[1]
+        test_node_clone = self.CloneAst(node)[1]
+        test_parent.state["children"].append(test_node_clone)
+        test_node_clone.state["parent"] = test_parent
+        val_result = self.validator.Run("validate", {"root": test_root})
+        if val_result[0] == 0:
+            return val_result
+        if not val_result[1]["ok"]:
+            return (0, None, ("VALIDATION_FAILED", str([v["message"] for v in val_result[1]["violations"]]), 0))
+        if parent_name is None:
+            real_parent = root
+        else:
+            real_parent = self.FindByName(root, parent_name)[1]
+        real_parent.state["children"].append(node)
+        node.state["parent"] = real_parent
+        return (1, {"created": True, "parent": real_parent.state["name"]}, None)
+
+    def Update(self, params):
+        root = self._p(params, "root")
+        container_name = self._p(params, "container_name")
+        key = self._p(params, "key")
+        new_value = self._p(params, "new_value")
+        if root is None or container_name is None or key is None:
+            return (0, None, ("MISSING_PARAM", "root container_name key required", 0))
+        clone_result = self.CloneAst(root)
+        test_root = clone_result[1]
+        find_result = self.FindByName(test_root, container_name)
+        if find_result[1] is None:
+            return (0, None, ("CONTAINER_NOT_FOUND", str(container_name), 0))
+        test_node = find_result[1]
+        test_node.Run("set", {"key": key, "value": new_value})
+        val_result = self.validator.Run("validate", {"root": test_root})
+        if val_result[0] == 0:
+            return val_result
+        if not val_result[1]["ok"]:
+            return (0, None, ("VALIDATION_FAILED", str([v["message"] for v in val_result[1]["violations"]]), 0))
+        real_node = self.FindByName(root, container_name)[1]
+        real_node.Run("set", {"key": key, "value": new_value})
+        return (1, {"updated": True, "container": container_name, "key": key}, None)
+
+    def Delete(self, params):
+        root = self._p(params, "root")
+        container_name = self._p(params, "container_name")
+        if root is None or container_name is None:
+            return (0, None, ("MISSING_PARAM", "root and container_name required", 0))
+        clone_result = self.CloneAst(root)
+        test_root = clone_result[1]
+        removed = self.RemoveByName(test_root, container_name)
+        if not removed[1]:
+            return (0, None, ("CONTAINER_NOT_FOUND", str(container_name), 0))
+        self.fixer.Run("cleanup_empty", {"root": test_root})
+        val_result = self.validator.Run("validate", {"root": test_root})
+        if val_result[0] == 0:
+            return val_result
+        if not val_result[1]["ok"]:
+            return (0, None, ("VALIDATION_FAILED", str([v["message"] for v in val_result[1]["violations"]]), 0))
+        self.RemoveByName(root, container_name)
+        self.fixer.Run("cleanup_empty", {"root": root})
+        return (1, {"deleted": True, "container": container_name}, None)
+
+    def RemoveByName(self, node, name):
+        for i, child in enumerate(node.state["children"]):
+            if child.state["name"] == name:
+                del node.state["children"][i]
+                return (1, True, None)
+            sub_result = self.RemoveByName(child, name)
+            if sub_result[1]:
+                return sub_result
+        return (1, False, None)
+
+    def Read(self, params):
+        root = self._p(params, "root")
+        container_name = self._p(params, "container_name")
+        if root is None or container_name is None:
+            return (0, None, ("MISSING_PARAM", "root and container_name required", 0))
+        find_result = self.FindByName(root, container_name)
+        if find_result[1] is None:
+            return (0, None, ("CONTAINER_NOT_FOUND", str(container_name), 0))
+        node = find_result[1]
+        path_result = node.Run("path", {})
+        path_str = path_result[1] if path_result[0] == 1 else ""
+        return (1, {"name": node.state["name"], "path": path_str,
+                    "tuples": node.state["tuples"], "children": len(node.state["children"])}, None)
+
+    def ListAll(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        entries = []
+        for child in root.state["children"]:
+            self.WalkTree(child, entries, 0)
+        return (1, {"entries": entries, "count": len(entries)}, None)
+
+    def WalkTree(self, node, entries, depth):
+        path_result = node.Run("path", {})
+        path_str = path_result[1] if path_result[0] == 1 else ""
+        entries.append({"name": node.state["name"], "path": path_str, "depth": depth,
+                        "tuples": len(node.state["tuples"]), "children": len(node.state["children"])})
+        for child in node.state["children"]:
+            self.WalkTree(child, entries, depth + 1)
+        return (1, True, None)
+
+
+# ======================================================================
+# SECTION: bcl_visitor.py
+# ======================================================================
+
+class BCLVisitor:
+    """Generic tree visitor for BCLNode AST trees."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "results": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "traverse":
+            return self.Traverse(params)
+        elif command == "find_by_name":
+            return self.FindByName(params)
+        elif command == "find_by_path":
+            return self.FindByPath(params)
+        elif command == "count_nodes":
+            return self.CountNodes(params)
+        elif command == "collect":
+            return self.Collect(params)
+        elif command == "collect_where":
+            return self.CollectWhere(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Traverse(self, params):
+        root = self._p(params, "root")
+        mode = self._p(params, "mode", "pre")
+        callback = self._p(params, "callback")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        self.state["results"] = []
+        self.TraverseNode(root, mode, callback, 0)
+        return (1, {"visited": len(self.state["results"]), "results": self.state["results"]}, None)
+
+    def TraverseNode(self, node, mode, callback, depth):
+        if mode == "pre":
+            self.ApplyCallback(node, callback, depth)
+        for child in node.state["children"]:
+            self.TraverseNode(child, mode, callback, depth + 1)
+        if mode == "post":
+            self.ApplyCallback(node, callback, depth)
+        return (1, True, None)
+
+    def ApplyCallback(self, node, callback, depth):
+        entry = {"name": node.state["name"], "depth": depth, "tuples": len(node.state["tuples"]), "children": len(node.state["children"])}
+        path_result = node.Run("path", {})
+        entry["path"] = path_result[1] if path_result[0] == 1 else ""
+        if callback is not None:
+            cb_result = callback(node, depth)
+            if cb_result is not None:
+                entry["callback_result"] = cb_result
+        self.state["results"].append(entry)
+        return (1, True, None)
+
+    def FindByName(self, params):
+        root = self._p(params, "root")
+        name = self._p(params, "name")
+        if root is None or name is None:
+            return (0, None, ("MISSING_PARAM", "root and name required", 0))
+        result = self.SearchByName(root, name)
+        if result is not None:
+            return (1, result, None)
+        return (1, None, None)
+
+    def SearchByName(self, node, name):
+        if node.state["name"] == name:
+            return node
+        for child in node.state["children"]:
+            found = self.SearchByName(child, name)
+            if found is not None:
+                return found
+        return None
+
+    def FindByPath(self, params):
+        root = self._p(params, "root")
+        path = self._p(params, "path")
+        if root is None or path is None:
+            return (0, None, ("MISSING_PARAM", "root and path required", 0))
+        if path == "/root" or not path:
+            return (1, root, None)
+        parts = path.strip("/").split("/")
+        if parts and parts[0] == "root":
+            parts = parts[1:]
+        current = root
+        for part in parts:
+            found = None
+            for child in current.state["children"]:
+                if child.state["name"] == part:
+                    found = child
+                    break
+            if found is None:
+                return (1, None, None)
+            current = found
+        return (1, current, None)
+
+    def CountNodes(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        count = self.CountRecursive(root)
+        return (1, count, None)
+
+    def CountRecursive(self, node):
+        count = 1
+        for child in node.state["children"]:
+            count += self.CountRecursive(child)
+        return count
+
+    def Collect(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        entries = []
+        self.CollectEntries(root, entries, 0)
+        return (1, {"entries": entries, "count": len(entries)}, None)
+
+    def CollectEntries(self, node, entries, depth):
+        path_result = node.Run("path", {})
+        path_str = path_result[1] if path_result[0] == 1 else ""
+        entries.append({
+            "name": node.state["name"],
+            "path": path_str,
+            "depth": depth,
+            "tuples": len(node.state["tuples"]),
+            "children": len(node.state["children"]),
+        })
+        for child in node.state["children"]:
+            self.CollectEntries(child, entries, depth + 1)
+        return (1, True, None)
+
+    def CollectWhere(self, params):
+        root = self._p(params, "root")
+        predicate = self._p(params, "predicate")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        if predicate is None:
+            return (0, None, ("MISSING_PARAM", "predicate required", 0))
+        matches = []
+        self.CollectWhereRecursive(root, predicate, matches)
+        return (1, {"matches": matches, "count": len(matches)}, None)
+
+    def CollectWhereRecursive(self, node, predicate, matches):
+        if predicate(node):
+            path_result = node.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            matches.append({
+                "name": node.state["name"],
+                "path": path_str,
+                "tuples": len(node.state["tuples"]),
+                "children": len(node.state["children"]),
+            })
+        for child in node.state["children"]:
+            self.CollectWhereRecursive(child, predicate, matches)
+        return (1, True, None)
+
+
+# ======================================================================
+# SECTION: bcl_diff.py
+# ======================================================================
+
+class BCLDiff:
+    """Compare two BCLNode AST trees and produce structured diff."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "diff": [],
+            "added": 0,
+            "removed": 0,
+            "changed": 0,
+            "moved": 0,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "diff":
+            return self.Diff(params)
+        elif command == "diff_nodes":
+            return self.DiffNodes(params)
+        elif command == "diff_tuples":
+            return self.DiffTuples(params)
+        elif command == "node_signature":
+            return self.NodeSignature(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def NodeSignature(self, params):
+        node = self._p(params, "node")
+        if node is None:
+            return (0, None, ("MISSING_PARAM", "node required", 0))
+        path_result = node.Run("path", {})
+        path_str = path_result[1] if path_result[0] == 1 else ""
+        tuple_str = str(node.state["tuples"])
+        child_names = ",".join(sorted(c.state["name"] for c in node.state["children"]))
+        raw = "%s|%s|%s" % (path_str, tuple_str, child_names)
+        sig = hashlib.md5(raw.encode()).hexdigest()[:12]
+        return (1, {"path": path_str, "signature": sig, "tuples": len(node.state["tuples"]), "children": len(node.state["children"])}, None)
+
+    def Diff(self, params):
+        before = self._p(params, "before")
+        after = self._p(params, "after")
+        if before is None or after is None:
+            return (0, None, ("MISSING_PARAM", "before and after required", 0))
+        self.state["diff"] = []
+        self.state["added"] = 0
+        self.state["removed"] = 0
+        self.state["changed"] = 0
+        self.state["moved"] = 0
+        before_map = self.BuildNodeMap(before)
+        after_map = self.BuildNodeMap(after)
+        for name, info in after_map.items():
+            if name not in before_map:
+                self.state["diff"].append({"type": "added", "name": name, "path": info["path"]})
+                self.state["added"] += 1
+            else:
+                before_info = before_map[name]
+                self.DiffTuples({"name": name, "before_tuples": before_info["tuples"], "after_tuples": info["tuples"]})
+                if before_info["path"] != info["path"]:
+                    self.state["diff"].append({"type": "moved", "name": name, "from": before_info["path"], "to": info["path"]})
+                    self.state["moved"] += 1
+                before_children = set(c.state["name"] for c in before_info["node"].state["children"])
+                after_children = set(c.state["name"] for c in info["node"].state["children"])
+                removed_children = before_children - after_children
+                for rc in removed_children:
+                    self.state["diff"].append({"type": "removed", "name": rc, "parent": name})
+                    self.state["removed"] += 1
+        for name, info in before_map.items():
+            if name not in after_map:
+                self.state["diff"].append({"type": "removed", "name": name, "path": info["path"]})
+                self.state["removed"] += 1
+        return (1, {
+            "diff": self.state["diff"],
+            "added": self.state["added"],
+            "removed": self.state["removed"],
+            "changed": self.state["changed"],
+            "moved": self.state["moved"],
+            "total": len(self.state["diff"]),
+        }, None)
+
+    def BuildNodeMap(self, root):
+        node_map = {}
+        self.CollectNodes(root, node_map)
+        return node_map
+
+    def CollectNodes(self, node, node_map):
+        path_result = node.Run("path", {})
+        path_str = path_result[1] if path_result[0] == 1 else ""
+        node_map[node.state["name"]] = {
+            "path": path_str,
+            "tuples": [list(t) for t in node.state["tuples"]],
+            "node": node,
+        }
+        for child in node.state["children"]:
+            self.CollectNodes(child, node_map)
+        return (1, True, None)
+
+    def DiffTuples(self, params):
+        name = self._p(params, "name")
+        before_tuples = self._p(params, "before_tuples", [])
+        after_tuples = self._p(params, "after_tuples", [])
+        if before_tuples is None or after_tuples is None:
+            return (0, None, ("MISSING_PARAM", "before_tuples and after_tuples required", 0))
+        before_set = set(str(t) for t in before_tuples)
+        after_set = set(str(t) for t in after_tuples)
+        added_tuples = after_set - before_set
+        removed_tuples = before_set - after_set
+        if added_tuples or removed_tuples:
+            self.state["diff"].append({
+                "type": "changed",
+                "name": name,
+                "tuples_added": list(added_tuples),
+                "tuples_removed": list(removed_tuples),
+            })
+            self.state["changed"] += 1
+        return (1, {"added": list(added_tuples), "removed": list(removed_tuples)}, None)
+
+    def DiffNodes(self, params):
+        before = self._p(params, "before")
+        after = self._p(params, "after")
+        if before is None or after is None:
+            return (0, None, ("MISSING_PARAM", "before and after required", 0))
+        before_sig = self.NodeSignature({"node": before})
+        after_sig = self.NodeSignature({"node": after})
+        changes = []
+        if before_sig[1]["signature"] != after_sig[1]["signature"]:
+            changes.append({"type": "node_changed", "before": before_sig[1], "after": after_sig[1]})
+        before_children = {c.state["name"]: c for c in before.state["children"]}
+        after_children = {c.state["name"]: c for c in after.state["children"]}
+        for cname, cnode in after_children.items():
+            if cname not in before_children:
+                changes.append({"type": "child_added", "name": cname})
+            else:
+                sub_result = self.DiffNodes({"before": before_children[cname], "after": cnode})
+                if sub_result[0] == 1:
+                    changes.extend(sub_result[1])
+        for cname in before_children:
+            if cname not in after_children:
+                changes.append({"type": "child_removed", "name": cname})
+        return (1, changes, None)
+
+
+# ======================================================================
+# SECTION: bcl_schema.py
+# ======================================================================
+
+class BCLSchema:
+    """Declarative validation schema for BCL containers."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "rules": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "add_rule":
+            return self.AddRule(params)
+        elif command == "get_rules":
+            return self.GetRules(params)
+        elif command == "check_node":
+            return self.CheckNode(params)
+        elif command == "load_defaults":
+            return self.LoadDefaults(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def AddRule(self, params):
+        rule_id = self._p(params, "rule_id")
+        rule_name = self._p(params, "rule_name")
+        severity = self._p(params, "severity", "high")
+        description = self._p(params, "description", "")
+        predicate = self._p(params, "predicate")
+        if rule_id is None or rule_name is None:
+            return (0, None, ("MISSING_PARAM", "rule_id and rule_name required", 0))
+        rule = {
+            "id": rule_id,
+            "name": rule_name,
+            "severity": severity,
+            "description": description,
+            "predicate": predicate,
+        }
+        self.state["rules"].append(rule)
+        return (1, rule, None)
+
+    def GetRules(self, params=None):
+        return (1, {"rules": self.state["rules"], "count": len(self.state["rules"])}, None)
+
+    def CheckNode(self, params):
+        node = self._p(params, "node")
+        if node is None:
+            return (0, None, ("MISSING_PARAM", "node required", 0))
+        violations = []
+        for rule in self.state["rules"]:
+            predicate = rule.get("predicate")
+            if predicate is None:
+                continue
+            try:
+                result = predicate(node)
+                if result:
+                    path_result = node.Run("path", {})
+                    path_str = path_result[1] if path_result[0] == 1 else ""
+                    violations.append({
+                        "rule_id": rule["id"],
+                        "rule_name": rule["name"],
+                        "severity": rule["severity"],
+                        "path": path_str,
+                        "message": rule["description"],
+                    })
+            except Exception:
+                pass
+        return (1, {"violations": violations, "count": len(violations), "ok": len(violations) == 0}, None)
+
+    def LoadDefaults(self, params=None):
+        self.state["rules"] = []
+        self.AddRule({"rule_id": 24, "rule_name": "bracket_format", "severity": "high",
+                       "description": "Container name must start with capital letter",
+                       "predicate": lambda n: n.state["name"] and not n.state["name"][0].isupper()})
+        self.AddRule({"rule_id": 25, "rule_name": "invalid_chars", "severity": "high",
+                       "description": "Container name has invalid characters",
+                       "predicate": lambda n: n.state["name"] and any(ch not in VALID_NAME_CHARS for ch in n.state["name"])})
+        self.AddRule({"rule_id": 10, "rule_name": "container_uniqueness", "severity": "high",
+                       "description": "Duplicate sibling container names",
+                       "predicate": lambda n: len(set(c.state["name"] for c in n.state["children"])) < len(n.state["children"])})
+        self.AddRule({"rule_id": 11, "rule_name": "branch_pair", "severity": "high",
+                       "description": "Pass without Fail or vice versa",
+                       "predicate": lambda n: self.HasIncompleteBranch(n)})
+        self.AddRule({"rule_id": 999, "rule_name": "weight_position", "severity": "high",
+                       "description": "Weight out of range or wrong type",
+                       "predicate": lambda n: self.HasWeightViolation(n)})
+        self.AddRule({"rule_id": 0, "rule_name": "empty_container", "severity": "low",
+                       "description": "Container has no tuples and no children",
+                       "predicate": lambda n: not n.state["tuples"] and not n.state["children"] and n.state["name"] != "root"})
+        return (1, {"loaded": len(self.state["rules"])}, None)
+
+    def HasIncompleteBranch(self, node):
+        child_names = set(c.state["name"] for c in node.state["children"])
+        has_pass = "Pass" in child_names
+        has_fail = "Fail" in child_names
+        return (has_pass and not has_fail) or (has_fail and not has_pass)
+
+    def HasWeightViolation(self, node):
+        for t in node.state["tuples"]:
+            if not t:
+                continue
+            last = t[-1]
+            if isinstance(last, float):
+                return True
+            if isinstance(last, int):
+                if last < WEIGHT_MIN or last > WEIGHT_MAX:
+                    return True
+        return False
+
+
+# ======================================================================
+# SECTION: bcl_merger.py
+# ======================================================================
+
+class BCLMerger:
+    """Merge multiple BCLNode AST trees into one."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {"strategy": "union"},
+            "merged_count": 0,
+            "conflicts": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "merge":
+            return self.Merge(params)
+        elif command == "merge_node":
+            return self.MergeNode(params)
+        elif command == "merge_tuples":
+            return self.MergeTuples(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Merge(self, params):
+        trees = self._p(params, "trees")
+        if trees is None:
+            return (0, None, ("MISSING_PARAM", "trees required", 0))
+        if not trees:
+            return (0, None, ("EMPTY_INPUT", "trees list is empty", 0))
+        self.state["merged_count"] = 0
+        self.state["conflicts"] = []
+        merged_root = BCLNode("root")
+        for tree in trees:
+            for child in tree.state["children"]:
+                self.MergeNodeIntoParent(child, merged_root)
+            self.state["merged_count"] += 1
+        return (1, {
+            "root": merged_root,
+            "merged_count": self.state["merged_count"],
+            "conflicts": self.state["conflicts"],
+            "conflict_count": len(self.state["conflicts"]),
+        }, None)
+
+    def MergeNodeIntoParent(self, source_node, target_parent):
+        existing = None
+        for child in target_parent.state["children"]:
+            if child.state["name"] == source_node.state["name"]:
+                existing = child
+                break
+        if existing is not None:
+            self.MergeTuples({"target": existing, "source": source_node})
+            for src_child in source_node.state["children"]:
+                self.MergeNodeIntoParent(src_child, existing)
+            path_result = existing.Run("path", {})
+            path_str = path_result[1] if path_result[0] == 1 else ""
+            self.state["conflicts"].append({
+                "name": source_node.state["name"],
+                "path": path_str,
+                "action": "merged",
+            })
+        else:
+            new_node = BCLNode(source_node.state["name"], parent=target_parent)
+            new_node.state["tuples"] = [list(t) for t in source_node.state["tuples"]]
+            for src_child in source_node.state["children"]:
+                cloned = self.CloneSubtree(src_child, new_node)
+                new_node.state["children"].append(cloned)
+            target_parent.state["children"].append(new_node)
+        return (1, True, None)
+
+    def MergeTuples(self, params):
+        target = self._p(params, "target")
+        source = self._p(params, "source")
+        if target is None or source is None:
+            return (0, None, ("MISSING_PARAM", "target and source required", 0))
+        existing_keys = set()
+        for t in target.state["tuples"]:
+            if t:
+                existing_keys.add(str(t[0]))
+        for t in source.state["tuples"]:
+            if not t:
+                continue
+            key = str(t[0])
+            if key not in existing_keys:
+                target.state["tuples"].append(list(t))
+                existing_keys.add(key)
+        return (1, {"tuples": len(target.state["tuples"])}, None)
+
+    def CloneSubtree(self, node, parent):
+        new_node = BCLNode(node.state["name"], parent=parent)
+        new_node.state["tuples"] = [list(t) for t in node.state["tuples"]]
+        for child in node.state["children"]:
+            cloned = self.CloneSubtree(child, new_node)
+            new_node.state["children"].append(cloned)
+        return new_node
+
+    def MergeNode(self, params):
+        target = self._p(params, "target")
+        source = self._p(params, "source")
+        if target is None or source is None:
+            return (0, None, ("MISSING_PARAM", "target and source required", 0))
+        self.MergeTuples({"target": target, "source": source})
+        for src_child in source.state["children"]:
+            self.MergeNodeIntoParent(src_child, target)
+        return (1, {"merged": True, "tuples": len(target.state["tuples"]), "children": len(target.state["children"])}, None)
+
+
+# ======================================================================
+# SECTION: bcl_formatter.py
+# ======================================================================
+
+class BCLFormatter:
+    """Configurable BCL output formatter."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {
+                "indent_str": "    ",
+                "indent_count": 1,
+                "tuple_space": " ",
+                "brace_style": "same_line",
+                "max_line_width": 120,
+                "weight_format": "int",
+                "quote_strings": True,
+            },
+            "output": "",
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "format":
+            return self.Format(params)
+        elif command == "format_node":
+            return self.FormatNode(params)
+        elif command == "format_tuple":
+            return self.FormatTuple(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Format(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        indent_unit = self.state["config"]["indent_str"] * self.state["config"]["indent_count"]
+        lines = []
+        for child in root.state["children"]:
+            self.FormatNodeRecursive(child, lines, 0, indent_unit)
+        output = "\n".join(lines)
+        self.state["output"] = output
+        return (1, {"text": output, "lines": len(lines)}, None)
+
+    def FormatNodeRecursive(self, node, lines, depth, indent_unit):
+        pad = indent_unit * depth
+        config = self.state["config"]
+        brace = "{" if config["brace_style"] == "same_line" else "\n" + pad + indent_unit + "{"
+        lines.append("%s[@%s]%s" % (pad, node.state["name"], brace))
+        for t in node.state["tuples"]:
+            tuple_str = self.FormatTupleValues(t)
+            lines.append("%s%s(%s)" % (pad, indent_unit, tuple_str))
+        for child in node.state["children"]:
+            self.FormatNodeRecursive(child, lines, depth + 1, indent_unit)
+        lines.append("%s}" % pad)
+        return (1, True, None)
+
+    def FormatTupleValues(self, values):
+        config = self.state["config"]
+        parts = []
+        for v in values:
+            if isinstance(v, (int, float)):
+                parts.append(str(int(v)) if config["weight_format"] == "int" and isinstance(v, (int, float)) else str(v))
+            else:
+                if config["quote_strings"]:
+                    parts.append('"%s"' % v)
+                else:
+                    parts.append(str(v))
+        sep = ";" + config["tuple_space"]
+        return sep.join(parts)
+
+    def FormatNode(self, params):
+        node = self._p(params, "node")
+        depth = self._p(params, "depth", 0)
+        if node is None:
+            return (0, None, ("MISSING_PARAM", "node required", 0))
+        indent_unit = self.state["config"]["indent_str"] * self.state["config"]["indent_count"]
+        lines = []
+        self.FormatNodeRecursive(node, lines, depth, indent_unit)
+        return (1, "\n".join(lines), None)
+
+    def FormatTuple(self, params):
+        values = self._p(params, "values")
+        if values is None:
+            return (0, None, ("MISSING_PARAM", "values required", 0))
+        return (1, self.FormatTupleValues(values), None)
+
+
+# ======================================================================
+# SECTION: bcl_roundtrip.py
+# ======================================================================
+
+class BCLRoundTrip:
+    """Round-trip verification: parse -> serialize -> parse -> compare."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "result": None,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "verify":
+            return self.Verify(params)
+        elif command == "compare_trees":
+            return self.CompareTrees(params)
+        elif command == "serialize_tree":
+            return self.SerializeTree(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Verify(self, params):
+        text = self._p(params, "text")
+        if text is None:
+            return (0, None, ("MISSING_PARAM", "text required", 0))
+        tokenizer = BCLTokenizer()
+        tok_result = tokenizer.Run("tokenize", {"text": text})
+        if tok_result[0] == 0:
+            return (0, None, ("TOKENIZE_ERROR", str(tok_result[2]), 0))
+        tokens = tok_result[1]["tokens"]
+        parser = BCLParser()
+        parse_result = parser.Run("parse", {"tokens": tokens})
+        if parse_result[0] == 0:
+            return (0, None, ("PARSE_ERROR", str(parse_result[2]), 0))
+        first_root = parse_result[1]["root"]
+        ser_result = self.SerializeTree({"root": first_root})
+        if ser_result[0] == 0:
+            return ser_result
+        serialized = ser_result[1]
+        tok2 = BCLTokenizer()
+        tok2_result = tok2.Run("tokenize", {"text": serialized})
+        if tok2_result[0] == 0:
+            return (0, None, ("TOKENIZE_ERROR_2", str(tok2_result[2]), 0))
+        tokens2 = tok2_result[1]["tokens"]
+        parser2 = BCLParser()
+        parse2_result = parser2.Run("parse", {"tokens": tokens2})
+        if parse2_result[0] == 0:
+            return (0, None, ("PARSE_ERROR_2", str(parse2_result[2]), 0))
+        second_root = parse2_result[1]["root"]
+        compare_result = self.CompareTrees({"first": first_root, "second": second_root})
+        if compare_result[0] == 0:
+            return compare_result
+        comparison = compare_result[1]
+        first_hash = self.TreeHash(first_root)
+        second_hash = self.TreeHash(second_root)
+        result = {
+            "ok": comparison["identical"],
+            "first_hash": first_hash,
+            "second_hash": second_hash,
+            "hashes_match": first_hash == second_hash,
+            "serialized": serialized,
+            "differences": comparison["differences"],
+            "diff_count": comparison["diff_count"],
+            "first_node_count": comparison["first_node_count"],
+            "second_node_count": comparison["second_node_count"],
+        }
+        self.state["result"] = result
+        return (1, result, None)
+
+    def SerializeTree(self, params):
+        root = self._p(params, "root")
+        if root is None:
+            return (0, None, ("MISSING_PARAM", "root required", 0))
+        lines = []
+        for child in root.state["children"]:
+            bcl_result = child.ToBcl({"indent": 0})
+            if bcl_result[0] == 1:
+                lines.append(bcl_result[1])
+        return (1, "\n".join(lines), None)
+
+    def CompareTrees(self, params):
+        first = self._p(params, "first")
+        second = self._p(params, "second")
+        if first is None or second is None:
+            return (0, None, ("MISSING_PARAM", "first and second required", 0))
+        differences = []
+        first_count = self.CountNodes(first)
+        second_count = self.CountNodes(second)
+        if first_count != second_count:
+            differences.append({"type": "node_count_mismatch", "first": first_count, "second": second_count})
+        self.CompareNodes(first, second, differences, "")
+        return (1, {
+            "identical": len(differences) == 0,
+            "differences": differences,
+            "diff_count": len(differences),
+            "first_node_count": first_count,
+            "second_node_count": second_count,
+        }, None)
+
+    def CompareNodes(self, first, second, differences, path_prefix):
+        if first.state["name"] != second.state["name"]:
+            differences.append({"type": "name_mismatch", "path": path_prefix, "first": first.state["name"], "second": second.state["name"]})
+        first_tuples = set(str(t) for t in first.state["tuples"])
+        second_tuples = set(str(t) for t in second.state["tuples"])
+        if first_tuples != second_tuples:
+            differences.append({
+                "type": "tuple_mismatch",
+                "path": path_prefix,
+                "first_only": list(first_tuples - second_tuples),
+                "second_only": list(second_tuples - first_tuples),
+            })
+        first_children = {c.state["name"]: c for c in first.state["children"]}
+        second_children = {c.state["name"]: c for c in second.state["children"]}
+        for name, fc in first_children.items():
+            if name not in second_children:
+                differences.append({"type": "child_missing_in_second", "path": path_prefix, "name": name})
+            else:
+                self.CompareNodes(fc, second_children[name], differences, path_prefix + "/" + name)
+        for name in second_children:
+            if name not in first_children:
+                differences.append({"type": "child_missing_in_first", "path": path_prefix, "name": name})
+        return (1, True, None)
+
+    def CountNodes(self, node):
+        count = 1
+        for child in node.state["children"]:
+            count += self.CountNodes(child)
+        return count
+
+    def TreeHash(self, root):
+        def Walk(n):
+            out = [n.state["name"], str(n.state["tuples"])]
+            for c in n.state["children"]:
+                out.append(Walk(c))
+            return "|".join(out)
+        return hashlib.md5(Walk(root).encode()).hexdigest()
+
+
+# ======================================================================
+# SECTION: bcl_cache.py
+# ======================================================================
+
+class BCLCache:
+    """Incremental compilation cache manager."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {
+                "cache_path": os.path.join(os.path.dirname(os.path.abspath(__file__)), ".bcl_cache"),
+            },
+            "entries": {},
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "load":
+            return self.Load(params)
+        elif command == "save":
+            return self.Save(params)
+        elif command == "get":
+            return self.Get(params)
+        elif command == "set":
+            return self.Set(params)
+        elif command == "invalidate":
+            return self.Invalidate(params)
+        elif command == "is_stale":
+            return self.IsStale(params)
+        elif command == "clear":
+            return self.Clear(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def Load(self, params=None):
+        cache_path = self.state["config"]["cache_path"]
+        if not os.path.exists(cache_path):
+            self.state["entries"] = {}
+            return (1, {"loaded": False, "entries": 0, "reason": "no cache file"}, None)
+        try:
+            with open(cache_path, "r") as f:
+                self.state["entries"] = json.load(f)
+        except Exception as e:
+            self.state["entries"] = {}
+            return (0, None, ("CACHE_LOAD_ERROR", str(e), 0))
+        return (1, {"loaded": True, "entries": len(self.state["entries"])}, None)
+
+    def Save(self, params=None):
+        cache_path = self.state["config"]["cache_path"]
+        try:
+            with open(cache_path, "w") as f:
+                json.dump(self.state["entries"], f, indent=2)
+        except Exception as e:
+            return (0, None, ("CACHE_SAVE_ERROR", str(e), 0))
+        return (1, {"saved": True, "entries": len(self.state["entries"]), "path": cache_path}, None)
+
+    def Get(self, params):
+        key = self._p(params, "key")
+        if key is None:
+            return (0, None, ("MISSING_PARAM", "key required", 0))
+        entry = self.state["entries"].get(key)
+        if entry is None:
+            return (1, {"found": False}, None)
+        return (1, {"found": True, "entry": entry}, None)
+
+    def Set(self, params):
+        key = self._p(params, "key")
+        file_hash = self._p(params, "file_hash")
+        result = self._p(params, "result")
+        if key is None:
+            return (0, None, ("MISSING_PARAM", "key required", 0))
+        self.state["entries"][key] = {
+            "file_hash": file_hash or "",
+            "result": result,
+        }
+        return (1, {"set": True, "key": key}, None)
+
+    def Invalidate(self, params):
+        key = self._p(params, "key")
+        if key is None:
+            return (0, None, ("MISSING_PARAM", "key required", 0))
+        if key in self.state["entries"]:
+            del self.state["entries"][key]
+            return (1, {"invalidated": True, "key": key}, None)
+        return (1, {"invalidated": False, "key": key}, None)
+
+    def IsStale(self, params):
+        key = self._p(params, "key")
+        current_hash = self._p(params, "file_hash")
+        if key is None or current_hash is None:
+            return (0, None, ("MISSING_PARAM", "key and file_hash required", 0))
+        entry = self.state["entries"].get(key)
+        if entry is None:
+            return (1, {"stale": True, "reason": "not_cached"}, None)
+        if entry.get("file_hash", "") != current_hash:
+            return (1, {"stale": True, "reason": "hash_mismatch"}, None)
+        return (1, {"stale": False, "reason": "current"}, None)
+
+    def Clear(self, params=None):
+        count = len(self.state["entries"])
+        self.state["entries"] = {}
+        return (1, {"cleared": True, "removed": count}, None)
+
+    def FileHash(self, params):
+        filepath = self._p(params, "filepath")
+        if filepath is None:
+            return (0, None, ("MISSING_PARAM", "filepath required", 0))
+        try:
+            with open(filepath, "r") as f:
+                content = f.read()
+            return (1, hashlib.md5(content.encode()).hexdigest(), None)
+        except Exception as e:
+            return (0, None, ("HASH_ERROR", str(e), 0))
+
+
+# ======================================================================
+# SECTION: bcl_serializer.py
+# ======================================================================
+
+class BCLSerializer:
+    """Serialize IR nodes as BCL blocks."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "output": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "serialize_file":
+            return self.SerializeFile(params)
+        elif command == "serialize_class":
+            return self.SerializeClass(params)
+        elif command == "serialize_method":
+            return self.SerializeMethod(params)
+        elif command == "serialize_edge":
+            return self.SerializeEdge(params)
+        elif command == "serialize_inherit":
+            return self.SerializeInherit(params)
+        elif command == "serialize_violation":
+            return self.SerializeViolation(params)
+        elif command == "serialize_metric":
+            return self.SerializeMetric(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def StableId(self, filepath, prefix, *parts):
+        raw = filepath + "|" + prefix + "|" + "|".join(str(p) for p in parts)
+        return (1, hashlib.md5(raw.encode()).hexdigest()[:12], None)
+
+    def BclField(self, key, value):
+        return (1, "  #[@FIELD]   %s=%s" % (key, value), None)
+
+    def BclNode(self, node_type, node_id, parent_id, fields):
+        lines = []
+        parent_str = " parent=%s" % parent_id if parent_id else ""
+        lines.append("[@IRNODE]  type=%s id=%s%s" % (node_type, node_id, parent_str))
+        for k, v in fields:
+            field_result = self.BclField(k, v)
+            lines.append(field_result[1])
+        lines.append("[@ENDNODE]")
+        return (1, "\n".join(lines), None)
+
+    def SerializeFile(self, params):
+        filepath = self._p(params, "filepath")
+        source = self._p(params, "source")
+        ff = self._p(params, "features")
+        file_id = self._p(params, "file_id")
+        if filepath is None or source is None or ff is None or file_id is None:
+            return (0, None, ("MISSING_PARAM", "filepath source features file_id required", 0))
+        file_hash = hashlib.md5(source.encode()).hexdigest()[:8]
+        today = datetime.date.today().isoformat()
+        filename = os.path.basename(filepath)
+        fields = [
+            ("file", filename), ("path", filepath), ("md5", file_hash),
+            ("date", today), ("lines", ff.get("line_count", 0)),
+            ("imports", ff.get("import_count", 0)),
+            ("doc", (ff.get("module_docstring") or "NONE")[:80]),
+            ("standalone_funcs", ff.get("standalone_function_count", 0)),
+            ("async_funcs", ",".join(ff.get("standalone_async", [])) if ff.get("standalone_async") else "NONE"),
+            ("trailing_ws", ff.get("has_trailing_ws", False)),
+        ]
+        return self.BclNode("file", file_id, None, fields)
+
+    def SerializeClass(self, params):
+        filepath = self._p(params, "filepath")
+        source = self._p(params, "source")
+        cf = self._p(params, "features")
+        class_id = self._p(params, "class_id")
+        file_id = self._p(params, "file_id")
+        violations = self._p(params, "violations", [])
+        if filepath is None or cf is None or class_id is None or file_id is None:
+            return (0, None, ("MISSING_PARAM", "filepath features class_id file_id required", 0))
+        file_hash = hashlib.md5((source or "").encode()).hexdigest()[:8]
+        today = datetime.date.today().isoformat()
+        docstring = cf.get("docstring") or ""
+        summary = docstring.strip().split("\n")[0][:80] if docstring else "Class %s - %d methods" % (cf.get("class_name", "?"), cf.get("method_count", 0))
+        cvstr = ";".join(v.get("rule", "") for v in violations) if violations else "NONE"
+        fields = [
+            ("name", cf.get("class_name", "")), ("doc", summary),
+            ("methods", cf.get("method_count", 0)),
+            ("method_names", ",".join(cf.get("method_names", [])[:15])),
+            ("has_run", cf.get("has_run", False)),
+            ("has_init", cf.get("has_init", False)),
+            ("has_state", cf.get("has_state", False)),
+            ("has_tabs", cf.get("has_tabs", False)),
+            ("bases", ",".join(cf.get("bases", [])) if cf.get("bases") else "NONE"),
+            ("constants", ",".join(cf.get("class_constants", [])) if cf.get("class_constants") else "NONE"),
+            ("nested_classes", ",".join(cf.get("nested_classes", [])) if cf.get("nested_classes") else "NONE"),
+            ("body_lines", "%d-%d" % (cf.get("lineno", 0), cf.get("end_lineno", 0))),
+            ("complexity_total", cf.get("total_complexity", 0)),
+            ("complexity_avg", "%.1f" % (cf.get("total_complexity", 0) / max(cf.get("method_count", 1), 1))),
+            ("wmc", cf.get("wmc", 0)), ("rfc", cf.get("rfc", 0)),
+            ("lcom", cf.get("lcom", 0)),
+            ("patterns", cf.get("patterns", "NONE")),
+            ("violations", cvstr),
+            ("compliant", len(violations) == 0),
+            ("hash", file_hash), ("date", today),
+        ]
+        return self.BclNode("class", class_id, file_id, fields)
+
+    def SerializeMethod(self, params):
+        filepath = self._p(params, "filepath")
+        mf = self._p(params, "features")
+        method_id = self._p(params, "method_id")
+        class_id = self._p(params, "class_id")
+        violations = self._p(params, "violations", [])
+        if filepath is None or mf is None or method_id is None or class_id is None:
+            return (0, None, ("MISSING_PARAM", "filepath features method_id class_id required", 0))
+        vstr = ";".join(v.get("rule", "") for v in violations) if violations else "NONE"
+        params_str = ",".join(mf.get("params", [])) if mf.get("params") else "NONE"
+        calls_str = ",".join(mf.get("calls", [])[:10]) if mf.get("calls") else "NONE"
+        self_attrs_str = ",".join(sorted(set(mf.get("self_attrs", [])))) if mf.get("self_attrs") else "NONE"
+        decorators_str = ",".join(mf.get("decorator_names", [])) if mf.get("decorator_names") else "NONE"
+        strings_str = ",".join(mf.get("string_constants", [])[:5]) if mf.get("string_constants") else "NONE"
+        nested_str = ",".join(mf.get("nested_funcs", [])) if mf.get("nested_funcs") else "NONE"
+        async_tag = "async:" if mf.get("is_async") else ""
+        fields = [
+            ("name", "%s%s" % (async_tag, mf.get("name", ""))),
+            ("params", params_str),
+            ("returns", mf.get("return_count", 0)),
+            ("tuple3", mf.get("returns_tuple3", False)),
+            ("annotation", mf.get("return_annotation") or "NONE"),
+            ("calls", mf.get("call_count", 0)),
+            ("call_targets", calls_str),
+            ("self_attrs", self_attrs_str),
+            ("decorators", "%d:%s" % (mf.get("decorator_count", 0), decorators_str)),
+            ("branches", mf.get("branch_count", 0)),
+            ("loops", mf.get("loop_count", 0)),
+            ("complexity", mf.get("complexity", 0)),
+            ("max_nesting", mf.get("max_nesting", 0)),
+            ("span", mf.get("line_span", 0)),
+            ("hardcoded", mf.get("hardcoded_count", 0)),
+            ("strings", strings_str),
+            ("nested", nested_str),
+            ("violations", vstr),
+            ("compliant", len(violations) == 0),
+            ("lineno", "%d-%d" % (mf.get("lineno", 0), mf.get("end_lineno", 0))),
+        ]
+        return self.BclNode("method", method_id, class_id, fields)
+
+    def SerializeEdge(self, params):
+        filepath = self._p(params, "filepath")
+        caller_class = self._p(params, "caller_class")
+        caller_method = self._p(params, "caller_method")
+        callee = self._p(params, "callee")
+        edge_type = self._p(params, "edge_type")
+        caller_method_id = self._p(params, "caller_method_id")
+        call_lineno = self._p(params, "call_lineno")
+        if filepath is None or callee is None or caller_method_id is None:
+            return (0, None, ("MISSING_PARAM", "filepath callee caller_method_id required", 0))
+        id_result = self.StableId(filepath, "edge", "%s->%s" % (caller_method, callee), call_lineno)
+        fields = [
+            ("caller_class", caller_class or "NONE"),
+            ("caller_method", caller_method or "NONE"),
+            ("callee", callee),
+            ("edge_type", edge_type or "CALL"),
+            ("call_lineno", call_lineno or 0),
+        ]
+        return self.BclNode("edge", id_result[1], caller_method_id, fields)
+
+    def SerializeInherit(self, params):
+        filepath = self._p(params, "filepath")
+        child = self._p(params, "child")
+        parent_name = self._p(params, "parent_name")
+        if filepath is None or child is None or parent_name is None:
+            return (0, None, ("MISSING_PARAM", "filepath child parent_name required", 0))
+        id_result = self.StableId(filepath, "inherit", "%s->%s" % (child, parent_name), child)
+        fields = [("child", child), ("parent", parent_name)]
+        return self.BclNode("inherit", id_result[1], None, fields)
+
+    def SerializeViolation(self, params):
+        rule_id = self._p(params, "rule_id")
+        scope = self._p(params, "scope")
+        parent_id = self._p(params, "parent_id")
+        method_name = self._p(params, "method_name")
+        severity = self._p(params, "severity")
+        description = self._p(params, "description")
+        if rule_id is None or parent_id is None:
+            return (0, None, ("MISSING_PARAM", "rule_id parent_id required", 0))
+        id_result = self.StableId(parent_id, "violate", rule_id, method_name or scope or "")
+        fields = [
+            ("rule", rule_id), ("scope", scope or "class"),
+            ("severity", severity or "high"),
+            ("target", method_name or "class"),
+            ("description", description or ""),
+        ]
+        return self.BclNode("violate", id_result[1], parent_id, fields)
+
+    def SerializeMetric(self, params):
+        filepath = self._p(params, "filepath")
+        key = self._p(params, "key")
+        value = self._p(params, "value")
+        file_id = self._p(params, "file_id")
+        if filepath is None or key is None or file_id is None:
+            return (0, None, ("MISSING_PARAM", "filepath key file_id required", 0))
+        id_result = self.StableId(filepath, "metric", key, value if isinstance(value, int) else 0)
+        fields = [("key", key), ("value", value)]
+        return self.BclNode("metric", id_result[1], file_id, fields)
+
+
+# ======================================================================
+# SECTION: bcl_exporter.py
+# ======================================================================
+
+class BCLIRExporter:
+    """Export BCL IR to SQLite databases."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "last_export": None,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "export_sqlite_bcl":
+            return self.ExportSqliteBcl(params)
+        elif command == "export_mysql_bcl":
+            return self.ExportMysqlBcl(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def ExportSqliteBcl(self, params):
+        results = self._p(params, "results")
+        db_path = self._p(params, "db_path")
+        if results is None or db_path is None:
+            return (0, None, ("MISSING_PARAM", "results and db_path required", 0))
+        db = sqlite3.connect(db_path)
+        cur = db.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS ir_nodes (id TEXT, type TEXT, parent TEXT, filepath TEXT, bcl TEXT)")
+        cur.execute("CREATE TABLE IF NOT EXISTS ir_files (filepath TEXT, file_id TEXT, blocks INTEGER, classes INTEGER, methods INTEGER, violations INTEGER)")
+        cur.execute("DELETE FROM ir_nodes")
+        cur.execute("DELETE FROM ir_files")
+        node_count = 0
+        for r in results:
+            if "error" in r:
+                continue
+            cur.execute("INSERT INTO ir_files VALUES (?,?,?,?,?,?)",
+                (r["filepath"], r.get("file_id", ""), r.get("block_count", 0),
+                 r.get("class_count", 0), r.get("method_count", 0), r.get("violation_count", 0)))
+            for block in r["bcl"].split("\n\n"):
+                first_line = block.split("\n")[0]
+                if "[@IRNODE]" in first_line:
+                    parts = first_line.split()
+                    node_type = ""
+                    node_id = ""
+                    parent_id = ""
+                    for p in parts:
+                        if p.startswith("type="):
+                            node_type = p[5:]
+                        elif p.startswith("id="):
+                            node_id = p[3:]
+                        elif p.startswith("parent="):
+                            parent_id = p[7:]
+                    cur.execute("INSERT INTO ir_nodes VALUES (?,?,?,?,?)",
+                        (node_id, node_type, parent_id, r["filepath"], block))
+                    node_count += 1
+        db.commit()
+        db.close()
+        self.state["last_export"] = {"db_path": db_path, "nodes": node_count, "files": len(results)}
+        return (1, self.state["last_export"], None)
+
+    def ExportMysqlBcl(self, params):
+        results = self._p(params, "results")
+        db_name = self._p(params, "db_name")
+        analysis = self._p(params, "analysis")
+        if results is None or db_name is None:
+            return (0, None, ("MISSING_PARAM", "results and db_name required", 0))
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), db_name)
+        db = sqlite3.connect(db_path)
+        cur = db.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS ir_nodes (id TEXT, type TEXT, parent TEXT, filepath TEXT, bcl TEXT)")
+        cur.execute("CREATE TABLE IF NOT EXISTS ir_files (filepath TEXT, file_id TEXT, blocks INTEGER, classes INTEGER, methods INTEGER, violations INTEGER)")
+        cur.execute("CREATE TABLE IF NOT EXISTS ir_analysis (key TEXT, value TEXT)")
+        cur.execute("DELETE FROM ir_nodes")
+        cur.execute("DELETE FROM ir_files")
+        cur.execute("DELETE FROM ir_analysis")
+        node_count = 0
+        for r in results:
+            if "error" in r:
+                continue
+            cur.execute("INSERT INTO ir_files VALUES (?,?,?,?,?,?)",
+                (r["filepath"], r.get("file_id", ""), r.get("block_count", 0),
+                 r.get("class_count", 0), r.get("method_count", 0), r.get("violation_count", 0)))
+            for block in r["bcl"].split("\n\n"):
+                first_line = block.split("\n")[0]
+                if "[@IRNODE]" in first_line:
+                    parts = first_line.split()
+                    node_type = ""
+                    node_id = ""
+                    parent_id = ""
+                    for p in parts:
+                        if p.startswith("type="):
+                            node_type = p[5:]
+                        elif p.startswith("id="):
+                            node_id = p[3:]
+                        elif p.startswith("parent="):
+                            parent_id = p[7:]
+                    cur.execute("INSERT INTO ir_nodes VALUES (?,?,?,?,?)",
+                        (node_id, node_type, parent_id, r["filepath"], block))
+                    node_count += 1
+        if analysis:
+            for k, v in analysis.items():
+                if isinstance(v, (int, str)):
+                    cur.execute("INSERT INTO ir_analysis VALUES (?,?)", (k, str(v)))
+        db.commit()
+        db.close()
+        self.state["last_export"] = {"db_name": db_name, "nodes": node_count, "files": len(results)}
+        return (1, self.state["last_export"], None)
+
+
+# ======================================================================
+# SECTION: bcl_importer.py
+# ======================================================================
+
+class BCLImporter:
+    """Import IR from SQLite back into BCLNode AST tree."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "last_import": None,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "import_sqlite":
+            return self.ImportSqlite(params)
+        elif command == "import_sqlite_bcl":
+            return self.ImportSqliteBcl(params)
+        elif command == "rebuild_tree":
+            return self.RebuildTree(params)
+        elif command == "parse_bcl_block":
+            return self.ParseBclBlock(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def ImportSqlite(self, params):
+        db_path = self._p(params, "db_path")
+        if db_path is None:
+            return (0, None, ("MISSING_PARAM", "db_path required", 0))
+        if not os.path.exists(db_path):
+            return (0, None, ("FILE_NOT_FOUND", str(db_path), 0))
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        cur.execute("SELECT id, type, parent, filepath, bcl FROM ir_nodes")
+        rows = cur.fetchall()
+        cur.execute("SELECT filepath, file_id, blocks, classes, methods, violations FROM ir_files")
+        file_rows = cur.fetchall()
+        conn.close()
+        self.state["last_import"] = {"db_path": db_path, "nodes": len(rows), "files": len(file_rows)}
+        return (1, {"nodes": rows, "files": file_rows, "node_count": len(rows), "file_count": len(file_rows)}, None)
+
+    def ImportSqliteBcl(self, params):
+        db_path = self._p(params, "db_path")
+        if db_path is None:
+            return (0, None, ("MISSING_PARAM", "db_path required", 0))
+        import_result = self.ImportSqlite({"db_path": db_path})
+        if import_result[0] == 0:
+            return import_result
+        data = import_result[1]
+        tree_result = self.RebuildTree({"nodes": data["nodes"]})
+        if tree_result[0] == 0:
+            return tree_result
+        root = tree_result[1]
+        self.state["last_import"] = {"db_path": db_path, "nodes": data["node_count"], "files": data["file_count"], "root": root}
+        return (1, {"root": root, "node_count": data["node_count"], "file_count": data["file_count"]}, None)
+
+    def RebuildTree(self, params):
+        nodes = self._p(params, "nodes")
+        if nodes is None:
+            return (0, None, ("MISSING_PARAM", "nodes required", 0))
+        root = BCLNode("root")
+        node_map = {}
+        pending = []
+        for row in nodes:
+            node_id = row[0]
+            node_type = row[1]
+            parent_id = row[2]
+            bcl_text = row[4]
+            parse_result = self.ParseBclBlock({"bcl": bcl_text, "node_id": node_id, "node_type": node_type})
+            if parse_result[0] == 1 and parse_result[1] is not None:
+                bcl_node = parse_result[1]
+                node_map[node_id] = {"node": bcl_node, "parent_id": parent_id}
+            else:
+                pending.append({"id": node_id, "parent_id": parent_id, "bcl": bcl_text})
+        for node_id, info in node_map.items():
+            parent_id = info["parent_id"]
+            bcl_node = info["node"]
+            if parent_id and parent_id in node_map:
+                parent_node = node_map[parent_id]["node"]
+                bcl_node.state["parent"] = parent_node
+                parent_node.state["children"].append(bcl_node)
+            else:
+                bcl_node.state["parent"] = root
+                root.state["children"].append(bcl_node)
+        return (1, root, None)
+
+    def ParseBclBlock(self, params):
+        bcl_text = self._p(params, "bcl")
+        node_id = self._p(params, "node_id", "")
+        node_type = self._p(params, "node_type", "")
+        if bcl_text is None:
+            return (0, None, ("MISSING_PARAM", "bcl required", 0))
+        tokenizer = BCLTokenizer()
+        tok_result = tokenizer.Run("tokenize", {"text": bcl_text})
+        if tok_result[0] == 0:
+            return (0, None, ("TOKENIZE_ERROR", str(tok_result[2]), 0))
+        tokens = tok_result[1]["tokens"]
+        parser = BCLParser()
+        parse_result = parser.Run("parse", {"tokens": tokens})
+        if parse_result[0] == 0:
+            return (0, None, ("PARSE_ERROR", str(parse_result[2]), 0))
+        root = parse_result[1]["root"]
+        if root.state["children"]:
+            return (1, root.state["children"][0], None)
+        return (1, root, None)
+
+
+# ======================================================================
+# SECTION: bcl_extractor.py
+# ======================================================================
+
+class BCLFeatureExtractor:
+    """Extract features from AST nodes for IR compilation."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "rules": IR_RULES,
+            "domain_keywords": DOMAIN_KEYWORDS,
+            "domain_exclude": DOMAIN_EXCLUDE,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "extract_method_features":
+            return self.ExtractMethodFeatures(params)
+        elif command == "extract_class_features":
+            return self.ExtractClassFeatures(params)
+        elif command == "extract_file_features":
+            return self.ExtractFileFeatures(params)
+        elif command == "infer_domain":
+            return self.InferDomain(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def CategorizeString(self, s):
+        sl = s.lower()
+        sql_kws = ("select ", "insert ", "create table", "update ", "delete ", "alter table", "drop ")
+        err_kws = ("error", "failed", "exception", "invalid", "cannot", "unable")
+        for kw in sql_kws:
+            if kw in sl:
+                return (1, "sql", None)
+        for kw in err_kws:
+            if kw in sl:
+                return (1, "error", None)
+        if "{" in s and "}" in s:
+            return (1, "format", None)
+        if len(s) <= 30 and s.replace("_", "").isalnum() and not s.startswith("http"):
+            return (1, "command", None)
+        return (1, "other", None)
+
+    def ExtractParamType(self, arg):
+        if arg.annotation is None:
+            return (1, None, None)
+        if isinstance(arg.annotation, ast.Name):
+            return (1, arg.annotation.id, None)
+        if isinstance(arg.annotation, ast.Constant):
+            return (1, str(arg.annotation.value), None)
+        if isinstance(arg.annotation, ast.Attribute):
+            return (1, arg.annotation.attr, None)
+        return (1, "complex", None)
+
+    def ComputeMaxNesting(self, node, depth):
+        max_d = depth
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.If, ast.For, ast.While, ast.With, ast.Try)):
+                if hasattr(ast, "Match") and isinstance(child, ast.Match):
+                    pass
+                child_result = self.ComputeMaxNesting(child, depth + 1)
+            elif isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            else:
+                child_result = self.ComputeMaxNesting(child, depth)
+            if child_result[0] == 1 and child_result[1] > max_d:
+                max_d = child_result[1]
+        return (1, max_d, None)
+
+    def WalkMethodBody(self, node, mf, method_node):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node is not method_node:
+            mf["nested_funcs"].append(node.name)
+            for child in ast.iter_child_nodes(node):
+                self.WalkMethodBody(child, mf, method_node)
+            return (1, True, None)
+        if isinstance(node, ast.Call):
+            func = node.func
+            if isinstance(func, ast.Name) and func.id == "print":
+                mf["has_print"] = True
+            if isinstance(func, ast.Name) and func.id in ("eval", "exec", "compile"):
+                mf["has_eval"] = True
+            if isinstance(func, ast.Attribute):
+                mf["call_count"] += 1
+                mf["calls"].append(func.attr)
+                if func.attr in ("system", "popen", "run", "Popen", "call", "check_call", "check_output"):
+                    if isinstance(func.value, ast.Name) and func.value.id in ("os", "subprocess"):
+                        mf["has_subprocess"] = True
+            elif isinstance(func, ast.Name):
+                mf["call_count"] += 1
+                mf["calls"].append(func.id)
+        if isinstance(node, ast.Attribute):
+            if isinstance(node.value, ast.Name) and node.value.id == "self":
+                mf["has_self_attr"] = True
+                mf["self_attrs"].append(node.attr)
+                if node.attr.startswith("_") and node.attr not in ("__init__",):
+                    mf["has_self_underscore"] = True
+        if isinstance(node, ast.Return) and node.value:
+            mf["return_count"] += 1
+            if isinstance(node.value, ast.Tuple) and len(node.value.elts) == 3:
+                mf["returns_tuple3"] = True
+        if isinstance(node, (ast.If,)):
+            mf["branch_count"] += 1
+        if hasattr(ast, "Match") and isinstance(node, ast.Match):
+            mf["branch_count"] += 1
+        if isinstance(node, (ast.For, ast.While)):
+            mf["loop_count"] += 1
+        if isinstance(node, ast.Dict):
+            for val in node.values:
+                if val is not None:
+                    self.WalkMethodBody(val, mf, method_node)
+            return (1, True, None)
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            cat_result = self.CategorizeString(node.value)
+            cat = cat_result[1] if cat_result[0] == 1 else "other"
+            mf["string_categories"][cat] = mf["string_categories"].get(cat, 0) + 1
+            mf["string_constants"].append(node.value[:50])
+            mf["hardcoded_count"] += 1
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+            if node.value not in (0, 1, -1, 2, True, False):
+                mf["hardcoded_count"] += 1
+        for child in ast.iter_child_nodes(node):
+            self.WalkMethodBody(child, mf, method_node)
+        return (1, True, None)
+
+    def ExtractMethodFeatures(self, params):
+        node = self._p(params, "node")
+        class_name = self._p(params, "class_name", "")
+        if node is None:
+            return (0, None, ("MISSING_PARAM", "node required", 0))
+        mf = {
+            "name": node.name, "class_name": class_name,
+            "params": [a.arg for a in node.args.args],
+            "param_types": [],
+            "decorator_names": [], "decorator_count": len(node.decorator_list),
+            "return_count": 0, "returns_tuple3": False, "return_annotation": None,
+            "has_print": False, "has_eval": False, "has_subprocess": False,
+            "has_self_underscore": False, "has_self_attr": False, "self_attrs": [],
+            "calls": [], "call_count": 0, "branch_count": 0, "loop_count": 0,
+            "max_nesting": 0, "line_span": (getattr(node, "end_lineno", node.lineno) - node.lineno),
+            "is_async": isinstance(node, (ast.AsyncFunctionDef,)),
+            "hardcoded_count": 0, "string_constants": [],
+            "string_categories": {"sql": 0, "error": 0, "format": 0, "command": 0, "other": 0},
+            "nested_funcs": [], "local_var_count": 0,
+            "halstead_operators": 0, "halstead_operands": 0,
+            "lineno": node.lineno, "end_lineno": getattr(node, "end_lineno", node.lineno),
+        }
+        for a in node.args.args:
+            pt = self.ExtractParamType(a)
+            mf["param_types"].append(pt[1] if pt[0] == 1 else None)
+        if node.returns:
+            if isinstance(node.returns, ast.Name):
+                mf["return_annotation"] = node.returns.id
+            elif isinstance(node.returns, ast.Constant):
+                mf["return_annotation"] = str(node.returns.value)
+            else:
+                mf["return_annotation"] = "complex"
+        for d in node.decorator_list:
+            if isinstance(d, ast.Name):
+                mf["decorator_names"].append(d.id)
+            elif isinstance(d, ast.Attribute):
+                mf["decorator_names"].append(d.attr)
+        for child in ast.iter_child_nodes(node):
+            self.WalkMethodBody(child, mf, node)
+        mf["call_sites"] = []
+        for child in ast.walk(node):
+            if isinstance(child, ast.Call):
+                if isinstance(child.func, ast.Attribute):
+                    mf["call_sites"].append({"callee": child.func.attr, "type": "attr", "lineno": getattr(child, "lineno", 0)})
+                elif isinstance(child.func, ast.Name):
+                    mf["call_sites"].append({"callee": child.func.id, "type": "name", "lineno": getattr(child, "lineno", 0)})
+        for child in ast.walk(node):
+            if isinstance(child, ast.Assign):
+                for target in child.targets:
+                    if isinstance(target, ast.Name) and not target.id.isupper():
+                        mf["local_var_count"] += 1
+        for child in ast.walk(node):
+            if isinstance(child, (ast.BinOp, ast.UnaryOp, ast.BoolOp, ast.Compare, ast.AugAssign)):
+                mf["halstead_operators"] += 1
+            if isinstance(child, ast.Name):
+                mf["halstead_operands"] += 1
+            if isinstance(child, ast.Constant):
+                mf["halstead_operands"] += 1
+        nest_result = self.ComputeMaxNesting(node, 0)
+        mf["max_nesting"] = nest_result[1] if nest_result[0] == 1 else 0
+        mf["complexity"] = 1 + mf["branch_count"] + mf["loop_count"]
+        mf["halstead_volume"] = mf["halstead_operators"] + mf["halstead_operands"]
+        return (1, mf, None)
+
+    def InferDomain(self, params):
+        mf = self._p(params, "mf")
+        class_name = self._p(params, "class_name", "")
+        if mf is None:
+            return (0, None, ("MISSING_PARAM", "mf required", 0))
+        text = (mf["name"] + " " + class_name + " " + " ".join(mf.get("calls", [])) + " " + " ".join(mf.get("self_attrs", []))).lower()
+        tokens = []
+        current = []
+        for ch in text:
+            if ch.isalpha() or ch == "_":
+                current.append(ch)
+            else:
+                if current:
+                    tokens.append("".join(current))
+                    current = []
+        if current:
+            tokens.append("".join(current))
+        signals = []
+        for domain, keywords in self.state["domain_keywords"].items():
+            for kw in keywords:
+                matched = False
+                exclude = self.state["domain_exclude"].get(kw, set())
+                for tok in tokens:
+                    if tok in exclude:
+                        continue
+                    if tok == kw or tok.startswith(kw):
+                        matched = True
+                        break
+                if matched:
+                    signals.append(domain)
+                    break
+        if not signals:
+            return (1, "unknown", None)
+        counts = Counter(signals)
+        return (1, counts.most_common(1)[0][0], None)
+
+    def ExtractClassFeatures(self, params):
+        node = self._p(params, "node")
+        source_lines = self._p(params, "source_lines", [])
+        if node is None:
+            return (0, None, ("MISSING_PARAM", "node required", 0))
+        class_name = node.name
+        methods = [n for n in node.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+        method_features = []
+        for m in methods:
+            mr = self.ExtractMethodFeatures({"node": m, "class_name": class_name})
+            if mr[0] == 1:
+                method_features.append(mr[1])
+        has_run = any(m.name == "Run" for m in methods)
+        has_init = any(m.name == "__init__" for m in methods)
+        has_state = False
+        class_constants = []
+        for child in ast.walk(node):
+            if isinstance(child, ast.Attribute):
+                if isinstance(child.value, ast.Name) and child.value.id == "self":
+                    if child.attr == "state":
+                        has_state = True
+            if isinstance(child, ast.Assign):
+                for target in child.targets:
+                    if isinstance(target, ast.Name) and target.id.isupper():
+                        class_constants.append(target.id)
+        has_tabs = any("\t" in line for line in source_lines)
+        bases_clean = []
+        for b in node.bases:
+            if isinstance(b, ast.Name):
+                bases_clean.append(b.id)
+            elif isinstance(b, ast.Attribute):
+                bases_clean.append(b.attr)
+            else:
+                bases_clean.append("complex")
+        nested_classes = [n.name for n in node.body if isinstance(n, ast.ClassDef)]
+        wmc = sum(mf["complexity"] for mf in method_features)
+        all_calls = []
+        for mf in method_features:
+            all_calls.extend(mf["calls"])
+        rfc = len(set(all_calls + [m.name for m in methods]))
+        method_shared_attrs = []
+        for mf in method_features:
+            method_shared_attrs.append(set(mf["self_attrs"]))
+        lcom = 0
+        for i in range(len(method_shared_attrs)):
+            for j in range(i + 1, len(method_shared_attrs)):
+                if not method_shared_attrs[i] & method_shared_attrs[j]:
+                    lcom += 1
+        has_dispatch = False
+        has_singleton = False
+        has_factory = False
+        for child in ast.walk(node):
+            if isinstance(child, ast.Dict):
+                has_dispatch = True
+            if isinstance(child, ast.Assign):
+                for target in child.targets:
+                    if isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name) and target.value.id == "self":
+                        if target.attr in ("_instance", "instance"):
+                            has_singleton = True
+            if isinstance(child, ast.Call) and isinstance(child.func, ast.Name):
+                if child.func.id in ("type", "getattr", "setattr"):
+                    has_factory = True
+        patterns = []
+        if has_dispatch:
+            patterns.append("dispatch")
+        if has_singleton:
+            patterns.append("singleton")
+        if has_factory:
+            patterns.append("factory")
+        cf = {
+            "class_name": class_name, "docstring": ast.get_docstring(node),
+            "methods": method_features, "method_names": [m.name for m in methods],
+            "has_run": has_run, "has_init": has_init, "has_state": has_state,
+            "has_tabs": has_tabs, "lineno": node.lineno,
+            "end_lineno": getattr(node, "end_lineno", node.lineno),
+            "bases": bases_clean, "class_constants": class_constants,
+            "nested_classes": nested_classes, "method_count": len(methods),
+            "total_complexity": sum(mf["complexity"] for mf in method_features),
+            "wmc": wmc, "rfc": rfc, "lcom": lcom,
+            "patterns": ",".join(patterns) if patterns else "NONE",
+        }
+        return (1, cf, None)
+
+    def ExtractFileFeatures(self, params):
+        tree = self._p(params, "tree")
+        source_lines = self._p(params, "source_lines", [])
+        if tree is None:
+            return (0, None, ("MISSING_PARAM", "tree required", 0))
+        imports = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    imports.append({"module": alias.name, "alias": alias.asname})
+            elif isinstance(node, ast.ImportFrom):
+                mod = node.module or ""
+                for alias in node.names:
+                    imports.append({"module": mod, "name": alias.name, "alias": alias.asname})
+        standalone_functions = [n.name for n in tree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+        standalone_async = [n.name for n in tree.body if isinstance(n, ast.AsyncFunctionDef)]
+        all_names = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Name):
+                all_names.add(node.id)
+            if isinstance(node, ast.Attribute):
+                all_names.add(node.attr)
+        dead_imports = []
+        for imp in imports:
+            ref_name = imp.get("alias") or imp.get("name") or imp["module"].split(".")[-1]
+            if ref_name == "*":
+                continue
+            if ref_name not in all_names and imp["module"] not in all_names:
+                dead_imports.append(ref_name)
+        ff = {
+            "module_docstring": ast.get_docstring(tree),
+            "imports": imports, "import_count": len(imports),
+            "dead_imports": dead_imports,
+            "has_trailing_ws": any(line.rstrip() != line for line in source_lines),
+            "standalone_functions": standalone_functions,
+            "standalone_function_count": len(standalone_functions),
+            "standalone_async": standalone_async,
+            "line_count": len(source_lines),
+        }
+        return (1, ff, None)
+
+
+# ======================================================================
+# SECTION: bcl_rules.py
+# ======================================================================
+
+class BCLRuleEngine:
+    """Evaluate rule predicates against feature dicts."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "rules": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            rules = param.get("rules")
+            if rules:
+                self.state["rules"] = rules
+            for key, value in param.items():
+                if key != "rules":
+                    self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "evaluate_method":
+            return self.EvaluateMethod(params)
+        elif command == "evaluate_class":
+            return self.EvaluateClass(params)
+        elif command == "evaluate_file":
+            return self.EvaluateFile(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            if key == "rules":
+                self.state["rules"] = value
+            else:
+                self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def EvaluateMethod(self, params):
+        mf = self._p(params, "features")
+        if mf is None:
+            return (0, None, ("MISSING_PARAM", "features required", 0))
+        out = []
+        for r in self.state["rules"]:
+            if r.get("scope") == "method" and r["predicate"](mf):
+                out.append({"rule": r["id"], "scope": "method",
+                            "method": mf.get("name", ""),
+                            "severity": r.get("severity", "high"),
+                            "description": r.get("description", "")})
+        return (1, {"violations": out, "count": len(out)}, None)
+
+    def EvaluateClass(self, params):
+        cf = self._p(params, "features")
+        if cf is None:
+            return (0, None, ("MISSING_PARAM", "features required", 0))
+        out = []
+        for r in self.state["rules"]:
+            if r.get("scope") == "class" and r["predicate"](cf):
+                out.append({"rule": r["id"], "scope": "class",
+                            "severity": r.get("severity", "high"),
+                            "description": r.get("description", "")})
+        return (1, {"violations": out, "count": len(out)}, None)
+
+    def EvaluateFile(self, params):
+        ff = self._p(params, "features")
+        if ff is None:
+            return (0, None, ("MISSING_PARAM", "features required", 0))
+        out = []
+        for r in self.state["rules"]:
+            if r.get("scope") == "file" and r["predicate"](ff):
+                out.append({"rule": r["id"], "scope": "file",
+                            "severity": r.get("severity", "high"),
+                            "description": r.get("description", "")})
+        return (1, {"violations": out, "count": len(out)}, None)
+
+
+# ======================================================================
+# SECTION: bcl_compiler.py
+# ======================================================================
+
+class BCLIRCompiler:
+    """Compile Python files/directories to BCL IR."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "serializer": None,
+            "extractor": None,
+            "engine": None,
+            "results": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            rules = param.get("rules")
+            self.state["serializer"] = BCLSerializer()
+            self.state["extractor"] = BCLFeatureExtractor()
+            self.state["engine"] = BCLRuleEngine(param={"rules": rules or []})
+            for key, value in param.items():
+                if key != "rules":
+                    self.state["config"][key] = value
+        else:
+            self.state["serializer"] = BCLSerializer()
+            self.state["extractor"] = BCLFeatureExtractor()
+            self.state["engine"] = BCLRuleEngine()
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "compile_file":
+            return self.CompileFile(params)
+        elif command == "compile_directory":
+            return self.CompileDirectory(params)
+        elif command == "stable_id":
+            return self.StableId(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def StableId(self, params):
+        filepath = self._p(params, "filepath")
+        node_type = self._p(params, "node_type")
+        name = self._p(params, "name")
+        lineno = self._p(params, "lineno")
+        if filepath is None or node_type is None or name is None:
+            return (0, None, ("MISSING_PARAM", "filepath node_type name required", 0))
+        raw = "%s:%s:%s:%s" % (filepath, node_type, name, lineno)
+        return (1, hashlib.md5(raw.encode()).hexdigest()[:12], None)
+
+    def CompileFile(self, params):
+        filepath = self._p(params, "filepath")
+        if filepath is None:
+            return (0, None, ("MISSING_PARAM", "filepath required", 0))
+        try:
+            with open(filepath, "r") as f:
+                source = f.read()
+        except OSError as exc:
+            return (0, None, ("FILE_READ_FAILED", str(exc), 0))
+        try:
+            tree = ast.parse(source, filename=filepath)
+        except SyntaxError as exc:
+            return (0, None, ("PARSE_ERROR", str(exc), 0))
+        extractor = self.state["extractor"]
+        serializer = self.state["serializer"]
+        engine = self.state["engine"]
+        ff_result = extractor.Run("extract_file_features", {"tree": tree, "source": source, "source_lines": source.splitlines()})
+        if ff_result[0] == 0:
+            return ff_result
+        ff = ff_result[1]
+        file_id_result = self.StableId({"filepath": filepath, "node_type": "file", "name": os.path.basename(filepath), "lineno": 1})
+        file_id = file_id_result[1]
+        fv_result = engine.Run("evaluate_file", {"features": ff})
+        file_violations = fv_result[1]["violations"] if fv_result[0] == 1 else []
+        bcl_blocks = []
+        ser_result = serializer.Run("serialize_file", {"filepath": filepath, "source": source, "features": ff, "file_id": file_id})
+        if ser_result[0] == 1:
+            bcl_blocks.append(ser_result[1])
+        for fv in file_violations:
+            vser = serializer.Run("serialize_violation", {"rule_id": fv["rule"], "scope": "file", "parent_id": file_id, "severity": fv["severity"], "description": fv["description"]})
+            if vser[0] == 1:
+                bcl_blocks.append(vser[1])
+        class_nodes = [n for n in tree.body if isinstance(n, ast.ClassDef)]
+        total_violations = len(file_violations)
+        sym_classes = []
+        sym_edges = []
+        for node in class_nodes:
+            cf_result = extractor.Run("extract_class_features", {"node": node, "source_lines": source.splitlines()})
+            if cf_result[0] == 0:
+                continue
+            cf = cf_result[1]
+            cid_result = self.StableId({"filepath": filepath, "node_type": "class", "name": cf["class_name"], "lineno": cf["lineno"]})
+            class_id = cid_result[1]
+            cv_result = engine.Run("evaluate_class", {"features": cf})
+            class_violations = cv_result[1]["violations"] if cv_result[0] == 1 else []
+            method_violations_all = []
+            for mf in cf["methods"]:
+                mv_result = engine.Run("evaluate_method", {"features": mf})
+                if mv_result[0] == 1:
+                    method_violations_all.extend(mv_result[1]["violations"])
+            total_violations += len(class_violations) + len(method_violations_all)
+            cser = serializer.Run("serialize_class", {"filepath": filepath, "source": source, "features": cf, "class_id": class_id, "file_id": file_id, "violations": class_violations})
+            if cser[0] == 1:
+                bcl_blocks.append(cser[1])
+            for cv in class_violations:
+                vser = serializer.Run("serialize_violation", {"rule_id": cv["rule"], "scope": "class", "parent_id": class_id, "severity": cv["severity"], "description": cv["description"]})
+                if vser[0] == 1:
+                    bcl_blocks.append(vser[1])
+            sym_methods = []
+            for mf in cf["methods"]:
+                mid_result = self.StableId({"filepath": filepath, "node_type": "method", "name": "%s.%s" % (cf["class_name"], mf["name"]), "lineno": mf["lineno"]})
+                method_id = mid_result[1]
+                mv = [v for v in method_violations_all if v.get("method") == mf["name"]]
+                mser = serializer.Run("serialize_method", {"filepath": filepath, "features": mf, "method_id": method_id, "class_id": class_id, "violations": mv})
+                if mser[0] == 1:
+                    bcl_blocks.append(mser[1])
+                for v in mv:
+                    vser = serializer.Run("serialize_violation", {"rule_id": v["rule"], "scope": "method", "parent_id": method_id, "method_name": mf["name"], "severity": v["severity"], "description": v["description"]})
+                    if vser[0] == 1:
+                        bcl_blocks.append(vser[1])
+                sym_methods.append({"name": mf["name"], "id": method_id})
+                edge_seq = 0
+                for cs in mf.get("call_sites", []):
+                    eser = serializer.Run("serialize_edge", {"filepath": filepath, "caller_class": cf["class_name"], "caller_method": mf["name"], "callee": cs["callee"], "edge_type": cs["type"], "caller_method_id": method_id, "call_lineno": "%s_%d" % (cs["lineno"], edge_seq)})
+                    if eser[0] == 1:
+                        bcl_blocks.append(eser[1])
+                    sym_edges.append({"caller_class": cf["class_name"], "caller_method": mf["name"], "callee": cs["callee"], "method_id": method_id})
+                    edge_seq += 1
+            sym_classes.append({"name": cf["class_name"], "id": class_id, "methods": sym_methods})
+            for b in node.bases:
+                if isinstance(b, ast.Name):
+                    iser = serializer.Run("serialize_inherit", {"filepath": filepath, "child": cf["class_name"], "parent_name": b.id})
+                    if iser[0] == 1:
+                        bcl_blocks.append(iser[1])
+                elif isinstance(b, ast.Attribute):
+                    iser = serializer.Run("serialize_inherit", {"filepath": filepath, "child": cf["class_name"], "parent_name": b.attr})
+                    if iser[0] == 1:
+                        bcl_blocks.append(iser[1])
+        result = {
+            "filepath": filepath, "file_id": file_id,
+            "bcl": "\n\n".join(bcl_blocks), "block_count": len(bcl_blocks),
+            "class_count": len(class_nodes),
+            "method_count": sum(len(c["methods"]) for c in sym_classes),
+            "violation_count": total_violations,
+            "symbols": {"classes": sym_classes, "edges": sym_edges, "imports": ff.get("imports", [])},
+            "file_hash": hashlib.md5(source.encode()).hexdigest(),
+        }
+        return (1, result, None)
+
+    def CompileDirectory(self, params):
+        dirpath = self._p(params, "dirpath")
+        incremental = self._p(params, "incremental", False)
+        if dirpath is None:
+            return (0, None, ("MISSING_PARAM", "dirpath required", 0))
+        cache = {}
+        cache_path = os.path.join(dirpath, ".bcl_cache")
+        if incremental and os.path.exists(cache_path):
+            try:
+                with open(cache_path, "r") as f:
+                    cache = json.load(f)
+            except (OSError, json.JSONDecodeError):
+                cache = {}
+        results = []
+        skipped = 0
+        for root, dirs, files in os.walk(dirpath):
+            if ".git" in root or "__pycache__" in root or "node_modules" in root:
+                continue
+            for fn in sorted(files):
+                if not fn.endswith(".py"):
+                    continue
+                fp = os.path.join(root, fn)
+                try:
+                    with open(fp, "r") as f:
+                        source = f.read()
+                    file_hash = hashlib.md5(source.encode()).hexdigest()
+                    if incremental and cache.get(fp) == file_hash:
+                        skipped += 1
+                        results.append({"filepath": fp, "error": "CACHED", "block_count": 0, "class_count": 0, "method_count": 0, "violation_count": 0})
+                        continue
+                    result = self.CompileFile({"filepath": fp})
+                    if result[0] == 1:
+                        results.append(result[1])
+                        cache[fp] = file_hash
+                    else:
+                        results.append({"filepath": fp, "error": str(result[2]), "block_count": 0, "class_count": 0, "method_count": 0, "violation_count": 0})
+                except Exception as exc:
+                    results.append({"filepath": fp, "error": str(exc), "block_count": 0, "class_count": 0, "method_count": 0, "violation_count": 0})
+        if incremental:
+            try:
+                with open(cache_path, "w") as f:
+                    json.dump(cache, f)
+            except OSError:
+                pass
+        self.state["results"] = results
+        return (1, {"results": results, "skipped": skipped, "compiled": len(results) - skipped}, None)
+
+
+# ======================================================================
+# SECTION: bcl_analyzer.py
+# ======================================================================
+
+class BCLPostAnalyzer:
+    """Cross-file analysis: dead code, cycles, hot paths."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "analysis": None,
+            "serializer": BCLSerializer(),
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "post_analyze":
+            return self.PostAnalyze(params)
+        elif command == "find_cycles":
+            return self.FindCycles(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def StableId(self, filepath, node_type, name, lineno):
+        raw = "%s:%s:%s:%s" % (filepath, node_type, name, lineno)
+        return (1, hashlib.md5(raw.encode()).hexdigest()[:12], None)
+
+    def FindCycles(self, params):
+        node = self._p(params, "node")
+        graph = self._p(params, "graph")
+        visited = self._p(params, "visited", set())
+        path = self._p(params, "path", [])
+        cycles = self._p(params, "cycles", [])
+        if node is None or graph is None:
+            return (0, None, ("MISSING_PARAM", "node and graph required", 0))
+        if node in path:
+            idx = path.index(node)
+            cycle = path[idx:]
+            if len(cycle) >= 2:
+                cycles.append(cycle)
+            return (1, cycles, None)
+        if node in visited:
+            return (1, cycles, None)
+        visited.add(node)
+        path.append(node)
+        for neighbor in graph.get(node, set()):
+            self.FindCycles({"node": neighbor, "graph": graph, "visited": visited, "path": path, "cycles": cycles})
+        path.pop()
+        return (1, cycles, None)
+
+    def PostAnalyze(self, params):
+        results = self._p(params, "results")
+        if results is None:
+            return (0, None, ("MISSING_PARAM", "results required", 0))
+        serializer = self.state["serializer"]
+        global_methods = {}
+        global_classes = {}
+        all_edges = []
+        file_imports = {}
+        for r in results:
+            if "error" in r:
+                continue
+            fp = r["filepath"]
+            syms = r.get("symbols", {})
+            file_imports[fp] = syms.get("imports", [])
+            for cls in syms.get("classes", []):
+                global_classes[cls["name"]] = {"id": cls["id"], "file": fp, "methods": {m["name"]: m["id"] for m in cls["methods"]}}
+                for m in cls["methods"]:
+                    global_methods[m["name"]] = {"id": m["id"], "class": cls["name"], "file": fp}
+            for e in syms.get("edges", []):
+                e["caller_file"] = fp
+                all_edges.append(e)
+        incoming = Counter()
+        for e in all_edges:
+            incoming[e["callee"]] += 1
+        dead_methods = []
+        for r in results:
+            if "error" in r:
+                continue
+            fp = r["filepath"]
+            for cls in r.get("symbols", {}).get("classes", []):
+                for m in cls["methods"]:
+                    if m["name"] not in ("__init__", "Run", "read_state", "set_config") and incoming.get(m["name"], 0) == 0:
+                        dead_methods.append({"filepath": fp, "class": cls["name"], "method": m["name"], "id": m["id"]})
+        hot_paths = []
+        for method_name, count in incoming.most_common(20):
+            if count >= 3 and method_name in global_methods:
+                gm = global_methods[method_name]
+                hot_paths.append({"filepath": gm["file"], "class": gm["class"], "method": method_name, "id": gm["id"], "incoming": count})
+        method_to_methods = {}
+        for e in all_edges:
+            caller_key = e["method_id"]
+            if caller_key not in method_to_methods:
+                method_to_methods[caller_key] = set()
+            if e["callee"] in global_methods:
+                method_to_methods[caller_key].add(global_methods[e["callee"]]["id"])
+        cycles = []
+        for start_id in method_to_methods:
+            self.FindCycles({"node": start_id, "graph": method_to_methods, "visited": set(), "path": [], "cycles": cycles})
+        unique_cycles = []
+        seen_cycle_sigs = set()
+        for c in cycles:
+            sig = frozenset(c)
+            if sig not in seen_cycle_sigs:
+                seen_cycle_sigs.add(sig)
+                unique_cycles.append(c)
+        xedges = []
+        seen_xedges = set()
+        for e in all_edges:
+            if e["callee"] in global_classes:
+                target_cls = global_classes[e["callee"]]
+                caller_fp = e.get("caller_file", "")
+                if target_cls["file"] != caller_fp:
+                    xkey = (e["caller_class"], e["caller_method"], e["callee"], target_cls["file"])
+                    if xkey not in seen_xedges:
+                        seen_xedges.add(xkey)
+                        xedges.append({"caller_file": caller_fp, "caller_class": e["caller_class"], "caller_method": e["caller_method"], "callee": e["callee"], "resolved_file": target_cls["file"], "resolved_class": target_cls["file"], "method_id": e["method_id"]})
+        file_deps = []
+        seen_deps = set()
+        for fp, imps in file_imports.items():
+            for imp in imps:
+                mod = imp.get("module", "")
+                mod_base = mod.replace(".", "/")
+                for other_fp in file_imports:
+                    if other_fp != fp:
+                        other_base = os.path.basename(other_fp).replace(".py", "")
+                        if mod_base == other_base or mod == other_base:
+                            dep_key = (fp, other_fp, mod)
+                            if dep_key not in seen_deps:
+                                seen_deps.add(dep_key)
+                                file_deps.append({"src": fp, "dst": other_fp, "import": mod})
+        extra_blocks = []
+        for dm in dead_methods:
+            sid = self.StableId(dm["filepath"], "deadcode", "%s.%s" % (dm["class"], dm["method"]), dm["id"][:6])
+            ser = serializer.Run("serialize_metric", {"filepath": dm["filepath"], "key": "deadcode", "value": dm["method"], "file_id": dm["id"]})
+            if ser[0] == 1:
+                extra_blocks.append(ser[1])
+        for hp in hot_paths:
+            ser = serializer.Run("serialize_metric", {"filepath": hp["filepath"], "key": "hotpath_%s" % hp["method"], "value": hp["incoming"], "file_id": hp["id"]})
+            if ser[0] == 1:
+                extra_blocks.append(ser[1])
+        for c in unique_cycles[:50]:
+            cycle_str = "->".join(c)
+            sid = self.StableId("global", "cycle", cycle_str, len(c))
+            ser = serializer.Run("serialize_metric", {"filepath": "global", "key": "cycle", "value": cycle_str, "file_id": sid[1]})
+            if ser[0] == 1:
+                extra_blocks.append(ser[1])
+        for xe in xedges:
+            ser = serializer.Run("serialize_metric", {"filepath": xe["caller_file"], "key": "xedge_%s" % xe["callee"], "value": xe["resolved_class"], "file_id": xe["method_id"]})
+            if ser[0] == 1:
+                extra_blocks.append(ser[1])
+        for fd in file_deps:
+            sid = self.StableId(fd["src"], "file", os.path.basename(fd["src"]), 1)
+            ser = serializer.Run("serialize_metric", {"filepath": fd["src"], "key": "dep", "value": fd["import"], "file_id": sid[1]})
+            if ser[0] == 1:
+                extra_blocks.append(ser[1])
+        file_dep_graph = {}
+        for fd in file_deps:
+            if fd["src"] not in file_dep_graph:
+                file_dep_graph[fd["src"]] = set()
+            file_dep_graph[fd["src"]].add(fd["dst"])
+        circ_imports = []
+        for start_fp in file_dep_graph:
+            self.FindCycles({"node": start_fp, "graph": file_dep_graph, "visited": set(), "path": [], "cycles": circ_imports})
+        unique_circ = []
+        seen_circ_sigs = set()
+        for c in circ_imports:
+            sig = frozenset(c)
+            if sig not in seen_circ_sigs and len(c) >= 2:
+                seen_circ_sigs.add(sig)
+                unique_circ.append(c)
+        for c in unique_circ[:20]:
+            circ_str = " -> ".join(os.path.basename(f) for f in c)
+            sid_list = []
+            for f in c:
+                sid = self.StableId(f, "file", os.path.basename(f), 1)
+                sid_list.append(sid[1])
+            ser = serializer.Run("serialize_metric", {"filepath": "import", "key": "circ_import", "value": circ_str, "file_id": sid_list[0] if sid_list else "0"})
+            if ser[0] == 1:
+                extra_blocks.append(ser[1])
+        analysis = {
+            "extra_bcl": "\n\n".join(extra_blocks),
+            "extra_count": len(extra_blocks),
+            "dead_count": len(dead_methods),
+            "cycle_count": len(unique_cycles),
+            "circ_import_count": len(unique_circ),
+            "hotpath_count": len(hot_paths),
+            "xedge_count": len(xedges),
+            "dep_count": len(file_deps),
+            "total_methods": len(global_methods),
+            "total_classes": len(global_classes),
+            "total_edges": len(all_edges),
+        }
+        self.state["analysis"] = analysis
+        return (1, analysis, None)
+
+
+# ======================================================================
+# SECTION: bcl_query.py
+# ======================================================================
+
+class BCLIRQuery:
+    """Query BCL IR blocks by field values."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "results": [],
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "query_ir":
+            return self.QueryIr(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def QueryIr(self, params):
+        results = self._p(params, "results")
+        query_str = self._p(params, "query_str")
+        if results is None or query_str is None:
+            return (0, None, ("MISSING_PARAM", "results and query_str required", 0))
+        filters = {}
+        for part in query_str.split():
+            if "=" in part:
+                k, v = part.split("=", 1)
+                filters[k] = v
+        matches = []
+        for r in results:
+            if "error" in r:
+                continue
+            for block in r.get("bcl", "").split("\n\n"):
+                first_line = block.split("\n")[0]
+                if "[@IRNODE]" not in first_line:
+                    continue
+                matched = True
+                for k, v in filters.items():
+                    pattern = "%s=%s" % (k, v)
+                    if pattern not in block:
+                        matched = False
+                        break
+                if matched:
+                    matches.append(block)
+        self.state["results"] = matches
+        return (1, {"matches": matches, "count": len(matches)}, None)
+
+
+# ======================================================================
+# SECTION: bcl_reporter.py
+# ======================================================================
+
+class BCLSummaryReporter:
+    """Compute summary statistics for compilation results."""
+
+    def __init__(self, mem=None, db=None, param=None):
+        self.state = {
+            "config": {},
+            "summary": None,
+            "memunit": mem,
+            "db_manager": db,
+        }
+        if param:
+            for key, value in param.items():
+                self.state["config"][key] = value
+
+    def Run(self, command, params=None):
+        params = params or {}
+        if command == "print_summary":
+            return self.PrintSummary(params)
+        elif command == "read_state":
+            return self.read_state(params)
+        elif command == "set_config":
+            return self.set_config(params)
+        return (0, None, ("UNKNOWN_COMMAND", "Unknown command: " + str(command), 0))
+
+    def _p(self, params, key, default=None):
+        if not params:
+            return default
+        return params.get(key, default)
+
+    def read_state(self, params=None):
+        return (1, dict(self.state), None)
+
+    def set_config(self, params):
+        params = params or {}
+        for key, value in params.items():
+            self.state["config"][key] = value
+        return (1, dict(self.state["config"]), None)
+
+    def PrintSummary(self, params):
+        results = self._p(params, "results")
+        analysis = self._p(params, "analysis")
+        if results is None:
+            return (0, None, ("MISSING_PARAM", "results required", 0))
+        total_files = len(results)
+        errors = sum(1 for r in results if "error" in r)
+        total_blocks = sum(r.get("block_count", 0) for r in results)
+        total_classes = sum(r.get("class_count", 0) for r in results)
+        total_methods = sum(r.get("method_count", 0) for r in results)
+        total_violations = sum(r.get("violation_count", 0) for r in results)
+        rule_counts = Counter()
+        severity_counts = Counter()
+        top_violators = Counter()
+        for r in results:
+            if "error" in r:
+                continue
+            for block in r.get("bcl", "").split("\n\n"):
+                for line in block.split("\n"):
+                    stripped = line.strip()
+                    if stripped.startswith("[@FIELD]   rule="):
+                        rule_id = stripped.split("rule=")[1].strip()
+                        rule_counts[rule_id] += 1
+                    if stripped.startswith("[@FIELD]   severity="):
+                        sev = stripped.split("severity=")[1].strip()
+                        severity_counts[sev] += 1
+                    if stripped.startswith("[@FIELD]   target="):
+                        tgt = stripped.split("target=")[1].strip()
+                        top_violators[tgt] += 1
+        summary = {
+            "files": total_files,
+            "errors": errors,
+            "blocks": total_blocks,
+            "classes": total_classes,
+            "methods": total_methods,
+            "violations": total_violations,
+            "blocks_per_file": total_blocks // max(total_files - errors, 1),
+            "rule_breakdown": dict(rule_counts.most_common()),
+            "severity_breakdown": dict(severity_counts.most_common()),
+            "top_violators": dict(top_violators.most_common(10)),
+        }
+        if analysis:
+            summary["analysis"] = {
+                "global_methods": analysis.get("total_methods", 0),
+                "global_classes": analysis.get("total_classes", 0),
+                "total_edges": analysis.get("total_edges", 0),
+                "dead_code": analysis.get("dead_count", 0),
+                "circular_cycles": analysis.get("cycle_count", 0),
+                "circular_imports": analysis.get("circ_import_count", 0),
+                "hot_paths": analysis.get("hotpath_count", 0),
+                "cross_file_edges": analysis.get("xedge_count", 0),
+                "file_dependencies": analysis.get("dep_count", 0),
+                "extra_ir_blocks": analysis.get("extra_count", 0),
+            }
+        self.state["summary"] = summary
+        return (1, summary, None)
+

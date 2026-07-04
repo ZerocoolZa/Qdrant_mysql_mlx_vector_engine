@@ -1,0 +1,399 @@
+=== law1 ===
+  law2                           0.8822
+  table_column                   0.8806
+  law4                           0.8772
+  vocabulary                     0.8712
+  fake                           0.8626
+
+=== law2 ===
+  severityid                     0.9491
+  error_capture                  0.9444
+  nedge                          0.9408
+  dec002                         0.9396
+  search_nodes                   0.9379
+
+=== law3 ===
+  pieces                         0.8542
+  story                          0.8386
+  assembled                      0.8199
+  vocabulary                     0.8170
+  law4                           0.8137
+
+=== law4 ===
+  vocabulary                     0.9591
+  scientific                     0.9440
+  serverless                     0.9216
+  law2                           0.9130
+  describes                      0.8922
+
+=== law5 ===
+  fake                           0.9301
+  hud                            0.9262
+  nhus                           0.9221
+  dtc                            0.9210
+  embeds                         0.9119
+
+=== law6 ===
+  inline                         0.9684
+  asyncio                        0.9669
+  vb6                            0.9620
+  newer                          0.9618
+  allowed_dirs                   0.9608
+
+=== dec ===
+  hud                            0.9130
+  law5                           0.9068
+  dtc                            0.8999
+  fake                           0.8968
+  nhus                           0.8771
+
+=== dtc ===
+  iao                            0.9728
+  asian                          0.9525
+  hud                            0.9499
+  obscure                        0.9462
+  east                           0.9424
+
+=== enu ===
+  checks_performed               0.9648
+  accessible                     0.9627
+  dec001                         0.9625
+  specgraph                      0.9588
+  arithmeticerror                0.9576
+
+=== fmn ===
+  excuse                         0.9319
+  half                           0.9190
+  protected                      0.9144
+  nhb                            0.9077
+  wrapping                       0.9067
+
+=== ghost ===
+  env                            0.5979
+  read_state                     0.5785
+  underscore                     0.5775
+  hardcoded                      0.5770
+  auth                           0.5740
+
+=== prt ===
+  col_span                       0.9494
+  classifies                     0.9469
+  surrogate                      0.9418
+  report_status                  0.9293
+  law2                           0.8966
+
+=== tuple3 ===
+  param                          0.7352
+  mlx                            0.7255
+  qdrant                         0.7222
+  ingestion                      0.7139
+  msearch                        0.7104
+
+=== svu ===
+  existence                      0.9086
+  nhus                           0.8973
+  rpt                            0.8961
+  boots                          0.8957
+  dom_search                     0.8956
+
+=== ncc ===
+  fix_registry                   0.9805
+  genuinely                      0.9794
+  clues                          0.9754
+  end_ready_to_implement         0.9748
+  sourcetype                     0.9746
+
+=== vbstyle ===
+  functions                      0.6285
+  run                            0.5586
+  test                           0.5468
+  dispatch                       0.5188
+  ghost                          0.5085
+
+=== entity ===
+  laws                           0.7390
+  records                        0.7390
+  entities                       0.7321
+  fixes                          0.6984
+  relationship                   0.6949
+
+=== authority ===
+  forbidden                      0.6154
+  column                         0.6075
+  provides                       0.6012
+  law                            0.5998
+  authorities                    0.5919
+
+=== fact ===
+  records                        0.7165
+  relationship                   0.6911
+  entity                         0.6729
+  laws                           0.6626
+  cause                          0.6598
+
+=== rule ===
+  law                            0.5969
+  decision                       0.5930
+  forbidden                      0.5618
+  between                        0.5447
+  fact                           0.5127
+
+=== evidence ===
+  decision                       0.6221
+  fix                            0.6208
+  fact                           0.6201
+  cause                          0.5869
+  solution                       0.5751
+
+=== incident ===
+  severity_id                    0.8905
+  priority_id                    0.8736
+  type_id                        0.8525
+  table_id                       0.8499
+  question_type                  0.8238
+
+=== problem ===
+  prevention                     0.6736
+  incident                       0.6505
+  severity                       0.6259
+  incident_problem               0.6086
+  cause                          0.6068
+
+=== cause ===
+  fix                            0.7247
+  prevention                     0.7150
+  fixes                          0.6895
+  solution                       0.6860
+  laws                           0.6819
+
+=== fix ===
+  cause                          0.7247
+  fixes                          0.6812
+  solution                       0.6777
+  evidence                       0.6208
+  prevention                     0.6097
+
+=== prevention ===
+  incident_problem               0.7561
+  preventative                   0.7434
+  supporting                     0.7319
+  question_type                  0.7279
+  report_fact                    0.7173
+
+=== report ===
+  cascade                        0.5689
+  between                        0.5556
+  action                         0.5429
+  delete                         0.4970
+  answer_id                      0.4916
+
+=== container ===
+  meaning                        0.7755
+  visible                        0.7490
+  its                            0.7274
+  mandatory                      0.7161
+  forbidden                      0.7069
+
+=== hands ===
+  scientific                     0.9152
+  serverless                     0.9039
+  vb6                            0.8863
+  disconnected                   0.8744
+  law4                           0.8742
+
+=== array ===
+  scientific                     0.7289
+  spacing                        0.7242
+  repeating                      0.7130
+  law4                           0.7060
+  vocabulary                     0.6997
+
+=== separator ===
+  db_exec_demo                   0.9460
+  prohibitions                   0.9453
+  correction                     0.9174
+  permission                     0.9131
+  withdescription                0.9054
+
+=== bcl ===
+  pipeline                       0.6655
+  modified                       0.5918
+  email_ingestion                0.5722
+  devchat_plan                   0.5512
+  stage                          0.5509
+
+=== dispatch ===
+  returns                        0.7100
+  tuple3                         0.6344
+  semantic                       0.6234
+  nested                         0.6196
+  dict                           0.6183
+
+=== run ===
+  command                        0.6043
+  connect                        0.5755
+  vbstyle                        0.5586
+  extract                        0.5358
+  returns                        0.5270
+
+=== bcl_parser ===
+  dispatches                     0.8569
+  bclparser                      0.8557
+  phases                         0.8545
+  validated                      0.8518
+  ingest                         0.8469
+
+=== bclir ===
+  compound                       0.7609
+  bcl_ir                         0.7415
+  longtext                       0.7232
+  specialized                    0.7197
+  representations                0.7157
+
+=== cascade ===
+  architectural                  0.5904
+  law_id                         0.5692
+  report                         0.5689
+  idx_tr_parent                  0.5679
+  stric                          0.5645
+
+=== devin ===
+  contextram                     0.6906
+  pinecone                       0.6592
+  taskplanner                    0.6522
+  tasks                          0.6498
+  native                         0.6479
+
+=== mysql ===
+  rows                           0.4966
+  host                           0.4776
+  localhost                      0.4631
+  sqlite                         0.4561
+  qdrant                         0.4538
+
+=== metal ===
+  gpu                            0.7775
+  treasure                       0.7766
+  compute                        0.7545
+  inference                      0.7468
+  hashing                        0.7271
+
+=== coreml ===
+  methodize                      0.8582
+  nbuild                         0.8564
+  defs                           0.8487
+  codebert                       0.8469
+  dylib                          0.8390
+
+=== qdrant ===
+  mlx                            0.7750
+  collection                     0.7509
+  semantic                       0.7351
+  msearch                        0.7266
+  tuple3                         0.7222
+
+=== semantic ===
+  ingestion                      0.7542
+  mlx                            0.7492
+  retrieval                      0.7487
+  storage                        0.7407
+  embedding                      0.7402
+
+=== embedding ===
+  mlx                            0.7944
+  distance                       0.7670
+  coder                          0.7554
+  dim                            0.7550
+  retrieval                      0.7536
+
+=== vector ===
+  dim                            0.7528
+  embeddings                     0.7427
+  hybrid                         0.7047
+  bge                            0.7007
+  distance                       0.6985
+
+=== search ===
+  directory                      0.5566
+  command                        0.5138
+  existing                       0.5114
+  parser                         0.5095
+  list                           0.5022
+
+=== graph ===
+  edges                          0.5428
+  report_lines                   0.5135
+  store                          0.5122
+  graphs                         0.4654
+  join                           0.4624
+
+=== node ===
+  visited                        0.5531
+  capacity                       0.5036
+  field                          0.4984
+  exec                           0.4894
+  isinstance                     0.4870
+
+=== edge ===
+  edge_count                     0.7231
+  field                          0.6842
+  composite                      0.6768
+  edgetype                       0.6601
+  node_count                     0.6521
+
+=== tokenizer ===
+  sentence                       0.8243
+  embed_dim                      0.8068
+  exporter                       0.8044
+  buildgraph                     0.8028
+  clustering                     0.7995
+
+=== lexer ===
+  lang_unknown                   0.9483
+  lang_c                         0.9433
+  bookviewer                     0.9424
+  internal_planning              0.9408
+  substantive                    0.9401
+
+=== parser ===
+  export                         0.7235
+  ingestion                      0.7193
+  email                          0.7158
+  returns                        0.7107
+  add_argument                   0.7062
+
+=== serializer ===
+  inst                           0.9978
+  jargon                         0.9977
+  newserver                      0.9977
+  awell                          0.9977
+  transferred                    0.9977
+
+=== ast ===
+  classdef                       0.7151
+  functiondef                    0.6577
+  walk                           0.6458
+  assign                         0.6414
+  extract                        0.6406
+
+=== tuple ===
+  properties                     0.6457
+  dispatcher                     0.6299
+  vary                           0.6077
+  param                          0.6075
+  underscore                     0.5988
+
+=== pot ===
+  routine                        0.9818
+  rail                           0.9807
+  faculties                      0.9800
+  loose                          0.9800
+  intelligent                    0.9791
+
+=== bracket ===
+  runtime                        0.6859
+  widget                         0.6657
+  driven                         0.6606
+  variables                      0.6349
+  live                           0.6314
+

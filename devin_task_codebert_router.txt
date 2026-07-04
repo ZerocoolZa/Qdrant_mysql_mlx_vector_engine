@@ -1,0 +1,101 @@
+DEVIN TASK — CodeBERT Semantic Domain Router
+=============================================
+
+GOAL
+----
+Assign the 478 unresolved classes to hypothesis-tier domains using CodeBERT embeddings + centroid-kNN, anchored by the 733 truth classes. Low-similarity classes stay unresolved. Never touch truth.
+
+TARGET PATHS (create only here)
+-------------------------------
+/Users/wws/Qdrant_mysql_mlx_vector_engine/dom_semantic_router/
+  Config.py          — shared constants (paths, model id, threshold, Qdrant)
+  ClassEmbedder.py   — class ClassEmbedder: encodes class_code via CodeBERT
+  CentroidBuilder.py — class CentroidBuilder: per-domain centroids from truth
+  SemanticRouter.py  — class SemanticRouter: kNN assign + write results
+  main.py            — CLI dispatch entry point
+
+INPUTS (READ-ONLY — NEVER WRITE TO THESE)
+-----------------------------------------
+1. /Users/wws/Qdrant_mysql_mlx_vector_engine/code_store_variations/v20_hybrid_best.db
+   → table classes(class_name, class_code, domain) — READ ONLY
+
+2. /Users/wws/Qdrant_mysql_mlx_vector_engine/code_store_variations/domain_graph.db
+   → table domain_truth (733 rows: class_name, owner, tier, evidence, promoted_at, promoted_by) — READ ONLY
+   → table domain_unresolved (478 rows: class_name, reason, current_domain_guess) — READ/DELETE only
+   → table domain_hypothesis (existing 234 rows: class_name, owner, tier, method, score) — APPEND ONLY
+
+ALGORITHM
+---------
+1. Load microsoft/codebert-base (transformers, AutoModel + AutoTokenizer).
+2. For each class in truth(733) + unresolved(478) = 1211 total:
+   - Get class_code from v20_hybrid_best.db classes table.
+   - Tokenize truncate 512; if longer, chunk by 512 and mean-pool chunks.
+   - Sentence vector = mean-pool last_hidden_state (attention-masked).
+   - Result: 768-dim vector per class.
+3. Upsert all vectors to Qdrant collection 'dom_class_code'
+   (size=768, distance=Cosine; payload {class_name, owner, layer}).
+   Qdrant is at localhost:6333 (default).
+4. Per-domain CENTROID = mean of truth vectors for that owner,
+   ONLY for owners with >= 3 truth classes (stable centroid).
+5. For each unresolved class: cosine to every centroid, take max.
+   - score >= THRESHOLD (0.60) -> INSERT into domain_hypothesis
+       (class_name, owner, tier=3, method='codebert-knn', score)
+       and DELETE that row from domain_unresolved.
+   - score < THRESHOLD -> leave in domain_unresolved (do nothing).
+
+CONSTRAINTS (VBSTYLE)
+---------------------
+- Query MySQL first: python3 /Users/wws/Downloads/cascade_cli.py "mysql -u root vb_shared -e 'SELECT pattern, fix_action, confidence FROM learned_rules WHERE category IN (\"domain_architecture\",\"domain_routing\") ORDER BY confidence DESC LIMIT 10;'" --shell --no-stuck --timeout 30
+- One class per file.
+- __init__(self, mem=None, db=None, param=None) constructor.
+- self.state dict (NO self._ anywhere).
+- Run(self, command, params=None) dispatch method.
+- _p() helper method.
+- All methods return Tuple3: (1, data, None) on success or (0, None, (code, desc, 0)) on failure.
+- NO print() anywhere — use a Report/logging method.
+- NO @staticmethod, @property, @classmethod.
+- NO hardcoded values — all constants in Config.py.
+- Spaces not tabs.
+- PascalCase classes, UPPERCASE constants.
+- Ghost + VBStyle + Class + Method headers on every file.
+- Deterministic: same input → same output.
+
+CONFIG.PY CONSTANTS (all hardcoded values go here)
+--------------------------------------------------
+HYBRID_DB_PATH = "/Users/wws/Qdrant_mysql_mlx_vector_engine/code_store_variations/v20_hybrid_best.db"
+DOMAIN_GRAPH_DB_PATH = "/Users/wws/Qdrant_mysql_mlx_vector_engine/code_store_variations/domain_graph.db"
+CODEBERT_MODEL_ID = "microsoft/codebert-base"
+QDRANT_HOST = "localhost"
+QDRANT_PORT = 6333
+QDRANT_COLLECTION = "dom_class_code"
+EMBEDDING_DIM = 768
+MAX_TOKENS = 512
+THRESHOLD = 0.60
+MIN_TRUTH_FOR_CENTROID = 3
+
+VERIFY (must output at end)
+---------------------------
+1. Counts: embedded total, centroids built, assigned >= threshold, remaining unresolved.
+2. Top-10 assignments with cosine scores for spot-check.
+3. Assert domain_truth row count STILL 733 (unchanged) — run: sqlite3 domain_graph.db "SELECT COUNT(*) FROM domain_truth"
+4. py_compile success on all 5 files; grep shows zero print(, zero decorators, zero self._
+
+SCOPE GUARD — DO NOT TOUCH
+--------------------------
+- v20_hybrid_best.db (read-only)
+- domain_truth table (read-only)
+- full_routing table (read-only)
+- learned_rules (read-only)
+- domain_consolidation_system.db (read-only)
+- Only WRITE: domain_graph.db (domain_hypothesis INSERT, domain_unresolved DELETE) + Qdrant collection dom_class_code
+- Only CREATE files under dom_semantic_router/
+
+IMPORTANT NOTES
+---------------
+- The v20_hybrid_best.db is at BOTH /Users/wws/Qdrant_mysql_mlx_vector_engine/v20_hybrid_best.db AND /Users/wws/Qdrant_mysql_mlx_vector_engine/code_store_variations/v20_hybrid_best.db. Use the code_store_variations one — it has the classes table with class_code.
+- The domain_graph.db is at /Users/wws/Qdrant_mysql_mlx_vector_engine/code_store_variations/domain_graph.db
+- domain_hypothesis table already has 234 rows. You are APPENDING new rows, not replacing.
+- domain_hypothesis schema: CREATE TABLE domain_hypothesis(class_name TEXT, owner TEXT, tier INTEGER, method TEXT, score REAL)
+- Check if torch and transformers are installed: python3 -c "import torch; import transformers; print(torch.__version__, transformers.__version__)"
+- If Qdrant is not running, check: curl -s http://localhost:6333/health
+- If Qdrant Python client is not installed: pip install qdrant-client

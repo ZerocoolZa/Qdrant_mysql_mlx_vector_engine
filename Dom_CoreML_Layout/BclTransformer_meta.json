@@ -1,0 +1,21 @@
+{
+  "model_path": "Dom_CoreML_Layout/BclTransformer.mlpackage",
+  "d_model": 384,
+  "n_heads": 6,
+  "head_dim": 64,
+  "n_layers": 6,
+  "vocab_size": 162612,
+  "max_seq_len": 2048,
+  "precision": "fp16",
+  "target": "ANE",
+  "architecture": "attention_only_post_ln",
+  "weight_format": "BCLT",
+  "inputs": [
+    "input_ids"
+  ],
+  "outputs": [
+    "hidden_states"
+  ],
+  "size_mb": 125.95819091796875,
+  "created_at": 1783192265.900365
+}

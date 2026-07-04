@@ -1,0 +1,20 @@
+[
+  {
+    "name": "vscode",
+    "version": 1,
+    "weight": 0.3333333333333333,
+    "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/vscode_v1.weights.bin"
+  },
+  {
+    "name": "browser",
+    "version": 1,
+    "weight": 0.3333333333333333,
+    "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/browser_v1.weights.bin"
+  },
+  {
+    "name": "mobile",
+    "version": 1,
+    "weight": 0.3333333333333333,
+    "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/model_bank/mobile_v1.weights.bin"
+  }
+]

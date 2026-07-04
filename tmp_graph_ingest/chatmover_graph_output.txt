@@ -1,0 +1,63 @@
+======================================================================
+FILE: Unifying Graph Codebases.md
+Size: 300165 bytes | Lines: 6613
+======================================================================
+Python code blocks: 2
+Class mentions: 37 -> ['you', 'and', 'below', 'headers', 'info', 'write', 'Repair', 'with', 'compress', 'TmpWorkspace', 'Verify', 'in', 'So', 'Relationships', 'from']
+Method mentions: 32 -> ['decode_str', 'get_node', 'get_body', 'log', 'search_emails', 'read_file', '__init__', 'get_edges', 'authenticate', 'execute_node', 'X', 'step_run', 'start_run', 'create_run_folder', 'step']
+Run() mentions: 8
+MemUnit mentions: 11
+Domain mentions: 136 -> ['Domain', 'dom_compression', 'dom_network', 'dom_has', 'DomCode', 'dom_graph_engine', 'DomGraph', 'DomCodegraph']
+BCL/bracket mentions: 9
+Rule mentions: 20
+Ghost mentions: 2
+VBStyle mentions: 43
+File paths found: 173 -> ['/Users/wws/Qdrant_mysql_mlx_vector_engine/chat_mover/chat_mover.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/dom_compression/gap_graph.py', '/Users/wws/.config/mcp-email/accounts.json', '/Users/wws/Downloads/client_secret_768426539127-anlok2ht6pcuh9p854nlh012ncv087r7.apps.googleusercontent.com.json', '/Users/wws/yahoo-mail-mcp-server/fetch_rht_to_mysql.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_code_graph.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/fetch_rht_to_mysql.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_core.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Config_efl_brain.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_knowledge_archaeology.py']
+
+  Code block #2: (syntax error, skipped)
+
+======================================================================
+FILE: MemUnit Architecture Deep Dive.md
+Size: 1024833 bytes | Lines: 24787
+======================================================================
+Python code blocks: 19
+Class mentions: 141 -> ['you', 'and', 'below', 'headers', 'info', 'design', 'logic', 'if', 'tree', 'declarations', '1801', 'hierarchy', 'systems', 'relationships', 'decides']
+Method mentions: 52 -> ['GetData', 'log', '__init__', 'authenticate', '38', 'write_file', 'get_node', 'Render', 'execute_node', 'X', 'start_run', 'create_run_folder', 'Header', 'Search', 'get_body']
+Run() mentions: 198
+MemUnit mentions: 250
+Domain mentions: 353 -> ['Domain', 'dom_log', 'DomXxx_Init', 'dom_text', 'Dom_Parse', 'DomLogging', 'Dom_Memory', 'Dom_Search', 'DomCode', 'dom_io', 'DomDB', 'Dom_', 'dom_config', 'dom_gpu', 'Dom_DB']
+BCL/bracket mentions: 256
+Rule mentions: 380
+Ghost mentions: 80
+VBStyle mentions: 262
+File paths found: 757 -> ['/Users/wws/Qdrant_mysql_mlx_vector_engine/tmp_graph_ingest/ChatViewer.py', '/Users/wws/.local/share/devin/cli/summaries/history_0f744ca1c34b41fa.md', '/Users/wws/.local/share/devin/cli/summaries/history_11e76c1bac8b4328.md', '/Users/wws/Qdrant_mysql_mlx_vector_engine/install_flutter_build.py', '/Users/wws/.py', '/Users/wws/.config/mcp-email/accounts.json', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_core.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/tmp_graph_ingest/ingest_graphs.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_knowledge_archaeology.py', '/Users/wws/.local/share/devin/cli/summaries/history_a4238b1d83194620.md']
+
+  Code block #2: (syntax error, skipped)
+  Code block #12: 1 classes
+    Result                   CLASS     Run=False State=False methods=[]
+  Code block #14: 1 classes
+    GraphEngine              CLASS     Run=False State=False methods=['Search']
+  Code block #16: (syntax error, skipped)
+  Code block #18: 1 classes
+    Action                   CLASS     Run=False State=False methods=[]
+  Code block #19: 1 classes
+    GraphEngine              CLASS     Run=False State=False methods=['Search']
+
+======================================================================
+FILE: Codex Chat Cleanup.md
+Size: 640923 bytes | Lines: 14652
+======================================================================
+Python code blocks: 5
+Class mentions: 95 -> ['you', 'and', 'below', 'headers', 'info', 'if', '1801', 'write', 'Repair', 'with', 'compress', 'File_IO', 'TmpWorkspace', 'Verify', 'definition']
+Method mentions: 48 -> ['GetData', 'log', '__init__', 'authenticate', '38', 'write_file', 'get_node', 'Render', 'execute_node', 'X', 'start_run', 'create_run_folder', 'get_body', 'step_run', 'GetQuestion']
+Run() mentions: 114
+MemUnit mentions: 25
+Domain mentions: 201 -> ['Domain', 'dom_log', 'dom_text', 'DomCode', 'dom_io', 'dom_config', 'dom_db', 'dom_graph_engine', 'DomCodegraph', 'dom_compression', 'dom_validate', 'dom_parse', 'dom_codegraph', 'dom_convert', 'dom_network']
+BCL/bracket mentions: 93
+Rule mentions: 214
+Ghost mentions: 54
+VBStyle mentions: 210
+File paths found: 533 -> ['/Users/wws/Qdrant_mysql_mlx_vector_engine/tmp_graph_ingest/ChatViewer.py', '/Users/wws/.local/share/devin/cli/summaries/history_0f744ca1c34b41fa.md', '/Users/wws/.local/share/devin/cli/summaries/history_11e76c1bac8b4328.md', '/Users/wws/.py', '/Users/wws/.config/mcp-email/accounts.json', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_core.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/tmp_graph_ingest/ingest_graphs.py', '/Users/wws/Qdrant_mysql_mlx_vector_engine/efl_brain/Efi_knowledge_archaeology.py', '/Users/wws/.local/share/devin/cli/summaries/history_a4238b1d83194620.md', '/Users/wws/Qdrant_mysql_mlx_vector_engine/tmp_graph_ingest/AutoGenerator.py']
+
+  Code block #2: (syntax error, skipped)
+

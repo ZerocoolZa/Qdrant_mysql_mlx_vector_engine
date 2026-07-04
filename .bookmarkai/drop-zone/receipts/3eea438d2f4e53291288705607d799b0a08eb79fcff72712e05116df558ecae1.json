@@ -1,0 +1,13 @@
+{
+  "batchFingerprint": "3eea438d2f4e53291288705607d799b0a08eb79fcff72712e05116df558ecae1",
+  "originalFileName": "test.json",
+  "sessionId": "83060b2b-0384-4412-9844-f419e9604685",
+  "outcome": "processed",
+  "changeIds": [
+    "538a4df0-a456-4c97-8151-074222381155"
+  ],
+  "processedFileName": "test.json",
+  "mode": "auto",
+  "createdAt": 1782720132290,
+  "importedAt": 1782720132290
+}

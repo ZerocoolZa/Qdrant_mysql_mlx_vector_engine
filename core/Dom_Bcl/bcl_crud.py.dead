@@ -1,0 +1,510 @@
+#!/usr/bin/env python3
+"""
+BCL CRUD — Thin CLI wrapper for the BCL Engine.
+
+All logic lives in separated layers:
+  bcl_lexer.py     — Stage 1: tokenizer (tokens only)
+  bcl_parser.py    — Stage 2: parser (structure only)
+  bcl_validator.py — Stage 3: validator (detect only)
+  bcl_fixer.py     — Stage 4: fix engine (controlled mutation)
+  bcl_engine.py    — Stage 5: orchestrator (pipeline)
+
+This file is ONLY the CLI. No business logic here.
+
+Usage:
+  python3 bcl_crud.py run      <file.bcl>              — full pipeline
+  python3 bcl_crud.py validate <file.bcl>              — validate only (no fix)
+  python3 bcl_crud.py fix      <file.bcl>              — validate + fix + write
+  python3 bcl_crud.py read     <file.bcl> [@name]      — read container
+  python3 bcl_crud.py create   <file.bcl> @name "v;v;w"
+  python3 bcl_crud.py update   <file.bcl> @name key value
+  python3 bcl_crud.py delete   <file.bcl> @name
+  python3 bcl_crud.py list     <file.bcl>              — list all containers
+  python3 bcl_crud.py tokens   <file.bcl>              — show token stream
+  python3 bcl_crud.py ast      <file.bcl>              — show AST tree
+  python3 bcl_crud.py rules                            — show BCL rules
+  python3 bcl_crud.py demo                             — full demo + tests
+"""
+
+import sys
+
+from bcl_lexer import BCLTokenizer, TokenType
+from bcl_parser import BCLParser, BCLNode, parse_text
+from bcl_validator import BCLValidator, RULES, SYNTAX, BRANCH_TOKENS
+from bcl_fixer import BCLFixer
+from bcl_engine import BCLEngine
+
+
+# ─── CLI ─────────────────────────────────────────────────────────────────────
+
+def cli():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(1)
+
+    cmd = sys.argv[1]
+
+    if cmd == "demo":
+        demo()
+        return
+
+    if cmd == "rules":
+        print("BCL RULES (from vb_shared.rules table):")
+        print()
+        for r in RULES:
+            print(f"  Rule {r['id']}: {r['name']}")
+            print(f"    {r['rule']}")
+            print(f"    severity: {r['severity']}")
+            if 'format' in r:
+                print(f"    format: {r['format']}")
+            print()
+        print(f"Branch tokens: {BRANCH_TOKENS}")
+        print(f"Syntax: {SYNTAX}")
+        return
+
+    # Commands that need a file path
+    if cmd in ("run", "validate", "fix", "read", "create", "update", "delete", "list", "tokens", "ast"):
+        if len(sys.argv) < 3:
+            print(f"Error: {cmd} requires a file path")
+            sys.exit(1)
+        path = sys.argv[2]
+    else:
+        print(f"Unknown command: {cmd}")
+        print(__doc__)
+        sys.exit(1)
+
+    # ── RUN: full pipeline ───────────────────────────────────────────────────
+    if cmd == "run":
+        engine = BCLEngine(auto_fix=True)
+        result = engine.load_file(path)
+        print(result.summary())
+        if result.errors or not result.ok:
+            sys.exit(1)
+        return
+
+    # ── VALIDATE: check only, no fix ─────────────────────────────────────────
+    if cmd == "validate":
+        engine = BCLEngine(auto_fix=False)
+        result = engine.load_file(path)
+        print(result.summary())
+        if not result.ok:
+            sys.exit(1)
+        return
+
+    # ── FIX: validate + fix + write back ─────────────────────────────────────
+    if cmd == "fix":
+        engine = BCLEngine(auto_fix=True)
+        result = engine.load_file(path)
+        print(result.summary())
+        if result.fixes:
+            print(f"\nFixes applied: {len(result.fixes)}")
+            for f in result.fixes:
+                print(f"  {f}")
+        if result.ok and result.text:
+            engine.save_file(path, result)
+            print(f"\nFixed file written to: {path}")
+        elif not result.ok:
+            print(f"\nUnresolved violations: {len(result.report.violations)}")
+            for v in result.report.violations:
+                print(f"  {v}")
+            sys.exit(1)
+        return
+
+    # ── TOKENS: show lexer output ────────────────────────────────────────────
+    if cmd == "tokens":
+        with open(path, "r") as f:
+            text = f.read()
+        tokenizer = BCLTokenizer(text)
+        tokens = tokenizer.tokenize()
+        print(f"Token stream ({len(tokens)} tokens):")
+        for t in tokens:
+            print(f"  {t}")
+        return
+
+    # ── AST: show parsed tree ────────────────────────────────────────────────
+    if cmd == "ast":
+        with open(path, "r") as f:
+            text = f.read()
+        root = parse_text(text)
+        def print_ast(node, depth=0):
+            pad = "  " * depth
+            print(f"{pad}[@{node.name}] path={node.path}")
+            for t in node.tuples:
+                print(f"{pad}  tuple: {t}")
+            for child in node.children:
+                print_ast(child, depth + 1)
+        for child in root.children:
+            print_ast(child)
+        return
+
+    # ── LIST: list all containers ────────────────────────────────────────────
+    if cmd == "list":
+        engine = BCLEngine(auto_fix=False)
+        result = engine.load_file(path)
+        for name, node in engine.list_all(result.ast):
+            print(f"{name}")
+        return
+
+    # ── READ: read a container ───────────────────────────────────────────────
+    if cmd == "read":
+        if len(sys.argv) < 4:
+            print("Error: read requires @container_name")
+            sys.exit(1)
+        name = sys.argv[3].lstrip("@").lstrip("[")
+        engine = BCLEngine(auto_fix=False)
+        result = engine.load_file(path)
+        node = engine.read(result.ast, name)
+        if node:
+            print(node.to_bcl(0))
+        else:
+            print(f"Container [@{name}] not found")
+            sys.exit(1)
+        return
+
+    # ── CREATE: add a container ──────────────────────────────────────────────
+    if cmd == "create":
+        if len(sys.argv) < 4:
+            print("Error: create requires @name [tuple]")
+            sys.exit(1)
+        name = sys.argv[3].lstrip("@").lstrip("[")
+        raw_tuple = sys.argv[4] if len(sys.argv) > 4 else ""
+        engine = BCLEngine(auto_fix=False)
+        result = engine.load_file(path)
+        node = BCLNode(name)
+        if raw_tuple:
+            parts = raw_tuple.split(";")
+            values = []
+            for v in parts:
+                v = v.strip().strip('"')
+                if v.isdigit():
+                    values.append(int(v))
+                else:
+                    try:
+                        values.append(float(v))
+                    except ValueError:
+                        values.append(v)
+            node.tuples.append(values)
+        ok, errors = engine.create(result.ast, None, node)
+        if not ok:
+            for e in errors:
+                print(f"ERROR: {e}", file=sys.stderr)
+            sys.exit(1)
+        text = "\n".join(child.to_bcl(0) for child in result.ast.children)
+        with open(path, "w") as f:
+            f.write(text)
+        print(f"Created [@{name}]")
+        return
+
+    # ── UPDATE: update a key ─────────────────────────────────────────────────
+    if cmd == "update":
+        if len(sys.argv) < 6:
+            print("Error: update requires @name key value")
+            sys.exit(1)
+        name = sys.argv[3].lstrip("@").lstrip("[")
+        key = sys.argv[4]
+        new_val = sys.argv[5]
+        engine = BCLEngine(auto_fix=False)
+        result = engine.load_file(path)
+        ok, errors = engine.update(result.ast, name, key, new_val)
+        if not ok:
+            for e in errors:
+                print(f"ERROR: {e}", file=sys.stderr)
+            sys.exit(1)
+        text = "\n".join(child.to_bcl(0) for child in result.ast.children)
+        with open(path, "w") as f:
+            f.write(text)
+        print(f"Updated [@{name}] {key} = {new_val}")
+        return
+
+    # ── DELETE: remove a container ───────────────────────────────────────────
+    if cmd == "delete":
+        if len(sys.argv) < 4:
+            print("Error: delete requires @name")
+            sys.exit(1)
+        name = sys.argv[3].lstrip("@").lstrip("[")
+        engine = BCLEngine(auto_fix=False)
+        result = engine.load_file(path)
+        ok, errors = engine.delete(result.ast, name)
+        if not ok:
+            for e in errors:
+                print(f"ERROR: {e}", file=sys.stderr)
+            sys.exit(1)
+        text = "\n".join(child.to_bcl(0) for child in result.ast.children)
+        with open(path, "w") as f:
+            f.write(text)
+        print(f"Deleted [@{name}]")
+        return
+
+
+# ─── DEMO ────────────────────────────────────────────────────────────────────
+
+def demo():
+    """Full pipeline demo — 11 tests covering all layers + contract rules."""
+    print("=" * 70)
+    print("BCL ENGINE DEMO — 5-LAYER PIPELINE")
+    print("  LEX → PARSE → VALIDATE → FIX → VALIDATE → SERIALIZE")
+    print("=" * 70)
+
+    engine = BCLEngine(auto_fix=True)
+
+    # ── Test 1: Valid BCL (CascadeSearch) ─────────────────────────────────────
+    print("\n─── Test 1: Valid BCL (CascadeSearch) ───")
+    sample = '''[@CascadeSearch]{
+    [@Pass]{("Uses existing tables flow_tokens + know_tokens only. No new tables.";92)}
+    [@Fail]{("Any new table or column with underscore. Hardcoded paths in tokens.";92)}
+    [@Unsure]{("Whether C binary interface is sufficient or needs wrapper rewrite.";92)}
+    ("Purpose";"System-wide search using Mac native tools + in-memory cache + token persistence")
+    ("Layer1";"Native: grep, find, mdfind, rg")
+}'''
+    result = engine.run(sample)
+    print(f"  Status: {result.status}")
+    print(f"  Stages: {' → '.join(result.stages_run)}")
+    print(f"  Tokens: {len(result.tokens)}")
+    print(f"  AST nodes: {result._count_nodes(result.ast)}")
+    assert result.ok, "Valid BCL should pass"
+    print("  PASS")
+
+    # Show token stream (first 10)
+    print("\n  Token stream (first 10):")
+    for t in result.tokens[:10]:
+        print(f"    {t}")
+
+    # Show AST with paths
+    print("\n  AST:")
+    def print_ast(node, depth=0):
+        pad = "  " * (depth + 2)
+        print(f"{pad}[@{node.name}] path={node.path}")
+        for t in node.tuples:
+            print(f"{pad}  tuple: {t}")
+        for child in node.children:
+            print_ast(child, depth + 1)
+    for child in result.ast.children:
+        print_ast(child)
+
+    # ── Test 2: Simple obey.md style token ───────────────────────────────────
+    print("\n─── Test 2: Simple token (obey.md style) ───")
+    simple = '[@Tuples] ("all methods must return Tuple3 ok data error")'
+    result2 = engine.run(simple)
+    print(f"  Status: {result2.status}")
+    assert result2.ok, "Simple token should pass"
+    node = engine.read(result2.ast, "Tuples")
+    print(f"  Parsed: [@{node.name}] tuples={node.tuples}")
+    print("  PASS")
+
+    # ── Test 3: Decision tree (nested Pass/Fail) ─────────────────────────────
+    print("\n─── Test 3: Decision tree (nested) ───")
+    tree = '''[@NoColumnSpread]{
+    [@IsAuditColumn]{
+        [@Pass]{("-- acceptable: audit columns are intentionally spread";100)}
+        [@Fail]{
+            [@SameNameDiffMeaning]{
+                [@Pass]{("ALTER TABLE {table} RENAME COLUMN {column} TO {table}_{column}";90)}
+                [@Fail]{("-- flag for human review";50)}
+            }
+        }
+    }
+}'''
+    result3 = engine.run(tree)
+    print(f"  Status: {result3.status}")
+    assert result3.ok, "Decision tree should pass"
+
+    root_node = result3.ast.children[0]
+    print(f"  Root: [@{root_node.name}] path={root_node.path}")
+    audit = root_node.children[0]
+    print(f"  Child: [@{audit.name}] path={audit.path}")
+    pass_node = audit.children[0]
+    print(f"  [@Pass] path={pass_node.path} weight={pass_node.get_weight()}")
+    print(f"  [@Pass] fix_sql={pass_node.tuples[0][0]}")
+    print("  PASS")
+
+    # ── Test 4: Invalid BCL → auto-fix (rule 24: lowercase names) ────────────
+    print("\n─── Test 4: Invalid BCL → auto-fix (rule 24) ───")
+    bad = '''[@lowercase]{
+    ("key";"value")
+    [@another_bad]{
+        ("text";92)
+    }
+}'''
+    result4 = engine.run(bad)
+    print(f"  Status: {result4.status} (fixed={result4.fixed})")
+    print(f"  Stages: {' → '.join(result4.stages_run)}")
+    print(f"  Fixes: {len(result4.fixes)}")
+    for f in result4.fixes:
+        print(f"    {f}")
+    assert result4.ok and result4.fixed, "Should auto-fix lowercase names"
+    fixed_node = engine.read(result4.ast, "Lowercase")
+    assert fixed_node is not None, "Should find capitalized name"
+    print(f"  Fixed: [@lowercase] → [@{fixed_node.name}]")
+    print("  PASS")
+
+    # ── Test 5: Invalid weight → auto-fix (rule 999: out of range) ───────────
+    print("\n─── Test 5: Invalid weight → auto-fix (rule 999) ───")
+    bad_weight = '[@TestWeight]{("text";150)}'
+    result5 = engine.run(bad_weight)
+    print(f"  Status: {result5.status} (fixed={result5.fixed})")
+    print(f"  Fixes: {len(result5.fixes)}")
+    for f in result5.fixes:
+        print(f"    {f}")
+    assert result5.ok and result5.fixed, "Should auto-fix weight"
+    test_node = engine.read(result5.ast, "TestWeight")
+    print(f"  Fixed weight: {test_node.tuples[0][-1]} (was 150)")
+    assert test_node.tuples[0][-1] == 100, "Should clamp to 100"
+    print("  PASS")
+
+    # ── Test 6: Float weight → auto-fix ──────────────────────────────────────
+    print("\n─── Test 6: Float weight → auto-fix (rule 999) ───")
+    float_weight = '[@FloatTest]{("text";92.5)}'
+    result6 = engine.run(float_weight)
+    print(f"  Status: {result6.status} (fixed={result6.fixed})")
+    print(f"  Fixes: {len(result6.fixes)}")
+    for f in result6.fixes:
+        print(f"    {f}")
+    assert result6.ok and result6.fixed, "Should auto-fix float weight"
+    float_node = engine.read(result6.ast, "FloatTest")
+    print(f"  Fixed weight: {float_node.tuples[0][-1]} (was 92.5)")
+    assert float_node.tuples[0][-1] == 92, "Should truncate to 92"
+    print("  PASS")
+
+    # ── Test 7: Round-trip consistency (rule 8) ──────────────────────────────
+    print("\n─── Test 7: Round-trip consistency (rule 8) ───")
+    original = '[@RoundTrip]{("key";"value";50)}'
+    result7 = engine.run(original)
+    assert result7.ok, "Round-trip input should be valid"
+    result7b = engine.run(result7.text)
+    assert result7b.ok, "Re-parsed output should be valid"
+    orig_node = result7.ast.children[0]
+    rt_node = result7b.ast.children[0]
+    assert orig_node.name == rt_node.name, "Names should match"
+    assert orig_node.tuples == rt_node.tuples, "Tuples should match"
+    print(f"  Original:  {original}")
+    print(f"  Serialized: {result7.text}")
+    print(f"  Names match: {orig_node.name == rt_node.name}")
+    print(f"  Tuples match: {orig_node.tuples == rt_node.tuples}")
+    print("  PASS")
+
+    # ── Test 8: CRUD operations (atomic clone-test-commit) ───────────────────
+    print("\n─── Test 8: CRUD operations (atomic) ───")
+    crud_text = '[@Root]{("key";"value")}'
+    result8 = engine.run(crud_text)
+    assert result8.ok
+
+    # CREATE
+    new_node = BCLNode("NewChild")
+    new_node.tuples.append(["desc", "test create"])
+    ok, errors = engine.create(result8.ast, "Root", new_node)
+    print(f"  CREATE [@NewChild] under [@Root]: ok={ok}")
+    assert ok, "Create should succeed"
+
+    # READ
+    found = engine.read(result8.ast, "NewChild")
+    print(f"  READ [@NewChild]: found={found is not None}")
+    assert found is not None, "Should find created node"
+
+    # UPDATE
+    ok, errors = engine.update(result8.ast, "NewChild", "desc", "updated value")
+    print(f"  UPDATE [@NewChild] desc: ok={ok}")
+    assert ok, "Update should succeed"
+    assert found.get("desc") == "updated value", "Value should be updated"
+
+    # DELETE
+    ok, errors = engine.delete(result8.ast, "NewChild")
+    print(f"  DELETE [@NewChild]: ok={ok}")
+    assert ok, "Delete should succeed"
+    found_after = engine.read(result8.ast, "NewChild")
+    assert found_after is None, "Should not find deleted node"
+    print("  PASS")
+
+    # ── Test 9: Unfixable violations → explicit FAIL (rule 15) ───────────────
+    print("\n─── Test 9: Unfixable violations → explicit FAIL (rule 15) ───")
+    unfixable = '''[@GoodName]{
+    [@Bad!Chars]{
+        ("text";92)
+    }
+}'''
+    result9 = engine.run(unfixable)
+    print(f"  Status: {result9.status}")
+    print(f"  Stages: {' → '.join(result9.stages_run)}")
+    print(f"  Violations: {len(result9.report.violations)}")
+    for v in result9.report.violations:
+        print(f"    {v}")
+    assert not result9.ok, "Invalid chars should fail (can't guess intent)"
+    print("  PASS (correctly refused to guess)")
+
+    # ── Test 10: Lexer error (unclosed string) ───────────────────────────────
+    print("\n─── Test 10: Lexer error (unclosed string) ───")
+    lexer_error = '[@Test]{("unclosed string}'
+    result10 = engine.run(lexer_error)
+    print(f"  Status: {result10.status}")
+    print(f"  Errors: {result10.errors}")
+    assert result10.status == "ERROR", "Should report lexer error"
+    print("  PASS (correctly caught lexer error)")
+
+    # ── Test 11: Parser error (unclosed container) ───────────────────────────
+    print("\n─── Test 11: Parser error (unclosed container) ───")
+    parser_error = '[@Test]{("text";92)'
+    result11 = engine.run(parser_error)
+    print(f"  Status: {result11.status}")
+    print(f"  Errors: {result11.errors}")
+    assert result11.status == "ERROR", "Should report parser error"
+    print("  PASS (correctly caught parser error)")
+
+    # ── Test 12: Convergence loop (multiple fixes needed) ────────────────────
+    print("\n─── Test 12: Convergence loop (multiple fixes) ───")
+    multi_fix = '''[@lower_one]{
+    [@lower_two]{
+        ("text";200)
+    }
+}'''
+    result12 = engine.run(multi_fix)
+    print(f"  Status: {result12.status} (fixed={result12.fixed})")
+    print(f"  Stages: {' → '.join(result12.stages_run)}")
+    print(f"  Fixes: {len(result12.fixes)}")
+    for f in result12.fixes:
+        print(f"    {f}")
+    assert result12.ok and result12.fixed, "Should fix all violations"
+    n1 = engine.read(result12.ast, "Lower_one")
+    n2 = engine.read(result12.ast, "Lower_two")
+    assert n1 is not None and n2 is not None, "Names should be capitalized"
+    assert n2.tuples[0][-1] == 100, "Weight should be clamped"
+    print(f"  [@lower_one] → [@{n1.name}], [@lower_two] → [@{n2.name}]")
+    print(f"  Weight 200 → {n2.tuples[0][-1]}")
+    print("  PASS")
+
+    # ── Test 13: Create with bad name → rejected (atomic) ────────────────────
+    print("\n─── Test 13: Create with bad name → rejected (atomic) ───")
+    base = '[@Base]{("key";"value")}'
+    result13 = engine.run(base)
+    assert result13.ok
+    bad_node = BCLNode("lowercase_bad")
+    bad_node.tuples.append(["x", "y"])
+    ok, errors = engine.create(result13.ast, None, bad_node)
+    print(f"  CREATE [@lowercase_bad]: ok={ok}, errors={errors}")
+    assert not ok, "Should reject lowercase name"
+    # Verify AST was NOT mutated (atomic: no partial state)
+    found_bad = engine.read(result13.ast, "lowercase_bad")
+    assert found_bad is None, "AST should not contain rejected node"
+    print(f"  AST unchanged: rejected node not in tree")
+    print("  PASS (atomic rollback verified)")
+
+    # ── SUMMARY ──────────────────────────────────────────────────────────────
+    print("\n" + "=" * 70)
+    print("ALL 13 TESTS PASSED")
+    print()
+    print("  Layer 1 (Lexer):      OK — character-level tokenizer, no regex")
+    print("  Layer 2 (Parser):     OK — recursive descent, AST with paths")
+    print("  Layer 3 (Validator):  OK — detect only, never modifies AST")
+    print("  Layer 4 (Fixer):      OK — deterministic, rule-driven, logged")
+    print("  Layer 5 (Engine):     OK — orchestrates full pipeline")
+    print()
+    print("  Contract compliance:")
+    print("    Determinism:          OK — same input → same AST")
+    print("    Round-trip:           OK — serialize(parse(text)) stable")
+    print("    Convergence:          OK — fix loop converges or fails")
+    print("    Atomic mutation:      OK — clone-test-commit, no partial state")
+    print("    Pipeline order:       OK — LEX→PARSE→VALIDATE→FIX→VALIDATE→SERIALIZE")
+    print("    No guessing:          OK — unfixable violations → explicit FAIL")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    cli()

@@ -1,0 +1,3442 @@
+{
+  "total_unique_names": 523,
+  "total_clusters": 168,
+  "compression_ratio": 3.11,
+  "clusters": [
+    {
+      "rank": 0,
+      "canonical": "report",
+      "domain_count": 19,
+      "method_count": 1,
+      "members": [
+        "report"
+      ],
+      "domains": [
+        "arch",
+        "asm",
+        "audit",
+        "compass",
+        "csplit",
+        "cu",
+        "db_inv",
+        "db_studio",
+        "factory",
+        "governance",
+        "ingest",
+        "ingest_cli",
+        "ingest_gui",
+        "rescue",
+        "style",
+        "system",
+        "testing",
+        "unify",
+        "validate"
+      ],
+      "roots": [
+        "report"
+      ]
+    },
+    {
+      "rank": 1,
+      "canonical": "validate",
+      "domain_count": 14,
+      "method_count": 2,
+      "members": [
+        "validate",
+        "validate_brackets"
+      ],
+      "domains": [
+        "codec",
+        "config",
+        "convert",
+        "csplit",
+        "cu",
+        "factory",
+        "index",
+        "ingest",
+        "ingest_cli",
+        "ingest_gui",
+        "parse",
+        "unify",
+        "wws_index",
+        "yaml"
+      ],
+      "roots": [
+        "validate"
+      ]
+    },
+    {
+      "rank": 2,
+      "canonical": "import",
+      "domain_count": 11,
+      "method_count": 2,
+      "members": [
+        "export",
+        "import"
+      ],
+      "domains": [
+        "codegraph",
+        "config",
+        "db_studio",
+        "documentation",
+        "graph",
+        "index",
+        "ingest_gui",
+        "knowledge",
+        "log",
+        "unify",
+        "wws_index"
+      ],
+      "roots": [
+        "export",
+        "import"
+      ]
+    },
+    {
+      "rank": 3,
+      "canonical": "list",
+      "domain_count": 11,
+      "method_count": 2,
+      "members": [
+        "list",
+        "listdir"
+      ],
+      "domains": [
+        "archive",
+        "config",
+        "cu",
+        "factory",
+        "folder",
+        "gui",
+        "io",
+        "package",
+        "process",
+        "schedule",
+        "storage"
+      ],
+      "roots": [
+        "list"
+      ]
+    },
+    {
+      "rank": 4,
+      "canonical": "extract",
+      "domain_count": 10,
+      "method_count": 11,
+      "members": [
+        "extract",
+        "extract_class",
+        "extract_code",
+        "extract_constants",
+        "extract_docstring",
+        "extract_header",
+        "extract_jumps",
+        "extract_metadata",
+        "extract_method",
+        "extract_names",
+        "extract_opcodes"
+      ],
+      "domains": [
+        "ai",
+        "archive",
+        "asm",
+        "bytecode",
+        "csplit",
+        "ingest",
+        "parse",
+        "qa",
+        "text",
+        "yaml"
+      ],
+      "roots": [
+        "extr"
+      ]
+    },
+    {
+      "rank": 5,
+      "canonical": "query",
+      "domain_count": 10,
+      "method_count": 5,
+      "members": [
+        "query",
+        "query_concept",
+        "query_fact",
+        "query_relation",
+        "query_rule"
+      ],
+      "domains": [
+        "codegraph",
+        "db",
+        "db_studio",
+        "index",
+        "knowledge",
+        "log",
+        "logging",
+        "search",
+        "wws_index",
+        "yaml"
+      ],
+      "roots": [
+        "query"
+      ]
+    },
+    {
+      "rank": 6,
+      "canonical": "create",
+      "domain_count": 9,
+      "method_count": 5,
+      "members": [
+        "create",
+        "create_index",
+        "create_table",
+        "create_widget",
+        "create_window"
+      ],
+      "domains": [
+        "archive",
+        "cu",
+        "db",
+        "factory",
+        "folder",
+        "gui",
+        "index",
+        "qt",
+        "wws_index"
+      ],
+      "roots": [
+        "create"
+      ]
+    },
+    {
+      "rank": 7,
+      "canonical": "split",
+      "domain_count": 9,
+      "method_count": 4,
+      "members": [
+        "split",
+        "split_class",
+        "split_method",
+        "splitter"
+      ],
+      "domains": [
+        "archive",
+        "csplit",
+        "fileops",
+        "gui",
+        "index",
+        "io",
+        "parse",
+        "text",
+        "transform"
+      ],
+      "roots": [
+        "split"
+      ]
+    },
+    {
+      "rank": 8,
+      "canonical": "stat",
+      "domain_count": 9,
+      "method_count": 3,
+      "members": [
+        "stat",
+        "stats",
+        "status"
+      ],
+      "domains": [
+        "cu",
+        "fileops",
+        "index",
+        "ingest_cli",
+        "io",
+        "orchestration",
+        "process",
+        "schedule",
+        "wws_index"
+      ],
+      "roots": [
+        "stat"
+      ]
+    },
+    {
+      "rank": 9,
+      "canonical": "delete",
+      "domain_count": 9,
+      "method_count": 1,
+      "members": [
+        "delete"
+      ],
+      "domains": [
+        "config",
+        "db",
+        "fileops",
+        "folder",
+        "index",
+        "io",
+        "network",
+        "storage",
+        "wws_index"
+      ],
+      "roots": [
+        "delete"
+      ]
+    },
+    {
+      "rank": 10,
+      "canonical": "merge",
+      "domain_count": 9,
+      "method_count": 1,
+      "members": [
+        "merge"
+      ],
+      "domains": [
+        "codegraph",
+        "config",
+        "csplit",
+        "index",
+        "knowledge",
+        "transform",
+        "unify",
+        "wws_index",
+        "yaml"
+      ],
+      "roots": [
+        "merge"
+      ]
+    },
+    {
+      "rank": 11,
+      "canonical": "search",
+      "domain_count": 8,
+      "method_count": 1,
+      "members": [
+        "search"
+      ],
+      "domains": [
+        "archive",
+        "documentation",
+        "index",
+        "log",
+        "qa",
+        "search",
+        "text",
+        "wws_index"
+      ],
+      "roots": [
+        "search"
+      ]
+    },
+    {
+      "rank": 12,
+      "canonical": "load",
+      "domain_count": 7,
+      "method_count": 1,
+      "members": [
+        "load"
+      ],
+      "domains": [
+        "config",
+        "ingest",
+        "ingest_cli",
+        "memory",
+        "runtime",
+        "system",
+        "yaml"
+      ],
+      "roots": [
+        "load"
+      ]
+    },
+    {
+      "rank": 13,
+      "canonical": "scan",
+      "domain_count": 7,
+      "method_count": 1,
+      "members": [
+        "scan"
+      ],
+      "domains": [
+        "arch",
+        "audit",
+        "ingest",
+        "ingest_cli",
+        "io",
+        "style",
+        "validate"
+      ],
+      "roots": [
+        "scan"
+      ]
+    },
+    {
+      "rank": 14,
+      "canonical": "verify",
+      "domain_count": 7,
+      "method_count": 1,
+      "members": [
+        "verify"
+      ],
+      "domains": [
+        "archive",
+        "audit",
+        "bytecode",
+        "package",
+        "rescue",
+        "security",
+        "testing"
+      ],
+      "roots": [
+        "verify"
+      ]
+    },
+    {
+      "rank": 15,
+      "canonical": "check",
+      "domain_count": 6,
+      "method_count": 20,
+      "members": [
+        "check",
+        "check_class",
+        "check_ghost",
+        "check_header",
+        "check_headers",
+        "check_init",
+        "check_method",
+        "check_naming",
+        "check_no_decorator",
+        "check_no_hardcode",
+        "check_no_print",
+        "check_pascal",
+        "check_run",
+        "check_self_state",
+        "check_state",
+        "check_structure",
+        "check_tuple3",
+        "check_vbstyle",
+        "checkbox",
+        "checksum"
+      ],
+      "domains": [
+        "audit",
+        "codec",
+        "gui",
+        "package",
+        "style",
+        "validate"
+      ],
+      "roots": [
+        "check"
+      ]
+    },
+    {
+      "rank": 16,
+      "canonical": "read",
+      "domain_count": 6,
+      "method_count": 7,
+      "members": [
+        "read",
+        "read_brackets",
+        "read_header",
+        "readlines",
+        "readme",
+        "write",
+        "writelines"
+      ],
+      "domains": [
+        "documentation",
+        "fileops",
+        "io",
+        "log",
+        "parse",
+        "text"
+      ],
+      "roots": [
+        "read",
+        "write"
+      ]
+    },
+    {
+      "rank": 17,
+      "canonical": "history",
+      "domain_count": 6,
+      "method_count": 1,
+      "members": [
+        "history"
+      ],
+      "domains": [
+        "audit",
+        "cli",
+        "cu",
+        "ingest_gui",
+        "qa",
+        "schedule"
+      ],
+      "roots": [
+        "hist"
+      ]
+    },
+    {
+      "rank": 18,
+      "canonical": "get",
+      "domain_count": 5,
+      "method_count": 3,
+      "members": [
+        "get",
+        "get_edge",
+        "get_node"
+      ],
+      "domains": [
+        "config",
+        "factory",
+        "graph",
+        "network",
+        "storage"
+      ],
+      "roots": [
+        "get"
+      ]
+    },
+    {
+      "rank": 19,
+      "canonical": "parse",
+      "domain_count": 5,
+      "method_count": 4,
+      "members": [
+        "parse",
+        "parse_args",
+        "parse_flags",
+        "parse_options"
+      ],
+      "domains": [
+        "cli",
+        "ingest",
+        "ingest_cli",
+        "parse",
+        "yaml"
+      ],
+      "roots": [
+        "parse"
+      ]
+    },
+    {
+      "rank": 20,
+      "canonical": "connect",
+      "domain_count": 5,
+      "method_count": 3,
+      "members": [
+        "connect",
+        "connected",
+        "disconnect"
+      ],
+      "domains": [
+        "codegraph",
+        "db",
+        "db_studio",
+        "network",
+        "qt"
+      ],
+      "roots": [
+        "connect",
+        "disconnect"
+      ]
+    },
+    {
+      "rank": 21,
+      "canonical": "index",
+      "domain_count": 5,
+      "method_count": 2,
+      "members": [
+        "index",
+        "indexes"
+      ],
+      "domains": [
+        "archive",
+        "db_inv",
+        "documentation",
+        "ingest",
+        "search"
+      ],
+      "roots": [
+        "index"
+      ]
+    },
+    {
+      "rank": 22,
+      "canonical": "sign",
+      "domain_count": 5,
+      "method_count": 2,
+      "members": [
+        "sign",
+        "signal"
+      ],
+      "domains": [
+        "cli",
+        "package",
+        "process",
+        "qt",
+        "security"
+      ],
+      "roots": [
+        "sign"
+      ]
+    },
+    {
+      "rank": 23,
+      "canonical": "compare",
+      "domain_count": 5,
+      "method_count": 1,
+      "members": [
+        "compare"
+      ],
+      "domains": [
+        "bytecode",
+        "db_studio",
+        "folder",
+        "text",
+        "yaml"
+      ],
+      "roots": [
+        "compare"
+      ]
+    },
+    {
+      "rank": 24,
+      "canonical": "optimize",
+      "domain_count": 5,
+      "method_count": 1,
+      "members": [
+        "optimize"
+      ],
+      "domains": [
+        "bytecode",
+        "db",
+        "db_studio",
+        "index",
+        "wws_index"
+      ],
+      "roots": [
+        "optimize"
+      ]
+    },
+    {
+      "rank": 25,
+      "canonical": "update",
+      "domain_count": 5,
+      "method_count": 1,
+      "members": [
+        "update"
+      ],
+      "domains": [
+        "db",
+        "gui",
+        "index",
+        "package",
+        "wws_index"
+      ],
+      "roots": [
+        "update"
+      ]
+    },
+    {
+      "rank": 26,
+      "canonical": "fix",
+      "domain_count": 4,
+      "method_count": 4,
+      "members": [
+        "fix",
+        "fix_header",
+        "fix_naming",
+        "fixture"
+      ],
+      "domains": [
+        "audit",
+        "style",
+        "testing",
+        "validate"
+      ],
+      "roots": [
+        "fix"
+      ]
+    },
+    {
+      "rank": 27,
+      "canonical": "complexity",
+      "domain_count": 4,
+      "method_count": 3,
+      "members": [
+        "complexity",
+        "compliance",
+        "components"
+      ],
+      "domains": [
+        "arch",
+        "audit",
+        "codegraph",
+        "governance"
+      ],
+      "roots": [
+        "comp"
+      ]
+    },
+    {
+      "rank": 28,
+      "canonical": "count",
+      "domain_count": 4,
+      "method_count": 3,
+      "members": [
+        "count",
+        "count_classes",
+        "count_methods"
+      ],
+      "domains": [
+        "analytics",
+        "csplit",
+        "db",
+        "text"
+      ],
+      "roots": [
+        "count"
+      ]
+    },
+    {
+      "rank": 29,
+      "canonical": "event",
+      "domain_count": 4,
+      "method_count": 3,
+      "members": [
+        "event",
+        "event_key",
+        "event_mouse"
+      ],
+      "domains": [
+        "automation",
+        "gui",
+        "logging",
+        "qt"
+      ],
+      "roots": [
+        "even"
+      ]
+    },
+    {
+      "rank": 30,
+      "canonical": "interval",
+      "domain_count": 4,
+      "method_count": 3,
+      "members": [
+        "integration",
+        "intercept",
+        "interval"
+      ],
+      "domains": [
+        "automation",
+        "runtime",
+        "schedule",
+        "testing"
+      ],
+      "roots": [
+        "inte"
+      ]
+    },
+    {
+      "rank": 31,
+      "canonical": "build",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "build"
+      ],
+      "domains": [
+        "codegraph",
+        "index",
+        "package",
+        "wws_index"
+      ],
+      "roots": [
+        "build"
+      ]
+    },
+    {
+      "rank": 32,
+      "canonical": "classify",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "classify"
+      ],
+      "domains": [
+        "ai",
+        "analytics",
+        "ingest",
+        "qa"
+      ],
+      "roots": [
+        "classify"
+      ]
+    },
+    {
+      "rank": 33,
+      "canonical": "clean",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "clean"
+      ],
+      "domains": [
+        "folder",
+        "rescue",
+        "text",
+        "transform"
+      ],
+      "roots": [
+        "clean"
+      ]
+    },
+    {
+      "rank": 34,
+      "canonical": "compress",
+      "domain_count": 4,
+      "method_count": 2,
+      "members": [
+        "compress",
+        "decompress"
+      ],
+      "domains": [
+        "archive",
+        "codec",
+        "io",
+        "memory"
+      ],
+      "roots": [
+        "compress",
+        "decompress"
+      ]
+    },
+    {
+      "rank": 35,
+      "canonical": "enforce",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "enforce"
+      ],
+      "domains": [
+        "arch",
+        "governance",
+        "style",
+        "validate"
+      ],
+      "roots": [
+        "enforce"
+      ]
+    },
+    {
+      "rank": 36,
+      "canonical": "exists",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "exists"
+      ],
+      "domains": [
+        "db",
+        "fileops",
+        "io",
+        "storage"
+      ],
+      "roots": [
+        "exists"
+      ]
+    },
+    {
+      "rank": 37,
+      "canonical": "filter",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "filter"
+      ],
+      "domains": [
+        "log",
+        "logging",
+        "search",
+        "transform"
+      ],
+      "roots": [
+        "filter"
+      ]
+    },
+    {
+      "rank": 38,
+      "canonical": "join",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "join"
+      ],
+      "domains": [
+        "archive",
+        "fileops",
+        "io",
+        "text"
+      ],
+      "roots": [
+        "join"
+      ]
+    },
+    {
+      "rank": 39,
+      "canonical": "monitor",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "monitor"
+      ],
+      "domains": [
+        "db_studio",
+        "process",
+        "runtime",
+        "system"
+      ],
+      "roots": [
+        "monitor"
+      ]
+    },
+    {
+      "rank": 40,
+      "canonical": "normalize",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "normalize"
+      ],
+      "domains": [
+        "text",
+        "transform",
+        "unify",
+        "yaml"
+      ],
+      "roots": [
+        "normalize"
+      ]
+    },
+    {
+      "rank": 41,
+      "canonical": "schedule",
+      "domain_count": 4,
+      "method_count": 1,
+      "members": [
+        "schedule"
+      ],
+      "domains": [
+        "automation",
+        "ingest",
+        "ingest_cli",
+        "orchestration"
+      ],
+      "roots": [
+        "schedule"
+      ]
+    },
+    {
+      "rank": 42,
+      "canonical": "add",
+      "domain_count": 3,
+      "method_count": 7,
+      "members": [
+        "add",
+        "add_concept",
+        "add_edge",
+        "add_fact",
+        "add_node",
+        "add_relation",
+        "add_rule"
+      ],
+      "domains": [
+        "graph",
+        "knowledge",
+        "schedule"
+      ],
+      "roots": [
+        "add"
+      ]
+    },
+    {
+      "rank": 43,
+      "canonical": "set",
+      "domain_count": 3,
+      "method_count": 6,
+      "members": [
+        "progress",
+        "set",
+        "set_style",
+        "set_theme",
+        "set_title",
+        "settings"
+      ],
+      "domains": [
+        "config",
+        "gui",
+        "ingest_gui"
+      ],
+      "roots": [
+        "prog",
+        "set"
+      ]
+    },
+    {
+      "rank": 44,
+      "canonical": "remove",
+      "domain_count": 3,
+      "method_count": 4,
+      "members": [
+        "remove",
+        "remove_edge",
+        "remove_node",
+        "remove_widget"
+      ],
+      "domains": [
+        "graph",
+        "gui",
+        "schedule"
+      ],
+      "roots": [
+        "remove"
+      ]
+    },
+    {
+      "rank": 45,
+      "canonical": "format",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "format"
+      ],
+      "domains": [
+        "log",
+        "text",
+        "transform"
+      ],
+      "roots": [
+        "format"
+      ]
+    },
+    {
+      "rank": 46,
+      "canonical": "dispatch",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "dispatch"
+      ],
+      "domains": [
+        "cli",
+        "orchestration",
+        "runtime"
+      ],
+      "roots": [
+        "dispatch"
+      ]
+    },
+    {
+      "rank": 47,
+      "canonical": "decode",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "decode",
+        "encode"
+      ],
+      "domains": [
+        "asm",
+        "codec",
+        "text"
+      ],
+      "roots": [
+        "decode",
+        "encode"
+      ]
+    },
+    {
+      "rank": 48,
+      "canonical": "depend",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "depend",
+        "dependency"
+      ],
+      "domains": [
+        "arch",
+        "orchestration",
+        "package"
+      ],
+      "roots": [
+        "depe"
+      ]
+    },
+    {
+      "rank": 49,
+      "canonical": "register",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "register",
+        "unregister"
+      ],
+      "domains": [
+        "cu",
+        "factory",
+        "runtime"
+      ],
+      "roots": [
+        "register",
+        "unregister"
+      ]
+    },
+    {
+      "rank": 50,
+      "canonical": "lock",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "lock",
+        "lockout"
+      ],
+      "domains": [
+        "io",
+        "package",
+        "security"
+      ],
+      "roots": [
+        "lock"
+      ]
+    },
+    {
+      "rank": 51,
+      "canonical": "path",
+      "domain_count": 3,
+      "method_count": 6,
+      "members": [
+        "cycles",
+        "neighbors",
+        "path",
+        "topology",
+        "traverse",
+        "visualize"
+      ],
+      "domains": [
+        "codegraph",
+        "db_studio",
+        "graph"
+      ],
+      "roots": [
+        "cycl",
+        "neighbors",
+        "path",
+        "topo",
+        "traverse",
+        "visualize"
+      ]
+    },
+    {
+      "rank": 52,
+      "canonical": "refresh",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "refresh",
+        "refresh_token"
+      ],
+      "domains": [
+        "gui",
+        "memory",
+        "security"
+      ],
+      "roots": [
+        "refr"
+      ]
+    },
+    {
+      "rank": 53,
+      "canonical": "store",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "store",
+        "stored_procs"
+      ],
+      "domains": [
+        "db_inv",
+        "ingest",
+        "memory"
+      ],
+      "roots": [
+        "store"
+      ]
+    },
+    {
+      "rank": 54,
+      "canonical": "table",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "table",
+        "tables"
+      ],
+      "domains": [
+        "db_inv",
+        "gui",
+        "storage"
+      ],
+      "roots": [
+        "tabl"
+      ]
+    },
+    {
+      "rank": 55,
+      "canonical": "temp",
+      "domain_count": 3,
+      "method_count": 6,
+      "members": [
+        "append",
+        "chmod",
+        "glob",
+        "temp",
+        "template",
+        "touch"
+      ],
+      "domains": [
+        "documentation",
+        "fileops",
+        "io"
+      ],
+      "roots": [
+        "append",
+        "chmod",
+        "glob",
+        "temp",
+        "touch"
+      ]
+    },
+    {
+      "rank": 56,
+      "canonical": "aggregate",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "aggregate",
+        "group"
+      ],
+      "domains": [
+        "analytics",
+        "transform",
+        "unify"
+      ],
+      "roots": [
+        "aggregate",
+        "group"
+      ]
+    },
+    {
+      "rank": 57,
+      "canonical": "archive",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "archive",
+        "rotate"
+      ],
+      "domains": [
+        "folder",
+        "log",
+        "logging"
+      ],
+      "roots": [
+        "archive",
+        "rotate"
+      ]
+    },
+    {
+      "rank": 58,
+      "canonical": "backup",
+      "domain_count": 3,
+      "method_count": 3,
+      "members": [
+        "backup",
+        "restore",
+        "rollback"
+      ],
+      "domains": [
+        "db",
+        "memory",
+        "rescue"
+      ],
+      "roots": [
+        "backup",
+        "restore",
+        "rollback"
+      ]
+    },
+    {
+      "rank": 59,
+      "canonical": "benchmark",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "benchmark"
+      ],
+      "domains": [
+        "compass",
+        "cu",
+        "testing"
+      ],
+      "roots": [
+        "benchmark"
+      ]
+    },
+    {
+      "rank": 60,
+      "canonical": "cancel",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "cancel"
+      ],
+      "domains": [
+        "ingest_cli",
+        "ingest_gui",
+        "schedule"
+      ],
+      "roots": [
+        "cancel"
+      ]
+    },
+    {
+      "rank": 61,
+      "canonical": "copy",
+      "domain_count": 3,
+      "method_count": 3,
+      "members": [
+        "copy",
+        "move",
+        "walk"
+      ],
+      "domains": [
+        "fileops",
+        "folder",
+        "io"
+      ],
+      "roots": [
+        "copy",
+        "move",
+        "walk"
+      ]
+    },
+    {
+      "rank": 62,
+      "canonical": "cron",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "cron",
+        "run"
+      ],
+      "domains": [
+        "automation",
+        "cli",
+        "schedule"
+      ],
+      "roots": [
+        "cron",
+        "run"
+      ]
+    },
+    {
+      "rank": 63,
+      "canonical": "dedupe",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "dedupe",
+        "enrich"
+      ],
+      "domains": [
+        "ingest",
+        "transform",
+        "unify"
+      ],
+      "roots": [
+        "dedupe",
+        "enrich"
+      ]
+    },
+    {
+      "rank": 64,
+      "canonical": "embed",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "embed",
+        "rank"
+      ],
+      "domains": [
+        "ai",
+        "qa",
+        "search"
+      ],
+      "roots": [
+        "embed",
+        "rank"
+      ]
+    },
+    {
+      "rank": 65,
+      "canonical": "escalate",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "escalate",
+        "violation"
+      ],
+      "domains": [
+        "audit",
+        "governance",
+        "rescue"
+      ],
+      "roots": [
+        "escalate",
+        "viol"
+      ]
+    },
+    {
+      "rank": 66,
+      "canonical": "execute",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "execute"
+      ],
+      "domains": [
+        "cu",
+        "db",
+        "runtime"
+      ],
+      "roots": [
+        "execute"
+      ]
+    },
+    {
+      "rank": 67,
+      "canonical": "info",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "info"
+      ],
+      "domains": [
+        "logging",
+        "package",
+        "system"
+      ],
+      "roots": [
+        "info"
+      ]
+    },
+    {
+      "rank": 68,
+      "canonical": "pause",
+      "domain_count": 3,
+      "method_count": 2,
+      "members": [
+        "pause",
+        "resume"
+      ],
+      "domains": [
+        "ingest_cli",
+        "orchestration",
+        "schedule"
+      ],
+      "roots": [
+        "pause",
+        "resume"
+      ]
+    },
+    {
+      "rank": 69,
+      "canonical": "rename",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "rename"
+      ],
+      "domains": [
+        "fileops",
+        "folder",
+        "transform"
+      ],
+      "roots": [
+        "rename"
+      ]
+    },
+    {
+      "rank": 70,
+      "canonical": "resolve",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "resolve"
+      ],
+      "domains": [
+        "network",
+        "package",
+        "unify"
+      ],
+      "roots": [
+        "reso"
+      ]
+    },
+    {
+      "rank": 71,
+      "canonical": "score",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "score"
+      ],
+      "domains": [
+        "ai",
+        "qa",
+        "style"
+      ],
+      "roots": [
+        "score"
+      ]
+    },
+    {
+      "rank": 72,
+      "canonical": "size",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "size"
+      ],
+      "domains": [
+        "folder",
+        "memory",
+        "storage"
+      ],
+      "roots": [
+        "size"
+      ]
+    },
+    {
+      "rank": 73,
+      "canonical": "trace",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "trace"
+      ],
+      "domains": [
+        "audit",
+        "logging",
+        "network"
+      ],
+      "roots": [
+        "trace"
+      ]
+    },
+    {
+      "rank": 74,
+      "canonical": "watch",
+      "domain_count": 3,
+      "method_count": 1,
+      "members": [
+        "watch"
+      ],
+      "domains": [
+        "config",
+        "folder",
+        "io"
+      ],
+      "roots": [
+        "watch"
+      ]
+    },
+    {
+      "rank": 75,
+      "canonical": "close",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "close",
+        "close_window"
+      ],
+      "domains": [
+        "gui",
+        "io"
+      ],
+      "roots": [
+        "close"
+      ]
+    },
+    {
+      "rank": 76,
+      "canonical": "complete",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "complete"
+      ],
+      "domains": [
+        "ai",
+        "cli"
+      ],
+      "roots": [
+        "complete"
+      ]
+    },
+    {
+      "rank": 77,
+      "canonical": "map",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "map"
+      ],
+      "domains": [
+        "compass",
+        "transform"
+      ],
+      "roots": [
+        "map"
+      ]
+    },
+    {
+      "rank": 78,
+      "canonical": "label",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "label",
+        "label_map"
+      ],
+      "domains": [
+        "asm",
+        "gui"
+      ],
+      "roots": [
+        "label"
+      ]
+    },
+    {
+      "rank": 79,
+      "canonical": "review",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "approve",
+        "review"
+      ],
+      "domains": [
+        "arch",
+        "governance"
+      ],
+      "roots": [
+        "approve",
+        "review"
+      ]
+    },
+    {
+      "rank": 80,
+      "canonical": "start",
+      "domain_count": 2,
+      "method_count": 3,
+      "members": [
+        "start",
+        "stop",
+        "timeout"
+      ],
+      "domains": [
+        "orchestration",
+        "process"
+      ],
+      "roots": [
+        "start",
+        "stop",
+        "timeout"
+      ]
+    },
+    {
+      "rank": 81,
+      "canonical": "toolbar",
+      "domain_count": 2,
+      "method_count": 7,
+      "members": [
+        "hide",
+        "layout",
+        "menu",
+        "paint",
+        "show",
+        "toolbar",
+        "tooltip"
+      ],
+      "domains": [
+        "gui",
+        "qt"
+      ],
+      "roots": [
+        "hide",
+        "layo",
+        "menu",
+        "paint",
+        "show",
+        "tool"
+      ]
+    },
+    {
+      "rank": 82,
+      "canonical": "trigger",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "trigger",
+        "triggers"
+      ],
+      "domains": [
+        "automation",
+        "db_inv"
+      ],
+      "roots": [
+        "trigger"
+      ]
+    },
+    {
+      "rank": 83,
+      "canonical": "analyze",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "analyze",
+        "disassemble"
+      ],
+      "domains": [
+        "asm",
+        "bytecode"
+      ],
+      "roots": [
+        "analyze",
+        "disassemble"
+      ]
+    },
+    {
+      "rank": 84,
+      "canonical": "audit",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "audit",
+        "policy"
+      ],
+      "domains": [
+        "governance",
+        "security"
+      ],
+      "roots": [
+        "audit",
+        "poli"
+      ]
+    },
+    {
+      "rank": 85,
+      "canonical": "baseline",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "baseline"
+      ],
+      "domains": [
+        "arch",
+        "audit"
+      ],
+      "roots": [
+        "baseline"
+      ]
+    },
+    {
+      "rank": 86,
+      "canonical": "browse",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "browse"
+      ],
+      "domains": [
+        "db_studio",
+        "ingest_gui"
+      ],
+      "roots": [
+        "browse"
+      ]
+    },
+    {
+      "rank": 87,
+      "canonical": "compile",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "compile",
+        "decompile"
+      ],
+      "domains": [
+        "bytecode",
+        "runtime"
+      ],
+      "roots": [
+        "compile",
+        "decompile"
+      ]
+    },
+    {
+      "rank": 88,
+      "canonical": "confidence",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "confidence",
+        "explain"
+      ],
+      "domains": [
+        "knowledge",
+        "qa"
+      ],
+      "roots": [
+        "conf",
+        "explain"
+      ]
+    },
+    {
+      "rank": 89,
+      "canonical": "convert",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "convert"
+      ],
+      "domains": [
+        "transform",
+        "yaml"
+      ],
+      "roots": [
+        "convert"
+      ]
+    },
+    {
+      "rank": 90,
+      "canonical": "decrypt",
+      "domain_count": 2,
+      "method_count": 2,
+      "members": [
+        "decrypt",
+        "encrypt"
+      ],
+      "domains": [
+        "archive",
+        "security"
+      ],
+      "roots": [
+        "decrypt",
+        "encrypt"
+      ]
+    },
+    {
+      "rank": 91,
+      "canonical": "design",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "design"
+      ],
+      "domains": [
+        "arch",
+        "db_studio"
+      ],
+      "roots": [
+        "design"
+      ]
+    },
+    {
+      "rank": 92,
+      "canonical": "diff",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "diff"
+      ],
+      "domains": [
+        "audit",
+        "text"
+      ],
+      "roots": [
+        "diff"
+      ]
+    },
+    {
+      "rank": 93,
+      "canonical": "document",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "document"
+      ],
+      "domains": [
+        "arch",
+        "storage"
+      ],
+      "roots": [
+        "document"
+      ]
+    },
+    {
+      "rank": 94,
+      "canonical": "fetch",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "fetch"
+      ],
+      "domains": [
+        "db",
+        "package"
+      ],
+      "roots": [
+        "fetch"
+      ]
+    },
+    {
+      "rank": 95,
+      "canonical": "flush",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "flush"
+      ],
+      "domains": [
+        "io",
+        "logging"
+      ],
+      "roots": [
+        "flush"
+      ]
+    },
+    {
+      "rank": 96,
+      "canonical": "forget",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "forget"
+      ],
+      "domains": [
+        "ai",
+        "memory"
+      ],
+      "roots": [
+        "forget"
+      ]
+    },
+    {
+      "rank": 97,
+      "canonical": "generate",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "generate"
+      ],
+      "domains": [
+        "ai",
+        "documentation"
+      ],
+      "roots": [
+        "generate"
+      ]
+    },
+    {
+      "rank": 98,
+      "canonical": "hash",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "hash"
+      ],
+      "domains": [
+        "codec",
+        "security"
+      ],
+      "roots": [
+        "hash"
+      ]
+    },
+    {
+      "rank": 99,
+      "canonical": "inject",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "inject"
+      ],
+      "domains": [
+        "bytecode",
+        "yaml"
+      ],
+      "roots": [
+        "inje"
+      ]
+    },
+    {
+      "rank": 100,
+      "canonical": "match",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "match"
+      ],
+      "domains": [
+        "search",
+        "unify"
+      ],
+      "roots": [
+        "match"
+      ]
+    },
+    {
+      "rank": 101,
+      "canonical": "migrate",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "migrate"
+      ],
+      "domains": [
+        "db",
+        "db_studio"
+      ],
+      "roots": [
+        "migrate"
+      ]
+    },
+    {
+      "rank": 102,
+      "canonical": "patch",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "patch"
+      ],
+      "domains": [
+        "bytecode",
+        "network"
+      ],
+      "roots": [
+        "patch"
+      ]
+    },
+    {
+      "rank": 103,
+      "canonical": "priority",
+      "domain_count": 2,
+      "method_count": 3,
+      "members": [
+        "priority",
+        "queue",
+        "retry"
+      ],
+      "domains": [
+        "messaging",
+        "orchestration"
+      ],
+      "roots": [
+        "prio",
+        "queu",
+        "retry"
+      ]
+    },
+    {
+      "rank": 104,
+      "canonical": "profile",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "profile"
+      ],
+      "domains": [
+        "config",
+        "runtime"
+      ],
+      "roots": [
+        "profile"
+      ]
+    },
+    {
+      "rank": 105,
+      "canonical": "publish",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "publish"
+      ],
+      "domains": [
+        "messaging",
+        "package"
+      ],
+      "roots": [
+        "publish"
+      ]
+    },
+    {
+      "rank": 106,
+      "canonical": "put",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "put"
+      ],
+      "domains": [
+        "network",
+        "storage"
+      ],
+      "roots": [
+        "put"
+      ]
+    },
+    {
+      "rank": 107,
+      "canonical": "rebuild",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "rebuild"
+      ],
+      "domains": [
+        "index",
+        "wws_index"
+      ],
+      "roots": [
+        "rebuild"
+      ]
+    },
+    {
+      "rank": 108,
+      "canonical": "render",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "render"
+      ],
+      "domains": [
+        "documentation",
+        "gui"
+      ],
+      "roots": [
+        "render"
+      ]
+    },
+    {
+      "rank": 109,
+      "canonical": "route",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "route"
+      ],
+      "domains": [
+        "compass",
+        "qa"
+      ],
+      "roots": [
+        "route"
+      ]
+    },
+    {
+      "rank": 110,
+      "canonical": "save",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "save"
+      ],
+      "domains": [
+        "config",
+        "yaml"
+      ],
+      "roots": [
+        "save"
+      ]
+    },
+    {
+      "rank": 111,
+      "canonical": "schema",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "schema"
+      ],
+      "domains": [
+        "db",
+        "db_inv"
+      ],
+      "roots": [
+        "sche"
+      ]
+    },
+    {
+      "rank": 112,
+      "canonical": "select",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "select"
+      ],
+      "domains": [
+        "db",
+        "ingest_gui"
+      ],
+      "roots": [
+        "select"
+      ]
+    },
+    {
+      "rank": 113,
+      "canonical": "send",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "send"
+      ],
+      "domains": [
+        "messaging",
+        "network"
+      ],
+      "roots": [
+        "send"
+      ]
+    },
+    {
+      "rank": 114,
+      "canonical": "sort",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "sort"
+      ],
+      "domains": [
+        "search",
+        "transform"
+      ],
+      "roots": [
+        "sort"
+      ]
+    },
+    {
+      "rank": 115,
+      "canonical": "sync",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "sync"
+      ],
+      "domains": [
+        "db_studio",
+        "folder"
+      ],
+      "roots": [
+        "sync"
+      ]
+    },
+    {
+      "rank": 116,
+      "canonical": "tokenize",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "tokenize"
+      ],
+      "domains": [
+        "parse",
+        "text"
+      ],
+      "roots": [
+        "tokenize"
+      ]
+    },
+    {
+      "rank": 117,
+      "canonical": "transform",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "transform"
+      ],
+      "domains": [
+        "ingest",
+        "parse"
+      ],
+      "roots": [
+        "transform"
+      ]
+    },
+    {
+      "rank": 118,
+      "canonical": "tree",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "tree"
+      ],
+      "domains": [
+        "folder",
+        "gui"
+      ],
+      "roots": [
+        "tree"
+      ]
+    },
+    {
+      "rank": 119,
+      "canonical": "wait",
+      "domain_count": 2,
+      "method_count": 1,
+      "members": [
+        "wait"
+      ],
+      "domains": [
+        "automation",
+        "process"
+      ],
+      "roots": [
+        "wait"
+      ]
+    },
+    {
+      "rank": 120,
+      "canonical": "from_csv",
+      "domain_count": 1,
+      "method_count": 13,
+      "members": [
+        "from_csv",
+        "from_json",
+        "from_xml",
+        "from_yaml",
+        "roundtrip",
+        "to_csv",
+        "to_dict",
+        "to_json",
+        "to_list",
+        "to_text",
+        "to_toml",
+        "to_xml",
+        "to_yaml"
+      ],
+      "domains": [
+        "convert"
+      ],
+      "roots": [
+        "from",
+        "roun",
+        "to_c",
+        "to_d",
+        "to_j",
+        "to_l",
+        "to_t",
+        "to_x",
+        "to_y"
+      ]
+    },
+    {
+      "rank": 121,
+      "canonical": "draw_line",
+      "domain_count": 1,
+      "method_count": 11,
+      "members": [
+        "button",
+        "combo",
+        "draw_line",
+        "draw_rect",
+        "draw_text",
+        "event_click",
+        "panel",
+        "resize",
+        "slider",
+        "tab",
+        "text"
+      ],
+      "domains": [
+        "gui"
+      ],
+      "roots": [
+        "butt",
+        "click",
+        "comb",
+        "draw",
+        "pane",
+        "resize",
+        "slid",
+        "tab",
+        "text"
+      ]
+    },
+    {
+      "rank": 122,
+      "canonical": "insert",
+      "domain_count": 1,
+      "method_count": 8,
+      "members": [
+        "alter_table",
+        "commit",
+        "describe",
+        "drop_table",
+        "insert",
+        "transaction",
+        "upsert",
+        "vacuum"
+      ],
+      "domains": [
+        "db"
+      ],
+      "roots": [
+        "alter",
+        "commit",
+        "describe",
+        "drop",
+        "insert",
+        "tran",
+        "upse",
+        "vacu"
+      ]
+    },
+    {
+      "rank": 123,
+      "canonical": "constraint",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "constraint",
+        "exception",
+        "reject",
+        "rule",
+        "waive"
+      ],
+      "domains": [
+        "governance"
+      ],
+      "roots": [
+        "exce",
+        "reject",
+        "rule",
+        "train",
+        "waive"
+      ]
+    },
+    {
+      "rank": 124,
+      "canonical": "constraints",
+      "domain_count": 1,
+      "method_count": 8,
+      "members": [
+        "columns",
+        "constraints",
+        "discover",
+        "foreign_keys",
+        "functions",
+        "introspect",
+        "relationships",
+        "views"
+      ],
+      "domains": [
+        "db_inv"
+      ],
+      "roots": [
+        "colu",
+        "discover",
+        "fore",
+        "func",
+        "intr",
+        "rela",
+        "train",
+        "view"
+      ]
+    },
+    {
+      "rank": 125,
+      "canonical": "log",
+      "domain_count": 1,
+      "method_count": 6,
+      "members": [
+        "debug",
+        "error",
+        "fatal",
+        "log",
+        "metric",
+        "warn"
+      ],
+      "domains": [
+        "logging"
+      ],
+      "roots": [
+        "debug",
+        "error",
+        "fatal",
+        "log",
+        "metr",
+        "warn"
+      ]
+    },
+    {
+      "rank": 126,
+      "canonical": "prove",
+      "domain_count": 1,
+      "method_count": 3,
+      "members": [
+        "infer",
+        "prove",
+        "source"
+      ],
+      "domains": [
+        "knowledge"
+      ],
+      "roots": [
+        "infe",
+        "prove",
+        "sour"
+      ]
+    },
+    {
+      "rank": 127,
+      "canonical": "extract_imports",
+      "domain_count": 1,
+      "method_count": 1,
+      "members": [
+        "extract_imports"
+      ],
+      "domains": [
+        "csplit"
+      ],
+      "roots": [
+        "import"
+      ]
+    },
+    {
+      "rank": 128,
+      "canonical": "extract_registers",
+      "domain_count": 1,
+      "method_count": 3,
+      "members": [
+        "assemble",
+        "cross_reference",
+        "extract_registers"
+      ],
+      "domains": [
+        "asm"
+      ],
+      "roots": [
+        "assemble",
+        "cross_reference",
+        "register"
+      ]
+    },
+    {
+      "rank": 129,
+      "canonical": "accept",
+      "domain_count": 1,
+      "method_count": 10,
+      "members": [
+        "accept",
+        "download",
+        "listen",
+        "ping",
+        "poll",
+        "post",
+        "recv",
+        "stream",
+        "upload",
+        "websocket"
+      ],
+      "domains": [
+        "network"
+      ],
+      "roots": [
+        "accept",
+        "download",
+        "listen",
+        "ping",
+        "poll",
+        "post",
+        "recv",
+        "stream",
+        "upload",
+        "webs"
+      ]
+    },
+    {
+      "rank": 130,
+      "canonical": "ack",
+      "domain_count": 1,
+      "method_count": 10,
+      "members": [
+        "ack",
+        "broadcast",
+        "channel",
+        "deadletter",
+        "delay",
+        "nack",
+        "receive",
+        "subscribe",
+        "topic",
+        "unsubscribe"
+      ],
+      "domains": [
+        "messaging"
+      ],
+      "roots": [
+        "ack",
+        "broadcast",
+        "chan",
+        "dead",
+        "dela",
+        "nack",
+        "receive",
+        "subscribe",
+        "topi",
+        "unsubscribe"
+      ]
+    },
+    {
+      "rank": 131,
+      "canonical": "alias",
+      "domain_count": 1,
+      "method_count": 6,
+      "members": [
+        "alias",
+        "exit",
+        "help",
+        "pipe",
+        "redirect",
+        "version"
+      ],
+      "domains": [
+        "cli"
+      ],
+      "roots": [
+        "alia",
+        "exit",
+        "help",
+        "pipe",
+        "redirect",
+        "vers"
+      ]
+    },
+    {
+      "rank": 132,
+      "canonical": "anomaly",
+      "domain_count": 1,
+      "method_count": 13,
+      "members": [
+        "anomaly",
+        "avg",
+        "cluster",
+        "correlate",
+        "forecast",
+        "insight",
+        "max",
+        "median",
+        "min",
+        "pivot",
+        "stddev",
+        "sum",
+        "trend"
+      ],
+      "domains": [
+        "analytics"
+      ],
+      "roots": [
+        "anom",
+        "avg",
+        "cluster",
+        "corr",
+        "forecast",
+        "insi",
+        "max",
+        "medi",
+        "min",
+        "pivot",
+        "stdd",
+        "sum",
+        "tren"
+      ]
+    },
+    {
+      "rank": 133,
+      "canonical": "answer",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "answer",
+        "ask",
+        "fallback",
+        "feedback",
+        "tune"
+      ],
+      "domains": [
+        "qa"
+      ],
+      "roots": [
+        "answ",
+        "ask",
+        "fall",
+        "feed",
+        "tune"
+      ]
+    },
+    {
+      "rank": 134,
+      "canonical": "api_doc",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "api_doc",
+        "changelog",
+        "cross_ref",
+        "diagram",
+        "example"
+      ],
+      "domains": [
+        "documentation"
+      ],
+      "roots": [
+        "api_",
+        "change",
+        "cros",
+        "diagram",
+        "exam"
+      ]
+    },
+    {
+      "rank": 135,
+      "canonical": "assert",
+      "domain_count": 1,
+      "method_count": 7,
+      "members": [
+        "assert",
+        "coverage",
+        "mock",
+        "setup",
+        "skip",
+        "teardown",
+        "unit"
+      ],
+      "domains": [
+        "testing"
+      ],
+      "roots": [
+        "assert",
+        "cove",
+        "mock",
+        "setup",
+        "skip",
+        "tear",
+        "unit"
+      ]
+    },
+    {
+      "rank": 136,
+      "canonical": "authenticate",
+      "domain_count": 1,
+      "method_count": 6,
+      "members": [
+        "authenticate",
+        "authorize",
+        "permission",
+        "revoke",
+        "role",
+        "token"
+      ],
+      "domains": [
+        "security"
+      ],
+      "roots": [
+        "authenticate",
+        "authorize",
+        "perm",
+        "revoke",
+        "role",
+        "toke"
+      ]
+    },
+    {
+      "rank": 137,
+      "canonical": "base64",
+      "domain_count": 1,
+      "method_count": 4,
+      "members": [
+        "base64",
+        "deserialize",
+        "hex",
+        "serialize"
+      ],
+      "domains": [
+        "codec"
+      ],
+      "roots": [
+        "base",
+        "deserialize",
+        "hex",
+        "serialize"
+      ]
+    },
+    {
+      "rank": 138,
+      "canonical": "batch",
+      "domain_count": 1,
+      "method_count": 1,
+      "members": [
+        "batch"
+      ],
+      "domains": [
+        "ingest_cli"
+      ],
+      "roots": [
+        "batc"
+      ]
+    },
+    {
+      "rank": 139,
+      "canonical": "bfs",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "bfs",
+        "dfs"
+      ],
+      "domains": [
+        "graph"
+      ],
+      "roots": [
+        "bfs",
+        "dfs"
+      ]
+    },
+    {
+      "rank": 140,
+      "canonical": "blob",
+      "domain_count": 1,
+      "method_count": 6,
+      "members": [
+        "blob",
+        "bucket",
+        "object",
+        "record",
+        "replicate",
+        "volume"
+      ],
+      "domains": [
+        "storage"
+      ],
+      "roots": [
+        "blob",
+        "buck",
+        "obje",
+        "reco",
+        "replicate",
+        "volu"
+      ]
+    },
+    {
+      "rank": 141,
+      "canonical": "branch",
+      "domain_count": 1,
+      "method_count": 7,
+      "members": [
+        "branch",
+        "chain",
+        "condition",
+        "loop",
+        "notify",
+        "state_machine",
+        "webhook"
+      ],
+      "domains": [
+        "automation"
+      ],
+      "roots": [
+        "branch",
+        "chain",
+        "cond",
+        "loop",
+        "notify",
+        "state_machine",
+        "webh"
+      ]
+    },
+    {
+      "rank": 142,
+      "canonical": "cache",
+      "domain_count": 1,
+      "method_count": 8,
+      "members": [
+        "cache",
+        "clear",
+        "expire",
+        "invalidate",
+        "keys",
+        "persist",
+        "recall",
+        "snapshot"
+      ],
+      "domains": [
+        "memory"
+      ],
+      "roots": [
+        "cach",
+        "clear",
+        "expire",
+        "invalidate",
+        "keys",
+        "persist",
+        "recall",
+        "snapshot"
+      ]
+    },
+    {
+      "rank": 143,
+      "canonical": "calibrate",
+      "domain_count": 1,
+      "method_count": 9,
+      "members": [
+        "calibrate",
+        "distance",
+        "explore",
+        "heading",
+        "landmark",
+        "navigate",
+        "orient",
+        "survey",
+        "waypoint"
+      ],
+      "domains": [
+        "compass"
+      ],
+      "roots": [
+        "calibrate",
+        "distance",
+        "explore",
+        "heading",
+        "landmark",
+        "navigate",
+        "orient",
+        "surv",
+        "waypoint"
+      ]
+    },
+    {
+      "rank": 144,
+      "canonical": "category",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "category",
+        "follow",
+        "level",
+        "purge",
+        "tail"
+      ],
+      "domains": [
+        "log"
+      ],
+      "roots": [
+        "cate",
+        "foll",
+        "leve",
+        "purge",
+        "tail"
+      ]
+    },
+    {
+      "rank": 145,
+      "canonical": "clone",
+      "domain_count": 1,
+      "method_count": 4,
+      "members": [
+        "clone",
+        "configure",
+        "dispose",
+        "prototype"
+      ],
+      "domains": [
+        "factory"
+      ],
+      "roots": [
+        "clone",
+        "configure",
+        "dispose",
+        "prot"
+      ]
+    },
+    {
+      "rank": 146,
+      "canonical": "cohesion",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "cohesion",
+        "coupling",
+        "layer",
+        "pattern",
+        "technical_debt"
+      ],
+      "domains": [
+        "arch"
+      ],
+      "roots": [
+        "cohe",
+        "coup",
+        "laye",
+        "patt",
+        "tech"
+      ]
+    },
+    {
+      "rank": 147,
+      "canonical": "cpu",
+      "domain_count": 1,
+      "method_count": 10,
+      "members": [
+        "cpu",
+        "disk",
+        "env",
+        "hostname",
+        "memory",
+        "network",
+        "platform",
+        "processes",
+        "uptime",
+        "users"
+      ],
+      "domains": [
+        "system"
+      ],
+      "roots": [
+        "cpu",
+        "disk",
+        "env",
+        "host",
+        "memo",
+        "netw",
+        "plat",
+        "process",
+        "upti",
+        "user"
+      ]
+    },
+    {
+      "rank": 148,
+      "canonical": "defaults",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "defaults",
+        "environment"
+      ],
+      "domains": [
+        "config"
+      ],
+      "roots": [
+        "defa",
+        "envi"
+      ]
+    },
+    {
+      "rank": 149,
+      "canonical": "destroy",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "destroy",
+        "inspect"
+      ],
+      "domains": [
+        "cu"
+      ],
+      "roots": [
+        "destroy",
+        "inspect"
+      ]
+    },
+    {
+      "rank": 150,
+      "canonical": "detect",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "detect",
+        "diagnose",
+        "quarantine",
+        "recover",
+        "repair"
+      ],
+      "domains": [
+        "rescue"
+      ],
+      "roots": [
+        "detect",
+        "diagnose",
+        "quarantine",
+        "recover",
+        "repair"
+      ]
+    },
+    {
+      "rank": 151,
+      "canonical": "disable",
+      "domain_count": 1,
+      "method_count": 4,
+      "members": [
+        "disable",
+        "enable",
+        "slot",
+        "style"
+      ],
+      "domains": [
+        "qt"
+      ],
+      "roots": [
+        "disable",
+        "enable",
+        "slot",
+        "styl"
+      ]
+    },
+    {
+      "rank": 152,
+      "canonical": "drift",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "drift",
+        "flag"
+      ],
+      "domains": [
+        "audit"
+      ],
+      "roots": [
+        "drift",
+        "flag"
+      ]
+    },
+    {
+      "rank": 153,
+      "canonical": "dump",
+      "domain_count": 1,
+      "method_count": 1,
+      "members": [
+        "dump"
+      ],
+      "domains": [
+        "yaml"
+      ],
+      "roots": [
+        "dump"
+      ]
+    },
+    {
+      "rank": 154,
+      "canonical": "edit",
+      "domain_count": 1,
+      "method_count": 1,
+      "members": [
+        "edit"
+      ],
+      "domains": [
+        "db_studio"
+      ],
+      "roots": [
+        "edit"
+      ]
+    },
+    {
+      "rank": 155,
+      "canonical": "emit",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "emit",
+        "lex"
+      ],
+      "domains": [
+        "parse"
+      ],
+      "roots": [
+        "emit",
+        "lex"
+      ]
+    },
+    {
+      "rank": 156,
+      "canonical": "eval",
+      "domain_count": 1,
+      "method_count": 3,
+      "members": [
+        "eval",
+        "hook",
+        "sandbox"
+      ],
+      "domains": [
+        "runtime"
+      ],
+      "roots": [
+        "eval",
+        "hook",
+        "sand"
+      ]
+    },
+    {
+      "rank": 157,
+      "canonical": "evaluate",
+      "domain_count": 1,
+      "method_count": 9,
+      "members": [
+        "evaluate",
+        "learn",
+        "plan",
+        "prompt",
+        "reason",
+        "reflect",
+        "remember",
+        "summarize",
+        "translate"
+      ],
+      "domains": [
+        "ai"
+      ],
+      "roots": [
+        "evaluate",
+        "learn",
+        "plan",
+        "prompt",
+        "reason",
+        "reflect",
+        "reme",
+        "summarize",
+        "translate"
+      ]
+    },
+    {
+      "rank": 158,
+      "canonical": "facet",
+      "domain_count": 1,
+      "method_count": 11,
+      "members": [
+        "facet",
+        "fuzzy",
+        "highlight",
+        "nearest",
+        "phrase",
+        "regex",
+        "reindex",
+        "similarity",
+        "snippet",
+        "suggest",
+        "vector"
+      ],
+      "domains": [
+        "search"
+      ],
+      "roots": [
+        "face",
+        "fuzz",
+        "highlight",
+        "near",
+        "phra",
+        "rege",
+        "reindex",
+        "simi",
+        "snip",
+        "suggest",
+        "vect"
+      ]
+    },
+    {
+      "rank": 159,
+      "canonical": "flatten",
+      "domain_count": 1,
+      "method_count": 4,
+      "members": [
+        "flatten",
+        "project",
+        "reduce",
+        "restructure"
+      ],
+      "domains": [
+        "transform"
+      ],
+      "roots": [
+        "flatten",
+        "project",
+        "redu",
+        "restructure"
+      ]
+    },
+    {
+      "rank": 160,
+      "canonical": "install",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "install",
+        "uninstall"
+      ],
+      "domains": [
+        "package"
+      ],
+      "roots": [
+        "inst",
+        "unin"
+      ]
+    },
+    {
+      "rank": 161,
+      "canonical": "kill",
+      "domain_count": 1,
+      "method_count": 5,
+      "members": [
+        "kill",
+        "pid",
+        "stderr",
+        "stdin",
+        "stdout"
+      ],
+      "domains": [
+        "process"
+      ],
+      "roots": [
+        "kill",
+        "pid",
+        "stde",
+        "stdi",
+        "stdo"
+      ]
+    },
+    {
+      "rank": 162,
+      "canonical": "link",
+      "domain_count": 1,
+      "method_count": 2,
+      "members": [
+        "link",
+        "standardize"
+      ],
+      "domains": [
+        "unify"
+      ],
+      "roots": [
+        "link",
+        "standardize"
+      ]
+    },
+    {
+      "rank": 163,
+      "canonical": "makedirs",
+      "domain_count": 1,
+      "method_count": 6,
+      "members": [
+        "makedirs",
+        "open",
+        "rmdir",
+        "seek",
+        "tell",
+        "truncate"
+      ],
+      "domains": [
+        "io"
+      ],
+      "roots": [
+        "make",
+        "open",
+        "rmdi",
+        "seek",
+        "tell",
+        "truncate"
+      ]
+    },
+    {
+      "rank": 164,
+      "canonical": "next",
+      "domain_count": 1,
+      "method_count": 3,
+      "members": [
+        "next",
+        "once",
+        "recurring"
+      ],
+      "domains": [
+        "schedule"
+      ],
+      "roots": [
+        "next",
+        "once",
+        "recu"
+      ]
+    },
+    {
+      "rank": 165,
+      "canonical": "parallel",
+      "domain_count": 1,
+      "method_count": 4,
+      "members": [
+        "parallel",
+        "pipeline",
+        "sequence",
+        "worker"
+      ],
+      "domains": [
+        "orchestration"
+      ],
+      "roots": [
+        "parallel",
+        "pipeline",
+        "sequence",
+        "work"
+      ]
+    },
+    {
+      "rank": 166,
+      "canonical": "replace",
+      "domain_count": 1,
+      "method_count": 1,
+      "members": [
+        "replace"
+      ],
+      "domains": [
+        "text"
+      ],
+      "roots": [
+        "repl"
+      ]
+    },
+    {
+      "rank": 167,
+      "canonical": "tag",
+      "domain_count": 1,
+      "method_count": 1,
+      "members": [
+        "tag"
+      ],
+      "domains": [
+        "ingest"
+      ],
+      "roots": [
+        "tag"
+      ]
+    }
+  ]
+}

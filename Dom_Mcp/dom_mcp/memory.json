@@ -1,0 +1,12 @@
+{
+  "entities": [
+    {
+      "name": "TestEntity",
+      "entityType": "test",
+      "observations": [
+        "dom_mcp works"
+      ]
+    }
+  ],
+  "relations": null
+}

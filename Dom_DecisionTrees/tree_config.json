@@ -1,0 +1,18 @@
+{
+  "root_label": "Code Decision Tree",
+  "group_by": "category",
+  "show_methods": true,
+  "show_file_count": true,
+  "show_method_count": true,
+  "filter_category": "",
+  "filter_file": "",
+  "max_methods_per_node": 30,
+  "color_scheme": "dark",
+  "node_spacing_x": 200,
+  "node_spacing_y": 80,
+  "node_width": 160,
+  "node_height": 40,
+  "orientation": "vertical",
+  "show_arrows": true,
+  "arrow_style": "curved"
+}

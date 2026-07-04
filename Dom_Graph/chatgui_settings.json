@@ -1,0 +1,25 @@
+{
+  "geometry": [
+    952,
+    31,
+    952,
+    1127
+  ],
+  "voice_enabled": true,
+  "voice_name": "Samantha",
+  "voice_rate": 180,
+  "stt_on_device": true,
+  "stt_language": "en-US",
+  "stt_buffer_size": 4096,
+  "stt_silence_timeout": 2.5,
+  "stt_min_listen": 1.0,
+  "stt_max_timeout": 60,
+  "stt_runloop_interval": 0.05,
+  "stt_silence_threshold": 0.01,
+  "ontop": true,
+  "theme": "VSCode Dark",
+  "font_chat": 24,
+  "font_input": 24,
+  "font_list": 23,
+  "opacity": 1.0
+}

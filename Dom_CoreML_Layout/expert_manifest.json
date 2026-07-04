@@ -1,0 +1,226 @@
+{
+  "architecture": {
+    "input_dim": 40,
+    "hidden_dim": 128,
+    "output_dim": 10,
+    "layers": [
+      {
+        "name": "fc0",
+        "type": "linear",
+        "in": 40,
+        "out": 128,
+        "activation": "relu"
+      },
+      {
+        "name": "fc2",
+        "type": "linear",
+        "in": 128,
+        "out": 128,
+        "activation": "relu"
+      },
+      {
+        "name": "fc4",
+        "type": "linear",
+        "in": 128,
+        "out": 10,
+        "activation": "none"
+      }
+    ],
+    "total_params": 23050,
+    "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+    "weights_bin_size": 92200
+  },
+  "experts": {
+    "vscode": {
+      "name": "vscode",
+      "domain": "vscode",
+      "description": "VSCode-style IDE layout",
+      "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/experts/vscode.weights.bin",
+      "architecture": {
+        "input_dim": 40,
+        "hidden_dim": 128,
+        "output_dim": 10,
+        "layers": [
+          {
+            "name": "fc0",
+            "type": "linear",
+            "in": 40,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc2",
+            "type": "linear",
+            "in": 128,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc4",
+            "type": "linear",
+            "in": 128,
+            "out": 10,
+            "activation": "none"
+          }
+        ],
+        "total_params": 23050,
+        "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+        "weights_bin_size": 92200
+      },
+      "active": true
+    },
+    "browser": {
+      "name": "browser",
+      "domain": "browser",
+      "description": "Browser-style layout",
+      "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/experts/browser.weights.bin",
+      "architecture": {
+        "input_dim": 40,
+        "hidden_dim": 128,
+        "output_dim": 10,
+        "layers": [
+          {
+            "name": "fc0",
+            "type": "linear",
+            "in": 40,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc2",
+            "type": "linear",
+            "in": 128,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc4",
+            "type": "linear",
+            "in": 128,
+            "out": 10,
+            "activation": "none"
+          }
+        ],
+        "total_params": 23050,
+        "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+        "weights_bin_size": 92200
+      },
+      "active": false
+    },
+    "dashboard": {
+      "name": "dashboard",
+      "domain": "dashboard",
+      "description": "Analytics dashboard layout",
+      "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/experts/dashboard.weights.bin",
+      "architecture": {
+        "input_dim": 40,
+        "hidden_dim": 128,
+        "output_dim": 10,
+        "layers": [
+          {
+            "name": "fc0",
+            "type": "linear",
+            "in": 40,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc2",
+            "type": "linear",
+            "in": 128,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc4",
+            "type": "linear",
+            "in": 128,
+            "out": 10,
+            "activation": "none"
+          }
+        ],
+        "total_params": 23050,
+        "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+        "weights_bin_size": 92200
+      },
+      "active": false
+    },
+    "mobile": {
+      "name": "mobile",
+      "domain": "mobile",
+      "description": "Mobile app layout",
+      "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/experts/mobile.weights.bin",
+      "architecture": {
+        "input_dim": 40,
+        "hidden_dim": 128,
+        "output_dim": 10,
+        "layers": [
+          {
+            "name": "fc0",
+            "type": "linear",
+            "in": 40,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc2",
+            "type": "linear",
+            "in": 128,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc4",
+            "type": "linear",
+            "in": 128,
+            "out": 10,
+            "activation": "none"
+          }
+        ],
+        "total_params": 23050,
+        "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+        "weights_bin_size": 92200
+      },
+      "active": false
+    },
+    "tablet": {
+      "name": "tablet",
+      "domain": "tablet",
+      "description": "Tablet layout",
+      "weights_path": "/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_CoreML_Layout/experts/tablet.weights.bin",
+      "architecture": {
+        "input_dim": 40,
+        "hidden_dim": 128,
+        "output_dim": 10,
+        "layers": [
+          {
+            "name": "fc0",
+            "type": "linear",
+            "in": 40,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc2",
+            "type": "linear",
+            "in": 128,
+            "out": 128,
+            "activation": "relu"
+          },
+          {
+            "name": "fc4",
+            "type": "linear",
+            "in": 128,
+            "out": 10,
+            "activation": "none"
+          }
+        ],
+        "total_params": 23050,
+        "weight_layout": "w0(128x40) b0(128) w2(128x128) b2(128) w4(10x128) b4(10)",
+        "weights_bin_size": 92200
+      },
+      "active": false
+    }
+  },
+  "active_expert": "vscode"
+}

@@ -1,0 +1,27 @@
+BEGIN TRANSACTION;
+INSERT INTO links (link_id, from_node_id, to_node_id, link_type, weight, evidence) VALUES
+(508, 564, 565, 'produced_by', 1.0, '7 phases produce the Knowledge Package'),
+(509, 565, 568, 'phase_3_requires', 1.0, 'Extract phase requires extraction contract'),
+(510, 568, 569, 'split_into', 1.0, 'Extraction contract splits Extract into Extract plus Interpret'),
+(511, 564, 570, 'includes', 1.0, 'Knowledge Package includes Compilation Manifest'),
+(512, 564, 571, 'consumed_by', 1.0, 'Knowledge Package is queried by Knowledge Runtime'),
+(513, 572, 573, 'defines', 1.0, 'Inference Layer defines Extracted vs Inferred distinction'),
+(514, 574, 575, 'enables', 1.0, 'Higher-Order Atoms enable Knowledge Hierarchies'),
+(515, 576, 577, 'supports', 1.0, 'Reasoning Paths support AI-Independent Architecture'),
+(516, 579, 580, 'quality_measured_by', 1.0, 'Proof artifacts quality measured by Compiler Quality Metrics'),
+(517, 581, 582, 'generalizes_to', 1.0, 'Claim concept generalizes to Four Layer Model'),
+(518, 582, 583, 'extended_by', 1.0, 'Four Layer Model extended by Contexts Layer'),
+(519, 583, 584, 'becomes', 1.0, 'Contexts Layer becomes part of Five Layer Final Architecture'),
+(520, 584, 585, 'embodies', 1.0, 'Five Layer Architecture embodies The Invariant'),
+(521, 585, 586, 'validated_by', 1.0, 'The Invariant validated by Reproducibility Test'),
+(522, 586, 587, 'belongs_to', 1.0, 'Reproducibility Test belongs to Computable Epistemology'),
+(523, 587, 588, 'obstructed_by', 1.0, 'Computable Epistemology obstructed by Circling Problem'),
+(524, 588, 589, 'diagnosed_as', 1.0, 'Circling Problem diagnosed as Phase A stuck'),
+(525, 589, 590, 'must_transition_to', 1.0, 'Phase A must transition to Phase B'),
+(526, 590, 591, 'enables', 1.0, 'Phase B enables Minimal Compiler v0'),
+(527, 591, 586, 'is_first_step_toward', 1.0, 'Minimal Compiler v0 is first step toward Reproducibility Test'),
+(528, 566, 564, 'governs', 1.0, 'Evidence Rule governs Knowledge Package contents'),
+(529, 567, 564, 'separates_from', 1.0, 'Package Not Database separates storage from compiler logic'),
+(530, 578, 586, 'complements', 1.0, 'Prediction Test complements Reproducibility Test'),
+(531, 592, 591, 'motivates', 1.0, 'Architecture Status Table motivates Minimal Compiler v0');
+COMMIT;

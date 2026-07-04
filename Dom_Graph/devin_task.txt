@@ -1,0 +1,48 @@
+Read the file /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/DEVIN_SPEC_DOMAIN_TWIN.md fully. This is your implementation spec.
+
+Your task: Build Phase 1 (Foundation) of the Project Digital Twin system.
+
+PHASE 1 TASKS (do these in order):
+
+1. BACKUP: Copy /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/dom_graph_work.db to dom_graph_work.bak.db. Hash both files. Verify hashes match. Make backup read-only (chmod 444).
+
+2. SCHEMA: Add the 5 core tables (files, classes, methods, edges, knowledge) and 3 auxiliary tables (snapshots, attempts, observations) to the SCHEMA_SQL constant in /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/Config.py. The exact SQL DDL is in the spec file.
+
+3. CREATE TABLES: Create all 8 tables in dom_graph_work.db. Verify they exist with: SELECT name FROM sqlite_master WHERE type='table'.
+
+4. POPULATE TABLES: Write a Python script that:
+   a. Scans all .py files in /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/
+   b. AST-parses each file
+   c. INSERTs into files table (file_name, path, hash, size, imports, class_count, method_count)
+   d. INSERTs into classes table (class_name, file_id, start_line, end_line, parent, method_count)
+   e. INSERTs into methods table (method_name, class_id, file_id, start_line, end_line, method_code, signature, parameters, has_print, has_decorator, has_self_underscore, returns_tuple3, line_count, hash)
+   f. For each method, detect: print() calls (lstrip().startswith("print(")), decorators (lines starting with @), self._ usage (regex self\._), Tuple3 returns (return (1, or return (0,), Run() method existence
+   g. Build edges table: file→file (imports), class→class (inheritance), method→method (calls)
+
+5. VERIFY: After populating, run these checks:
+   - SELECT COUNT(*) FROM files (should be ~18)
+   - SELECT COUNT(*) FROM classes (should be ~38)
+   - SELECT COUNT(*) FROM methods (should be ~1480)
+   - SELECT COUNT(*) FROM edges
+   - SELECT COUNT(*) FROM methods WHERE has_print=1
+   - SELECT COUNT(*) FROM methods WHERE has_decorator=1
+   - SELECT COUNT(*) FROM methods WHERE has_self_underscore=1
+   - SELECT COUNT(*) FROM classes WHERE has_run_method=0
+
+6. CREATE backup_engine.py — VBStyle class with Run() dispatch. Commands: create_backup, verify_backup, restore_backup, list_backups. Follow VBStyle rules: __init__(self, mem=None, db=None, param=None), self.state dict, Tuple3 returns, no print, no decorators, no self._.
+
+7. CREATE sandbox_engine.py — VBStyle class. Commands: load, verify, begin_experiment, commit, rollback, get_state. Loads DB into :memory: SQLite, verifies schema, enables rollback.
+
+8. CREATE ingestion_engine.py — VBStyle class. Commands: scan, ingest_file, ingest_directory, detect_duplicates, update_changed. Scans .py files, computes hashes, populates files table.
+
+9. COMPILE CHECK: Run py_compile on all created .py files. All must pass.
+
+10. TEST: Run python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/test_everything.py. All 205 tests must still pass.
+
+CONSTRAINTS:
+- All Python files must follow VBStyle: PascalCase classes, UPPERCASE constants, __init__(self, mem=None, db=None, param=None), self.state dict, Run(self, command, params=None) dispatch, Tuple3 returns (1, data, None) or (0, None, (code, desc, 0)), no print(), no decorators, no self._, no tabs, spaces only.
+- One class per file.
+- Never modify the original database without backing up first.
+- All work in /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/
+
+Report back: table counts, any VBStyle violations found, compile results, test results.

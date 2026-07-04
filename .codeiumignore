@@ -1,0 +1,55 @@
+# .codeiumignore — stop language server from indexing heavy files/folders
+# This prevents runaway CPU/RAM usage from language_server_macos_arm
+
+# Databases (binary, huge, no reason to index)
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+unified_cache.db
+reuse_weights.db
+dom_graph_unified.db
+bcl_c_engine.db
+token_registry.db
+chat_messages.db
+consolidated_workspace.db
+
+# Build artifacts
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.exe
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Large data directories
+chat_mover/
+chat_/
+Cascade_toolStack/Built_tools/
+Dom_Graph/brain_server/node_modules/
+Dom_Graph/dom_graph_unified.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+
+# Virtual environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Git
+.git/
+
+# Large markdown exports
+chat_/unified_capsules/
+chat_/raw/

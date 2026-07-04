@@ -1,0 +1,1298 @@
+[
+  {
+    "url": "https://ss64.com/",
+    "text": "SS64"
+  },
+  {
+    "url": "https://ss64.com/mac/syntax.html",
+    "text": "How-to"
+  },
+  {
+    "url": "https://ss64.com/mac/afconvert.html",
+    "text": "afconvert"
+  },
+  {
+    "url": "https://ss64.com/mac/afinfo.html",
+    "text": "afinfo"
+  },
+  {
+    "url": "https://ss64.com/mac/afplay.html",
+    "text": "afplay"
+  },
+  {
+    "url": "https://ss64.com/mac/airport.html",
+    "text": "airport"
+  },
+  {
+    "url": "https://ss64.com/mac/alias.html",
+    "text": "alias"
+  },
+  {
+    "url": "https://ss64.com/mac/apropos.html",
+    "text": "apropos"
+  },
+  {
+    "url": "https://ss64.com/mac/arp.html",
+    "text": "arp"
+  },
+  {
+    "url": "https://ss64.com/mac/asr.html",
+    "text": "asr"
+  },
+  {
+    "url": "https://ss64.com/mac/atsutil.html",
+    "text": "atsutil"
+  },
+  {
+    "url": "https://ss64.com/mac/autoload-zsh.html",
+    "text": "autoload"
+  },
+  {
+    "url": "https://ss64.com/mac/awk.html",
+    "text": "awk"
+  },
+  {
+    "url": "https://ss64.com/mac/base64.html",
+    "text": "base64"
+  },
+  {
+    "url": "https://ss64.com/mac/basename.html",
+    "text": "basename"
+  },
+  {
+    "url": "https://ss64.com/mac/bash.html",
+    "text": "bash"
+  },
+  {
+    "url": "https://ss64.com/mac/bc.html",
+    "text": "bc"
+  },
+  {
+    "url": "https://ss64.com/mac/bg.html",
+    "text": "bg"
+  },
+  {
+    "url": "https://ss64.com/mac/bind.html",
+    "text": "bind"
+  },
+  {
+    "url": "https://ss64.com/mac/bless.html",
+    "text": "bless"
+  },
+  {
+    "url": "https://ss64.com/mac/break.html",
+    "text": "break"
+  },
+  {
+    "url": "https://ss64.com/mac/brew.html",
+    "text": "brew"
+  },
+  {
+    "url": "https://ss64.com/mac/builtin.html",
+    "text": "builtin"
+  },
+  {
+    "url": "https://ss64.com/mac/bzip.html",
+    "text": "bzip2"
+  },
+  {
+    "url": "https://ss64.com/mac/caffeinate.html",
+    "text": "caffeinate"
+  },
+  {
+    "url": "https://ss64.com/mac/cal.html",
+    "text": "cal"
+  },
+  {
+    "url": "https://ss64.com/mac/calendar.html",
+    "text": "calendar"
+  },
+  {
+    "url": "https://ss64.com/mac/caller.html",
+    "text": "caller"
+  },
+  {
+    "url": "https://ss64.com/mac/cancel.html",
+    "text": "cancel"
+  },
+  {
+    "url": "https://ss64.com/mac/case.html",
+    "text": "case"
+  },
+  {
+    "url": "https://ss64.com/mac/cat.html",
+    "text": "cat"
+  },
+  {
+    "url": "https://ss64.com/mac/cd.html",
+    "text": "cd"
+  },
+  {
+    "url": "https://ss64.com/mac/chflags.html",
+    "text": "chflags"
+  },
+  {
+    "url": "https://ss64.com/mac/chgrp.html",
+    "text": "chgrp"
+  },
+  {
+    "url": "https://ss64.com/mac/chmod.html",
+    "text": "chmod"
+  },
+  {
+    "url": "https://ss64.com/mac/chown.html",
+    "text": "chown"
+  },
+  {
+    "url": "https://ss64.com/mac/chroot.html",
+    "text": "chroot"
+  },
+  {
+    "url": "https://ss64.com/mac/chsh.html",
+    "text": "chsh"
+  },
+  {
+    "url": "https://ss64.com/mac/cksum.html",
+    "text": "cksum"
+  },
+  {
+    "url": "https://ss64.com/mac/cmp.html",
+    "text": "cmp"
+  },
+  {
+    "url": "https://ss64.com/mac/codesign.html",
+    "text": "codesign"
+  },
+  {
+    "url": "https://ss64.com/mac/col.html",
+    "text": "col"
+  },
+  {
+    "url": "https://ss64.com/mac/comm.html",
+    "text": "comm"
+  },
+  {
+    "url": "https://ss64.com/mac/command.html",
+    "text": "command"
+  },
+  {
+    "url": "https://ss64.com/mac/complete.html",
+    "text": "complete"
+  },
+  {
+    "url": "https://ss64.com/mac/continue.html",
+    "text": "continue"
+  },
+  {
+    "url": "https://ss64.com/mac/cp.html",
+    "text": "cp"
+  },
+  {
+    "url": "https://ss64.com/mac/cpio.html",
+    "text": "cpio"
+  },
+  {
+    "url": "https://ss64.com/mac/createhomedir.html",
+    "text": "createhomedir"
+  },
+  {
+    "url": "https://ss64.com/mac/cron.html",
+    "text": "cron"
+  },
+  {
+    "url": "https://ss64.com/mac/crontab.html",
+    "text": "crontab"
+  },
+  {
+    "url": "https://ss64.com/mac/csplit.html",
+    "text": "csplit"
+  },
+  {
+    "url": "https://ss64.com/mac/csrutil.html",
+    "text": "csrutil"
+  },
+  {
+    "url": "https://ss64.com/mac/cupsfilter.html",
+    "text": "cupsfilter"
+  },
+  {
+    "url": "https://ss64.com/mac/curl.html",
+    "text": "curl"
+  },
+  {
+    "url": "https://ss64.com/mac/cut.html",
+    "text": "cut"
+  },
+  {
+    "url": "https://ss64.com/mac/date.html",
+    "text": "date"
+  },
+  {
+    "url": "https://ss64.com/mac/dc.html",
+    "text": "dc"
+  },
+  {
+    "url": "https://ss64.com/mac/dd.html",
+    "text": "dd"
+  },
+  {
+    "url": "https://ss64.com/mac/declare.html",
+    "text": "declare"
+  },
+  {
+    "url": "https://ss64.com/mac/defaults.html",
+    "text": "defaults"
+  },
+  {
+    "url": "https://ss64.com/mac/df.html",
+    "text": "df"
+  },
+  {
+    "url": "https://ss64.com/mac/diff.html",
+    "text": "diff"
+  },
+  {
+    "url": "https://ss64.com/mac/diff3.html",
+    "text": "diff3"
+  },
+  {
+    "url": "https://ss64.com/mac/dig.html",
+    "text": "dig"
+  },
+  {
+    "url": "https://ss64.com/mac/dirname.html",
+    "text": "dirname"
+  },
+  {
+    "url": "https://ss64.com/mac/dirs.html",
+    "text": "dirs"
+  },
+  {
+    "url": "https://ss64.com/mac/diskutil.html",
+    "text": "diskutil"
+  },
+  {
+    "url": "https://ss64.com/mac/disown.html",
+    "text": "disown"
+  },
+  {
+    "url": "https://ss64.com/mac/ditto.html",
+    "text": "ditto"
+  },
+  {
+    "url": "https://ss64.com/mac/dot_clean.html",
+    "text": "dot_clean"
+  },
+  {
+    "url": "https://ss64.com/mac/drutil.html",
+    "text": "drutil"
+  },
+  {
+    "url": "https://ss64.com/mac/dscacheutil.html",
+    "text": "dscacheutil"
+  },
+  {
+    "url": "https://ss64.com/mac/dseditgroup.html",
+    "text": "dseditgroup"
+  },
+  {
+    "url": "https://ss64.com/mac/dsenableroot.html",
+    "text": "dsenableroot"
+  },
+  {
+    "url": "https://ss64.com/mac/dsmemberutil.html",
+    "text": "dsmemberutil"
+  },
+  {
+    "url": "https://ss64.com/mac/dscl.html",
+    "text": "dscl"
+  },
+  {
+    "url": "https://ss64.com/mac/du.html",
+    "text": "du"
+  },
+  {
+    "url": "https://ss64.com/mac/echo.html",
+    "text": "echo"
+  },
+  {
+    "url": "https://ss64.com/mac/enable.html",
+    "text": "enable"
+  },
+  {
+    "url": "https://ss64.com/mac/env.html",
+    "text": "env"
+  },
+  {
+    "url": "https://ss64.com/mac/eval.html",
+    "text": "eval"
+  },
+  {
+    "url": "https://ss64.com/mac/exec.html",
+    "text": "exec"
+  },
+  {
+    "url": "https://ss64.com/mac/exit.html",
+    "text": "exit"
+  },
+  {
+    "url": "https://ss64.com/mac/execsnoop.html",
+    "text": "execsnoop"
+  },
+  {
+    "url": "https://ss64.com/mac/expand.html",
+    "text": "expand"
+  },
+  {
+    "url": "https://ss64.com/mac/export.html",
+    "text": "export"
+  },
+  {
+    "url": "https://ss64.com/mac/expr.html",
+    "text": "expr"
+  },
+  {
+    "url": "https://ss64.com/mac/false.html",
+    "text": "false"
+  },
+  {
+    "url": "https://ss64.com/mac/fc.html",
+    "text": "fc"
+  },
+  {
+    "url": "https://ss64.com/mac/fdisk.html",
+    "text": "fdisk"
+  },
+  {
+    "url": "https://ss64.com/mac/fg.html",
+    "text": "fg"
+  },
+  {
+    "url": "https://ss64.com/mac/file.html",
+    "text": "file"
+  },
+  {
+    "url": "https://ss64.com/mac/find.html",
+    "text": "find"
+  },
+  {
+    "url": "https://ss64.com/mac/fmt.html",
+    "text": "fmt"
+  },
+  {
+    "url": "https://ss64.com/mac/fold.html",
+    "text": "fold"
+  },
+  {
+    "url": "https://ss64.com/mac/for.html",
+    "text": "for"
+  },
+  {
+    "url": "https://ss64.com/mac/fsck.html",
+    "text": "fsck"
+  },
+  {
+    "url": "https://ss64.com/mac/fs_usage.html",
+    "text": "fs_usage"
+  },
+  {
+    "url": "https://ss64.com/mac/ftp.html",
+    "text": "ftp"
+  },
+  {
+    "url": "https://ss64.com/mac/function.html",
+    "text": "function"
+  },
+  {
+    "url": "https://ss64.com/mac/fuser.html",
+    "text": "fuser"
+  },
+  {
+    "url": "https://ss64.com/mac/getfileinfo.html",
+    "text": "GetFileInfo"
+  },
+  {
+    "url": "https://ss64.com/mac/getopt.html",
+    "text": "getopt"
+  },
+  {
+    "url": "https://ss64.com/mac/getopts.html",
+    "text": "getopts"
+  },
+  {
+    "url": "https://ss64.com/mac/goto.html",
+    "text": "goto"
+  },
+  {
+    "url": "https://ss64.com/mac/gpt.html",
+    "text": "gpt"
+  },
+  {
+    "url": "https://ss64.com/mac/grep.html",
+    "text": "grep"
+  },
+  {
+    "url": "https://ss64.com/mac/id.html",
+    "text": "groups"
+  },
+  {
+    "url": "https://ss64.com/mac/gzip.html",
+    "text": "gzip"
+  },
+  {
+    "url": "https://ss64.com/mac/halt.html",
+    "text": "halt"
+  },
+  {
+    "url": "https://ss64.com/mac/hash.html",
+    "text": "hash"
+  },
+  {
+    "url": "https://ss64.com/mac/head.html",
+    "text": "head"
+  },
+  {
+    "url": "https://ss64.com/mac/hdiutil.html",
+    "text": "hdiutil"
+  },
+  {
+    "url": "https://ss64.com/mac/history.html",
+    "text": "history"
+  },
+  {
+    "url": "https://ss64.com/mac/hostname.html",
+    "text": "hostname"
+  },
+  {
+    "url": "https://ss64.com/mac/iconv.html",
+    "text": "iconv"
+  },
+  {
+    "url": "https://ss64.com/mac/if.html",
+    "text": "if"
+  },
+  {
+    "url": "https://ss64.com/mac/ifconfig.html",
+    "text": "ifconfig"
+  },
+  {
+    "url": "https://ss64.com/mac/iostat.html",
+    "text": "iostat"
+  },
+  {
+    "url": "https://ss64.com/mac/ipconfig.html",
+    "text": "ipconfig"
+  },
+  {
+    "url": "https://ss64.com/mac/info.html",
+    "text": "info"
+  },
+  {
+    "url": "https://ss64.com/mac/install.html",
+    "text": "install"
+  },
+  {
+    "url": "https://ss64.com/mac/installer.html",
+    "text": "installer"
+  },
+  {
+    "url": "https://ss64.com/mac/iosnoop.html",
+    "text": "iosnoop"
+  },
+  {
+    "url": "https://ss64.com/mac/jobs.html",
+    "text": "jobs"
+  },
+  {
+    "url": "https://ss64.com/mac/join.html",
+    "text": "join"
+  },
+  {
+    "url": "https://ss64.com/mac/jot.html",
+    "text": "jot"
+  },
+  {
+    "url": "https://ss64.com/mac/kextfind.html",
+    "text": "kextfind"
+  },
+  {
+    "url": "https://ss64.com/mac/kextstat.html",
+    "text": "kextstat"
+  },
+  {
+    "url": "https://ss64.com/mac/kextunload.html",
+    "text": "kextunload"
+  },
+  {
+    "url": "https://ss64.com/mac/kickstart.html",
+    "text": "kickstart"
+  },
+  {
+    "url": "https://ss64.com/mac/kill.html",
+    "text": "kill"
+  },
+  {
+    "url": "https://ss64.com/mac/killall.html",
+    "text": "killall"
+  },
+  {
+    "url": "https://ss64.com/mac/klist.html",
+    "text": "klist"
+  },
+  {
+    "url": "https://ss64.com/mac/ls.html",
+    "text": "l"
+  },
+  {
+    "url": "https://ss64.com/mac/last.html",
+    "text": "last"
+  },
+  {
+    "url": "https://ss64.com/mac/launchctl.html",
+    "text": "launchctl"
+  },
+  {
+    "url": "https://ss64.com/mac/leave.html",
+    "text": "leave"
+  },
+  {
+    "url": "https://ss64.com/mac/less.html",
+    "text": "less"
+  },
+  {
+    "url": "https://ss64.com/mac/let.html",
+    "text": "let"
+  },
+  {
+    "url": "https://ss64.com/mac/lipo.html",
+    "text": "lipo"
+  },
+  {
+    "url": "https://ss64.com/mac/ln.html",
+    "text": "ln"
+  },
+  {
+    "url": "https://ss64.com/mac/local.html",
+    "text": "local"
+  },
+  {
+    "url": "https://ss64.com/mac/locate.html",
+    "text": "locate"
+  },
+  {
+    "url": "https://ss64.com/mac/log.html",
+    "text": "log"
+  },
+  {
+    "url": "https://ss64.com/mac/logname.html",
+    "text": "logname"
+  },
+  {
+    "url": "https://ss64.com/mac/login.html",
+    "text": "login"
+  },
+  {
+    "url": "https://ss64.com/mac/logout.html",
+    "text": "logout"
+  },
+  {
+    "url": "https://ss64.com/mac/look.html",
+    "text": "look"
+  },
+  {
+    "url": "https://ss64.com/mac/lp.html",
+    "text": "lp"
+  },
+  {
+    "url": "https://ss64.com/mac/lpr.html",
+    "text": "lpr"
+  },
+  {
+    "url": "https://ss64.com/mac/lprm.html",
+    "text": "lprm"
+  },
+  {
+    "url": "https://ss64.com/mac/lpstat.html",
+    "text": "lpstat"
+  },
+  {
+    "url": "https://ss64.com/mac/lsregister.html",
+    "text": "lsregister"
+  },
+  {
+    "url": "https://ss64.com/mac/lsbom.html",
+    "text": "lsbom"
+  },
+  {
+    "url": "https://ss64.com/mac/lsof.html",
+    "text": "lsof"
+  },
+  {
+    "url": "https://ss64.com/mac/man.html",
+    "text": "man"
+  },
+  {
+    "url": "https://ss64.com/mac/md5.html",
+    "text": "md5"
+  },
+  {
+    "url": "https://ss64.com/mac/mdfind.html",
+    "text": "mdfind"
+  },
+  {
+    "url": "https://ss64.com/mac/mdimport.html",
+    "text": "mdimport"
+  },
+  {
+    "url": "https://ss64.com/mac/mdls.html",
+    "text": "mdls"
+  },
+  {
+    "url": "https://ss64.com/mac/mdutil.html",
+    "text": "mdutil"
+  },
+  {
+    "url": "https://ss64.com/mac/mkdir.html",
+    "text": "mkdir"
+  },
+  {
+    "url": "https://ss64.com/mac/mkfifo.html",
+    "text": "mkfifo"
+  },
+  {
+    "url": "https://ss64.com/mac/mkfile.html",
+    "text": "mkfile"
+  },
+  {
+    "url": "https://ss64.com/mac/mktemp.html",
+    "text": "mktemp"
+  },
+  {
+    "url": "https://ss64.com/mac/more.html",
+    "text": "more"
+  },
+  {
+    "url": "https://ss64.com/mac/mount.html",
+    "text": "mount"
+  },
+  {
+    "url": "https://ss64.com/mac/mount_nfs.html",
+    "text": "mount_nfs"
+  },
+  {
+    "url": "https://ss64.com/mac/mount_smbfs.html",
+    "text": "mount_smbfs"
+  },
+  {
+    "url": "https://ss64.com/mac/mv.html",
+    "text": "mv"
+  },
+  {
+    "url": "https://ss64.com/mac/nano.html",
+    "text": "nano"
+  },
+  {
+    "url": "https://ss64.com/mac/nc.html",
+    "text": "nc/netcat"
+  },
+  {
+    "url": "https://ss64.com/mac/netstat.html",
+    "text": "netstat"
+  },
+  {
+    "url": "https://ss64.com/mac/networkquality.html",
+    "text": "networkQuality"
+  },
+  {
+    "url": "https://ss64.com/mac/networksetup.html",
+    "text": "networksetup"
+  },
+  {
+    "url": "https://ss64.com/mac/nice.html",
+    "text": "nice"
+  },
+  {
+    "url": "https://ss64.com/mac/nl.html",
+    "text": "nl"
+  },
+  {
+    "url": "https://ss64.com/mac/nohup.html",
+    "text": "nohup"
+  },
+  {
+    "url": "https://ss64.com/mac/ntfs-util.html",
+    "text": "ntfs.util"
+  },
+  {
+    "url": "https://ss64.com/mac/nvram.html",
+    "text": "nvram"
+  },
+  {
+    "url": "https://ss64.com/mac/onintr.html",
+    "text": "onintr"
+  },
+  {
+    "url": "https://ss64.com/mac/open.html",
+    "text": "open"
+  },
+  {
+    "url": "https://ss64.com/mac/opensnoop.html",
+    "text": "opensnoop"
+  },
+  {
+    "url": "https://ss64.com/mac/openssl.html",
+    "text": "openssl"
+  },
+  {
+    "url": "https://ss64.com/mac/osacompile.html",
+    "text": "osacompile"
+  },
+  {
+    "url": "https://ss64.com/mac/osascript.html",
+    "text": "osascript"
+  },
+  {
+    "url": "https://ss64.com/mac/passwd.html",
+    "text": "passwd"
+  },
+  {
+    "url": "https://ss64.com/mac/paste.html",
+    "text": "paste"
+  },
+  {
+    "url": "https://ss64.com/mac/pax.html",
+    "text": "pax"
+  },
+  {
+    "url": "https://ss64.com/mac/pbcopy.html",
+    "text": "pbcopy"
+  },
+  {
+    "url": "https://ss64.com/mac/pbpaste.html",
+    "text": "pbpaste"
+  },
+  {
+    "url": "https://ss64.com/mac/pbs.html",
+    "text": "pbs"
+  },
+  {
+    "url": "https://ss64.com/mac/pfctl.html",
+    "text": "pfctl"
+  },
+  {
+    "url": "https://ss64.com/mac/pkill.html",
+    "text": "pgrep"
+  },
+  {
+    "url": "https://ss64.com/mac/ping.html",
+    "text": "ping"
+  },
+  {
+    "url": "https://ss64.com/mac/pkgutil.html",
+    "text": "pkgutil"
+  },
+  {
+    "url": "https://ss64.com/mac/plutil.html",
+    "text": "plutil"
+  },
+  {
+    "url": "https://ss64.com/mac/pmset.html",
+    "text": "pmset"
+  },
+  {
+    "url": "https://ss64.com/mac/popd.html",
+    "text": "popd"
+  },
+  {
+    "url": "https://ss64.com/mac/powermetrics.html",
+    "text": "powermetrics"
+  },
+  {
+    "url": "https://ss64.com/mac/pr.html",
+    "text": "pr"
+  },
+  {
+    "url": "https://ss64.com/mac/printenv.html",
+    "text": "printenv"
+  },
+  {
+    "url": "https://ss64.com/mac/printf.html",
+    "text": "printf"
+  },
+  {
+    "url": "https://ss64.com/mac/profiles.html",
+    "text": "profiles"
+  },
+  {
+    "url": "https://ss64.com/mac/ps.html",
+    "text": "ps"
+  },
+  {
+    "url": "https://ss64.com/mac/pushd.html",
+    "text": "pushd"
+  },
+  {
+    "url": "https://ss64.com/mac/pwd.html",
+    "text": "pwd"
+  },
+  {
+    "url": "https://ss64.com/mac/qlmanage.html",
+    "text": "qlmanage"
+  },
+  {
+    "url": "https://ss64.com/mac/quota.html",
+    "text": "quota"
+  },
+  {
+    "url": "https://ss64.com/mac/rcp.html",
+    "text": "rcp"
+  },
+  {
+    "url": "https://ss64.com/mac/read.html",
+    "text": "read"
+  },
+  {
+    "url": "https://ss64.com/mac/readonly.html",
+    "text": "readonly"
+  },
+  {
+    "url": "https://ss64.com/mac/realpath.html",
+    "text": "realpath"
+  },
+  {
+    "url": "https://ss64.com/mac/repeat.html",
+    "text": "repeat"
+  },
+  {
+    "url": "https://ss64.com/mac/reportcrash.html",
+    "text": "ReportCrash"
+  },
+  {
+    "url": "https://ss64.com/mac/return.html",
+    "text": "return"
+  },
+  {
+    "url": "https://ss64.com/mac/rev.html",
+    "text": "rev"
+  },
+  {
+    "url": "https://ss64.com/mac/rm.html",
+    "text": "rm"
+  },
+  {
+    "url": "https://ss64.com/mac/rmdir.html",
+    "text": "rmdir"
+  },
+  {
+    "url": "https://ss64.com/mac/route.html",
+    "text": "route"
+  },
+  {
+    "url": "https://ss64.com/mac/rsync.html",
+    "text": "rsync"
+  },
+  {
+    "url": "https://ss64.com/mac/say.html",
+    "text": "say"
+  },
+  {
+    "url": "https://ss64.com/mac/screen.html",
+    "text": "screen"
+  },
+  {
+    "url": "https://ss64.com/mac/screencapture.html",
+    "text": "screencapture"
+  },
+  {
+    "url": "https://ss64.com/mac/scselect.html",
+    "text": "scselect"
+  },
+  {
+    "url": "https://ss64.com/mac/scutil.html",
+    "text": "scutil"
+  },
+  {
+    "url": "https://ss64.com/mac/sdiff.html",
+    "text": "sdiff"
+  },
+  {
+    "url": "https://ss64.com/mac/security.html",
+    "text": "security"
+  },
+  {
+    "url": "https://ss64.com/mac/sed.html",
+    "text": "sed"
+  },
+  {
+    "url": "https://ss64.com/mac/select.html",
+    "text": "select"
+  },
+  {
+    "url": "https://ss64.com/mac/seq.html",
+    "text": "seq"
+  },
+  {
+    "url": "https://ss64.com/mac/serverinfo.html",
+    "text": "serverinfo"
+  },
+  {
+    "url": "https://ss64.com/mac/set.html",
+    "text": "set"
+  },
+  {
+    "url": "https://ss64.com/mac/setfile.html",
+    "text": "setfile"
+  },
+  {
+    "url": "https://ss64.com/mac/sharing.html",
+    "text": "sharing"
+  },
+  {
+    "url": "https://ss64.com/mac/shasum.html",
+    "text": "shasum"
+  },
+  {
+    "url": "https://ss64.com/mac/shift.html",
+    "text": "shift"
+  },
+  {
+    "url": "https://ss64.com/mac/shopt.html",
+    "text": "shopt"
+  },
+  {
+    "url": "https://ss64.com/mac/shortcuts.html",
+    "text": "shortcuts"
+  },
+  {
+    "url": "https://ss64.com/mac/shutdown.html",
+    "text": "shutdown"
+  },
+  {
+    "url": "https://ss64.com/mac/sips.html",
+    "text": "sips"
+  },
+  {
+    "url": "https://ss64.com/mac/sleep.html",
+    "text": "sleep"
+  },
+  {
+    "url": "https://ss64.com/mac/sfltool.html",
+    "text": "sfltool"
+  },
+  {
+    "url": "https://ss64.com/mac/sntp.html",
+    "text": "sntp"
+  },
+  {
+    "url": "https://ss64.com/mac/softwareupdate.html",
+    "text": "softwareupdate"
+  },
+  {
+    "url": "https://ss64.com/mac/sort.html",
+    "text": "sort"
+  },
+  {
+    "url": "https://ss64.com/mac/source.html",
+    "text": "source"
+  },
+  {
+    "url": "https://ss64.com/mac/spctl.html",
+    "text": "spctl"
+  },
+  {
+    "url": "https://ss64.com/mac/split.html",
+    "text": "split"
+  },
+  {
+    "url": "https://ss64.com/mac/sqlite3.html",
+    "text": "sqlite3"
+  },
+  {
+    "url": "https://ss64.com/mac/srm.html",
+    "text": "srm"
+  },
+  {
+    "url": "https://ss64.com/mac/stat.html",
+    "text": "stat"
+  },
+  {
+    "url": "https://ss64.com/mac/su.html",
+    "text": "su"
+  },
+  {
+    "url": "https://ss64.com/mac/sudo.html",
+    "text": "sudo"
+  },
+  {
+    "url": "https://ss64.com/mac/suspend.html",
+    "text": "suspend"
+  },
+  {
+    "url": "https://ss64.com/mac/sw_vers.html",
+    "text": "sw_vers"
+  },
+  {
+    "url": "https://ss64.com/mac/sysadminctl.html",
+    "text": "sysadminctl"
+  },
+  {
+    "url": "https://ss64.com/mac/sysctl.html",
+    "text": "sysctl"
+  },
+  {
+    "url": "https://ss64.com/mac/system_profiler.html",
+    "text": "system_profiler"
+  },
+  {
+    "url": "https://ss64.com/mac/systemsetup.html",
+    "text": "systemsetup"
+  },
+  {
+    "url": "https://ss64.com/mac/tabs.html",
+    "text": "tabs"
+  },
+  {
+    "url": "https://ss64.com/mac/tab2space.html",
+    "text": "tab2space"
+  },
+  {
+    "url": "https://ss64.com/mac/tail.html",
+    "text": "tail"
+  },
+  {
+    "url": "https://ss64.com/mac/tar.html",
+    "text": "tar"
+  },
+  {
+    "url": "https://ss64.com/mac/taskpolicy.html",
+    "text": "taskpolicy"
+  },
+  {
+    "url": "https://ss64.com/mac/tccutil.html",
+    "text": "tccutil"
+  },
+  {
+    "url": "https://ss64.com/mac/tcpdump.html",
+    "text": "tcpdump"
+  },
+  {
+    "url": "https://ss64.com/mac/tee.html",
+    "text": "tee"
+  },
+  {
+    "url": "https://ss64.com/mac/test.html",
+    "text": "test"
+  },
+  {
+    "url": "https://ss64.com/mac/textutil.html",
+    "text": "textutil"
+  },
+  {
+    "url": "https://ss64.com/mac/time.html",
+    "text": "time"
+  },
+  {
+    "url": "https://ss64.com/mac/times.html",
+    "text": "times"
+  },
+  {
+    "url": "https://ss64.com/mac/tmutil.html",
+    "text": "tmutil"
+  },
+  {
+    "url": "https://ss64.com/mac/top.html",
+    "text": "top"
+  },
+  {
+    "url": "https://ss64.com/mac/touch.html",
+    "text": "touch"
+  },
+  {
+    "url": "https://ss64.com/mac/tput.html",
+    "text": "tput"
+  },
+  {
+    "url": "https://ss64.com/mac/tr.html",
+    "text": "tr"
+  },
+  {
+    "url": "https://ss64.com/mac/trap.html",
+    "text": "trap"
+  },
+  {
+    "url": "https://ss64.com/mac/traceroute.html",
+    "text": "traceroute"
+  },
+  {
+    "url": "https://ss64.com/mac/traceroute6.html",
+    "text": "traceroute6"
+  },
+  {
+    "url": "https://ss64.com/mac/trash.html",
+    "text": "trash"
+  },
+  {
+    "url": "https://ss64.com/mac/trimforce.html",
+    "text": "trimforce"
+  },
+  {
+    "url": "https://ss64.com/mac/true.html",
+    "text": "true"
+  },
+  {
+    "url": "https://ss64.com/mac/tty.html",
+    "text": "tty"
+  },
+  {
+    "url": "https://ss64.com/mac/type.html",
+    "text": "type"
+  },
+  {
+    "url": "https://ss64.com/mac/typeset-zsh.html",
+    "text": "typeset"
+  },
+  {
+    "url": "https://ss64.com/mac/ulimit.html",
+    "text": "ulimit"
+  },
+  {
+    "url": "https://ss64.com/mac/umask.html",
+    "text": "umask"
+  },
+  {
+    "url": "https://ss64.com/mac/umount.html",
+    "text": "umount"
+  },
+  {
+    "url": "https://ss64.com/mac/uname.html",
+    "text": "uname"
+  },
+  {
+    "url": "https://ss64.com/mac/uniq.html",
+    "text": "uniq"
+  },
+  {
+    "url": "https://ss64.com/mac/units.html",
+    "text": "units"
+  },
+  {
+    "url": "https://ss64.com/mac/unset.html",
+    "text": "unset"
+  },
+  {
+    "url": "https://ss64.com/mac/while.html",
+    "text": "until"
+  },
+  {
+    "url": "https://ss64.com/mac/uptime.html",
+    "text": "uptime"
+  },
+  {
+    "url": "https://ss64.com/mac/users.html",
+    "text": "users"
+  },
+  {
+    "url": "https://ss64.com/mac/until.html",
+    "text": "until"
+  },
+  {
+    "url": "https://ss64.com/mac/unzip.html",
+    "text": "unzip"
+  },
+  {
+    "url": "https://ss64.com/mac/uuencode.html",
+    "text": "uuencode"
+  },
+  {
+    "url": "https://ss64.com/mac/uudecode.html",
+    "text": "uudecode"
+  },
+  {
+    "url": "https://ss64.com/mac/uuidgen.html",
+    "text": "uuidgen"
+  },
+  {
+    "url": "https://ss64.com/vi.html",
+    "text": "vi"
+  },
+  {
+    "url": "https://ss64.com/mac/w.html",
+    "text": "w"
+  },
+  {
+    "url": "https://ss64.com/mac/wait.html",
+    "text": "wait"
+  },
+  {
+    "url": "https://ss64.com/mac/wall.html",
+    "text": "wall"
+  },
+  {
+    "url": "https://ss64.com/mac/wc.html",
+    "text": "wc"
+  },
+  {
+    "url": "https://ss64.com/mac/wdutil.html",
+    "text": "wdutil"
+  },
+  {
+    "url": "https://ss64.com/mac/whatis.html",
+    "text": "whatis"
+  },
+  {
+    "url": "https://ss64.com/mac/whence.html",
+    "text": "whence"
+  },
+  {
+    "url": "https://ss64.com/mac/whereis.html",
+    "text": "whereis"
+  },
+  {
+    "url": "https://ss64.com/mac/which.html",
+    "text": "which"
+  },
+  {
+    "url": "https://ss64.com/mac/who.html",
+    "text": "who"
+  },
+  {
+    "url": "https://ss64.com/mac/write.html",
+    "text": "write"
+  },
+  {
+    "url": "https://ss64.com/mac/xargs.html",
+    "text": "xargs"
+  },
+  {
+    "url": "https://ss64.com/mac/xattr.html",
+    "text": "xattr"
+  },
+  {
+    "url": "https://ss64.com/mac/xcode-select.html",
+    "text": "xcode-select"
+  },
+  {
+    "url": "https://ss64.com/mac/xcrun.html",
+    "text": "xcrun"
+  },
+  {
+    "url": "https://ss64.com/mac/xxd.html",
+    "text": "xxd"
+  },
+  {
+    "url": "https://ss64.com/mac/yes.html",
+    "text": "yes"
+  },
+  {
+    "url": "https://ss64.com/mac/zip.html",
+    "text": "zip"
+  },
+  {
+    "url": "https://ss64.com/mac/bang.html",
+    "text": "!!"
+  },
+  {
+    "url": "https://ss64.com/links/mac.html",
+    "text": "Websites, Books, Apps & Utilities"
+  }
+]

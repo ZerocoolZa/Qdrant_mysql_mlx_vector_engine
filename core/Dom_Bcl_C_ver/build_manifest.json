@@ -1,0 +1,105 @@
+{
+  "built_at": "2026-06-29T04:45:16.130385Z",
+  "domain": "bcl_c_engine",
+  "units": [
+    {
+      "class_name": "GraphTypes",
+      "file": "bcl_engine.h",
+      "hash": "3a4767b92d0d479b413b9d995891c67e0290245a2b461d80755813883e2fa040",
+      "order": 1,
+      "compiled": true,
+      "obj": null
+    },
+    {
+      "class_name": "BclConfig",
+      "file": "bcl_config.c",
+      "hash": "496405e4c6208f6a915b9e2401e98029725da1b15f328d08a0debbed1c949819",
+      "order": 2,
+      "compiled": true,
+      "obj": "bcl_config.o"
+    },
+    {
+      "class_name": "BclDictionary",
+      "file": "bcl_dictionary.c",
+      "hash": "6dda9991ef23dcbd4e11f4a32de245d2e2f0e30df168ed8a510e9990b9b23891",
+      "order": 3,
+      "compiled": true,
+      "obj": "bcl_dictionary.o"
+    },
+    {
+      "class_name": "BclParser",
+      "file": "bcl_parser.c",
+      "hash": "4e439445f0e7bca72116f318a641b0037dfc993ae3e12c9e1f298fa8d255daae",
+      "order": 4,
+      "compiled": true,
+      "obj": "bcl_parser.o"
+    },
+    {
+      "class_name": "BclStamper",
+      "file": "bcl_stamper.c",
+      "hash": "9419ab3f1a0fe1343d5a650df0f37d54162975a5554ea65b3e96aa8e5239bd31",
+      "order": 5,
+      "compiled": true,
+      "obj": "bcl_stamper.o"
+    },
+    {
+      "class_name": "GraphStore",
+      "file": "bcl_graph_store.c",
+      "hash": "8c7bbee67a64a3c643351fc921eea42dbd8bd4d3a94142b08642ee3ea167b67a",
+      "order": 6,
+      "compiled": true,
+      "obj": "bcl_graph_store.o"
+    },
+    {
+      "class_name": "IngestionEngine",
+      "file": "bcl_ingestion_engine.c",
+      "hash": "ddf0eb808f5b857858559712194544b797e932c8316bdad061688371c779f18b",
+      "order": 7,
+      "compiled": true,
+      "obj": "bcl_ingestion_engine.o"
+    },
+    {
+      "class_name": "MemUnit",
+      "file": "bcl_mem_unit.c",
+      "hash": "661d0aabe992dee49c66258eb0e84cad1a2daf03ec463913381caa15c3f4f0f4",
+      "order": 8,
+      "compiled": true,
+      "obj": "bcl_mem_unit.o"
+    },
+    {
+      "class_name": "BclValidator",
+      "file": "bcl_validator.c",
+      "hash": "e8f16d1ecbfad4aec5333c3d776d451003ef7ee932b6634d80c6b39a3363aaf6",
+      "order": 9,
+      "compiled": true,
+      "obj": "bcl_validator.o"
+    },
+    {
+      "class_name": "GraphBuilder",
+      "file": "bcl_graph_builder.c",
+      "hash": "4bea5ccba2e3ade90c5c76ed812bd18147e63a5a2963747304a09018a01c5c9b",
+      "order": 10,
+      "compiled": true,
+      "obj": "bcl_graph_builder.o"
+    },
+    {
+      "class_name": "StaticAnalyzer",
+      "file": "bcl_static_analyzer.c",
+      "hash": "42146de4d2ed97bcc9b75ddb8d6e960c7f6c5334a3491e11a5210437071278e1",
+      "order": 11,
+      "compiled": true,
+      "obj": "bcl_static_analyzer.o"
+    },
+    {
+      "class_name": "BclDispatcher",
+      "file": "bcl_engine_cli.c",
+      "hash": "faacfbb1f8b352c789305179cf529a5ad19d2601e5e9c87c77f69fe2b93b03b9",
+      "order": 12,
+      "compiled": true,
+      "obj": "bcl_engine_cli.o"
+    }
+  ],
+  "total": 12,
+  "compiled": 12,
+  "failed": 0
+}

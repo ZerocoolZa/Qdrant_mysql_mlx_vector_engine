@@ -1,0 +1,106 @@
+# .todo — Qdrant MySQL MLX Vector Engine
+
+## PRIORITY 1 — DO FIRST
+
+### [ ] Export all chat history → embeddings
+- All chat from this session (and prior sessions) must be exported
+- Generate embeddings for every message
+- Store in Qdrant vector store
+- This is the #1 priority before anything else
+- Source: /Users/wws/.local/share/devin/cli/summaries/history_14ee299cfbc1443e.md
+- Source: all session transcripts in /Users/wws/.local/share/devin/cli/summaries/
+- Target: Qdrant collection with embedded chat history
+
+---
+
+## SESSION LOG — Domain Closure Pipeline
+
+### Session: 2026-07-23 — Domain Closure to 73 Domains
+
+#### What was done
+1. **Level 1 — Documentation Closure**: 58 domains, 873 method entries extracted from documentation
+2. **Level 2 — Normalization**: Merged overlapping domains, reduced to 523 unique method names, 283 unique behaviors
+3. **Level 3 — Behavior Clustering**: 523 unique names → 168 behavior clusters (3.1x compression)
+4. **Level 4 — Survivor Ranking**: 168 clusters ranked into 6 tiers by domain coverage
+   - 6 core primitives (10+ domains): report, validate, import, scan, search, transform
+   - 48 singleton behaviors (unique to 1 domain)
+5. **Level 5 — Parallel Implementation**: 10 agents wrote 760 real VBStyle methods for 58 domains
+   - All 58/58 classes pass run_ok + vb_compatible in MySQL
+   - Inserted into vb_code_test.vb_classes, vb_methods, vb_class_test_results
+6. **Level 6 — Doc Source Upgrade**: 4 weak domains (compass, arch, audit, db_studio) upgraded with authoritative sources
+   - compass: GeographicLib (0.60 → 0.85)
+   - arch: Radon (0.50 → 0.80)
+   - audit: Auditree + NIST CSF (0.60 → 0.82)
+   - db_studio: DBeaver + pgAdmin (0.55 → 0.83)
+7. **Level 7 — Gap Analysis**: Found 15 missing domains from SWEBOK + Python stdlib + vb_shared.domains
+8. **Level 8 — New Domain Implementation**: 3 agents wrote 164 real VBStyle methods for 15 new domains
+   - All 15/15 classes pass run_ok + vb_compatible in MySQL
+
+#### Final State: 73 domains, all CLOSED (100%)
+- 58 original domains: 760 methods, all passing
+- 15 new domains: 164 methods, all passing
+- Total: 924 VBStyle methods across 73 domains
+- MySQL: 1,394 classes, 13,818 methods, 463 run_ok
+
+#### The 73 Domains
+Original 58: ai, analytics, arch, archive, asm, audit, automation, bytecode, cli, codec,
+codegraph, compass, config, convert, csplit, cu, db, db_inv, db_studio, documentation,
+factory, fileops, folder, governance, graph, gui, index, ingest, ingest_cli, ingest_gui,
+io, knowledge, log, logging, memory, messaging, network, orchestration, package, parse,
+process, qa, qt, rescue, runtime, schedule, search, security, storage, style, system,
+testing, text, transform, unify, validate, wws_index, yaml
+
+New 15: localization, accessibility, caching, serialization, feature_flags, resilience,
+rate_limiting, compression, cryptography, concurrency, error_handling, vcs, deployment,
+observability, http
+
+#### Key Files Produced
+- code_store_variations/domain_extraction_results.py — Level 1 (873 entries)
+- code_store_variations/normalized_domain_closure.py — Level 2 (283 behaviors)
+- code_store_variations/behavior_clusters.json — Level 3 (168 clusters)
+- code_store_variations/survivor_closure.py — Level 4 (tier-ranked)
+- code_store_variations/final_closure_verdict.py — Level 6 (3-evidence verdicts)
+- code_store_variations/methods_to_implement.json — method work list
+- code_store_variations/new_domains_spec.json — 15 new domain specs
+- code_store_variations/impl_{domain}.py — 73 implementation files
+- code_store_variations/insert_agent{1-10}.py — insert scripts (original 58)
+- code_store_variations/insert_new_agent{1-3}.py — insert scripts (new 15)
+
+#### Evidence Sources
+1. Documentation closure: 873 entries, 523 unique names, 58 domains
+2. MySQL vb_code_test: 13,818 methods, 1,394 classes, 463 run_ok
+3. SQLite v20_hybrid_best.db: 6,330 unique method names across 16 domains
+
+---
+
+## PRIORITY 2 — After embeddings are done
+
+### [ ] Implement remaining 15 domains (73 → 88)
+Genuinely missing domains found via gap analysis:
+
+| # | Domain | Description | Key methods | Source |
+|---|--------|-------------|-------------|--------|
+| 1 | ml | Machine learning (train, predict, evaluate) | train, predict, evaluate, features, model | scikit-learn |
+| 2 | cloud | Cloud computing (provision, scale, regions) | provision, scale, list_regions, get_service, billing | AWS/GCP docs |
+| 3 | mobile | Mobile apps (touch, gesture, lifecycle) | touch, gesture, lifecycle, permission, notify | Android/Apple docs |
+| 4 | graphics | Graphics/rendering (draw, blend, filter) | draw, blend, filter, render, transform_image | Pillow docs |
+| 5 | performance | Profiling/optimization | profile, benchmark, hotspot, optimize, trace | cProfile docs |
+| 6 | distributed | Distributed systems (consensus, replication) | consensus, replicate, partition, leader, elect | Raft paper |
+| 7 | email | Email (send, receive, parse, attach) | send, receive, parse, attach, filter, forward | smtplib/imaplib |
+| 8 | ipc | Inter-process communication | pipe, shared_memory, semaphore, signal | multiprocessing |
+| 9 | math | Math operations (matrix, vector, solve) | matrix, vector, solve, polynomial, statistics | math/numpy |
+| 10 | xml | XML processing (parse, xpath, xslt) | parse, validate, xpath, serialize, transform | xml.etree |
+| 11 | modules | Module/import system | import, reload, inspect, discover, resolve | importlib |
+| 12 | audio | Audio processing (encode, mix, normalize) | encode, decode, mix, normalize, convert | wave/audioop |
+| 13 | datetime | Date/time (parse, format, timezone) | parse, format, timezone, duration, calendar | datetime |
+| 14 | types | Type system (check, cast, coerce) | check, cast, validate_type, get_type, coerce | typing/inspect |
+| 15 | functools | Functional programming | compose, partial, curry, memoize, reduce | functools/itertools |
+
+Skipped (too niche or overlapping):
+- microservices (overlaps resilience+http)
+- embedded, iot, blockchain, gaming (too niche)
+- gpu, fpga, firmware, bios, kernel (too low-level)
+- unicodedata, tkinter, numeric (overlaps existing)
+
+### [ ] Re-run final_closure_verdict.py with 88 domains
+### [ ] Update survivor_closure.py to include 15 new domains

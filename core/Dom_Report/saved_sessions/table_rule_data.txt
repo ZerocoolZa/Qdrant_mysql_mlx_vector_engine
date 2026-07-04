@@ -1,0 +1,95 @@
+table_name	rule	rule_text	is_required
+answer	ENU	Must not use ENUM columns. Use authority FK instead.	1
+answer	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+answer	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+answer	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+answer	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+cause	ENU	Must not use ENUM columns. Use authority FK instead.	1
+cause	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+cause	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+cause	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+cause	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+Class	LAW1	Must reference authorities via Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType or ClassType.	1
+Class	LAW3	Each entity stores its own representations (Code, BCL, BCLIR, Graph). Relationships are in join tables, not embedded lists.	1
+Class	LAW4	Composition is via join tables (ComputationUnitMethod, ClassComputationUnit). No embedded method lists inside ComputationUnit or Class.	1
+Class	LAW5	Each representation (Code, BCL, BCLIR, Graph) is a different view of the same entity. Meaning comes from the entity, not from the representation.	1
+Class	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+Class	NCC	No compound column names. Use Name, BCL, BCLIR, Graph, Type. No underscores. No method_name, bcl_ir, graph_id.	1
+Class	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+ClassComputationUnit	LAW4	Composition is via join tables (ComputationUnitMethod, ClassComputationUnit). No embedded method lists inside ComputationUnit or Class.	1
+ComputationUnit	LAW1	Must reference authorities via Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType or ClassType.	1
+ComputationUnit	LAW3	Each entity stores its own representations (Code, BCL, BCLIR, Graph). Relationships are in join tables, not embedded lists.	1
+ComputationUnit	LAW4	Composition is via join tables (ComputationUnitMethod, ClassComputationUnit). No embedded method lists inside ComputationUnit or Class.	1
+ComputationUnit	LAW5	Each representation (Code, BCL, BCLIR, Graph) is a different view of the same entity. Meaning comes from the entity, not from the representation.	1
+ComputationUnit	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+ComputationUnit	NCC	No compound column names. Use Name, BCL, BCLIR, Graph, Type. No underscores. No method_name, bcl_ir, graph_id.	1
+ComputationUnit	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+ComputationUnitMethod	LAW4	Composition is via join tables (ComputationUnitMethod, ClassComputationUnit). No embedded method lists inside ComputationUnit or Class.	1
+decision	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+error	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+error	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+error	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+error	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+evidence	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+evidence	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+evidence	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+evidence	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+fact	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+fact	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+fact	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+fact	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+fix	ENU	Must not use ENUM columns. Use authority FK instead.	1
+fix	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+fix	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+fix	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+fix	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+incident	ENU	Must not use ENUM columns. Use authority FK instead.	1
+incident	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+incident	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+incident	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+incident	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+law	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+Method	LAW1	Must reference authorities via Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType or ClassType.	1
+Method	LAW3	Each entity stores its own representations (Code, BCL, BCLIR, Graph). Relationships are in join tables, not embedded lists.	1
+Method	LAW5	Each representation (Code, BCL, BCLIR, Graph) is a different view of the same entity. Meaning comes from the entity, not from the representation.	1
+Method	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+Method	NCC	No compound column names. Use Name, BCL, BCLIR, Graph, Type. No underscores. No method_name, bcl_ir, graph_id.	1
+Method	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+pattern	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+pattern_law	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+prevention	ENU	Must not use ENUM columns. Use authority FK instead.	1
+prevention	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+prevention	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+prevention	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+prevention	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+problem	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+problem	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+problem	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+problem	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+question	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+question	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+question	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+question	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+report	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+report	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+report	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+report	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+report_answer	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_cause	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_error	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_evidence	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_fact	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_fix	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_prevention	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_problem	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_question	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+report_rule	LAW4	Must use junction tables for M:N relationships. No 1:1 FK columns. No comma-separated ID lists.	1
+rule	LAW1	Must reference authorities via FK, not duplicate concepts as text/ENUM columns	1
+rule	LAW3	Must store one piece of truth, not a narrative. Story is assembled by following FKs.	1
+rule	LAW6	Must use Type, Category, Domain, Status, Priority, Severity, Group. No specialized versions like MethodType, ErrorType, ClassType. The table name provides context.	1
+rule	SVU	No specialized version of Type. Use Type column referencing type authority. No MethodType, ErrorType, ClassType.	1
+table_column	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+table_registry	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+table_relationship	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1
+table_rule	LAW5	Meaning comes from context (container/authority), not from repeated text in the row.	1

@@ -1,0 +1,237 @@
+================================================================================
+ NODE.js + MCP SERVER MEMORY PROFILE REPORT
+ Machine: macOS (Apple Silicon)
+ Generated: 2026-06-28
+ Agent: Agent 1 of 8 (Memory Profiler)
+================================================================================
+
+## EXECUTIVE SUMMARY
+
+Total Node.js processes found: 11 (pure node)
+Total Node-related Electron/Devin processes: 5 (use V8/node runtime)
+Total MCP servers configured: 8 (across 2 config files)
+Total MCP servers running: 5 (2 are marked disabled but still running!)
+Total MCP servers NOT running: 3 (msearch, filesystem, gmail)
+
+Total RSS from pure Node.js processes:     ~281.5 MB
+Total RSS from Devin/Electron (node-based): ~1037.6 MB
+Total RSS from Windsurf language server:    ~1110.9 MB (native binary, parent of MCPs)
+GRAND TOTAL (all node + node-related):      ~2430.0 MB
+
+================================================================================
+## TOP 5 NODE MEMORY HOGS (by RSS, descending)
+================================================================================
+
+ Rank  PID     RSS_MB    What_It_Is                                    Can_Kill
+ ----  ------  -------   --------------------------------------------   --------
+  1    28328   119.0     Devin Helper (Plugin) - main NodeService       NO (core Devin)
+  2    28363    39.0     Devin Helper - NodeService utility             NO (core Devin)
+  3    27082    37.4     Devin Helper (Plugin) - markdown lang server   NO (core Devin)
+  4    28329    29.4     Devin Helper - NodeService utility             NO (core Devin)
+  5    28398    23.6     Devin Helper (Plugin) - JSON lang server       NO (core Devin)
+
+NOTE: The biggest node-related hog is NOT a pure node process:
+  - PID 28466: Windsurf language_server_macos_arm = 1110.9 MB (native binary, spawns MCPs)
+  - PID 28303: Devin Helper (Renderer) = 591.6 MB (Electron/Chromium renderer)
+  - PID 28296: Devin.app main process = 84.5 MB (Electron main)
+
+================================================================================
+## FULL PROCESS TABLE (sorted by RSS descending)
+================================================================================
+
+PID     RSS_MB   PPID    Parent_PID   What_It_Is                                              Can_Kill
+------  -------  ------  ----------   ------------------------------------------------------  --------
+28466   1110.9   28328   28328        Windsurf language_server_macos_arm (native, MCP parent)  NO (active IDE session)
+28303    591.6   28296   28296        Devin Helper (Renderer) - Electron renderer #1          NO (active window)
+28328    119.0   28296   28296        Devin Helper (Plugin) - main NodeService host           NO (core Devin)
+28945     75.8   27978   28363        devin --resume (Go binary, terminal session)            NO (active session)
+27078     67.1   28296   28296        Devin Helper (Renderer) - Electron renderer #2          NO (active window)
+28297     52.4   28296   28296        Devin Helper (GPU) - GPU process                        NO (core Devin)
+28296     84.5   1       (launchd)    Devin.app main process (Electron)                       NO (core app)
+28363     39.0   28296   28296        Devin Helper - NodeService utility                      NO (core Devin)
+27082     37.4   28328   28328        Devin Helper (Plugin) - markdown language server        NO (core Devin)
+28329     29.4   28296   28296        Devin Helper - NodeService utility                      NO (core Devin)
+28398     23.6   28328   28328        Devin Helper (Plugin) - JSON language server            NO (core Devin)
+28330     22.8   28296   28296        Devin Helper - NodeService utility                      NO (core Devin)
+96471      2.4   1       (launchd)    node server.js (brain_server in Dom_Graph)              MAYBE (if not in use)
+28552      2.3   28466   28466        npm exec @pinecone-database/mcp (pinecone parent)       YES (if Pinecone unused)
+28548      2.0   28466   28466        mcp-server-email (Go binary, yahoo-mail-go)             YES (disabled in config!)
+28578      1.8   28552   28552        node pinecone-mcp (MCP: devin/pinecone-mcp-server)      YES (if Pinecone unused)
+28551      1.8   28466   28466        node ContextRAMSwift/mcp-server/index.js (MCP: contextram)  NO (active MCP)
+28555      1.8   28466   28466        node taskplanner mcp-server.js (MCP: taskplanner)       NO (active MCP)
+28556      1.8   28466   28466        node yahoo-mail-mcp-server/server.js (MCP: yahoo-mail)  YES (disabled in config!)
+28561      8.1   28328   28328        devin acp (Go binary, agent control plane)              NO (core Devin)
+28562      3.1   28328   28328        devin acp --agent-type summarizer (Go binary)           NO (core Devin)
+
+================================================================================
+## MCP SERVER CONFIGURATION ANALYSIS
+================================================================================
+
+### Config File 1: ~/.config/devin/config.json (Devin CLI config)
+  MCP Servers defined: 1
+  - msearch: python3 /Users/wws/Qdrant_mysql_mlx_vector_engine/Cascade_toolStack/bin_tools/msearch_mcp_server.py
+    Status: NOT RUNNING (no process found)
+    Can_Kill: N/A (not running)
+
+### Config File 2: ~/.codeium/windsurf/mcp_config.json (Windsurf IDE config)
+  MCP Servers defined: 7
+
+  1. contextram
+     Command: node /Users/wws/contestsystem/ContextRAMSwift/mcp-server/index.js
+     Config disabled: false (enabled)
+     Status: RUNNING (PID 28551, RSS 1.8 MB)
+     Can_Kill: NO (active, enabled MCP)
+
+  2. devin/pinecone-mcp-server
+     Command: npx -y @pinecone-database/mcp
+     Config disabled: false (enabled, no disabled field)
+     Status: RUNNING (PID 28552 -> 28578, combined RSS ~4.1 MB)
+     Can_Kill: YES (if Pinecone vector DB not actively used)
+
+  3. filesystem
+     Command: /Users/wws/go/bin/mcp-filesystem-server (Go binary)
+     Config disabled: false (enabled)
+     Status: NOT RUNNING (no process found)
+     Can_Kill: N/A (not running)
+
+  4. gmail
+     Command: npx @gongrzhe/server-gmail-autoauth-mcp
+     Config disabled: true
+     Status: NOT RUNNING (correctly disabled)
+     Can_Kill: N/A (not running)
+
+  5. taskplanner
+     Command: node /Users/wws/.windsurf/extensions/refined.taskplanner-1.5.2-universal/cursor-plugin/dist/mcp-server.js
+     Config disabled: false (enabled)
+     Status: RUNNING (PID 28555, RSS 1.8 MB)
+     Can_Kill: NO (active, enabled MCP)
+
+  6. yahoo-mail
+     Command: node /Users/wws/yahoo-mail-mcp-server/server.js
+     Config disabled: true
+     Status: RUNNING (PID 28556, RSS 1.8 MB) *** LEAKING - should not be running! ***
+     Can_Kill: YES (disabled in config, should be killed)
+
+  7. yahoo-mail-go
+     Command: /Users/wws/Qdrant_mysql_mlx_vector_engine/mcp-server-email/mcp-server-email (Go binary)
+     Config disabled: true
+     Status: RUNNING (PID 28548, RSS 2.0 MB) *** LEAKING - should not be running! ***
+     Can_Kill: YES (disabled in config, should be killed)
+
+================================================================================
+## STANDALONE NODE PROCESSES (not MCP, not Devin)
+================================================================================
+
+1. PID 96471, RSS 2.4 MB, PPID 1 (launchd)
+   Command: node server.js
+   Working directory: /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/brain_server
+   What: brain_server - a standalone Node.js server for the Dom_Graph component
+   Can_Kill: MAYBE - if brain_server is not actively being used by other services
+   Note: This is orphaned (parent PID 1 = launchd), meaning it was started
+         and detached. It persists across sessions.
+
+================================================================================
+## PROCESS TREE (Devin/Windsurf hierarchy)
+================================================================================
+
+launchd (PID 1)
+  |
+  +-- Devin.app (PID 28296, RSS 84.5 MB) [Electron main]
+  |     |
+  |     +-- Devin Helper (Renderer) #1 (PID 28303, RSS 591.6 MB) [Chromium]
+  |     +-- Devin Helper (Renderer) #2 (PID 27078, RSS 67.1 MB) [Chromium]
+  |     +-- Devin Helper (GPU) (PID 28297, RSS 52.4 MB) [GPU process]
+  |     +-- Devin Helper NodeService (PID 28329, RSS 29.4 MB) [node.mojom.NodeService]
+  |     +-- Devin Helper NodeService (PID 28330, RSS 22.8 MB) [node.mojom.NodeService]
+  |     +-- Devin Helper NodeService (PID 28363, RSS 39.0 MB) [node.mojom.NodeService]
+  |     |     |
+  |     |     +-- bash (PID 27978) -> devin --resume (PID 28945, RSS 75.8 MB) [Go binary]
+  |     |
+  |     +-- Devin Helper (Plugin) NodeService (PID 28328, RSS 119.0 MB) [main plugin host]
+  |           |
+  |           +-- Devin Helper (Plugin) markdown (PID 27082, RSS 37.4 MB) [node-ipc]
+  |           +-- Devin Helper (Plugin) JSON (PID 28398, RSS 23.6 MB) [node-ipc]
+  |           +-- devin acp (PID 28561, RSS 8.1 MB) [Go binary]
+  |           +-- devin acp summarizer (PID 28562, RSS 3.1 MB) [Go binary]
+  |           |
+  |           +-- Windsurf language_server (PID 28466, RSS 1110.9 MB) [native binary]
+  |                 |
+  |                 +-- node contextram MCP (PID 28551, RSS 1.8 MB)
+  |                 +-- node taskplanner MCP (PID 28555, RSS 1.8 MB)
+  |                 +-- node yahoo-mail MCP (PID 28556, RSS 1.8 MB) *** DISABLED BUT RUNNING ***
+  |                 +-- mcp-server-email Go (PID 28548, RSS 2.0 MB) *** DISABLED BUT RUNNING ***
+  |                 +-- npm exec pinecone (PID 28552, RSS 2.3 MB)
+  |                       |
+  |                       +-- node pinecone-mcp (PID 28578, RSS 1.8 MB)
+  |
+  +-- node server.js / brain_server (PID 96471, RSS 2.4 MB) [orphaned/standalone]
+
+================================================================================
+## KEY FINDINGS & RECOMMENDATIONS
+================================================================================
+
+1. BIGGEST MEMORY HOG: Windsurf language_server_macos_arm (PID 28466)
+   RSS: ~1110.9 MB (1.1 GB!) - This is NOT a node process but a native binary.
+   It's the Codeium/Windsurf language server that provides LSP, indexing, and
+   spawns all MCP servers. This is the #1 target for investigation.
+   Cannot be killed without losing IDE functionality.
+
+2. SECOND BIGGEST: Devin Helper (Renderer) #1 (PID 28303)
+   RSS: ~591.6 MB - Electron/Chromium renderer process.
+   This is the main Devin UI renderer. Memory may accumulate from webview usage.
+   Cannot be killed without crashing the Devin window.
+
+3. DISABLED MCP SERVERS STILL RUNNING (BUG):
+   - yahoo-mail (PID 28556, node, 1.8 MB) - marked disabled:true but still running
+   - yahoo-mail-go (PID 28548, Go binary, 2.0 MB) - marked disabled:true but still running
+   These should be killed. Combined savings: ~3.8 MB (small but principle matters).
+   Windsurf may not properly respect the "disabled" flag for already-running MCPs.
+
+4. MCP SERVERS HAVE TINY FOOTPRINT:
+   All 5 running MCP servers combined use only ~9.2 MB RSS.
+   The MCP servers themselves are NOT the memory problem.
+   The problem is the parent processes (Windsurf language server at 1.1 GB).
+
+5. BRAIN_SERVER IS ORPHANED:
+   PID 96471 (node server.js) has PPID 1 (launchd), meaning it's orphaned.
+   Working dir: /Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph/brain_server
+   Only uses 2.4 MB but may hold open file handles or ports.
+   Can be killed if not actively used.
+
+6. msearch MCP SERVER NOT RUNNING:
+   Configured in ~/.config/devin/config.json but no python3 process found.
+   This means the Devin CLI's msearch MCP is not active in this session.
+
+7. PINECONE MCP SERVER:
+   Running via npx (PID 28552 -> 28578), combined ~4.1 MB.
+   If Pinecone vector DB is not actively queried, this can be killed.
+   It will auto-restart if needed by Windsurf.
+
+================================================================================
+## OPTIMIZATION TARGETS FOR OTHER AGENTS
+================================================================================
+
+Priority 1: Investigate Windsurf language_server (PID 28466) memory at 1.1 GB
+  - Check if workspace indexing can be limited
+  - Check --search_max_workspace_file_count (currently 10)
+  - Check --indexed_files_retention_period_days (currently 30)
+  - Check database_dir size: /Users/wws/.codeium/windsurf/database/
+
+Priority 2: Kill disabled MCP servers that are still running
+  - kill 28556 (yahoo-mail, node, disabled but running)
+  - kill 28548 (yahoo-mail-go, Go, disabled but running)
+
+Priority 3: Kill brain_server if not in use
+  - kill 96471 (node server.js, orphaned, 2.4 MB)
+
+Priority 4: Kill Pinecone MCP if not actively used
+  - kill 28552 (npm exec, will also kill child 28578)
+
+Priority 5: Investigate Devin Renderer memory (PID 28303, 591.6 MB)
+  - This is Chromium renderer, may have memory leaks
+  - Check if Devin has too many webview tabs open
+  - Restarting Devin may help
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "assetVersion": "0.1.0-ALPHA",
+  "managedBy": "bookmarkai",
+  "files": [
+    "assets.json",
+    "README.md",
+    "scripts/analyze-bookmark-context.js",
+    "scripts/validate-import-batch.js",
+    "skill/bookmarkai-changes/SKILL.md",
+    "skill/bookmarkai-full/SKILL.md",
+    "skill/bookmarkai-workflow/SKILL.md"
+  ]
+}

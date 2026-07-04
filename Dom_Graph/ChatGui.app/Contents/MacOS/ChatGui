@@ -1,0 +1,6 @@
+#!/bin/bash
+# ChatGui launcher — runs the Python ChatGui with proper app bundle context
+# so macOS grants microphone + speech recognition permissions.
+
+DIR="/Users/wws/Qdrant_mysql_mlx_vector_engine/Dom_Graph"
+exec /usr/local/bin/python3 "$DIR/ChatGui.py" "$@"

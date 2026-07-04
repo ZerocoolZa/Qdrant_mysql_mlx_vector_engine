@@ -1,0 +1,82 @@
+ErrorAI v2 — 500 Variations Per Error Benchmark (FIXED)
+Date: 2026-07-04T12:24:54.202566
+Cases: 68
+Variations per case: 500
+Total tries: 34000
+================================================================================
+
+Error                          Family      Pass  Fail    Rate  Details
+--------------------------------------------------------------------------------
+SyntaxError                    syntax       500     0  100.0%  
+IndentationError               syntax       500     0  100.0%  
+NameError                      runtime      500     0  100.0%  
+UnboundLocalError              runtime      500     0  100.0%  
+TypeError                      runtime      500     0  100.0%  
+ValueError                     runtime      500     0  100.0%  
+KeyError                       runtime      500     0  100.0%  
+IndexError                     runtime      500     0  100.0%  
+AttributeError                 runtime      500     0  100.0%  
+ImportError                    runtime      500     0  100.0%  
+ModuleNotFoundError            runtime      500     0  100.0%  
+FileNotFoundError              runtime      500     0  100.0%  
+ZeroDivisionError              runtime      500     0  100.0%  
+OverflowError                  runtime      500     0  100.0%  
+RecursionError                 runtime      500     0  100.0%  
+StopIteration                  runtime      500     0  100.0%  
+RuntimeError                   runtime      500     0  100.0%  
+NotImplementedError            runtime      500     0  100.0%  
+AssertionError                 runtime      500     0  100.0%  
+EOFError                       runtime      500     0  100.0%  
+PermissionError                os           500     0  100.0%  
+IsADirectoryError              os           500     0  100.0%  
+FileExistsError                os           500     0  100.0%  
+UnicodeDecodeError             unicode      500     0  100.0%  
+UnicodeEncodeError             unicode      500     0  100.0%  
+ConnectionError                connection   500     0  100.0%  
+ConnectionRefusedError         connection   500     0  100.0%  
+TimeoutError                   connection   500     0  100.0%  
+ArithmeticError                arithmetic   500     0  100.0%  
+SystemExit                     system       500     0  100.0%  
+KeyboardInterrupt              system       500     0  100.0%  
+TabError                       syntax       500     0  100.0%  
+LookupError                    runtime      500     0  100.0%  
+ReferenceError                 runtime      500     0  100.0%  
+ArithmeticError                arithmetic   500     0  100.0%  
+FloatingPointError             arithmetic   500     0  100.0%  
+MemoryError                    runtime      500     0  100.0%  
+BufferError                    runtime      500     0  100.0%  
+SystemError                    system       500     0  100.0%  
+GeneratorExit                  system       500     0  100.0%  
+OSError                        os           500     0  100.0%  
+IOError                        os           500     0  100.0%  
+EnvironmentError               os           500     0  100.0%  
+NotADirectoryError             os           500     0  100.0%  
+InterruptedError               os           500     0  100.0%  
+BlockingIOError                os           500     0  100.0%  
+ChildProcessError              os           500     0  100.0%  
+BrokenPipeError                connection   500     0  100.0%  
+ConnectionAbortedError         connection   500     0  100.0%  
+ConnectionResetError           connection   500     0  100.0%  
+ProcessLookupError             os           500     0  100.0%  
+UnicodeError                   unicode      500     0  100.0%  
+UnicodeTranslateError          unicode      500     0  100.0%  
+Warning                        warning      500     0  100.0%  
+UserWarning                    warning      500     0  100.0%  
+DeprecationWarning             warning      500     0  100.0%  
+FutureWarning                  warning      500     0  100.0%  
+RuntimeWarning                 warning      500     0  100.0%  
+SyntaxWarning                  warning      500     0  100.0%  
+UnicodeWarning                 warning      500     0  100.0%  
+BytesWarning                   warning      500     0  100.0%  
+ResourceWarning                warning      500     0  100.0%  
+ImportWarning                  warning      500     0  100.0%  
+PendingDeprecationWarning      warning      500     0  100.0%  
+ExceptionGroup                 runtime      500     0  100.0%  
+BaseExceptionGroup             runtime      500     0  100.0%  
+PythonFinalizationError        system       500     0  100.0%  
+StopAsyncIteration             runtime      500     0  100.0%  
+
+================================================================================
+FINAL: 34000 tries, 34000 pass, 0 fail
+Success rate: 100.00%
+Errors with 100%: 68/68

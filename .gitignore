@@ -1,0 +1,118 @@
+# ============================================================================
+# Secrets — never commit credential files
+# ============================================================================
+*.env
+**/.env
+.env
+.env.*
+!.env.example
+
+# ============================================================================
+# Python
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ============================================================================
+# Virtual environments
+# ============================================================================
+venv/
+env/
+ENV/
+.env/
+.venv/
+
+# ============================================================================
+# IDE / Editor
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================================
+# Logs and databases
+# ============================================================================
+*.log
+*.sqlite
+*.db
+
+# ============================================================================
+# Credentials and tokens
+# ============================================================================
+client_secret_*.json
+google_token.json
+*_token.json
+credentials.json
+
+# ============================================================================
+# Large binary files — too big for Git, use Git LFS if needed
+# ============================================================================
+*.bin
+*.npz
+*.mlmodel
+*.mlpackage/
+*.weights.bin
+*.dSYM/
+*.bclir
+*.pack
+*.idx
+
+# ============================================================================
+# Large backup directories
+# ============================================================================
+treasure_trove_backup/
+.bookmarkai/backup/
+.bookmarkai/cache/
+.bookmarkai/branches/
+
+# ============================================================================
+# Build artifacts
+# ============================================================================
+CascadeGUI/external/
+Cascade_toolStack/bin_tools/mdmerge_debug.dSYM/
+Cascade_toolStack/bin_tools/mdmerge_modular/
+core/Dom_Bcl_C_ver/bin/
+core/Dom_Bcl_C_ver/obj/
+sigil.dSYM/
+
+# ============================================================================
+# Node/JS (chatwizard_custom, mcp-server-email, Dom_Graph/brain_server)
+# ============================================================================
+node_modules/
+package-lock.json
+
+# ============================================================================
+# Go build artifacts
+# ============================================================================
+Dom_Mcp/contextram-go/contextram-go-mcp
+Dom_Mcp/dom_mcp/dom_mcp
+mcp-server-email/mcp-server-email
+
+# ============================================================================
+# Large SQL dumps (>50MB, GitHub rejects >100MB)
+# ============================================================================
+Cascade_toolStack/cascade_unified.sql
+core/Dom_Report/saved_sessions/diagnostic_kb_full_dump.sql
+code_store_variations/v20_hybrid_best.db.bak
+*.sql.bak

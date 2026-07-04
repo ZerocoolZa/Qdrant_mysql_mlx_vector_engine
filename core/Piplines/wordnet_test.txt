@@ -1,0 +1,664 @@
+=== king ===
+  palatal                        0.9610
+  investing                      0.9609
+  elephant                       0.9608
+  chinese                        0.9607
+  patients                       0.9606
+
+=== queen ===
+  february                       0.9923
+  flip                           0.9921
+  flattering                     0.9921
+  mollification                  0.9920
+  alarming                       0.9919
+
+=== man ===
+  issued                         0.9299
+  decided                        0.9277
+  adventure                      0.9208
+  cheese                         0.9204
+  evil                           0.9198
+
+=== woman ===
+
+=== dog ===
+  haired                         0.9446
+  inhabiting                     0.9430
+  markings                       0.9414
+  melodious                      0.9385
+  hunting                        0.9368
+
+=== cat ===
+  buff                           0.8808
+  owl                            0.8804
+  origin                         0.8798
+  prairies                       0.8789
+  hardened                       0.8738
+
+=== car ===
+  seven                          0.9322
+  pushed                         0.9235
+  neighborhood                   0.9231
+  centennial                     0.9215
+  crumbled                       0.9215
+
+=== house ===
+  robins                         0.8428
+  canaries                       0.8421
+  goldfinches                    0.8366
+  siskins                        0.8353
+  linnets                        0.8345
+
+=== happy ===
+  adjusts                        0.9894
+  hilarious                      0.9781
+  interested                     0.9775
+  probable                       0.9770
+  locking                        0.9766
+
+=== sad ===
+  recipe                         0.8246
+  quran                          0.8200
+  bluff                          0.8165
+  frustrations                   0.8163
+  directions                     0.8119
+
+=== run ===
+  command                        0.5993
+  connect                        0.5753
+  extract                        0.5649
+  returns                        0.5393
+  handler                        0.5334
+
+=== walk ===
+
+=== eat ===
+  happening                      0.9679
+  quartz                         0.9657
+  hilarious                      0.9595
+  fun                            0.9569
+  meets                          0.9568
+
+=== sleep ===
+  defect                         0.9433
+  mines                          0.9403
+  killed                         0.9391
+  qualitative                    0.9386
+  opaque                         0.9384
+
+=== big ===
+  extension                      0.9015
+  bat                            0.8950
+  seal                           0.8941
+  pronged                        0.8923
+  poetry                         0.8916
+
+=== small ===
+  having                         0.6919
+  european                       0.6495
+  north                          0.6421
+  slender                        0.6139
+  largest                        0.6057
+
+=== hot ===
+  financial                      0.9924
+  purchased                      0.9911
+  liberties                      0.9910
+  disrespect                     0.9910
+  pewter                         0.9909
+
+=== cold ===
+  attached                       0.9499
+  orange                         0.9475
+  bee                            0.9440
+  headed                         0.9435
+  scales                         0.9428
+
+=== good ===
+  consumers                      0.8358
+  really                         0.8052
+  challenge                      0.8040
+  even                           0.8018
+  lot                            0.8012
+
+=== bad ===
+  mucosa                         0.9514
+  goggles                        0.9508
+  masted                         0.9500
+  flexion                        0.9496
+  slapstick                      0.9496
+
+=== computer ===
+  blamed                         0.8466
+  dehumanization                 0.8427
+  computers                      0.8026
+  look                           0.7967
+  realization                    0.7918
+
+=== brain ===
+  nutritionally                  0.8954
+  retard                         0.8953
+  insulin                        0.8935
+  induce                         0.8933
+  convulsions                    0.8926
+
+=== book ===
+  artifact                       0.8041
+  live                           0.7825
+  handles                        0.7806
+  ingest                         0.7795
+  qa_engine                      0.7687
+
+=== tree ===
+
+=== water ===
+
+=== fire ===
+  delivered                      0.8514
+  aiming                         0.8492
+  myself                         0.8295
+  easier                         0.8290
+  explainability                 0.8246
+
+=== earth ===
+  electrical                     0.9625
+  inclines                       0.9624
+  softening                      0.9623
+  lure                           0.9598
+  engaging                       0.9598
+
+=== air ===
+  imaginary                      0.9219
+  mounted                        0.9060
+  demanded                       0.9036
+  effect                         0.9034
+  combining                      0.9031
+
+=== doctor ===
+  funny                          0.9386
+  reflection                     0.9307
+  lion                           0.9279
+  cost                           0.9253
+  curly                          0.9244
+
+=== nurse ===
+  dentist                        0.9837
+  manuscript                     0.9829
+  shy                            0.9824
+  faculty                        0.9820
+  door                           0.9819
+
+=== teacher ===
+
+=== student ===
+
+=== parent ===
+  child                          0.7911
+  preset                         0.7289
+  instances                      0.7281
+  sidebar                        0.7098
+  component_defs                 0.7078
+
+=== child ===
+  parent                         0.7911
+  adoptive                       0.7582
+  center                         0.7567
+  property_defs                  0.7545
+  connections                    0.7498
+
+=== friend ===
+  cask                           0.9986
+  escalation                     0.9984
+  dismissed                      0.9979
+  impressive                     0.9977
+  realistic                      0.9977
+
+=== enemy ===
+  music                          0.8747
+  held                           0.8703
+  according                      0.8660
+  citizens                       0.8624
+  difficulty                     0.8608
+
+=== love ===
+  capitals                       0.9956
+  recovering                     0.9953
+  slices                         0.9952
+  sentiment                      0.9950
+  clips                          0.9950
+
+=== hate ===
+  procedural                     0.9902
+  encouraged                     0.9898
+  moot                           0.9891
+  recourse                       0.9888
+  nailed                         0.9887
+
+=== fear ===
+  emphasize                      0.9905
+  scissoring                     0.9815
+  gears                          0.9803
+  nystagmus                      0.9783
+  reciprocating                  0.9778
+
+=== courage ===
+  carroll                        0.9953
+  mesozoic                       0.9952
+  petition                       0.9952
+  probity                        0.9952
+  apparel                        0.9950
+
+=== truth ===
+
+=== lie ===
+  disappeared                    0.9938
+  publishing                     0.9936
+  proposition                    0.9934
+  expectation                    0.9932
+  experiencing                   0.9926
+
+=== beauty ===
+  assigning                      0.9951
+  apart                          0.9951
+  directing                      0.9951
+  merely                         0.9951
+  implication                    0.9951
+
+=== ugly ===
+
+=== fast ===
+  filter                         0.8336
+  breastbones                    0.8248
+  gallinules                     0.8183
+  finch                          0.8101
+  sandy                          0.8090
+
+=== slow ===
+  beat                           0.9150
+  losing                         0.9143
+  saving                         0.9079
+  advanced                       0.9079
+  fed                            0.9076
+
+=== strong ===
+
+=== weak ===
+
+=== rich ===
+  diamonds                       0.8742
+  reversed                       0.8704
+  imaginary                      0.8704
+  series                         0.8634
+  physics                        0.8627
+
+=== poor ===
+  putt                           0.9960
+  hitting                        0.9920
+  bunker                         0.9918
+  slant                          0.9917
+  fairway                        0.9912
+
+=== young ===
+
+=== old ===
+  america                        0.7576
+  europe                         0.7441
+  inhabits                       0.7034
+  cardinals                      0.6986
+  australian                     0.6901
+
+=== food ===
+  reddish                        0.8829
+  spots                          0.8807
+  rocky                          0.8775
+  flattened                      0.8757
+  greenish                       0.8744
+
+=== money ===
+  individuals                    0.7794
+  decayed                        0.7790
+  deliberate                     0.7743
+  omitting                       0.7731
+  clothing                       0.7730
+
+=== time ===
+
+=== space ===
+  enteritis                      0.8559
+  ebola                          0.8553
+  assault                        0.8546
+  francisella                    0.8534
+  femur                          0.8523
+
+=== light ===
+  meager                         0.8427
+  shoes                          0.8424
+  fault                          0.8420
+  accomplish                     0.8405
+  intervals                      0.8392
+
+=== dark ===
+  bright                         0.9080
+  nests                          0.9080
+  spots                          0.9057
+  songbird                       0.9009
+  coastal                        0.8988
+
+=== life ===
+  deed                           0.8520
+  jews                           0.8431
+  contemporary                   0.8431
+  sensory                        0.8362
+  material                       0.8348
+
+=== death ===
+  mummy                          0.9615
+  rotting                        0.9609
+  offering                       0.9598
+  mounted                        0.9553
+  ending                         0.9552
+
+=== entity ===
+  entities                       0.8141
+  records                        0.8141
+  relationship                   0.7936
+  laws                           0.7804
+  fact                           0.7591
+
+=== authority ===
+  column                         0.5989
+  conversation                   0.5866
+  provides                       0.5861
+  forbidden                      0.5745
+  authorities                    0.5656
+
+=== fact ===
+  records                        0.8048
+  relationship                   0.7859
+  entity                         0.7591
+  architectural                  0.7590
+  observation                    0.7519
+
+=== rule ===
+  decision                       0.6760
+  forbidden                      0.6233
+  fact                           0.5921
+  entity                         0.5830
+  law                            0.5821
+
+=== evidence ===
+  fix                            0.6470
+  decision                       0.6438
+  fact                           0.6426
+  solution                       0.6094
+  column                         0.5946
+
+=== incident ===
+  severity_id                    0.8938
+  priority_id                    0.8744
+  question_type                  0.8297
+  category_id                    0.8208
+  problem_id                     0.8156
+
+=== problem ===
+  prevention                     0.7183
+  severity                       0.6747
+  fact                           0.6688
+  fixes                          0.6668
+  entity                         0.6548
+
+=== cause ===
+  fix                            0.7033
+  prevention                     0.6897
+  solution                       0.6701
+  entity                         0.6480
+  link                           0.6425
+
+=== fix ===
+  fixes                          0.7062
+  solution                       0.7036
+  cause                          0.7033
+  prevention                     0.6572
+  evidence                       0.6470
+
+=== prevention ===
+  c_edge_has                     0.8194
+  preventative                   0.8187
+  records                        0.8083
+  from_type                      0.7963
+  derive_type                    0.7901
+
+=== report ===
+  cascade                        0.5800
+  between                        0.5500
+  outcome                        0.5368
+  action                         0.5167
+  answer_id                      0.5161
+
+=== container ===
+  craziness                      0.8352
+  locked                         0.8280
+  senseless                      0.8267
+  once                           0.8243
+  gives                          0.8221
+
+=== array ===
+  spacing                        0.7564
+  repeating                      0.7467
+  law4                           0.7280
+  serverless                     0.7255
+  scientific                     0.6985
+
+=== separator ===
+  db_exec_demo                   0.9460
+  prohibitions                   0.9453
+  demo                           0.9053
+  bio                            0.9007
+  create_entities                0.8959
+
+=== hands ===
+  fingernails                    0.8864
+  illness                        0.8840
+  emphasize                      0.8756
+  fear                           0.8743
+  influenced                     0.8720
+
+=== bcl ===
+  pipeline                       0.6660
+  modified                       0.6038
+  email_ingestion                0.5722
+  devchat_plan                   0.5512
+  domsystem                      0.5394
+
+=== ghost ===
+  env                            0.5979
+  read_state                     0.5785
+  hardcoded                      0.5770
+  auth                           0.5740
+  sessionminer                   0.5718
+
+=== vbstyle ===
+
+=== tuple3 ===
+
+=== dispatch ===
+  returns                        0.7025
+  semantic                       0.6236
+  nested                         0.6200
+  dict                           0.6185
+  mlx                            0.6184
+
+=== metal ===
+  gpu                            0.7604
+  compute                        0.6945
+  inference                      0.6878
+  hashing                        0.6574
+  frequencyanalysis              0.6562
+
+=== semantic ===
+  ingestion                      0.7661
+  retrieval                      0.7497
+  mlx                            0.7492
+  embedding                      0.7402
+  embeddings                     0.7373
+
+=== embedding ===
+  mlx                            0.7944
+  distance                       0.7586
+  coder                          0.7554
+  dim                            0.7554
+  retrieval                      0.7542
+
+=== vector ===
+
+=== search ===
+  directory                      0.5763
+  list                           0.5692
+  existing                       0.5560
+  parser                         0.5519
+  command                        0.5443
+
+=== graph ===
+  edges                          0.5519
+  report_lines                   0.5137
+  join                           0.4762
+  graphs                         0.4667
+  pipeline                       0.4628
+
+=== node ===
+  field                          0.4961
+  exec                           0.4904
+  isinstance                     0.4877
+  file_ids                       0.4812
+  edge_count                     0.4750
+
+=== edge ===
+  edge_count                     0.7376
+  depth                          0.7030
+  outgoing                       0.7018
+  field                          0.6875
+  edgetype                       0.6852
+
+=== parser ===
+  export                         0.7245
+  email                          0.7221
+  ingestion                      0.7169
+  returns                        0.7065
+  add_argument                   0.7062
+
+=== lexer ===
+  lang_unknown                   0.9483
+  lang_c                         0.9433
+  bookviewer                     0.9424
+  internal_planning              0.9408
+  saved_sessions                 0.9392
+
+=== tokenizer ===
+
+=== serializer ===
+  inst                           0.9978
+  jargon                         0.9977
+  newserver                      0.9977
+  awell                          0.9977
+  chronology                     0.9976
+
+=== ast ===
+  classdef                       0.7151
+  functiondef                    0.6577
+  extract                        0.6545
+  assign                         0.6414
+  extractor                      0.6312
+
+=== tuple ===
+
+=== bracket ===
+  runtime                        0.6923
+  driven                         0.6920
+  live                           0.6727
+  custom                         0.6600
+  development                    0.6551
+
+=== cascade ===
+  report                         0.5800
+  law_id                         0.5692
+  idx_tr_parent                  0.5679
+  architectural                  0.5671
+  chapters                       0.5636
+
+=== devin ===
+  contextram                     0.6906
+  pinecone                       0.6592
+  dom_mcp                        0.6132
+  msearch                        0.6092
+  domsystem                      0.6072
+
+=== mysql ===
+  rows                           0.4828
+  localhost                      0.4631
+  qdrant                         0.4538
+  port                           0.4500
+  sha256                         0.4488
+
+=== qdrant ===
+  mlx                            0.7750
+  semantic                       0.7351
+  collection                     0.7311
+  msearch                        0.7266
+  ingestion                      0.7164
+
+=== mlx ===
+  domsystem                      0.8533
+  ingestion                      0.8310
+  msearch                        0.8304
+  coder                          0.8285
+  pinecone                       0.8269
+
+=== coreml ===
+  methodize                      0.8582
+  nbuild                         0.8564
+  defs                           0.8487
+  codebert                       0.8469
+  dylib                          0.8390
+
+=== law1 ===
+  law2                           0.8822
+  law4                           0.8772
+  specialized                    0.8767
+  fake                           0.8632
+  nedge                          0.8597
+
+=== law2 ===
+  severityid                     0.9491
+  error_capture                  0.9444
+  nedge                          0.9408
+  dec002                         0.9396
+  search_nodes                   0.9379
+
+=== law3 ===
+  assembled                      0.8344
+  law4                           0.8137
+  gives                          0.8017
+  hud                            0.7913
+  narrative                      0.7855
+
+=== law4 ===
+  serverless                     0.9216
+  law2                           0.9130
+  describes                      0.8922
+  fake                           0.8891
+  law5                           0.8851
+
+=== law5 ===
+  fake                           0.9354
+  hud                            0.9262
+  nhus                           0.9221
+  dtc                            0.9210
+  embeds                         0.9119
+
+=== law6 ===
+  inline                         0.9684
+  asyncio                        0.9669
+  newer                          0.9618
+  allowed_dirs                   0.9608
+  prohibit                       0.9604
+

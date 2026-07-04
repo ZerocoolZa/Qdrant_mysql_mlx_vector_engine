@@ -1,0 +1,9 @@
+id	section	content	sort_order	created_at
+1	header	# ChatGPT Manager	1	2026-06-26 07:19:47
+2	version	**Version:** 4.0	2	2026-06-26 07:19:47
+3	description	A unified viewer for chat data from ChatGPT, Windsurf Cascade, and Devin CLI. Browse, search, export, and build capsules from your AI conversations.	3	2026-06-26 07:19:47
+4	features	## Features\n\n- Browse chats from 3 sources in one GUI\n- Search by title or message content\n- Export conversations to Markdown\n- Build unified capsules (chat + code)\n- 39 themes (dark, light, high contrast, terminal, IDE, branded)\n- Sync Devin sessions from SQLite to MySQL\n- Decrypt Cascade .pb files (AES-256-GCM)	4	2026-06-26 07:19:47
+5	backends	## Data Sources\n\n| Source | Database | Rows |\n|---|---|---|\n| ChatGPT | chatgpt_chats | ~24K messages |\n| Cascade | cascade_chats | ~22K messages |\n| Devin | devin | ~28K messages |	5	2026-06-26 07:19:47
+6	tech	## Technology\n\n- Python 3.13\n- PyQt6 GUI\n- MySQL 8.0 storage\n- SQLite local cache\n- AES-256-GCM decryption (Cascade)\n- VBStyle architecture	6	2026-06-26 07:19:47
+7	credits	## Credits\n\nBuilt with Devin and Cascade AI agents.\nVBStyle architecture — one class, one domain, one authority.	7	2026-06-26 07:19:47
+8	license	## License\n\nPrivate project. All rights reserved.	8	2026-06-26 07:19:47

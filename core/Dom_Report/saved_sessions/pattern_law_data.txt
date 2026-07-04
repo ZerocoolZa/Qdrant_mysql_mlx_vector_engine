@@ -1,0 +1,19 @@
+pattern_id	law_id	relationship	note
+1	1	violates	Enums embed meaning in column type instead of authority table FK
+15	1	violates	ErrorType, MethodType, etc. are duplicate authority tables for the same concept: Type
+8	2	violates	Fake manager — name describes WHO, not WHAT
+2	3	violates	Print bypasses report engine, outputs outside the graph
+5	3	violates	Visible print bypasses report engine
+9	3	violates	Write back — data flows backward, not assembled when read
+12	3	violates	Non-Tuple3 returns break the report engine
+3	5	violates	Decorators hide behavior, not visible in dispatch chain
+4	5	violates	Direct type check embeds meaning in code instead of context
+6	5	violates	Hidden behavior — meaning not visible in context
+7	5	violates	Implicit ops — meaning not in the container
+10	5	violates	Hidden behavior — locked version of HUD
+11	5	violates	Hidden state — meaning not in the container
+13	5	violates	No identity — meaning not stored once
+14	5	violates	No identity — meaning not stored once
+15	5	violates	Specialized names try to provide context through the name instead of through the container
+15	7	violates	Specialized versions fragment vocabulary into incompatible mini-authorities
+16	7	violates	Compound names encode context into the name instead of using relationships

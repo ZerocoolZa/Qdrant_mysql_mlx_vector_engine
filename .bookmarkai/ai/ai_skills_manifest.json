@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "pluginVersionAtInstall": "1.1.8",
+  "installs": [
+    {
+      "targetId": "windsurf:global:vkjv8e",
+      "platformId": "windsurf",
+      "displayName": "Windsurf",
+      "scope": "global",
+      "skillsRootPath": "/Users/wws/.windsurf/rules",
+      "installedSkills": [
+        {
+          "skillName": "bookmarkai-changes",
+          "targetPath": "/Users/wws/.windsurf/rules/bookmarkai-changes/SKILL.md"
+        },
+        {
+          "skillName": "bookmarkai-full",
+          "targetPath": "/Users/wws/.windsurf/rules/bookmarkai-full/SKILL.md"
+        },
+        {
+          "skillName": "bookmarkai-workflow",
+          "targetPath": "/Users/wws/.windsurf/rules/bookmarkai-workflow/SKILL.md"
+        }
+      ],
+      "installedAt": "2026-06-29T07:56:24.378Z",
+      "updatedAt": "2026-06-29T07:56:24.378Z"
+    }
+  ]
+}

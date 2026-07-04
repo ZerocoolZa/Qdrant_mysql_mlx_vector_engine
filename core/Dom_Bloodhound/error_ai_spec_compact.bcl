@@ -1,0 +1,87 @@
+[@PROJECT]{("ErrorAI";"v2.0";"Self-Validating Error Learning Framework";"Python 3.9+";"Blackboard";"LiveState";"BCL")}
+
+[@CONFIG]{("BCLPath=error_knowledge.bcl";"NumRuns=3";"CrossPlatform=True";"SafeExec=True";"ValidateFixes=True")}
+
+[@CLASS]{("BCL";"BCL format reader/writer";"Fields=file_path";"Methods=read_all,write_container,rewrite_all,find_by_key";"IR={read_all->parse->list;write_container->append;rewrite_all->overwrite}";"Graph=BCL->file->parse->containers->dict")}
+
+[@CLASS]{("ErrorHandler";"Self-learning: error->compare->fix->test->promote";"Fields=bcl,errors,known";"Statuses=new,testing,promoted,failed";"Methods=capture,test_fix,report,get_stats,_load_known,_record_new,_update_known,_rewrite_all_known";"AutoFixes=70+ exception types";"Promotion={new+success->testing+0.20;testing+success->promoted+0.20;promoted+success->+0.05;promoted+fail->testing-0.20;testing+fail->failed-0.30;new+fail->failed-0.10}";"IR={capture->lookup known->found?return fix:record new;test_fix->success?promote:demote;persist->rewrite BCL}";"Graph=ErrorHandler->BCL->known{pattern->record}->capture->test_fix->promote/demote->BCL")}
+
+[@CLASS]{("Law";"Rule/law CRUD checker";"Fields=bcl,laws";"Enforcements=info,warning,error,block";"Methods=create,read,update,delete,list_laws,check_all,get_stats";"IR={create->write BCL;update->rewrite;check_all->fact_checker per law}";"Graph=Law->BCL->laws{id->record}->create/update/delete->BCL")}
+
+[@CLASS]{("ErrorCase";"One error case: generator, expected, repair, validator";"Fields=name,family,generator,expected,repair,validator,fix_description";"Methods=trigger,validate_fix";"IR={trigger->exec generator->catch->(triggered,actual,tb);validate_fix->exec repair->exec validator->(passed,detail)}";"Graph=ErrorCase->generator->exception->capture->repair->validator->pass/fail")}
+
+[@ENTITY]{("Fact";"Universal runtime primitive";"Fields=producer,phase,kind,entity,attribute,value,confidence,severity,reasoning,graph_node,activation,parent_id,payload,timestamp";"Kinds=step,result,error,variable,state,timing,import")}
+
+[@ENTITY]{("ErrorCaseResult";"Benchmark result";"Fields=name,family,triggered,expected,actual,match,fix_status,fix_confidence,fix_validated,fix_detail,fix_description")}
+
+[@PIPELINE]{("ErrorLearningLoop";"1=Generate;2=Capture;3=Match;4=RetrieveFix;5=ApplyFix;6=Validate;7=Score;8=Promote;9=Demote;10=Persist";"Feedback=repeat across runs, confidence accumulates")}
+
+[@SCORER]{("ConfidenceScorer";"Initial=0.30";"Max=1.00";"Min=0.10";"Success={new+0.20;testing+0.20;promoted+0.05}";"Failure={promoted-0.20;testing-0.30;new-0.10}")}
+
+[@PROMOTION]{("PromotionEngine";"States=new,testing,promoted,failed";"Transitions={new->testing on 1st success;testing->promoted on 2nd success;promoted->testing on failure;testing->failed on failure;new->failed on failure}")}
+
+[@TRACEBACK]{("TracebackFingerprint";"Extracts=ExceptionType,ExceptionMessage,FileName,LineNumber,FunctionName,CodeLine";"Fingerprint={ExceptionType}:{FileName}:{LineNumber}:{FunctionName}")}
+
+[@STORAGE]{("BCLKnowledgeStore";"Path=error_knowledge.bcl";"Containers={ERROR:producer,entity,pattern,description,fix,confidence,status,occurrences,last_seen;LAW:id,name,statement,enforcement,authority,status,created}";"Ops=read,append,rewrite";"Persistence=survives across runs")}
+
+[@STATE]{("ErrorHandlerState";"Mutable=known(dict),errors(list)";"Immutable=bcl(BCL instance)";"Authority=ErrorHandler only class that modifies known")}
+
+[@REPORT]{("Dashboard";"Sections=Header,RunTable,LearningCurve,Summary,Mismatches,FailedFixes,BCLStore";"Colors={triggered=green;match=green;mismatch=red;promoted=green;testing=blue;new=yellow;failed=red}")}
+
+[@FLOW]{("MainFlow";"1=Delete old BCL;2=Build error cases;3=For each run: create handler,run benchmark,render;4=Render learning curve;5=Render summary;6=Show mismatches+failures;7=Done")}
+
+[@COMMAND]{("CLI";"Flags={default=live+structure+graph+tests;--test=tests only;--table=full+structure+graph+tests;--all=everything;--overview=AI inspection;--replay=replay;--profile=profiler;--debug=debugger}";"Verbosity={0=SILENT;1=NORMAL;2=DEBUG;3=VERBOSE}")}
+
+[@ERRORCASE]{("SyntaxError";"syntax";"exec('def f(:')";"SyntaxError";"exec('def f():')";"True";"fix syntax error";"P1")}
+[@ERRORCASE]{("IndentationError";"syntax";"exec('def f():  x=1\\n y=2')";"IndentationError";"exec('def f():  x=1\\n  y=2')";"True";"fix indentation";"P1")}
+[@ERRORCASE]{("NameError";"runtime";"exec('print(undefined_xyz)')";"NameError";"exec(\"x='hello'\\nprint(x)\")";"True";"define variable before use";"P1")}
+[@ERRORCASE]{("UnboundLocalError";"runtime";"exec('def f():\\n print(x)\\n x=1\\nf()')";"UnboundLocalError";"exec('def f():\\n x=1\\n print(x)\\nf()')";"True";"assign before read";"P1")}
+[@ERRORCASE]{("TypeError";"runtime";"exec(\"'hello'+5\")";"TypeError";"exec(\"'hello'+str(5)\")";"True";"convert types";"P1")}
+[@ERRORCASE]{("ValueError";"runtime";"exec(\"int('abc')\")";"ValueError";"exec(\"int('123')\")";"True";"validate input";"P1")}
+[@ERRORCASE]{("KeyError";"runtime";"exec(\"d={'a':1}\\nd['b']\")";"KeyError";"exec(\"d={'a':1}\\nprint(d.get('b'))\")";"True";"use .get() or in";"P1")}
+[@ERRORCASE]{("IndexError";"runtime";"exec('lst=[1,2]\\nlst[10]')";"IndexError";"exec('lst=[1,2]\\nprint(lst[min(10,len(lst)-1)])')";"True";"check len()";"P1")}
+[@ERRORCASE]{("AttributeError";"runtime";"exec('x=5\\nx.append(3)')";"AttributeError";"exec('x=[5]\\nx.append(3)')";"True";"check object type";"P1")}
+[@ERRORCASE]{("ImportError";"runtime";"exec('from nonexistent_xyz import x')";"ImportError";"exec('import json')";"True";"check module or pip install";"P1")}
+[@ERRORCASE]{("ModuleNotFoundError";"runtime";"exec('import nonexistent_xyz_123')";"ModuleNotFoundError";"exec('import json')";"True";"pip install or check path";"P1")}
+[@ERRORCASE]{("FileNotFoundError";"runtime";"open(tmpdir/nonexistent.txt)";"FileNotFoundError";"open(tmpdir/ok.txt,'w')";"True";"check path or create";"P1")}
+[@ERRORCASE]{("ZeroDivisionError";"runtime";"exec('1/0')";"ZeroDivisionError";"exec('x=1/1')";"True";"check divisor!=0";"P1")}
+[@ERRORCASE]{("OverflowError";"runtime";"exec('10.0**10000')";"OverflowError";"exec('x=10.0**100')";"True";"use smaller values";"P2")}
+[@ERRORCASE]{("RecursionError";"runtime";"exec('def f():\\n return f()\\nf()')";"RecursionError";"exec('def f(n=0):\\n return n if n>100 else f(n+1)\\nf()')";"True";"add base case";"P1")}
+[@ERRORCASE]{("StopIteration";"runtime";"exec('it=iter([1])\\nnext(it)\\nnext(it)')";"StopIteration";"exec('it=iter([1,2])\\nnext(it)\\nnext(it)')";"True";"use for loop";"P2")}
+[@ERRORCASE]{("RuntimeError";"runtime";"exec(\"raise RuntimeError('test')\")";"RuntimeError";"exec(\"x='ok'\")";"True";"handle condition";"P2")}
+[@ERRORCASE]{("NotImplementedError";"runtime";"exec(\"raise NotImplementedError('todo')\")";"NotImplementedError";"exec(\"def f():\\n return 'done'\\nf()\")";"True";"implement method";"P2")}
+[@ERRORCASE]{("AssertionError";"runtime";"exec('assert 1==2')";"AssertionError";"exec('assert 1==1')";"True";"fix condition";"P2")}
+[@ERRORCASE]{("EOFError";"runtime";"exec(\"raise EOFError('no input')\")";"EOFError";"exec(\"x='has input'\")";"True";"check for EOF";"P2")}
+[@ERRORCASE]{("PermissionError";"os";"open(nonexistent_dir/file,'w')";"PermissionError";"open(tmpdir/ok.txt,'w')";"True";"check permissions";"P2")}
+[@ERRORCASE]{("IsADirectoryError";"os";"open(tmpdir)";"IsADirectoryError";"open(tmpdir/ok.txt,'w')";"True";"check path is file";"P2")}
+[@ERRORCASE]{("FileExistsError";"os";"os.makedirs(dir,exist_ok=False) twice";"FileExistsError";"os.makedirs(dir,exist_ok=True)";"True";"use exist_ok=True";"P2")}
+[@ERRORCASE]{("UnicodeDecodeError";"unicode";"b'\\xff\\xfe'.decode('utf-8')";"UnicodeDecodeError";"b'\\xff\\xfe'.decode('utf-8',errors='replace')";"True";"use errors='replace'";"P2")}
+[@ERRORCASE]{("UnicodeEncodeError";"unicode";"'\\udcff'.encode('utf-8')";"UnicodeEncodeError";"'\\udcff'.encode('utf-8',errors='replace')";"True";"use errors='replace'";"P2")}
+[@ERRORCASE]{("ConnectionError";"connection";"exec(\"raise ConnectionError('test')\")";"ConnectionError";"exec(\"x='connected'\")";"True";"check network+retry";"P2")}
+[@ERRORCASE]{("ConnectionRefusedError";"connection";"exec(\"raise ConnectionRefusedError('test')\")";"ConnectionRefusedError";"exec(\"x='connected'\")";"True";"check server+port";"P2")}
+[@ERRORCASE]{("TimeoutError";"connection";"exec(\"raise TimeoutError('test')\")";"TimeoutError";"exec(\"x='done'\")";"True";"increase timeout";"P2")}
+[@ERRORCASE]{("ArithmeticError";"arithmetic";"exec(\"raise ArithmeticError('test')\")";"ArithmeticError";"exec('x=1+1')";"True";"validate operands";"P3")}
+[@ERRORCASE]{("SystemExit";"system";"exec('raise SystemExit(1)')";"SystemExit";"exec(\"x='no exit'\")";"True";"handle sys.exit()";"P3";"SafeCatch=BaseException")}
+[@ERRORCASE]{("KeyboardInterrupt";"system";"exec('raise KeyboardInterrupt()')";"KeyboardInterrupt";"exec(\"x='no interrupt'\")";"True";"handle Ctrl+C";"P3";"SafeCatch=BaseException")}
+
+[@FIXRULE]{("DefineVariable";"NameError";"declare before use")}
+[@FIXRULE]{("ConvertType";"TypeError";"convert type before operation")}
+[@FIXRULE]{("ValidateInput";"ValueError";"validate before conversion")}
+[@FIXRULE]{("CheckKey";"KeyError";"use .get() or in")}
+[@FIXRULE]{("CheckLength";"IndexError";"check len() before indexing")}
+[@FIXRULE]{("CheckAttribute";"AttributeError";"check object type")}
+[@FIXRULE]{("CheckModule";"ImportError,ModuleNotFoundError";"check name or pip install")}
+[@FIXRULE]{("CheckFile";"FileNotFoundError";"check path or create")}
+[@FIXRULE]{("CheckZero";"ZeroDivisionError";"check divisor!=0")}
+[@FIXRULE]{("AddBaseCase";"RecursionError";"add terminating condition")}
+[@FIXRULE]{("UseErrorsReplace";"UnicodeDecodeError,UnicodeEncodeError";"add errors='replace'")}
+[@FIXRULE]{("UseExistOk";"FileExistsError";"use exist_ok=True")}
+[@FIXRULE]{("HandleException";"RuntimeError,NotImplementedError,EOFError,ArithmeticError";"remove raise or implement")}
+[@FIXRULE]{("FixAssertion";"AssertionError";"fix condition to be true")}
+[@FIXRULE]{("FixIndentation";"IndentationError";"make indentation consistent")}
+[@FIXRULE]{("FixSyntax";"SyntaxError";"fix the syntax error")}
+
+[@VALIDATOR]{("RunsWithoutException";"try repair, return True if no exception")}
+[@VALIDATOR]{("ReturnsExpectedValue";"run repair, check return value")}
+[@VALIDATOR]{("FileExists";"check os.path.exists(path)")}
+[@VALIDATOR]{("DirectoryExists";"check os.path.isdir(path)")}

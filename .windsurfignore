@@ -1,0 +1,62 @@
+# Heavy folders — don't index
+code_store_variations/
+mcp-server-email/
+Dom_Mcp/
+Dom_qa_engine/
+Dom_Graph/
+Dom_CoreML_Layout/
+Cascade_toolStack/
+tmp_graph_ingest/
+core/
+efl_brain/
+chat_mover/
+BookSystem/
+Dom_Smart_system_seach/
+Dom_svg_engine/
+Dom_DecisionTrees/
+Sql_Schema_Config/
+CoreML_Training/
+gui_engine/
+dom_compression/
+dom_semantic_router/
+CACASE The Clevere/
+MAC_Config/
+storage/
+snapshots/
+logs/
+.tasks/
+.devin/
+_tmp_repair_tests/
+
+# Giant files
+--help
+ui_energy_optimizer.py
+email_ingestion.py
+
+# Large data files
+mysql_concept_search.json
+db_schema_rules.json
+db_schema_rules.md
+.bigram_cache.pkl
+pipeline.log
+najma_email_architecture_brief.md
+najma_email_gpt.md
+PLAN.md
+MASTER_PLAN_AGENT_OS.md
+DEVIN_WORK_LOG.md
+DevChat_Plan.md
+CASCADE_SESSION_SUMMARY.md
+Config_Registry.md
+export_chat_embeddings.py
+mysql_archaeology.py
+
+# Build artifacts
+*.log
+*.pkl
+*.db
+
+# Added by SettingsGuardianAuthority
+node_modules/
+.git/
+__pycache__/
+.build/

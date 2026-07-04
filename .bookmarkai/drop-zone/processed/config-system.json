@@ -1,0 +1,41 @@
+{
+  "targetGroupName": "Config System",
+  "items": [
+    {
+      "title": "1 Root Config (Gold Standard)",
+      "filePath": "Config.py",
+      "line": 1,
+      "expectedLineText": "#!/usr/bin/env python3"
+    },
+    {
+      "title": "2 BCL Domain Config",
+      "filePath": "core/Dom_Bcl/Config_BCL.py",
+      "line": 1,
+      "expectedLineText": "#!/usr/bin/env python3"
+    },
+    {
+      "title": "3 GUI Domain Config (P0 Fix Needed)",
+      "filePath": "core/Dom_Gui/config.py",
+      "line": 1,
+      "expectedLineText": "#!/usr/bin/env python3"
+    },
+    {
+      "title": "4 Graph Domain Config (P1 Fix Needed)",
+      "filePath": "Dom_Graph/Config.py",
+      "line": 1,
+      "expectedLineText": "#!/usr/bin/env python3"
+    },
+    {
+      "title": "5 Decision Trees Config (P1 Fix Needed)",
+      "filePath": "Dom_DecisionTrees/Config.py",
+      "line": 1,
+      "expectedLineText": "#!/usr/bin/env python3"
+    },
+    {
+      "title": "6 Config File Manual",
+      "filePath": "core/Piplines/Plf_ConfigFiles.md",
+      "line": 1,
+      "expectedLineText": "# The Config File Manual"
+    }
+  ]
+}

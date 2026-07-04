@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1600">
+<rect width="100%%" height="100%%" fill="#0d0d1a"/>
+<text x="900" y="35" text-anchor="middle" fill="#fff" font-family="Menlo" font-size="22" font-weight="bold">Errors + Usability Graph</text>
+<text x="900" y="58" text-anchor="middle" fill="#888" font-family="Menlo" font-size="13">Errors -> Causes -> Solutions -> Fixes | GUI Tokens -> Widgets -> Properties -> Layouts</text>
+<text x="50" y="100" fill="#FF4444" font-family="Menlo" font-size="16" font-weight="bold">ERROR CHAINS</text>
+<text x="50" y="120" fill="#888" font-family="Menlo" font-size="11">error_knowledge: 139 errors | execution_log: 404 runs | fix_attempts: 22</text>
+<text x="50" y="138" fill="#888" font-family="Menlo" font-size="11">know_problems: 399 | know_solutions: 381 | know_causes: 206</text>
+<circle cx="70" cy="160" r="12" fill="#FF4444" fill-opacity="0.6"/>
+<text x="90" y="163" fill="#ccc" font-family="Menlo" font-size="10">[22] MySQLProgrammingError     freq=24 conf=0.90</text>
+<text x="90" y="174" fill="#666" font-family="Menlo" font-size="9">SQL syntax error or unknown database/table/column.</text>
+<line x1="70" y1="160" x2="350" y2="160" stroke="#FF4444" stroke-width="1" opacity="0.3"/>
+<text x="360" y="163" fill="#7ED321" font-family="Menlo" font-size="9">Check SQL syntax. Verify database/table/column names.</text>
+<circle cx="70" cy="188" r="12" fill="#FF4444" fill-opacity="0.6"/>
+<text x="90" y="191" fill="#ccc" font-family="Menlo" font-size="10">[44] destructive_command       freq=24 conf=0.90</text>
+<text x="90" y="202" fill="#666" font-family="Menlo" font-size="9">Agent attempted redirect_over without approval</text>
+<line x1="70" y1="188" x2="350" y2="188" stroke="#FF4444" stroke-width="1" opacity="0.3"/>
+<text x="360" y="191" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="216" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="219" fill="#ccc" font-family="Menlo" font-size="10">[91] destructive_command       freq=5 conf=0.90</text>
+<text x="90" y="230" fill="#666" font-family="Menlo" font-size="9">Agent attempted os_remove without approval</text>
+<line x1="70" y1="216" x2="350" y2="216" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="219" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="244" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="247" fill="#ccc" font-family="Menlo" font-size="10">[19] ZeroDivisionError         freq=5 conf=0.93</text>
+<text x="90" y="258" fill="#666" font-family="Menlo" font-size="9">Attempted to divide by zero.</text>
+<line x1="70" y1="244" x2="350" y2="244" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="247" fill="#7ED321" font-family="Menlo" font-size="9">Check divisor before dividing. Use try/except ZeroDivisionEr</text>
+<circle cx="70" cy="272" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="275" fill="#ccc" font-family="Menlo" font-size="10">[136] destructive_command_approved freq=4 conf=0.90</text>
+<text x="90" y="286" fill="#666" font-family="Menlo" font-size="9">Agent requested sql_delete, user approved</text>
+<line x1="70" y1="272" x2="350" y2="272" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="275" fill="#7ED321" font-family="Menlo" font-size="9">User ran approve.py for type</text>
+<circle cx="70" cy="300" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="303" fill="#ccc" font-family="Menlo" font-size="10">[132] destructive_command       freq=4 conf=0.90</text>
+<text x="90" y="314" fill="#666" font-family="Menlo" font-size="9">Agent attempted sql_delete without approval</text>
+<line x1="70" y1="300" x2="350" y2="300" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="303" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="328" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="331" fill="#ccc" font-family="Menlo" font-size="10">[123] destructive_command       freq=4 conf=0.90</text>
+<text x="90" y="342" fill="#666" font-family="Menlo" font-size="9">Agent attempted sql_delete without approval</text>
+<line x1="70" y1="328" x2="350" y2="328" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="331" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="356" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="359" fill="#ccc" font-family="Menlo" font-size="10">[53] destructive_command       freq=4 conf=0.90</text>
+<text x="90" y="370" fill="#666" font-family="Menlo" font-size="9">Agent attempted sql_drop without approval</text>
+<line x1="70" y1="356" x2="350" y2="356" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="359" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="384" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="387" fill="#ccc" font-family="Menlo" font-size="10">[49] destructive_command       freq=4 conf=0.90</text>
+<text x="90" y="398" fill="#666" font-family="Menlo" font-size="9">Agent attempted redirect_over without approval</text>
+<line x1="70" y1="384" x2="350" y2="384" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="387" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="412" r="6" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="415" fill="#ccc" font-family="Menlo" font-size="10">[46] destructive_command       freq=4 conf=0.90</text>
+<text x="90" y="426" fill="#666" font-family="Menlo" font-size="9">Agent attempted redirect_over without approval</text>
+<line x1="70" y1="412" x2="350" y2="412" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="415" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="440" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="443" fill="#ccc" font-family="Menlo" font-size="10">[138] destructive_command_approved freq=3 conf=0.90</text>
+<text x="90" y="454" fill="#666" font-family="Menlo" font-size="9">Agent requested sql_delete, user approved</text>
+<line x1="70" y1="440" x2="350" y2="440" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="443" fill="#7ED321" font-family="Menlo" font-size="9">User ran approve.py for status</text>
+<circle cx="70" cy="468" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="471" fill="#ccc" font-family="Menlo" font-size="10">[133] destructive_command       freq=3 conf=0.90</text>
+<text x="90" y="482" fill="#666" font-family="Menlo" font-size="9">Agent attempted sql_delete without approval</text>
+<line x1="70" y1="468" x2="350" y2="468" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="471" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="496" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="499" fill="#ccc" font-family="Menlo" font-size="10">[127] destructive_command       freq=3 conf=0.90</text>
+<text x="90" y="510" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="496" x2="350" y2="496" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="499" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="524" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="527" fill="#ccc" font-family="Menlo" font-size="10">[47] destructive_command       freq=3 conf=0.90</text>
+<text x="90" y="538" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="524" x2="350" y2="524" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="527" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="552" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="555" fill="#ccc" font-family="Menlo" font-size="10">[26] destructive_command       freq=3 conf=0.90</text>
+<text x="90" y="566" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="552" x2="350" y2="552" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="555" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="580" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="583" fill="#ccc" font-family="Menlo" font-size="10">[30] destructive_command       freq=3 conf=0.90</text>
+<text x="90" y="594" fill="#666" font-family="Menlo" font-size="9">Agent attempted git_push_f without approval</text>
+<line x1="70" y1="580" x2="350" y2="580" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="583" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="608" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="611" fill="#ccc" font-family="Menlo" font-size="10">[1] AttributeError            freq=2 conf=0.92</text>
+<text x="90" y="622" fill="#666" font-family="Menlo" font-size="9">Object does not have the requested attribute. Usually means __init__ d</text>
+<line x1="70" y1="608" x2="350" y2="608" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="611" fill="#7ED321" font-family="Menlo" font-size="9">Check __init__ for self.attr assignment. Verify method name </text>
+<circle cx="70" cy="636" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="639" fill="#ccc" font-family="Menlo" font-size="10">[124] destructive_command       freq=2 conf=0.90</text>
+<text x="90" y="650" fill="#666" font-family="Menlo" font-size="9">Agent attempted sql_delete, sql_drop without approval</text>
+<line x1="70" y1="636" x2="350" y2="636" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="639" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="664" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="667" fill="#ccc" font-family="Menlo" font-size="10">[8] ValueError                freq=2 conf=0.87</text>
+<text x="90" y="678" fill="#666" font-family="Menlo" font-size="9">Correct type but invalid value passed to function.</text>
+<line x1="70" y1="664" x2="350" y2="664" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="667" fill="#7ED321" font-family="Menlo" font-size="9">Validate input before passing. Use try/except ValueError.</text>
+<circle cx="70" cy="692" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="695" fill="#ccc" font-family="Menlo" font-size="10">[116] destructive_command       freq=2 conf=0.90</text>
+<text x="90" y="706" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="692" x2="350" y2="692" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="695" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="720" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="723" fill="#ccc" font-family="Menlo" font-size="10">[11] TypeError                 freq=2 conf=0.88</text>
+<text x="90" y="734" fill="#666" font-family="Menlo" font-size="9">Wrong type passed to function or operation.</text>
+<line x1="70" y1="720" x2="350" y2="720" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="723" fill="#7ED321" font-family="Menlo" font-size="9">Check argument types. Use isinstance() for type guards.</text>
+<circle cx="70" cy="748" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="751" fill="#ccc" font-family="Menlo" font-size="10">[115] destructive_command       freq=2 conf=0.90</text>
+<text x="90" y="762" fill="#666" font-family="Menlo" font-size="9">Agent attempted sql_delete without approval</text>
+<line x1="70" y1="748" x2="350" y2="748" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="751" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="776" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="779" fill="#ccc" font-family="Menlo" font-size="10">[85] destructive_command       freq=2 conf=0.90</text>
+<text x="90" y="790" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="776" x2="350" y2="776" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="779" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="804" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="807" fill="#ccc" font-family="Menlo" font-size="10">[73] destructive_command       freq=2 conf=0.90</text>
+<text x="90" y="818" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="804" x2="350" y2="804" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="807" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<circle cx="70" cy="832" r="5" fill="#FFAA44" fill-opacity="0.6"/>
+<text x="90" y="835" fill="#ccc" font-family="Menlo" font-size="10">[71] destructive_command       freq=2 conf=0.90</text>
+<text x="90" y="846" fill="#666" font-family="Menlo" font-size="9">Agent attempted rm without approval</text>
+<line x1="70" y1="832" x2="350" y2="832" stroke="#FFAA44" stroke-width="1" opacity="0.3"/>
+<text x="360" y="835" fill="#7ED321" font-family="Menlo" font-size="9">Ask user to run approve.py to grant explicit permission</text>
+<text x="700" y="100" fill="#F5A623" font-family="Menlo" font-size="16" font-weight="bold">EXECUTION LOG</text>
+<text x="700" y="120" fill="#888" font-family="Menlo" font-size="11">404 runs by status</text>
+<rect x="710" y="145" width="14" height="14" fill="#7ED321" rx="2"/>
+<text x="730" y="156" fill="#ccc" font-family="Menlo" font-size="11">DONE         none                      333 runs</text>
+<rect x="710" y="170" width="14" height="14" fill="#F5A623" rx="2"/>
+<text x="730" y="181" fill="#ccc" font-family="Menlo" font-size="11">BLOCKED      none                      28 runs</text>
+<rect x="710" y="195" width="14" height="14" fill="#FF4444" rx="2"/>
+<text x="730" y="206" fill="#ccc" font-family="Menlo" font-size="11">FAILED       MySQLProgrammingError     23 runs</text>
+<rect x="710" y="220" width="14" height="14" fill="#FF4444" rx="2"/>
+<text x="730" y="231" fill="#ccc" font-family="Menlo" font-size="11">FAILED       ZeroDivisionError         8 runs</text>
+<rect x="710" y="245" width="14" height="14" fill="#E74C3C" rx="2"/>
+<text x="730" y="256" fill="#ccc" font-family="Menlo" font-size="11">TIMEOUT      none                      7 runs</text>
+<rect x="710" y="270" width="14" height="14" fill="#FF4444" rx="2"/>
+<text x="730" y="281" fill="#ccc" font-family="Menlo" font-size="11">FAILED       none                      2 runs</text>
+<rect x="710" y="295" width="14" height="14" fill="#FF4444" rx="2"/>
+<text x="730" y="306" fill="#ccc" font-family="Menlo" font-size="11">FAILED       AttributeError            1 runs</text>
+<rect x="710" y="320" width="14" height="14" fill="#FF4444" rx="2"/>
+<text x="730" y="331" fill="#ccc" font-family="Menlo" font-size="11">FAILED       ValueError                1 runs</text>
+<rect x="710" y="345" width="14" height="14" fill="#FF4444" rx="2"/>
+<text x="730" y="356" fill="#ccc" font-family="Menlo" font-size="11">FAILED       TypeError                 1 runs</text>
+<text x="50" y="900" fill="#9B59B6" font-family="Menlo" font-size="16" font-weight="bold">LESSONS (Usability Issues)</text>
+<text x="50" y="920" fill="#888" font-family="Menlo" font-size="11">know_lessons: 240 total, by dimension</text>
+<circle cx="70" cy="945" r="15" fill="#FF4444" fill-opacity="0.6"/>
+<text x="90" y="948" fill="#ccc" font-family="Menlo" font-size="10">safety                         destructive_command_blocked    167 entries (sev 334)</text>
+<circle cx="70" cy="970" r="4" fill="#F5A623" fill-opacity="0.6"/>
+<text x="90" y="973" fill="#ccc" font-family="Menlo" font-size="10">qa_database_implementation     architecture_mistake           10 entries (sev 50)</text>
+<circle cx="70" cy="995" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="998" fill="#ccc" font-family="Menlo" font-size="10">generation_vs_assembly         architecture_mistake           3 entries (sev 15)</text>
+<circle cx="70" cy="1020" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1023" fill="#ccc" font-family="Menlo" font-size="10">learning_loop                  architecture_mistake           3 entries (sev 15)</text>
+<circle cx="70" cy="1045" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1048" fill="#ccc" font-family="Menlo" font-size="10">verification                   architecture_mistake           3 entries (sev 9)</text>
+<circle cx="70" cy="1070" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1073" fill="#ccc" font-family="Menlo" font-size="10">completeness                   architecture_mistake           3 entries (sev 12)</text>
+<circle cx="70" cy="1095" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1098" fill="#ccc" font-family="Menlo" font-size="10">context_awareness              architecture_mistake           3 entries (sev 15)</text>
+<circle cx="70" cy="1120" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1123" fill="#ccc" font-family="Menlo" font-size="10">conflict_resolution            architecture_mistake           3 entries (sev 12)</text>
+<circle cx="70" cy="1145" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1148" fill="#ccc" font-family="Menlo" font-size="10">perfection_vs_improvement      architecture_mistake           3 entries (sev 12)</text>
+<circle cx="70" cy="1170" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1173" fill="#ccc" font-family="Menlo" font-size="10">statelessness                  architecture_mistake           3 entries (sev 15)</text>
+<circle cx="70" cy="1195" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1198" fill="#ccc" font-family="Menlo" font-size="10">memory                         architecture_mistake           3 entries (sev 15)</text>
+<circle cx="70" cy="1220" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1223" fill="#ccc" font-family="Menlo" font-size="10">decision_vs_description        architecture_mistake           3 entries (sev 15)</text>
+<circle cx="70" cy="1245" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1248" fill="#ccc" font-family="Menlo" font-size="10">talk_vs_execute                architecture_mistake           2 entries (sev 10)</text>
+<circle cx="70" cy="1270" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1273" fill="#ccc" font-family="Menlo" font-size="10">toolbar_assembly               architecture_mistake           2 entries (sev 10)</text>
+<circle cx="70" cy="1295" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1298" fill="#ccc" font-family="Menlo" font-size="10">investigation                  methodology_gap                2 entries (sev 9)</text>
+<circle cx="70" cy="1320" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1323" fill="#ccc" font-family="Menlo" font-size="10">error_handling                 input_validation               2 entries (sev 2)</text>
+<circle cx="70" cy="1345" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1348" fill="#ccc" font-family="Menlo" font-size="10">code                           bug                            2 entries (sev 3)</text>
+<circle cx="70" cy="1370" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1373" fill="#ccc" font-family="Menlo" font-size="10">wiring                         bug                            2 entries (sev 4)</text>
+<circle cx="70" cy="1395" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1398" fill="#ccc" font-family="Menlo" font-size="10">rule_activation                architecture_mistake           2 entries (sev 10)</text>
+<circle cx="70" cy="1420" r="4" fill="#9B59B6" fill-opacity="0.6"/>
+<text x="90" y="1423" fill="#ccc" font-family="Menlo" font-size="10">naming                         unclear_variable               1 entries (sev 1)</text>
+<text x="700" y="900" fill="#4A90D9" font-family="Menlo" font-size="16" font-weight="bold">GUI / USABILITY</text>
+<text x="700" y="920" fill="#888" font-family="Menlo" font-size="11">gui_tokens: 19 | widgets: 32 | props: 99 | layouts: 72</text>
+<text x="700" y="938" fill="#888" font-family="Menlo" font-size="11">menus: 14 | menu_items: 28 | tooltips: 114 | shortcuts: 92</text>
+<text x="710" y="965" fill="#4A90D9" font-family="Menlo" font-size="12" font-weight="bold">GUI Tokens:</text>
+<rect x="720" y="985" width="12" height="12" fill="#FF4444" rx="2"/>
+<text x="740" y="995" fill="#ccc" font-family="Menlo" font-size="10">[@Toolbar]                toolbar         auth=safety</text>
+<rect x="720" y="1007" width="12" height="12" fill="#FF4444" rx="2"/>
+<text x="740" y="1017" fill="#ccc" font-family="Menlo" font-size="10">[@MenuBar]                menubar         auth=safety</text>
+<rect x="720" y="1029" width="12" height="12" fill="#FF4444" rx="2"/>
+<text x="740" y="1039" fill="#ccc" font-family="Menlo" font-size="10">[@StatusBar]              statusbar       auth=safety</text>
+<rect x="720" y="1051" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1061" fill="#ccc" font-family="Menlo" font-size="10">[@SearchBar]              search          auth=functional</text>
+<rect x="720" y="1073" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1083" fill="#ccc" font-family="Menlo" font-size="10">[@TableView]              table           auth=functional</text>
+<rect x="720" y="1095" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1105" fill="#ccc" font-family="Menlo" font-size="10">[@DetailPane]             detail          auth=layout</text>
+<rect x="720" y="1117" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1127" fill="#ccc" font-family="Menlo" font-size="10">[@SplitPane]              splitter        auth=layout</text>
+<rect x="720" y="1139" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1149" fill="#ccc" font-family="Menlo" font-size="10">[@DialogForm]             dialog          auth=functional</text>
+<rect x="720" y="1161" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1171" fill="#ccc" font-family="Menlo" font-size="10">[@ShortcutKeys]           shortcuts       auth=layout</text>
+<rect x="720" y="1183" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1193" fill="#ccc" font-family="Menlo" font-size="10">[@ZebraStriping]          style           auth=layout</text>
+<rect x="720" y="1205" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1215" fill="#ccc" font-family="Menlo" font-size="10">[@TreeView]               tree            auth=functional</text>
+<rect x="720" y="1227" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1237" fill="#ccc" font-family="Menlo" font-size="10">[@ProgressBar]            progress        auth=layout</text>
+<rect x="720" y="1249" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1259" fill="#ccc" font-family="Menlo" font-size="10">[@Wizard]                 wizard          auth=layout</text>
+<rect x="720" y="1271" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1281" fill="#ccc" font-family="Menlo" font-size="10">[@Tabs]                   tabs            auth=functional</text>
+<rect x="720" y="1293" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1303" fill="#ccc" font-family="Menlo" font-size="10">[@ListView]               list            auth=functional</text>
+<rect x="720" y="1315" width="12" height="12" fill="#7ED321" rx="2"/>
+<text x="740" y="1325" fill="#ccc" font-family="Menlo" font-size="10">[@FormLayout]             form            auth=functional</text>
+<rect x="720" y="1337" width="12" height="12" fill="#4A90D9" rx="2"/>
+<text x="740" y="1347" fill="#ccc" font-family="Menlo" font-size="10">[@Notification]           notification    auth=layout</text>
+<rect x="720" y="1359" width="12" height="12" fill="#FF4444" rx="2"/>
+<text x="740" y="1369" fill="#ccc" font-family="Menlo" font-size="10">[@ModalDialog]            modal           auth=safety</text>
+<rect x="720" y="1381" width="12" height="12" fill="#FF4444" rx="2"/>
+<text x="740" y="1391" fill="#ccc" font-family="Menlo" font-size="10">[@FloatingBall]           overlay         auth=safety</text>
+<text x="%d" y="965" fill="#4A90D9" font-family="Menlo" font-size="12" font-weight="bold">Widget Tree:</text>
+<circle cx="1050" cy="990" r="5" fill="#888"/>
+<text x="1062" y="995" fill="#ccc" font-family="Menlo" font-size="10">Main Window          parent=(root)          [layout]</text>
+<circle cx="1050" cy="1012" r="5" fill="#888"/>
+<text x="1062" y="1017" fill="#ccc" font-family="Menlo" font-size="10">Panel                parent=main_window     [layout]</text>
+<circle cx="1050" cy="1034" r="5" fill="#888"/>
+<text x="1062" y="1039" fill="#ccc" font-family="Menlo" font-size="10">Splitter             parent=main_window     [layout]</text>
+<circle cx="1050" cy="1056" r="5" fill="#888"/>
+<text x="1062" y="1061" fill="#ccc" font-family="Menlo" font-size="10">Tab Bar              parent=main_window     [layout]</text>
+<circle cx="1050" cy="1078" r="5" fill="#888"/>
+<text x="1062" y="1083" fill="#ccc" font-family="Menlo" font-size="10">Tab Page             parent=tab_bar         [layout]</text>
+<circle cx="1050" cy="1100" r="5" fill="#888"/>
+<text x="1062" y="1105" fill="#ccc" font-family="Menlo" font-size="10">Toolbar              parent=main_window     [layout]</text>
+<circle cx="1050" cy="1122" r="5" fill="#888"/>
+<text x="1062" y="1127" fill="#ccc" font-family="Menlo" font-size="10">Status Bar           parent=main_window     [layout]</text>
+<circle cx="1050" cy="1144" r="5" fill="#888"/>
+<text x="1062" y="1149" fill="#ccc" font-family="Menlo" font-size="10">Dialog               parent=main_window     [layout]</text>
+<circle cx="1050" cy="1166" r="5" fill="#888"/>
+<text x="1062" y="1171" fill="#ccc" font-family="Menlo" font-size="10">Menu Bar             parent=main_window     [layout]</text>
+<circle cx="1050" cy="1188" r="5" fill="#888"/>
+<text x="1062" y="1193" fill="#ccc" font-family="Menlo" font-size="10">Menu                 parent=menu_bar        [layout]</text>
+<circle cx="1050" cy="1210" r="5" fill="#888"/>
+<text x="1062" y="1215" fill="#ccc" font-family="Menlo" font-size="10">Separator            parent=toolbar,menu    [decoration]</text>
+<circle cx="1050" cy="1232" r="5" fill="#F5A623"/>
+<text x="1062" y="1237" fill="#ccc" font-family="Menlo" font-size="10">Button               parent=panel,toolbar,dialog [input]</text>
+<circle cx="1050" cy="1254" r="5" fill="#F5A623"/>
+<text x="1062" y="1259" fill="#ccc" font-family="Menlo" font-size="10">Text Input           parent=panel,dialog    [input]</text>
+<circle cx="1050" cy="1276" r="5" fill="#F5A623"/>
+<text x="1062" y="1281" fill="#ccc" font-family="Menlo" font-size="10">Text Edit            parent=panel,splitter  [input]</text>
+<circle cx="1050" cy="1298" r="5" fill="#F5A623"/>
+<text x="1062" y="1303" fill="#ccc" font-family="Menlo" font-size="10">Search Bar           parent=panel,toolbar   [input]</text>
+<circle cx="1050" cy="1320" r="5" fill="#F5A623"/>
+<text x="1062" y="1325" fill="#ccc" font-family="Menlo" font-size="10">Combo Box            parent=panel,dialog,toolbar [input]</text>
+<circle cx="1050" cy="1342" r="5" fill="#F5A623"/>
+<text x="1062" y="1347" fill="#ccc" font-family="Menlo" font-size="10">Checkbox             parent=panel,dialog    [input]</text>
+<circle cx="1050" cy="1364" r="5" fill="#F5A623"/>
+<text x="1062" y="1369" fill="#ccc" font-family="Menlo" font-size="10">Spin Box             parent=panel,dialog    [input]</text>
+<circle cx="1050" cy="1386" r="5" fill="#F5A623"/>
+<text x="1062" y="1391" fill="#ccc" font-family="Menlo" font-size="10">Slider               parent=panel,dialog    [input]</text>
+<circle cx="1050" cy="1408" r="5" fill="#888"/>
+<text x="1062" y="1413" fill="#ccc" font-family="Menlo" font-size="10">Table View           parent=panel,tab_page,splitter [output]</text>
+<circle cx="1050" cy="1430" r="5" fill="#888"/>
+<text x="1062" y="1435" fill="#ccc" font-family="Menlo" font-size="10">List View            parent=panel,tab_page,splitter [output]</text>
+<circle cx="1050" cy="1452" r="5" fill="#888"/>
+<text x="1062" y="1457" fill="#ccc" font-family="Menlo" font-size="10">Label                parent=panel,dialog,toolbar [output]</text>
+<circle cx="1050" cy="1474" r="5" fill="#888"/>
+<text x="1062" y="1479" fill="#ccc" font-family="Menlo" font-size="10">Progress Bar         parent=panel,status_bar [feedback]</text>
+<circle cx="1050" cy="1496" r="5" fill="#888"/>
+<text x="1062" y="1501" fill="#ccc" font-family="Menlo" font-size="10">Tooltip              parent=(root)          [feedback]</text>
+<circle cx="1050" cy="1518" r="5" fill="#888"/>
+<text x="1062" y="1523" fill="#ccc" font-family="Menlo" font-size="10">Status Indicator     parent=status_bar,panel [feedback]</text>
+<circle cx="1050" cy="1540" r="5" fill="#888"/>
+<text x="1062" y="1545" fill="#ccc" font-family="Menlo" font-size="10">Breadcrumb           parent=panel           [navigation]</text>
+<circle cx="1050" cy="1562" r="5" fill="#888"/>
+<text x="1062" y="1567" fill="#ccc" font-family="Menlo" font-size="10">Pagination           parent=panel,table_view [navigation]</text>
+<circle cx="1050" cy="1584" r="5" fill="#888"/>
+<text x="1062" y="1589" fill="#ccc" font-family="Menlo" font-size="10">Tree View            parent=panel,splitter  [output]</text>
+<circle cx="1050" cy="1606" r="5" fill="#888"/>
+<text x="1062" y="1611" fill="#ccc" font-family="Menlo" font-size="10">Code View            parent=panel,splitter  [output]</text>
+<circle cx="1050" cy="1628" r="5" fill="#888"/>
+<text x="1062" y="1633" fill="#ccc" font-family="Menlo" font-size="10">Markdown View        parent=panel,splitter  [output]</text>
+<circle cx="1050" cy="1650" r="5" fill="#888"/>
+<text x="1062" y="1655" fill="#ccc" font-family="Menlo" font-size="10">Badge                parent=panel,table_view,list_view [output]</text>
+<circle cx="1050" cy="1672" r="5" fill="#888"/>
+<text x="1062" y="1677" fill="#ccc" font-family="Menlo" font-size="10">Avatar               parent=panel,list_view,table_view [output]</text>
+<rect x="50" y="1540" width="1700" height="50" fill="#1a1a2e" stroke="#333" rx="5"/>
+<text x="70" y="1560" fill="#ccc" font-family="Menlo" font-size="10">Red=error/safety | Gold=warning/C | Green=success/functional | Blue=GUI/layout | Purple=lessons</text>
+<text x="70" y="1578" fill="#888" font-family="Menlo" font-size="10">Node size = frequency/count | Edges: error->cause->solution, widget->parent, lesson->dimension</text>
+</svg>

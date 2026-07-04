@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1100" font-family="monospace">
+  <defs>
+    <style>
+      .title {{ font-size: 22px; font-weight: bold; fill: #1a1a1a; }}
+      .subtitle {{ font-size: 13px; fill: #555; }}
+      .col-header {{ font-size: 12px; font-weight: bold; fill: #fff; }}
+      .row-header {{ font-size: 11px; font-weight: bold; fill: #1a1a1a; }}
+      .cell {{ font-size: 10px; fill: #333; }}
+      .cell-good {{ font-size: 10px; fill: #2e7d32; font-weight: bold; }}
+      .cell-bad {{ font-size: 10px; fill: #c62828; font-weight: bold; }}
+      .cell-mid {{ font-size: 10px; fill: #e65100; }}
+      .section {{ font-size: 13px; font-weight: bold; fill: #004499; }}
+      .verdict {{ font-size: 12px; fill: #1a1a1a; }}
+    </style>
+  </defs>
+
+  <rect width="1400" height="1100" fill="#fafafa"/>
+
+  <text x="700" y="30" text-anchor="middle" class="title">MemUnit vs Other Architectures</text>
+  <text x="700" y="50" text-anchor="middle" class="subtitle">Honest comparison — not selling, just observing</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       COMPARISON TABLE
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Column headers -->
+  <rect x="20" y="70" width="180" height="40" fill="#333"/>
+  <text x="110" y="95" text-anchor="middle" class="col-header">Feature</text>
+
+  <rect x="200" y="70" width="200" height="40" fill="#004499"/>
+  <text x="300" y="90" text-anchor="middle" class="col-header">MemUnit</text>
+  <text x="300" y="105" text-anchor="middle" class="col-header">(your design)</text>
+
+  <rect x="400" y="70" width="200" height="40" fill="#555"/>
+  <text x="500" y="90" text-anchor="middle" class="col-header">Microservices</text>
+  <text x="500" y="105" text-anchor="middle" class="col-header">(k8s, REST)</text>
+
+  <rect x="600" y="70" width="200" height="40" fill="#555"/>
+  <text x="700" y="90" text-anchor="middle" class="col-header">Actor Model</text>
+  <text x="700" y="105" text-anchor="middle" class="col-header">(Akka, Erlang)</text>
+
+  <rect x="800" y="70" width="200" height="40" fill="#555"/>
+  <text x="900" y="90" text-anchor="middle" class="col-header">Event-Driven</text>
+  <text x="900" y="105" text-anchor="middle" class="col-header">(Kafka, CQRS)</text>
+
+  <rect x="1000" y="70" width="200" height="40" fill="#555"/>
+  <text x="1100" y="90" text-anchor="middle" class="col-header">OS Kernel</text>
+  <text x="1100" y="105" text-anchor="middle" class="col-header">(Linux, XNU)</text>
+
+  <rect x="1200" y="70" width="180" height="40" fill="#555"/>
+  <text x="1290" y="90" text-anchor="middle" class="col-header">My C MemUnit</text>
+  <text x="1290" y="105" text-anchor="middle" class="col-header">(the toy)</text>
+
+  <!-- ═══ ROWS ═══ -->
+
+  <!-- Row 1: Memory as truth -->
+  <rect x="20" y="110" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="132" class="row-header">Memory as truth</text>
+  <rect x="200" y="110" width="200" height="35" fill="#fff"/>
+  <text x="210" y="132" class="cell-good">In-RAM SQLite (17 tables)</text>
+  <rect x="400" y="110" width="200" height="35" fill="#fff"/>
+  <text x="410" y="132" class="cell-bad">Distributed, no single truth</text>
+  <rect x="600" y="110" width="200" height="35" fill="#fff"/>
+  <text x="610" y="132" class="cell-mid">Actor state (isolated)</text>
+  <rect x="800" y="110" width="200" height="35" fill="#fff"/>
+  <text x="810" y="132" class="cell-mid">Event log (append-only)</text>
+  <rect x="1000" y="110" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="132" class="cell-good">Kernel memory (single)</text>
+  <rect x="1200" y="110" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="132" class="cell-bad">1 results table only</text>
+
+  <!-- Row 2: Command queue -->
+  <rect x="20" y="145" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="167" class="row-header">Command queue</text>
+  <rect x="200" y="145" width="200" height="35" fill="#fff"/>
+  <text x="210" y="167" class="cell-good">command_queue table</text>
+  <rect x="400" y="145" width="200" height="35" fill="#fff"/>
+  <text x="410" y="167" class="cell-mid">Message broker (external)</text>
+  <rect x="600" y="145" width="200" height="35" fill="#fff"/>
+  <text x="610" y="167" class="cell-good">Mailbox per actor</text>
+  <rect x="800" y="145" width="200" height="35" fill="#fff"/>
+  <text x="810" y="167" class="cell-good">Kafka topics</text>
+  <rect x="1000" y="145" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="167" class="cell-good">Scheduler queue</text>
+  <rect x="1200" y="145" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="167" class="cell-bad">None</text>
+
+  <!-- Row 3: Pub/sub -->
+  <rect x="20" y="180" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="202" class="row-header">Pub/sub messaging</text>
+  <rect x="200" y="180" width="200" height="35" fill="#fff"/>
+  <text x="210" y="202" class="cell-good">MemBus (pattern + wildcard)</text>
+  <rect x="400" y="180" width="200" height="35" fill="#fff"/>
+  <text x="410" y="202" class="cell-mid">External broker (Redis, etc)</text>
+  <rect x="600" y="180" width="200" height="35" fill="#fff"/>
+  <text x="610" y="202" class="cell-good">Actor messages</text>
+  <rect x="800" y="180" width="200" height="35" fill="#fff"/>
+  <text x="810" y="202" class="cell-good">Event bus</text>
+  <rect x="1000" y="180" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="202" class="cell-good">Signals, IPC</text>
+  <rect x="1200" y="180" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="202" class="cell-bad">None</text>
+
+  <!-- Row 4: Routing -->
+  <rect x="20" y="215" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="237" class="row-header">Routing map</text>
+  <rect x="200" y="215" width="200" height="35" fill="#fff"/>
+  <text x="210" y="237" class="cell-good">routing_map table (priority)</text>
+  <rect x="400" y="215" width="200" height="35" fill="#fff"/>
+  <text x="410" y="237" class="cell-mid">API gateway + DNS</text>
+  <rect x="600" y="215" width="200" height="35" fill="#fff"/>
+  <text x="610" y="237" class="cell-mid">Actor addresses</text>
+  <rect x="800" y="215" width="200" height="35" fill="#fff"/>
+  <text x="810" y="237" class="cell-mid">Topic subscriptions</text>
+  <rect x="1000" y="215" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="237" class="cell-good">Syscalls, IRQ table</text>
+  <rect x="1200" y="215" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="237" class="cell-bad">Static dispatch table</text>
+
+  <!-- Row 5: Return contract -->
+  <rect x="20" y="250" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="272" class="row-header">Return contract</text>
+  <rect x="200" y="250" width="200" height="35" fill="#fff"/>
+  <text x="210" y="272" class="cell-good">Tuple3 (ok, data, error)</text>
+  <rect x="400" y="250" width="200" height="35" fill="#fff"/>
+  <text x="410" y="272" class="cell-bad">HTTP status + JSON (varies)</text>
+  <rect x="600" y="250" width="200" height="35" fill="#fff"/>
+  <text x="610" y="272" class="cell-mid">Actor reply (untyped)</text>
+  <rect x="800" y="250" width="200" height="35" fill="#fff"/>
+  <text x="810" y="272" class="cell-bad">No standard return</text>
+  <rect x="1000" y="250" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="272" class="cell-good">errno + return value</text>
+  <rect x="1200" y="250" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="272" class="cell-good">Tuple3 (close but diff)</text>
+
+  <!-- Row 6: Boot chain -->
+  <rect x="20" y="285" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="307" class="row-header">Boot chain</text>
+  <rect x="200" y="285" width="200" height="35" fill="#fff"/>
+  <text x="210" y="307" class="cell-good">11-stage ordered boot</text>
+  <rect x="400" y="285" width="200" height="35" fill="#fff"/>
+  <text x="410" y="307" class="cell-bad">No ordered boot (deploy)</text>
+  <rect x="600" y="285" width="200" height="35" fill="#fff"/>
+  <text x="610" y="307" class="cell-mid">Actor init (unstructured)</text>
+  <rect x="800" y="285" width="200" height="35" fill="#fff"/>
+  <text x="810" y="307" class="cell-bad">No boot chain</text>
+  <rect x="1000" y="285" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="307" class="cell-good">Kernel init sequence</text>
+  <rect x="1200" y="285" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="307" class="cell-bad">None</text>
+
+  <!-- Row 7: Controlled recovery -->
+  <rect x="20" y="320" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="342" class="row-header">Controlled recovery</text>
+  <rect x="200" y="320" width="200" height="35" fill="#fff"/>
+  <text x="210" y="342" class="cell-good">freeze→inspect→fix→test→continue</text>
+  <rect x="400" y="320" width="200" height="35" fill="#fff"/>
+  <text x="410" y="342" class="cell-bad">Crash + restart container</text>
+  <rect x="600" y="320" width="200" height="35" fill="#fff"/>
+  <text x="610" y="342" class="cell-good">Supervisor restarts actor</text>
+  <rect x="800" y="320" width="200" height="35" fill="#fff"/>
+  <text x="810" y="342" class="cell-mid">Replay events</text>
+  <rect x="1000" y="320" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="342" class="cell-good">Panic → kdump → recovery</text>
+  <rect x="1200" y="320" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="342" class="cell-bad">None</text>
+
+  <!-- Row 8: No file imports -->
+  <rect x="20" y="355" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="377" class="row-header">No file imports</text>
+  <rect x="200" y="355" width="200" height="35" fill="#fff"/>
+  <text x="210" y="377" class="cell-good">All through MemDB</text>
+  <rect x="400" y="355" width="200" height="35" fill="#fff"/>
+  <text x="410" y="377" class="cell-bad">REST calls everywhere</text>
+  <rect x="600" y="355" width="200" height="35" fill="#fff"/>
+  <text x="610" y="377" class="cell-mid">Actor refs (location transparent)</text>
+  <rect x="800" y="355" width="200" height="35" fill="#fff"/>
+  <text x="810" y="377" class="cell-bad">Direct imports common</text>
+  <rect x="1000" y="355" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="377" class="cell-good">Syscalls (no imports)</text>
+  <rect x="1200" y="355" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="377" class="cell-bad">Direct #include</text>
+
+  <!-- Row 9: GUI from database -->
+  <rect x="20" y="390" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="412" class="row-header">GUI from database</text>
+  <rect x="200" y="390" width="200" height="35" fill="#fff"/>
+  <text x="210" y="412" class="cell-good">GuiDB + GuiBus</text>
+  <rect x="400" y="390" width="200" height="35" fill="#fff"/>
+  <text x="410" y="412" class="cell-bad">Hardcoded frontend</text>
+  <rect x="600" y="390" width="200" height="35" fill="#fff"/>
+  <text x="610" y="412" class="cell-bad">No GUI concept</text>
+  <rect x="800" y="390" width="200" height="35" fill="#fff"/>
+  <text x="810" y="412" class="cell-bad">Projection views</text>
+  <rect x="1000" y="390" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="412" class="cell-mid"> framebuffer (not DB)</text>
+  <rect x="1200" y="390" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="412" class="cell-bad">Hardcoded PyQt6</text>
+
+  <!-- Row 10: AI repair -->
+  <rect x="20" y="425" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="447" class="row-header">AI repair in runtime</text>
+  <rect x="200" y="425" width="200" height="35" fill="#fff"/>
+  <text x="210" y="447" class="cell-good">Core_ai_fix (freeze+repair)</text>
+  <rect x="400" y="425" width="200" height="35" fill="#fff"/>
+  <text x="410" y="447" class="cell-bad">None (human fixes)</text>
+  <rect x="600" y="425" width="200" height="35" fill="#fff"/>
+  <text x="610" y="447" class="cell-bad">None</text>
+  <rect x="800" y="425" width="200" height="35" fill="#fff"/>
+  <text x="810" y="447" class="cell-bad">None</text>
+  <rect x="1000" y="425" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="447" class="cell-mid">kernel panic (no AI)</text>
+  <rect x="1200" y="425" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="447" class="cell-bad">None</text>
+
+  <!-- Row 11: State isolation -->
+  <rect x="20" y="460" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="482" class="row-header">State isolation</text>
+  <rect x="200" y="460" width="200" height="35" fill="#fff"/>
+  <text x="210" y="482" class="cell-good">self.state dict, no self._</text>
+  <rect x="400" y="460" width="200" height="35" fill="#fff"/>
+  <text x="410" y="482" class="cell-good">Service-owned DB</text>
+  <rect x="600" y="460" width="200" height="35" fill="#fff"/>
+  <text x="610" y="482" class="cell-good">Actor state (private)</text>
+  <rect x="800" y="460" width="200" height="35" fill="#fff"/>
+  <text x="810" y="482" class="cell-mid">Shared event log</text>
+  <rect x="1000" y="460" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="482" class="cell-good">Process isolation</text>
+  <rect x="1200" y="460" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="482" class="cell-good">Struct per domain</text>
+
+  <!-- Row 12: One class one domain -->
+  <rect x="20" y="495" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="517" class="row-header">One class one domain</text>
+  <rect x="200" y="495" width="200" height="35" fill="#fff"/>
+  <text x="210" y="517" class="cell-good">Enforced by rules</text>
+  <rect x="400" y="495" width="200" height="35" fill="#fff"/>
+  <text x="410" y="517" class="cell-mid">Bounded context (DDD)</text>
+  <rect x="600" y="495" width="200" height="35" fill="#fff"/>
+  <text x="610" y="517" class="cell-mid">Actor = one concern</text>
+  <rect x="800" y="495" width="200" height="35" fill="#fff"/>
+  <text x="810" y="517" class="cell-bad">Often mixed</text>
+  <rect x="1000" y="495" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="517" class="cell-good">Driver = one device</text>
+  <rect x="1200" y="495" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="517" class="cell-good">One struct per domain</text>
+
+  <!-- Row 13: No hardcoded paths -->
+  <rect x="20" y="530" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="552" class="row-header">No hardcoded paths</text>
+  <rect x="200" y="530" width="200" height="35" fill="#fff"/>
+  <text x="210" y="552" class="cell-good">Config-driven (enforced)</text>
+  <rect x="400" y="530" width="200" height="35" fill="#fff"/>
+  <text x="410" y="552" class="cell-mid">Env vars + config maps</text>
+  <rect x="600" y="530" width="200" height="35" fill="#fff"/>
+  <text x="610" y="552" class="cell-mid">Config file</text>
+  <rect x="800" y="530" width="200" height="35" fill="#fff"/>
+  <text x="810" y="552" class="cell-mid">Schema registry</text>
+  <rect x="1000" y="530" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="552" class="cell-good">Device tree + sysfs</text>
+  <rect x="1200" y="530" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="552" class="cell-bad">Hardcoded in C</text>
+
+  <!-- Row 14: Language agnostic -->
+  <rect x="20" y="565" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="587" class="row-header">Language agnostic</text>
+  <rect x="200" y="565" width="200" height="35" fill="#fff"/>
+  <text x="210" y="587" class="cell-good">Python, C, Swift, C#</text>
+  <rect x="400" y="565" width="200" height="35" fill="#fff"/>
+  <text x="410" y="587" class="cell-good">Any language (REST)</text>
+  <rect x="600" y="565" width="200" height="35" fill="#fff"/>
+  <text x="610" y="587" class="cell-mid">JVM languages (Akka)</text>
+  <rect x="800" y="565" width="200" height="35" fill="#fff"/>
+  <text x="810" y="587" class="cell-good">Any (Kafka client)</text>
+  <rect x="1000" y="565" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="587" class="cell-good">C, asm, any</text>
+  <rect x="1200" y="565" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="587" class="cell-bad">C only</text>
+
+  <!-- Row 15: Speed -->
+  <rect x="20" y="600" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="622" class="row-header">Speed</text>
+  <rect x="200" y="600" width="200" height="35" fill="#fff"/>
+  <text x="210" y="622" class="cell-mid">In-RAM SQLite (fast)</text>
+  <rect x="400" y="600" width="200" height="35" fill="#fff"/>
+  <text x="410" y="622" class="cell-bad">Network hop (slow)</text>
+  <rect x="600" y="600" width="200" height="35" fill="#fff"/>
+  <text x="610" y="622" class="cell-good">In-process (very fast)</text>
+  <rect x="800" y="600" width="200" height="35" fill="#fff"/>
+  <text x="810" y="622" class="cell-bad">Network (slow)</text>
+  <rect x="1000" y="600" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="622" class="cell-good">In-kernel (fastest)</text>
+  <rect x="1200" y="600" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="622" class="cell-good">C (fastest)</text>
+
+  <!-- Row 16: Proven at scale -->
+  <rect x="20" y="635" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="657" class="row-header">Proven at scale</text>
+  <rect x="200" y="635" width="200" height="35" fill="#fff"/>
+  <text x="210" y="657" class="cell-mid">376 classes, 1 system</text>
+  <rect x="400" y="635" width="200" height="35" fill="#fff"/>
+  <text x="410" y="657" class="cell-good">Google, Netflix, Uber</text>
+  <rect x="600" y="635" width="200" height="35" fill="#fff"/>
+  <text x="610" y="657" class="cell-good">WhatsApp, Discord</text>
+  <rect x="800" y="635" width="200" height="35" fill="#fff"/>
+  <text x="810" y="657" class="cell-good">LinkedIn, Uber</text>
+  <rect x="1000" y="635" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="657" class="cell-good">Every computer</text>
+  <rect x="1200" y="635" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="657" class="cell-bad">3 domains, built today</text>
+
+  <!-- Row 17: Complexity -->
+  <rect x="20" y="670" width="180" height="35" fill="#e3f2fd"/>
+  <text x="30" y="692" class="row-header">Complexity</text>
+  <rect x="200" y="670" width="200" height="35" fill="#fff"/>
+  <text x="210" y="692" class="cell-mid">Medium (spec is 1566 lines)</text>
+  <rect x="400" y="670" width="200" height="35" fill="#fff"/>
+  <text x="410" y="692" class="cell-bad">Very high (k8s + mesh)</text>
+  <rect x="600" y="670" width="200" height="35" fill="#fff"/>
+  <text x="610" y="692" class="cell-mid">Medium</text>
+  <rect x="800" y="670" width="200" height="35" fill="#fff"/>
+  <text x="810" y="692" class="cell-bad">High (schema evolution)</text>
+  <rect x="1000" y="670" width="200" height="35" fill="#fff"/>
+  <text x="1010" y="692" class="cell-bad">Very high (millions LOC)</text>
+  <rect x="1200" y="670" width="180" height="35" fill="#fff"/>
+  <text x="1210" y="692" class="cell-good">Low (simple)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCORE SUMMARY
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="20" y="720" width="1360" height="340" rx="10" fill="#fff" stroke="#333" stroke-width="2"/>
+
+  <text x="40" y="745" class="section">SCORECARD (green=has it, orange=partial, red=missing)</text>
+
+  <!-- Score bars -->
+  <text x="40" y="770" class="row-header">MemUnit (yours):</text>
+  <rect x="200" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="216" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="232" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="248" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="264" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="280" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="296" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="312" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="328" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="344" y="760" width="14" height="14" fill="#2e7d32"/>
+  <rect x="360" y="760" width="14" height="14" fill="#e65100"/>
+  <rect x="376" y="760" width="14" height="14" fill="#e65100"/>
+  <rect x="392" y="760" width="14" height="14" fill="#e65100"/>
+  <text x="420" y="772" class="cell">10/13 strong, 3/13 partial (scale, speed, proven)</text>
+
+  <text x="40" y="800" class="row-header">Microservices:</text>
+  <rect x="200" y="790" width="14" height="14" fill="#c62828"/>
+  <rect x="216" y="790" width="14" height="14" fill="#2e7d32"/>
+  <rect x="232" y="790" width="14" height="14" fill="#e65100"/>
+  <rect x="248" y="790" width="14" height="14" fill="#e65100"/>
+  <rect x="264" y="790" width="14" height="14" fill="#c62828"/>
+  <rect x="280" y="790" width="14" height="14" fill="#c62828"/>
+  <rect x="296" y="790" width="14" height="14" fill="#c62828"/>
+  <rect x="312" y="790" width="14" height="14" fill="#2e7d32"/>
+  <rect x="328" y="790" width="14" height="14" fill="#c62828"/>
+  <rect x="344" y="790" width="14" height="14" fill="#2e7d32"/>
+  <rect x="360" y="790" width="14" height="14" fill="#2e7d32"/>
+  <rect x="376" y="790" width="14" height="14" fill="#2e7d32"/>
+  <rect x="392" y="790" width="14" height="14" fill="#c62828"/>
+  <text x="420" y="802" class="cell">5/13 strong, 2/13 partial — wins on scale + language</text>
+
+  <text x="40" y="830" class="row-header">Actor Model:</text>
+  <rect x="200" y="820" width="14" height="14" fill="#e65100"/>
+  <rect x="216" y="820" width="14" height="14" fill="#2e7d32"/>
+  <rect x="232" y="820" width="14" height="14" fill="#2e7d32"/>
+  <rect x="248" y="820" width="14" height="14" fill="#e65100"/>
+  <rect x="264" y="820" width="14" height="14" fill="#e65100"/>
+  <rect x="280" y="820" width="14" height="14" fill="#2e7d32"/>
+  <rect x="296" y="820" width="14" height="14" fill="#e65100"/>
+  <rect x="312" y="820" width="14" height="14" fill="#2e7d32"/>
+  <rect x="328" y="820" width="14" height="14" fill="#c62828"/>
+  <rect x="344" y="820" width="14" height="14" fill="#c62828"/>
+  <rect x="360" y="820" width="14" height="14" fill="#2e7d32"/>
+  <rect x="376" y="820" width="14" height="14" fill="#e65100"/>
+  <rect x="392" y="820" width="14" height="14" fill="#2e7d32"/>
+  <text x="420" y="832" class="cell">6/13 strong, 4/13 partial — closest cousin to MemUnit</text>
+
+  <text x="40" y="860" class="row-header">Event-Driven:</text>
+  <rect x="200" y="850" width="14" height="14" fill="#e65100"/>
+  <rect x="216" y="850" width="14" height="14" fill="#2e7d32"/>
+  <rect x="232" y="850" width="14" height="14" fill="#2e7d32"/>
+  <rect x="248" y="850" width="14" height="14" fill="#e65100"/>
+  <rect x="264" y="850" width="14" height="14" fill="#c62828"/>
+  <rect x="280" y="850" width="14" height="14" fill="#c62828"/>
+  <rect x="296" y="850" width="14" height="14" fill="#c62828"/>
+  <rect x="312" y="850" width="14" height="14" fill="#c62828"/>
+  <rect x="328" y="850" width="14" height="14" fill="#c62828"/>
+  <rect x="344" y="850" width="14" height="14" fill="#e65100"/>
+  <rect x="360" y="850" width="14" height="14" fill="#2e7d32"/>
+  <rect x="376" y="850" width="14" height="14" fill="#2e7d32"/>
+  <rect x="392" y="850" width="14" height="14" fill="#c62828"/>
+  <text x="420" y="862" class="cell">4/13 strong, 3/13 partial — good at events, bad at structure</text>
+
+  <text x="40" y="890" class="row-header">OS Kernel:</text>
+  <rect x="200" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="216" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="232" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="248" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="264" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="280" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="296" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="312" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="328" y="880" width="14" height="14" fill="#e65100"/>
+  <rect x="344" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="360" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="376" y="880" width="14" height="14" fill="#2e7d32"/>
+  <rect x="392" y="880" width="14" height="14" fill="#2e7d32"/>
+  <text x="420" y="892" class="cell">12/13 strong — MemUnit is structurally an OS kernel</text>
+
+  <text x="40" y="920" class="row-header">My C MemUnit:</text>
+  <rect x="200" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="216" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="232" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="248" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="264" y="910" width="14" height="14" fill="#e65100"/>
+  <rect x="280" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="296" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="312" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="328" y="910" width="14" height="14" fill="#c62828"/>
+  <rect x="344" y="910" width="14" height="14" fill="#2e7d32"/>
+  <rect x="360" y="910" width="14" height="14" fill="#2e7d32"/>
+  <rect x="376" y="910" width="14" height="14" fill="#2e7d32"/>
+  <rect x="392" y="910" width="14" height="14" fill="#c62828"/>
+  <text x="420" y="922" class="cell">3/13 strong — Tuple3, domain isolation, speed. That's it.</text>
+
+  <!-- Verdict -->
+  <line x1="40" y1="940" x2="1360" y2="940" stroke="#333" stroke-width="1"/>
+
+  <text x="40" y="965" class="section">VERDICT</text>
+  <text x="40" y="985" class="verdict">MemUnit is structurally closest to an OS Kernel (12/13 overlap) — not a microservice, not an actor system.</text>
+  <text x="40" y="1003" class="verdict">It shares concepts with Actor Model (mailbox = command_queue, actor messages = MemBus) but adds what actors lack:</text>
+  <text x="40" y="1021" class="verdict">  boot chain, controlled recovery, GUI from database, AI repair, and enforced one-class-one-domain rules.</text>
+  <text x="40" y="1042" class="verdict" font-weight="bold" fill="#004499">My C MemUnit scored 3/13. It's a toy. The real MemUnit is an operating system.</text>
+
+</svg>

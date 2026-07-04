@@ -1,0 +1,14 @@
+=== FILE COUNT: 59 ===
+=== COMPILE: 59 OK, 0 FAIL ===
+=== VBSTYLE: CLEAN ===
+=== DB TABLES (49) ===
+  files: 42 rows
+  classes: 38 rows
+  methods: 420 rows
+  edges: 1382 rows
+  knowledge: 1 rows
+  snapshots: 0 rows
+  attempts: 0 rows
+  observations: 440 rows
+=== VIEWS: ['knowledge_graph', 'v_bottlenecks', 'v_congestion', 'v_deadlock_candidates', 'v_entropy', 'v_execution_replay', 'v_failure_prediction', 'v_feature_impact', 'v_leak_candidates', 'v_node_runtime', 'v_path_latency'] ===
+=== DONE ===

@@ -1,0 +1,32 @@
+BEGIN TRANSACTION;
+UPDATE books SET line_count=6364 WHERE book_id=40;
+INSERT INTO chapters (chapter_id, book_id, chapter_number, chapter_title, line_start, line_end) VALUES
+(535, 40, 16, 'Compiler Contract - Knowledge Package Format', 2759, 2850),
+(536, 40, 17, '7 Compiler Phases and Evidence Rule', 2853, 2936),
+(537, 40, 18, 'Architecture Status - Whats Done vs Not', 2939, 3018),
+(538, 40, 19, 'Extraction Contract', 3029, 3076),
+(539, 40, 20, 'Split Extract into Extract plus Interpret', 3078, 3160),
+(540, 40, 21, 'Compilation Manifest', 3123, 3153),
+(541, 40, 22, 'Three Products - Compiler Package Runtime', 3156, 3178),
+(542, 40, 23, 'The Compiler Test', 3181, 3267),
+(543, 40, 24, 'Inference Layer', 3303, 3343),
+(544, 40, 25, 'Demo Test Results - 5 Tests', 3345, 3434),
+(545, 40, 26, 'Higher-Order Atoms and Knowledge Hierarchies', 3694, 3767),
+(546, 40, 27, 'Reasoning Paths - SHOW PATH', 3770, 3798),
+(547, 40, 28, 'AI-Independent Architecture', 3802, 3836),
+(548, 40, 29, '4 Hard Test Results', 4862, 4948),
+(549, 40, 30, 'Proven vs Not Proven - Prediction Test', 4955, 5031),
+(550, 40, 31, 'Proofs Layer and Compiler Quality Metrics', 5033, 5122),
+(551, 40, 32, 'Claims vs Atoms - Uniform Metadata', 5220, 5496),
+(552, 40, 33, 'Four Layer Model', 5257, 5555),
+(553, 40, 34, 'Contexts Layer', 5582, 5624),
+(554, 40, 35, 'Five Layer Final Architecture', 5658, 5711),
+(555, 40, 36, 'Honest Status - Three Big Insights', 5371, 5422),
+(556, 40, 37, 'The Invariant - Explainability = Graph Traversability', 5777, 5793),
+(557, 40, 38, 'Reproducibility Test', 5813, 5847),
+(558, 40, 39, 'Computable Epistemology', 5886, 5895),
+(559, 40, 40, 'Circling Problem - Design vs Execution', 6058, 6113),
+(560, 40, 41, 'Phase A vs Phase B - Breaking the Loop', 6144, 6327),
+(561, 40, 42, 'Minimal Compiler v0 - Just Execute', 6221, 6364),
+(562, 40, 43, 'Duplicate Content - Repeated Pastes', 3441, 3602);
+COMMIT;

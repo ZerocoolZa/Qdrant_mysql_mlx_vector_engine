@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { margin: 0; background: #fff; overflow: hidden; }
+svg { display: block; }
+</style>
+</head>
+<body>
+<svg width="1400" height="700" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#1e1e1e" />
+        </marker>
+    </defs>
+        <text x="350" y="38.0" font-size="28" font-family="sans-serif" fill="#1a237e">BCL v2 — Full Feature Demo</text>
+        <text x="250" y="54.0" font-size="14" font-family="sans-serif" fill="#5e35b1">boxes · ellipses · diamonds · lines · arrows · frames · groups</text>
+        <rect x="50" y="70" width="500" height="300" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="2" rx="8" />
+        <text x="237.6" y="226.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Cluster View</text>
+        <rect x="80" y="100" width="120" height="60" fill="#42a5f5" stroke="#1565c0" stroke-width="2" rx="8" />
+        <text x="108.8" y="136.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Node A</text>
+        <rect x="280" y="100" width="120" height="60" fill="#66bb6a" stroke="#2e7d32" stroke-width="2" rx="8" />
+        <text x="308.8" y="136.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Node B</text>
+        <line x1="200" y1="130.0" x2="280" y2="130.0" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+        <text x="220.0" y="130.0" font-size="12" font-family="sans-serif" fill="#666" text-anchor="middle">sync</text>
+        <text x="210.0" y="132.0" font-size="12" font-family="sans-serif" fill="#666">sync</text>
+        <rect x="180" y="200" width="120" height="60" fill="#ff7043" stroke="#bf360c" stroke-width="2" rx="8" />
+        <text x="208.8" y="236.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Node C</text>
+        <line x1="340.0" y1="160" x2="240.0" y2="200" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+        <line x1="140.0" y1="160" x2="240.0" y2="200" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
+        <text x="170.0" y="180.0" font-size="12" font-family="sans-serif" fill="#666" text-anchor="middle">fallback</text>
+        <text x="160.0" y="182.0" font-size="12" font-family="sans-serif" fill="#666">fallback</text>
+        <rect x="600" y="80" width="100" height="50" fill="#ab47bc" stroke="#6a1b9a" stroke-width="2" rx="8" />
+        <text x="613.6" y="111.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Group A</text>
+        <rect x="720" y="80" width="100" height="50" fill="#ab47bc" stroke="#6a1b9a" stroke-width="2" rx="8" />
+        <text x="733.6" y="111.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Group B</text>
+        <line x1="700" y1="105.0" x2="720" y2="105.0" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+        <ellipse cx="680.0" cy="220.0" rx="80.0" ry="40.0" fill="#26c6da" stroke="#00838f" stroke-width="2" />
+        <text x="612.4" y="226.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Cloud Service</text>
+        <polygon points="870.0,180 940,220.0 870.0,260 800,220.0" fill="#ffeb3b" stroke="#f57f17" stroke-width="2" />
+        <text x="828.4" y="226.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Decision</text>
+        <polyline points="200,400 200,500 400,500" fill="none" stroke="#e91e63" stroke-width="3" />
+        <line x1="600" y1="300" x2="900" y2="300" stroke="#9c27b0" stroke-width="3" marker-end="url(#arrowhead)" />
+        <text x="730.0" y="300.0" font-size="12" font-family="sans-serif" fill="#666" text-anchor="middle">data flow</text>
+        <text x="720.0" y="302.0" font-size="12" font-family="sans-serif" fill="#666">data flow</text>
+        <rect x="50" y="520" width="120" height="60" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2" rx="8" />
+        <text x="63.199999999999996" y="556.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Rough Box</text>
+        <rect x="200" y="520" width="120" height="60" fill="#bbdefb" stroke="#1565c0" stroke-width="2" rx="8" />
+        <text x="210.0" y="556.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Smooth Box</text>
+        <rect x="350" y="520" width="120" height="60" fill="#ffcc80" stroke="#e65100" stroke-width="2" rx="8" />
+        <text x="360.0" y="556.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Hatch Fill</text>
+        <rect x="500" y="520" width="120" height="60" fill="#f8bbd0" stroke="#ad1457" stroke-width="2" rx="8" />
+        <text x="510.0" y="556.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Dotted Stroke</text>
+        <rect x="650" y="520" width="120" height="60" fill="#d1c4e9" stroke="#4527a0" stroke-width="4" rx="8" />
+        <text x="660.0" y="556.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Thick Stroke</text>
+        <rect x="800" y="520" width="120" height="60" fill="#fff9c4" stroke="#f57f17" stroke-width="2" rx="8" />
+        <text x="813.2" y="556.0" font-size="16" font-family="sans-serif" fill="#1e1e1e">Faded 40%</text>
+        <line x1="760" y1="220.0" x2="800" y2="220.0" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+        <text x="760.0" y="220.0" font-size="12" font-family="sans-serif" fill="#666" text-anchor="middle">routes</text>
+        <text x="750.0" y="222.0" font-size="12" font-family="sans-serif" fill="#666">routes</text>
+        <line x1="870.0" y1="180" x2="650.0" y2="130" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+        <text x="740.0" y="155.0" font-size="12" font-family="sans-serif" fill="#666" text-anchor="middle">yes</text>
+        <text x="730.0" y="157.0" font-size="12" font-family="sans-serif" fill="#666">yes</text>
+        <line x1="870.0" y1="180" x2="770.0" y2="130" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowhead)" />
+        <text x="800.0" y="155.0" font-size="12" font-family="sans-serif" fill="#666" text-anchor="middle">no</text>
+        <text x="790.0" y="157.0" font-size="12" font-family="sans-serif" fill="#666">no</text>
+        <text x="600" y="456.0" font-size="36" font-family="sans-serif" fill="#b71c1c">Big Text</text>
+        <text x="750" y="430.0" font-size="10" font-family="sans-serif" fill="#424242">small text</text>
+        <text x="900" y="436.0" font-size="16" font-family="sans-serif" fill="#1565c0">right aligned</text>
+<script>
+setInterval(() => {
+    fetch(window.location.href + "?t=" + Date.now(), {cache: "no-store"})
+    .then(r => r.text())
+    .then(html => {
+        const newBody = html.match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
+        if (newBody !== document.body.innerHTML) {
+            document.body.innerHTML = newBody;
+        }
+    });
+}, 800);
+</script>
+</svg>
+</body>
+</html>
